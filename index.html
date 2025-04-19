@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>News</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    :root {
+      --background-color: #f8f8f8;
+      --text-color: #000;
+      --link-color: #0366d6;
+      --border-color: #ddd;
+      --article-bg: #fff;
+      --hover-bg: #f0f0f0;
+      --selected-bg: #e3f2fd;
+    }
+
+    [data-theme="dark"] {
+      --background-color: #121212;
+      --text-color: #e0e0e0;
+      --link-color: #90caf9;
+      --border-color: #444;
+      --article-bg: #1e1e1e;
+      --hover-bg: #333;
+      --selected-bg: #333;
+      --label-color: #e0e0e0;
+      --input-bg: #333;
+      --input-text-color: #e0e0e0;
+    }
+
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: var(--background-color);
+      color: var(--text-color);
+    }
+
+    a {
+      color: var(--link-color);
+    }
+
+    #meta, #articles, #keyword-list-container {
+      background: var(--article-bg);
+      border-color: var(--border-color);
+    }
+
+    #meta { padding: 1em; border-bottom: 1px solid var(--border-color); }
+    #graph { width: 100%; height: 60vh; border-bottom: 1px solid #ccc; }
+    #articles { padding: 1em; }
+    .cluster-group { margin-bottom: 2em; }
+    .cluster-title { font-weight: bold; margin: 1em 0 0.5em; }
+    .article { margin-bottom: 1em; padding-bottom: 0.5em; border-bottom: 1px solid #eee; display: flex; align-items: flex-start; gap: 0.75em; }
+    .article-icon { flex: 0 0 auto; width: 16px; height: 16px; }
+    .article h4 { margin: 0 0 0.2em 0; font-size: 1em; }
+    .article a { text-decoration: none; }
+    .article small { color: #555; display: block; margin-bottom: 0.25em; }
+    details { margin: 1em 0; padding: 0.5em; border: 1px solid var(--border-color); border-radius: 1px; }
+    summary {font-weight: bold;cursor: pointer;}
+    
+    /* Styles for keyword list */
+    #app-container { display: flex; flex-direction: row; }
+    #graph-container { flex: 3; }
+    #keyword-list-container { flex: 1; border-left: 1px solid var(--border-color); padding: 1em; overflow-y: auto; max-height: 60vh; }
+    #keyword-list { list-style: none; padding: 0; margin: 0; }
+    #keyword-list li { padding: 0.5em; cursor: pointer; border-bottom: 1px solid #eee; }
+    #keyword-list li:hover { background: var(--hover-bg); }
+    #keyword-list li.selected { background: var(--selected-bg); font-weight: bold; }
+    #keyword-list li .count { float: right; color: #666; }
+    .keyword-search { width: 100%; padding: 0.5em; margin-bottom: 1em; box-sizing: border-box; }
+    
+    /* Improved responsive design for mobile */
+    @media (max-width: 768px) {
+      body {
+        max-width: 100%;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+      }
+      
+      #app-container {
+        flex-direction: column; /* Stack vertically on mobile */
+        width: 100%;
+        max-height: 80vh; /* Limit total height to ensure articles are accessible by scrolling */
+      }
+      
+      #graph-container {
+        flex: none;
+        width: 100%;
+        height: 40vh; /* Make graph much shorter on mobile */
+      }
+      
+      #keyword-list-container {
+        flex: none;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        border-left: none;
+        border-top: 1px solid var(--border-color);
+        max-height: 20vh; /* Much shorter keyword list on mobile */
+        padding: 0.5em;
+      }
+      
+      #graph {
+        height: 100%; /* Fill the container */
+      }
+      
+      #meta {
+        font-size: 0.9em;
+        padding: 0.7em;
+      }
+      
+      #meta label {
+        display: block;
+        margin-bottom: 0.5em;
+      }
+      
+      .article {
+        flex-direction: column;
+        gap: 0.5em;
+        padding: 0.5em 0;
+      }
+      
+      .article-icon {
+        margin-bottom: 0.3em;
+      }
+      
+      details {
+        margin: 0.5em 0;
+        padding: 0.3em;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      
+      .article h4 {
+        font-size: 0.95em;
+        line-height: 1.4;
+      }
+      
+      #articles {
+        padding: 0.7em;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      
+      #articles:before {
+        content: "↓ Articles ↓";
+        display: block;
+        text-align: center;
+        color: #666;
+        font-size: 0.9em;
+        padding: 0.3em 0;
+        background: var(--hover-bg);
+        margin-bottom: 1em;
+      }
+      
+      /* Improve keyword list on mobile */
+      #keyword-list li {
+        padding: 0.7em 0.5em;
+        font-size: 0.95em;
+      }
+      
+      .keyword-search {
+        padding: 0.7em;
+        font-size: 1em;
+      }
+
+      /* Make sure the graph SVG doesn't overflow */
+      svg {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+    
+    /* Extra small devices */
+    @media (max-width: 480px) {
+      .cluster-title {
+        font-size: 1.1em;
+      }
+      
+      details summary {
+        font-size: 0.9em;
+      }
+      
+      #meta {
+        padding: 0.5em;
+      }
+      
+      #filter-feedback {
+        font-size: 0.9em;
+        margin-top: 0.5em;
+      }
+    }
+
+    /* Add a specific fix for iOS Safari which can have scrolling issues */
+    @supports (-webkit-touch-callout: none) {
+      /* iOS specific rule */
+      body {
+        /* Ensures proper scrolling on iOS */
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      #app-container {
+        /* Even shorter on iOS to avoid scroll issues */
+        max-height: 75vh;
+      }
+    }
+
+    text {
+      fill: var(--label-color);
+    }
+
+    input {
+      background: var(--input-bg);
+      color: var(--input-text-color);
+      border: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <div id="theme-toggle" style="padding: 0.5em; text-align: right;">
+    <label>
+      <input type="checkbox" id="dark-mode-toggle" /> Dark Mode
+    </label>
+  </div>
+
+  <div id="meta">
+    <strong>Keyword Graph</strong> – Showing latest from <span id="date">(loading...)</span>
+  </div>
+  
+  <div id="app-container">
+    <div id="graph-container">
+      <svg id="graph"></svg>
+    </div>
+    <div id="keyword-list-container">
+      <input type="text" class="keyword-search" placeholder="Search keywords..." id="keyword-search">
+      <ul id="keyword-list"></ul>
+    </div>
+  </div>
+  
+  <div id="articles"></div>
+
+  <script>
+    const darkModeToggle = document.getElementById("dark-mode-toggle");
+
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      darkModeToggle.checked = savedTheme === "dark";
+    }
+
+    darkModeToggle.addEventListener("change", () => {
+      const theme = darkModeToggle.checked ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("theme", theme);
+    });
+
+    let allArticles = [];
+    let selectedKeywords = new Set();
+    let allGraphData = null;
+    let currentGraphData = null; // Store current visible graph data
+
+    document.getElementById("keyword-search").addEventListener("input", (event) => {
+      const searchTerm = event.target.value.toLowerCase();
+      renderKeywordList(searchTerm);
+    });
+
+    async function loadLatestGraph() {
+      const latestRes = await fetch("latest.json");
+      const latest = await latestRes.json();
+      document.getElementById("date").textContent = latest.date;
+
+      const [graphRes, articlesRes] = await Promise.all([
+        fetch(latest.graph),
+        fetch(latest.articles),
+      ]);
+
+      allGraphData = await graphRes.json();
+      const articles = await articlesRes.json();
+      allArticles = articles;
+      
+      updateGraph();
+      renderArticles(articles);
+    }
+
+    function updateGraph() {
+        if (!allGraphData) return;
+
+        // First pass: identify nodes to keep
+        const keptNodes = allGraphData.nodes;
+        const keptNodeIds = new Set(keptNodes.map((node) => node.id));
+
+        // Second pass: get links that connect kept nodes
+        const allLinks = allGraphData.links;
+
+        const relevantLinks = allLinks;
+
+        // Keep only nodes that have connections
+        const connectedNodeIds = new Set();
+     
+      currentGraphData = { nodes: keptNodes, links: relevantLinks };
+        renderGraph(currentGraphData);
+        renderKeywordList();
+
+      // Filter and render articles based on selected keywords
+      if (selectedKeywords.size > 0) {
+        // Filter articles that contain ALL of the selected keywords
+        const filteredArticles = allArticles.filter(article => {
+          return Array.from(selectedKeywords).every(selectedKeyword => 
+            article.keywords.includes(selectedKeyword)
+          );
+        });
+        renderArticles(filteredArticles);
+      } else {
+        // If no keywords selected, show all articles
+        renderArticles(allArticles);
+		}
+	}
+    function renderKeywordList(searchTerm = '') {
+      const keywordList = document.getElementById("keyword-list");
+      keywordList.innerHTML = '';
+      
+      // Calculate article count for each keyword
+      const keywordCounts = {};
+      allArticles.forEach(article => {
+        article.keywords.forEach(keyword => {
+          keywordCounts[keyword] = (keywordCounts[keyword] || 0) + 1;
+        });
+      });
+      
+      // Get all available keywords from the graph data
+      let keywords = Array.from(new Set(allGraphData.nodes.map(node => node.id)));
+      
+      // Filter to show only keywords visible in current graph
+      const visibleNodeIds = new Set(currentGraphData.nodes.map(node => node.id));
+      keywords = keywords.filter(keyword => 
+        visibleNodeIds.has(keyword) || selectedKeywords.has(keyword)
+      );
+      
+      // Determine which keywords are available for selection based on current graph
+      const availableKeywords = new Set();
+      
+      if (selectedKeywords.size === 0) {
+        // If no keywords selected, all visible nodes in the graph are available
+        visibleNodeIds.forEach(id => availableKeywords.add(id));
+      } else {
+        // If keywords are selected, only nodes connected to ALL selected keywords are available
+        const connectedCounts = new Map();
+        
+        currentGraphData.links.forEach(link => {
+          const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
+          const targetId = typeof link.target === 'object' ? link.target.id : link.target;
+          
+          if (selectedKeywords.has(sourceId)) {
+            connectedCounts.set(targetId, (connectedCounts.get(targetId) || 0) + 1);
+          }
+          if (selectedKeywords.has(targetId)) {
+            connectedCounts.set(sourceId, (connectedCounts.get(sourceId) || 0) + 1);
+          }
+        });
+        
+        // A keyword is available if it's connected to all selected keywords
+        connectedCounts.forEach((count, nodeId) => {
+          if (count === selectedKeywords.size) {
+            availableKeywords.add(nodeId);
+          }
+        });
+        
+        // Selected keywords are always available (to be unselected)
+        selectedKeywords.forEach(keyword => {
+          availableKeywords.add(keyword);
+        });
+      }
+      
+      // Filter out unavailable keywords completely
+      keywords = keywords.filter(keyword => 
+        availableKeywords.has(keyword) || selectedKeywords.has(keyword)
+      );
+      
+      // Filter by search term if provided
+      if (searchTerm) {
+        keywords = keywords.filter(keyword => 
+          keyword.toLowerCase().includes(searchTerm)
+        );
+      }
+      
+      // Sort by article count (descending) and then alphabetically
+      keywords.sort((a, b) => {
+        const countDiff = (keywordCounts[b] || 0) - (keywordCounts[a] || 0);
+        return countDiff !== 0 ? countDiff : a.localeCompare(b);
+      });
+      
+      // Create the list items
+      keywords.forEach(keyword => {
+        const li = document.createElement('li');
+        li.textContent = keyword;
+        
+        // Add article count
+        const count = document.createElement('span');
+        count.className = 'count';
+        count.textContent = keywordCounts[keyword] || 0;
+        li.appendChild(count);
+        
+        // Set selected class if keyword is selected
+        if (selectedKeywords.has(keyword)) {
+          li.classList.add('selected');
+        }
+        
+        // Add click handler
+        li.addEventListener('click', () => {
+          if (selectedKeywords.has(keyword)) {
+            selectedKeywords.delete(keyword);
+          } else {
+            selectedKeywords.add(keyword);
+          }
+          
+          updateGraph();
+        });
+        
+        keywordList.appendChild(li);
+      });
+    }
+
+    function renderGraph(data) {
+      if (data.nodes.length === 0) {
+        return;
+      }
+
+      // Detect if we're on a touch device
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      
+      // Adjust forces for mobile (stronger centering force, less spacing)
+      const mobileAdjustment = window.innerWidth < 768 ? 0.7 : 1;
+
+      // Ensure nodes have different sizes by assigning sizes based on degree if needed
+      const nodeDegrees = new Map();
+      data.links.forEach(link => {
+        const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
+        const targetId = typeof link.target === 'object' ? link.target.id : link.target;
+        
+        nodeDegrees.set(sourceId, (nodeDegrees.get(sourceId) || 0) + 1);
+        nodeDegrees.set(targetId, (nodeDegrees.get(targetId) || 0) + 1);
+      });
+      
+      // Check if all nodes have the same size and update if needed
+      const allSameSize = new Set(data.nodes.map(n => n.size)).size === 1;
+      if (allSameSize) {
+        data.nodes.forEach(node => {
+          node.size = nodeDegrees.get(node.id) || 1;
+        });
+      }
+      
+      // Calculate size scale
+      const minSize = d3.min(data.nodes, d => d.size || 1);
+      const maxSize = d3.max(data.nodes, d => d.size || 1);
+      
+      // Create a scale for node sizes
+      const sizeScale = d3.scaleSqrt()
+        .domain([minSize, maxSize])
+        .range([5, 25]);
+
+      const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+      const width = document.getElementById("graph-container").clientWidth - margin.left - margin.right;
+      const height = document.getElementById("graph-container").clientHeight - margin.top - margin.bottom;
+
+      const svg = d3.select("#graph")
+        .attr("width", width)
+        .attr("height", height);
+
+      svg.selectAll("*").remove();
+
+      const simulation = d3.forceSimulation(data.nodes)
+        .force("link", d3.forceLink(data.links).id((d) => d.id).distance(80 * mobileAdjustment))
+        .force("charge", d3.forceManyBody().strength(-100 * mobileAdjustment))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("collide", d3.forceCollide().radius(d => sizeScale(d.size || 1) + (isTouchDevice ? 10 : 5)));
+
+      const g = svg.append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      const zoom = d3.zoom()
+        .scaleExtent([0.1, 8])
+        .on("zoom", (event) => {
+          g.attr("transform", event.transform);
+        });
+        
+      // Add double-tap to reset zoom on mobile
+      if (isTouchDevice) {
+        let lastTapTime = 0;
+        svg.on("touchend", function() {
+          const currentTime = new Date().getTime();
+          const tapLength = currentTime - lastTapTime;
+          if (tapLength < 500 && tapLength > 0) {
+            // Double tap detected
+            svg.transition().duration(750).call(
+              zoom.transform,
+              d3.zoomIdentity
+                .translate(margin.left, margin.top)
+                .scale(1)
+            );
+          }
+          lastTapTime = currentTime;
+        });
+      }
+
+      svg.call(zoom);
+
+      // Link styling based on strength
+      const link = g.append("g")
+        .attr("stroke", "#999")
+        .attr("stroke-opacity", 0.6)
+        .selectAll("line")
+        .data(data.links)
+        .join("line")
+        .attr("stroke-width", d => Math.max(1, Math.sqrt(d.value)))
+        .attr("stroke-opacity", d => 0.3 + Math.min(0.5, d.value / 10));
+
+      const drag = (simulation) =>
+        d3.drag()
+          .on("start", (event, d) => {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+          })
+          .on("drag", (event, d) => {
+            d.fx = event.x;
+            d.fy = event.y;
+          })
+          .on("end", (event, d) => {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+          });
+
+      // Node styling with verified sizes
+      const node = g.append("g")
+        .selectAll(".node")
+        .data(data.nodes)
+        .join("g")
+        .attr("class", "node")
+        .call(drag(simulation));
+      
+      // Fix click behavior by using a simpler approach
+      node.append("circle")
+        .attr("r", d => sizeScale(d.size || 1) + (isTouchDevice ? 3 : 0))
+        .attr("fill", d => selectedKeywords.has(d.id) ? "#ff7f0e" : "#69b3a2")
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1.5)
+        .style("cursor", "pointer") // Add pointer cursor to indicate clickable
+        .on("click", (event, d) => { // Use click for all devices
+          event.stopPropagation(); // Prevent event bubbling
+          
+          if (selectedKeywords.has(d.id)) {
+            selectedKeywords.delete(d.id);
+          } else {
+            selectedKeywords.add(d.id);
+          }
+          updateGraph();
+        })
+        .append("title")
+        .text(d => `${d.id} (${d.size} articles)`);
+
+      // Adjust the label positions and sizes for better mobile readability
+      const fontSize = isTouchDevice ? 
+        d => Math.max(12, Math.min(18, sizeScale(d.size || 1) * 1)) : // Larger font on mobile
+        d => Math.max(11, Math.min(16, sizeScale(d.size || 1) * 0.9));
+        
+      const label = g.append("g")
+        .selectAll("text")
+        .data(data.nodes)
+        .join("text")
+        .text(d => d.id)
+        .attr("font-size", fontSize)
+        .attr("fill", "#333")
+        .attr("pointer-events", "none") 
+        .attr("text-anchor", "middle")
+        .attr("dy", d => sizeScale(d.size || 1) + (isTouchDevice ? 16 : 14));
+
+      simulation.on("tick", () => {
+        link
+          .attr("x1", d => d.source.x)
+          .attr("y1", d => d.source.y)
+          .attr("x2", d => d.target.x)
+          .attr("y2", d => d.target.y);
+
+        node.attr("transform", d => `translate(${d.x},${d.y})`);
+
+        label
+          .attr("x", d => d.x)
+          .attr("y", d => d.y);
+      });
+      
+      // Position the legend based on screen size
+      const legendPosition = window.innerWidth < 768 ? 
+        `translate(10, ${height - 70})` : // Bottom left on mobile
+        `translate(${width - 150}, 20)`; // Top right on desktop
+        
+      const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", legendPosition);
+      
+      const legendData = [
+        { label: sizeScale(minSize), size: sizeScale(minSize) },
+        { label: sizeScale(maxSize), size: sizeScale(maxSize) }
+      ];
+      
+      legend.selectAll("circle")
+        .data(legendData)
+        .join("circle")
+        .attr("cy", (d, i) => i * 25 + 10)
+        .attr("cx", 10)
+        .attr("r", d => d.size)
+        .attr("fill", "#69b3a2");
+      
+      legend.selectAll("text")
+        .data(legendData)
+        .join("text") 
+        .attr("y", (d, i) => i * 25 + 14)
+        .attr("x", 30)
+        .text(d => d.label)
+        .attr("font-size", 10)
+        .attr("alignment-baseline", "middle");
+    }
+
+    function renderArticles(articles) {
+      const container = document.getElementById("articles");
+      container.innerHTML = "";
+      
+      // Display how many articles are showing out of total
+      const articlesCount = document.createElement("div");
+      articlesCount.style.padding = "0.5em 0";
+      articlesCount.style.color = "#666";
+      articlesCount.textContent = `Showing ${articles.length} of ${allArticles.length} articles`;
+      
+      if (selectedKeywords.size > 0) {
+        const keywordsList = Array.from(selectedKeywords).join(", ");
+        articlesCount.textContent += ` filtered by: ${keywordsList}`;
+      }
+      
+      container.appendChild(articlesCount);
+
+      if (articles.length === 0) {
+        const noResults = document.createElement("div");
+        noResults.style.padding = "1em";
+        noResults.style.color = "#666";
+        noResults.textContent = "No articles match the selected keywords.";
+        container.appendChild(noResults);
+        return;
+      }
+
+      // Sort all articles by score (relevance) directly, without clustering
+      const sortedArticles = [...articles].sort((a, b) => b.score - a.score);
+      
+      // Add compact style
+      const style = document.createElement('style');
+      style.textContent = `
+        .compact-article { 
+          margin-bottom: 0.5em; 
+          padding-bottom: 0.3em; 
+          border-bottom: 1px solid #eee; 
+        }
+        .compact-article h4 { 
+          margin: 0; 
+          font-size: 0.95em; 
+          margin-bottom: 0.1em;
+        }
+        .compact-article .meta {
+          color: #555; 
+          font-size: 0.8em;
+          margin-bottom: 0.2em;
+          display: inline-block;
+        }
+        .compact-article details {
+          margin: 0.2em 0;
+          padding: 0.3em;
+        }
+        .compact-article summary {
+          font-size: 0.85em;
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Create article elements in a flat list
+      sortedArticles.forEach(article => {
+        const div = document.createElement("div");
+        div.className = "compact-article";
+
+        // Highlight keywords that match the selected ones
+        const highlightedKeywords = article.keywords.map(keyword => {
+          if (selectedKeywords.has(keyword)) {
+            return `<strong>${keyword}</strong>`;
+          }
+          return keyword;
+        }).join(", ");
+
+        const favicon = `https://www.google.com/s2/favicons?sz=16&domain_url=${new URL(article.url).origin}`;
+
+        div.innerHTML = `
+          <h4><a href="${article.url}" target="_blank">${article.title}</a></h4>
+          <span class="meta">${article.source}</span>
+          <details>
+            <summary>Keywords: ${highlightedKeywords}</summary>
+            <div style="font-size: 0.9em; margin-top: 0.3em;">${article.summary}</div>
+          </details>
+        `;
+        
+        container.appendChild(div);
+      });
+    }
+
+    loadLatestGraph();
+  </script>
+</body>
+</html>

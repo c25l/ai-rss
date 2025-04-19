@@ -1,0 +1,12 @@
+*.parquet
+*.pkl
+*.pickle
+*.csv
+*.tsv
+.ipynb_checkpoints
+.DS_Store
+*.py.swp
+*.db
+*.md
+*.ipynb
+__pycache__
