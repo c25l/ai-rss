@@ -25,7 +25,7 @@ def log(*inp):
 
 def main():
 	today = now()
-	gen = Generator()
+	gen = Generator(db.get_secret("openai-endpt"),db.get_secret("openai-key"))
 	db.setup_db()
 	clust = Cluster(gen.embed, gen)
 	feeds = db.get_feeds()
