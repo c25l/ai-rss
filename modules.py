@@ -13,7 +13,7 @@ class Weather:
 			maxt = max(xx[0] for xx in data)
 			mint = min(xx[0] for xx in data)
 			current = [xx[1] for xx in data]
-			condition = generate(" ".join(current),"I'm going to provide you a list of weather conditions near me for a period of several hours. Which one is the most serious? please express this to me with a single weather related emoji. I cant take anything beyond this single emoji so please dont explain--I trust your judgment.")
+			condition = generate("I'm going to provide you a list of weather conditions near me for a period of several hours. Which one is the most serious? please express this to me with a single weather related emoji. I cant take anything beyond this single emoji so please dont explain--I trust your judgment.\n"+"\n".join(current))
 			dayname = (datetime.today()+timedelta(hours=ii+1)).strftime('%a')
 			out.append(f'- {dayname}: {condition} {mint}°F-{maxt}°F')
 			if ii == 0:

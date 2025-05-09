@@ -29,7 +29,7 @@ WHERE !completed
 GROUP BY file.name
 ```
 """
-		filename = f"{dest}-{datetime.now().strftime('%Y-%m-%d')}.md"
+		filename = f"{dest}/Briefing-{datetime.now().strftime('%Y-%m-%d')}.md"
 		with open(filename, "w") as f:
 			f.write(prelude+text)
 			
