@@ -1,13 +1,19 @@
 import json
 import numpy as np
 import os
-from openai import AzureOpenAI
-from azure.core.credentials import AzureKeyCredential
+import requests
 
+OLLAMA_BASE_URL = "http://localhost:11434"
+DEFAULT_MODEL = "gemma3:12b-it-qat"
+DEFAULT_SMALL_MODEL = "qwen3:8b"
+DEFAULT_TINY_MODEL = "llama3.2:1b-instruct-q6_K"
+DEFAULT_OPTIONS = {
+    "temperature": 0.0,
+    "top_p": 0.9,
+    "stop": None,  # You can add stop sequences later if needed
+}
 class Generator(object):
-	def __init__(self, endpt,api_key):
-		self.client = AzureOpenAI(azure_endpoint=endpt,api_key=api_key,api_version="2024-05-01-preview")
-		self.news_blocks = """- **World** — international news, global events,
+	news_blocks = """- **World** — international news, global events,
 	- **Politics** —  legislation, governance
 	- **Business** — companies, labor, economic policy  
 	- **Technology** — software, hardware, AI
@@ -18,6 +24,8 @@ class Generator(object):
 	- **Opinion** — editorials, analysis  
 	- **Environment** — climate change, conservation"""
 	def get_article_keywords(self,article):
+		summary = " ".join(article.summary.split(" ")[:100]).replace("\"","\\\"")
+
 		kwd_prompt = f"""You will be classifying a news article for an expert reader.:
 	This article is part of a news corpus structured into the following sections, which are available as classifications also:
 	{self.news_blocks}
@@ -31,14 +39,18 @@ class Generator(object):
 	- AI Models are evolving rapidly, and china has taken a leadership role in the domain. 
 	The major players in the field are Google, Microsoft, Meta, OpenAI, Mistral, Anthropic, DeepSeek, AliBaba, and others.
 
-	Source: {article.source}
-	Title: {article.title}
-	Summary: {" ".join(article.summary.split(" ")[:100])}
-
-	The upstream summary typically has these topics: {",".join(article.keywords)}
+	{{
+	"source":"{article.source}",
+	"title": "{article.title}",
+	"summary": "{summary}",
+	"source_keywords": "{", ".join(article.source_keywords)}",
+	}}
 
 	You will give 3-6  keywords describing the content. Prefer fewer keywords to wrong or weak ones, 
 	and provide a reason that demonstrates that they are supported by the text.
+
+	If the summary or source mentions and particular named entity or organization,
+	you should include it in the keywords.
 
 	Return only the keywords as a list (3-6 max) (as a list), and a short reason in this format:
 	{{"Keywords": Keywords, "Reason":"Reason"}}
@@ -74,39 +86,39 @@ Here are brief summaries of the articles involved:
 		response = self.generate(prompt)
 		print(response)
 		return response
-	def generate(self, text, prompt=None, model='4.1-nano'):
-		model_name = "gpt-4.1-nano"
-		if model == '4.1-mini':
-			model_name = "gpt-4.1-mini"
+	def generate(self, prompt, model_name=DEFAULT_MODEL	, options = None):
+		"""
+		Send a prompt to the specified model via Ollama and return the response text.
+		"""
+		payload = {
+			"model": model_name,
+			"prompt": prompt,
+			"options": options if options else DEFAULT_OPTIONS,
+			"stream": False,
+		}
+		try:
+			response = requests.post(f"{OLLAMA_BASE_URL}/api/generate", json=payload)
+			response.raise_for_status()
+			data = response.json()
+			return data.get("response", "")
+		except Exception as e:
+			print(f"[ERROR] Model call failed: {e}")
+			return "[ERROR]"
 
-		messages=[]
-		if prompt!=None:
-			messages.append({"role":"system","content":prompt})
-		messages.append({"role":"user","content":text})
-			
-		response = self.client.chat.completions.create(
-		   messages=messages,
-			max_tokens=800,
-			temperature=0.0,
-			top_p=1.0,
-			frequency_penalty=0.0,
-			presence_penalty=0.0,
-			model=model_name
-		)
-
-		return response.choices[0].message.content
-	def embed(self, text, norm=True):
-		model_name = "text-embedding-3-small"
-
-		if type(text)==str:
-			text = [text]
-		response = self.client.embeddings.create(
-			input=text,
-			model=model_name
-		)
-		embeddings = [np.array(item.embedding) for item in response.data]
-		if norm:
-			embeddings = [emb/np.linalg.norm(emb) for emb in embeddings]
-
-		return embeddings; 
+	def embed(self, text, pq = 'p',norm=True):
+		payload = {
+			"model": "nomic-embed-text",
+			"prompt": ("passage: " if pq=='p' else "query: ") + text,
+		}
+		try:
+			response = requests.post(f"{OLLAMA_BASE_URL}/api/embeddings", json=payload)
+			response.raise_for_status()
+			data = response.json()
+			vect = np.array(data.get("embedding",[]))
+			if norm:
+				vect /= np.linalg.norm(vect)
+			return vect
+		except Exception as e:
+			print(f"[ERROR] Model call failed: {e}")
+			return []
 

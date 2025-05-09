@@ -25,27 +25,34 @@ def log(*inp):
 
 def main():
 	today = now()
-	gen = Generator(db.get_secret("openai-endpt"),db.get_secret("openai-key"))
+	gen = Generator()
 	db.setup_db()
 	clust = Cluster(gen.embed, gen)
-	feeds = db.get_feeds()
-	feeds = [[tt,ss,xx,kk] for tt,ss,xx,kk in feeds if xx is not None]
-	log("Feeds", "\n".join([", ".join([str(yy) for yy in xx]) for xx in feeds]))
-	articles = Feeds.fetch_articles(feeds)
-	db.set_articles(articles)
+	if not os.path.exists(today+".pkl"):
+		
+		feeds = db.get_feeds()
+		feeds = [[tt,ss,xx,kk] for tt,ss,xx,kk in feeds if xx is not None]
+		log("Feeds", "\n".join([", ".join([str(yy) for yy in xx]) for xx in feeds]))
+		articles = Feeds.fetch_articles(feeds)
+		db.set_articles(articles)
 
-	updated_articles = []
-	for article in articles:
-		updated_article = gen.get_article_keywords(article)
-		# Ensure the `keywords` field is updated with the combined keywords
-		updated_article.keywords = list(set((updated_article.keywords or [])))# + (updated_article.source_keywords.split(" / "	) or [])))
-		updated_articles.append(updated_article)
-		db.set_article(updated_article)
-	
+		updated_articles = []
+		for article in articles:
+			updated_article = gen.get_article_keywords(article)
+			# Ensure the `keywords` field is updated with the combined keywords
+			updated_article.keywords = list(set((updated_article.keywords or [])))# + (updated_article.source_keywords.split(" / "	) or [])))
+			updated_articles.append(updated_article)
+			db.set_article(updated_article)
+		with open(today+".pkl", "wb") as f:
+			pickle.dump(updated_articles, f)
+	else:
+		with open(today+".pkl", "rb") as f:
+			updated_articles = pickle.load(f)
+		log("Loaded articles from pickle")	
 	t_gps = clust.cluster(updated_articles)
 	##db.set_groups(t_gps)
 	Outputs.send_email("\n".join([Weather.info(gen.generate), Stocks.quotes(),"# Articles"] + [tgp.out() for tgp in t_gps]),db.get_secret('airss-email-sender'),db.get_secret('airss-email-receiver'),db.get_secret('airss-email-password'))
-#	Outputs.md_fileout("\n".join([Weather.info(gen.generate), Stocks.quotes(),"# Articles"] + [tgp.out() for tgp in t_gps]),"./")
+	Outputs.md_fileout("\n".join([Weather.info(gen.generate), Stocks.quotes(),"# Articles"] + [tgp.out() for tgp in t_gps]),"./")
 	#AzureOut(db).write_d3_bundle_to_azure(now(), [article.json() for article in use_articles])
 
 if __name__ == "__main__":

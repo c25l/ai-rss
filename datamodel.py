@@ -23,9 +23,9 @@ class Article(object):
 	def limited(self):
 		return self.medium() +": "+" ".join(self.summary.split(" ")[:30])
 	def medium(self,lev=0):
-		return "- " + self.title + self.str_small()
+		return "\t- " + self.title + self.str_small()
 	def out(self,lev=0):
-		return self.str_small()
+		return self.medium()
 	def __str__(self):
 		return self.big()
 	def __repr__(self):
@@ -52,7 +52,7 @@ class Group(object):
 	def limited(self):
 		return "\n".join([xx.limited() for xx in self.articles])
 	def big_no_links(self):
-		return  "".join([f"{self.text}: "] + [xx.big_no_links() for xx in self.articles])
+		return  " ".join([f"{self.text}: "] + [xx.big_no_links() for xx in self.articles])
 	def big(self):
 		return  "".join([f"{self.text}: "] + [xx.big() for xx in self.articles])
 	def medium(self,lev=1):
@@ -64,6 +64,6 @@ class Group(object):
 			sfx = "\n"
 		else:
 			pfx = "- "
-		return "".join([f"{pfx}{self.text}{sfx}"] + [xx.out() for xx in self.articles])+"\n"
+		return "\n".join([f"{pfx}{self.text}{sfx}"] + [xx.out() for xx in self.articles])+"\n"
 	def __str__(self):
 		return self.out()
