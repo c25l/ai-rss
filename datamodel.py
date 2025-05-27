@@ -1,69 +1,50 @@
+from datetime import datetime
+import uuid
 
-class Article(object):
-	keys = ["id","title", "url", "summary", "source",  "published", "vector","keywords"]
-	json_keys = ["title", "url", "summary", "source",  "published","keywords"]
-	unique = ["url"]
-	table = ["articles"]
-	def __init__(self, title, url, source, summary="", keywords=[], published_at=None, vector=[],id=None,hashed_summary=None):
-		self.title = title.encode('ascii', 'ignore').decode('ascii')
-		self.url = url
-		self.summary = summary.encode('ascii', 'ignore').decode('ascii')
-		self.source = source
-		self.published_at = published_at
-		self.vector = vector
-		self.keywords=keywords
-		self.hashed_summary=hashed_summary
-		self.id=id
-	def json(self):
-		return {xx:getattr(self,xx) for xx in self.json_keys}
-	def big_no_links(self):
-		return "- " + self.title + " "+ self.source +": "+self.summary
-	def big(self):
-		return "- " + self.title + self.str_small()+" ".join(self.keywords)+"\n\t- "+self.summary
-	def limited(self):
-		return self.medium() +": "+" ".join(self.summary.split(" ")[:30])
-	def medium(self,lev=0):
-		return "\t- " + self.title + self.str_small()
-	def out(self,lev=0):
-		return self.medium()
-	def __str__(self):
-		return self.big()
-	def __repr__(self):
-		return self.medium()
-	def str_small(self):
-		return f"[{self.source}]({self.url})"
-	def __getitem__(self, key):
-		if key in self.keys:
-			return getattr(self, key)
-		else:
-			raise KeyError(f"{key} not found in Article")
-	def todict(self):
-		return {xx:getattr(self,xx) for xx in self.keys}
-class Group(object):
-	keys = ["text","articles"]
-	table = ["groups"]
-	def __init__(self, text, articles):
-		self.text = text
-		self.articles = articles
-	def __iter__(self):
-		return iter(self.articles)
-	def add(self, art):
-		self.articles.append(art)
-	def limited(self):
-		return "\n".join([xx.limited() for xx in self.articles])
-	def big_no_links(self):
-		return  " ".join([f"{self.text}: "] + [xx.big_no_links() for xx in self.articles])
-	def big(self):
-		return  "".join([f"{self.text}: "] + [xx.big() for xx in self.articles])
-	def medium(self,lev=1):
-		return  "\n".join([f"{self.text}: "] + [xx.medium() for xx in self.articles])
-	def out(self):
-		pfx = ""
-		sfx = ""
-		if self.text.startswith("#"):
-			sfx = "\n"
-		else:
-			pfx = "- "
-		return "\n".join([f"{pfx}{self.text}{sfx}"] + [xx.out() for xx in self.articles])+"\n"
-	def __str__(self):
-		return self.out()
+class Article:
+    def __init__(self, id=None, title=None, url=None, summary=None, source=None, published_at=None, vector=None, hashed_summary=None, claims=None, keywords=None, cluster=None, age=None):
+        self.id = id
+        self.title = title
+        self.url = url
+        self.summary = summary
+        self.source = source
+        self.published_at = published_at
+        self.section="Other"
+        self.vector = vector
+        self.hashed_summary = hashed_summary
+        self.claims = claims if claims is not None else []
+        self.keywords = keywords if keywords is not None else []
+        self.cluster = cluster
+        self.age=age
+
+    def out(self,d=0):
+        return f"- [{self.title}]({self .url})"
+
+    def json(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'url': self.url,
+            'summary': self.summary,
+            'source': self.source,
+            'published_at': self.published_at,
+            'keywords': self.keywords,
+            'hashed_summary': self.hashed_summary
+        }
+
+class Group:
+    def __init__(self, id=None, text=None, created_at=None, parent_id=None, articles=None):
+        self.id = id
+        self.text = text
+        self.created_at = created_at
+        self.parent_id = parent_id
+        self.articles = articles if articles is not None else []
+
+
+    def out(self,d=1):
+        """Generate a string representation of the group with its title and associated articles."""
+        article_list = "\n".join([xx.out(d+1) for xx in self.articles])
+        hashes = "".join(["#" for _ in range(d)])
+        return f"{hashes} {self.text}\n{article_list}"
+
+
