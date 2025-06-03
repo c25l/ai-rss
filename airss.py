@@ -4,10 +4,6 @@ from datetime import datetime
 import numpy as np
 from datamodel import Article,Group
 import feeds 
-import os
-import pickle
-import time
-import database
 import smtplib
 from email.message import EmailMessage
 from markdown import markdown
@@ -42,6 +38,20 @@ def embed(text, pq = 'p',norm=True):
 ###
 #  Clustering happens here.
 # ###    
+def make_labelled_groups(t_gps):
+    for ii,xx in t_gps.items():
+            keys =defaultdict(int)
+            for aa in xx:
+                for kk in aa.keywords:
+                    keys[kk] += 1
+            keys = sorted(keys.items(), key=lambda x: x[1], reverse=True)
+            print(keys)
+            headline =  ", ".join([f"{ii}" for ii,jj in keys[:3]])
+            t_gps[ii] = Group(text=headline, articles=xx)
+
+    return t_gps
+
+
 def make_gps(g, keyfunc):
     t_gps = defaultdict(list)
     misc = defaultdict(list)
@@ -52,16 +62,7 @@ def make_gps(g, keyfunc):
     
         else:
             t_gps[realkey].extend(g[xx])
-    for ii,xx in t_gps.items():
-            keys =defaultdict(int)
-            for aa in xx:
-                for kk in aa.keywords:
-                    keys[kk] += 1
-            keys = sorted(keys.items(), key=lambda x: x[1], reverse=True)
-            print(keys)
-            t_gps[ii] = Group(text=", ".join([f"{ii}" for ii,jj in keys[:3]]) or xx[0].title, articles=xx)
-
-    return t_gps, misc
+    return make_labelled_groups(t_gps),misc
 
 def cluster_vectors_kmeans(embeddings):
         # Optimal k-means clustering on embeddings
@@ -82,28 +83,27 @@ def cluster(arts):
     claims = [embed(aa.title + "\n" + aa.summary) for aa in arts]
     title_summary_clust = cluster_vectors_kmeans(claims)
     tags = [
-    'conflict', 'diplomacy', 'alliances', 'sanctions', 'elections', 'multipolarity',
-    'Russia', 'Ukraine', 'NATO', 'Israel', 'Zionism', 'Antisemitism', 'Hamas', 'Gaza', 'Hezbollah',
-    'China', 'Taiwan', 'Xi Jinping', 'PLA', 'Iran', 'IRGC', 'Houthis', "European Union",
+    'Conflict', 'Diplomacy', 'Alliances', 'Sanctions', 'Elections', 'Multipolarity',
+    'Russia', 'Ukraine', 'Nato', 'Israel', 'Zionism', 'Antisemitism', 'Hamas', 'Gaza', 'Hezbollah',
+    'China', 'Taiwan', 'Iran', 'Houthis', "European Union",
     'United Kingdom', 'Germany', 'France', 'Japan', 'South Korea', 'Australia',
     'Canada', 'Mexico', 'Brazil', 'Argentina', 'Turkey', 'Saudi Arabia',
-    'United States', 'Joe Biden', 'BRICS', 'India', 'Brazil',
-    'South Africa', 'UN', 'ICC', 'ASEAN', 'AI', 'automation', 'regulation',
-    'surveillance', 'semiconductors', 'OpenAI', 'ChatGPT',
-    'Anthropic AI', 
-    'NVIDIA', 'AMD', 'TSMC', 'TikTok', 'ByteDance', 'Alibaba', "Apple",
-    'DOGE', 'FTC', 'US Congress', "FAA", "Air Traffic Control",
-    'climate change', 'energy', 'disaster', 'policy', 'migration', 'biodiversity',
-    'NOAA', 'NASA', 
-    'justice', 'legislation', 'culture', 'civil rights', 'tech policy',
-    'RFK Jr.', 'SCOTUS', 'DOJ', 'FEC', 'Florida', 'Texas', 'California',
-    "Democrat","Republican","senate","congress",
-    'Ron DeSantis', 'Gavin Newsom', 'AOC', 'TikTok ban', 'Section 230',
-    'inflation', 'recession', 'employment', 'housing', 'finance', 
-    'CHIPS Act', 'government reduction',
-    'misinformation', 'freedom', 'protest', 'repression', 'identity',
-    'UNHCR', 'Human Rights Watch', 'Trump', 'President', 
-    "music","concert","artist","album","linux","open source","python","programming","hardware","physics","quantum","nuclear",]
+    'United States', 'Joe Biden', 'India', 'Brazil',
+    'South Africa', 'United Nations' 'Artificial Intelligence', 'Automation', 'Regulation',
+    'Surveillance', 'Semiconductors', 'Openai', 'Chatgpt',
+    'Conspiracy','Misinformation','Disinformation','Propaganda','Censorship',
+    'Nvidia', 'Bytedance', 'Alibaba', "Apple", 
+    'Doge', 'Us Congress', "Air Traffic Control",
+    'Climate Change', 'Energy', 'Disaster', 'Policy', 'Migration', 'Biodiversity',
+    'Noaa', 'Nasa', 
+    'Justice', 'Legislation', 'Culture', 'Civil Rights', 'Tech Policy',
+    'Robert F Kennedy Jr.', 'Scotus', 'Florida', 'Texas', 'California',
+    "Democrat","Republican","Senate",
+    'Inflation', 'Recession', 'Employment', 'Housing', 'Finance', 
+    'Misinformation', 'Freedom', 'Protest', 'Repression', 'Identity',
+    'Human Rights Watch', 'Trump', 'President', 
+    'Sports','Geology','Space','Technology','Science','Chemistry','Biology','Physics',
+    "Music","Concert","Artist","Album","Linux","Open Source","Python","Programming","Hardware","Physics","Quantum","Nuclear",]
     vtags = np.array([embed(aa) for aa in tags])
     kwds = []
     tagvect = None
@@ -117,7 +117,7 @@ def cluster(arts):
                 tagvect = np.zeros_like(vtags[uu]) 
             tagvect += vtags[uu] * sims[uu]
 
-        use = [tags[uu] for uu in use  if sims[uu]>=0.65]
+        use = [tags[uu] for uu in use  if sims[uu]>=0.5]
         
         arts[ii].keywords = use
         arts[ii].vector=xx
@@ -148,18 +148,11 @@ def main():
     updated_articles = cluster(articles)
 
     g = defaultdict(list)
-    for aa in updated_articles:
+    old_clusts = set([aa.cluster for aa in updated_articles[len(articles):]])
+    for aa in updated_articles[:len(articles)]:
         g[aa.cluster].append(aa)
-    database.setup_db()
-    database.add_articles(updated_articles)
     t_gps, misc = make_gps(g, lambda x: x)
-    print(t_gps)
-    t_gps2, misc2 = make_gps(misc, lambda x: 999 + (x % 1000))
-    t_gps.update(t_gps2)
-    print(t_gps)
-    t_gps3, misc3 = make_gps(misc2, lambda x: (x%1000)+500)
-    t_gps.update(t_gps3)
-    t_gps[-1] = Group(text="Misc.", articles=[xx[0] for _, xx in misc3.items()])
+    t_gps[-1] = Group(text="Misc.", articles=[xx[0] for yy, xx in misc.items() if yy not in t_gps])
     print("group ct: ", len(t_gps))
     text = "\n".join([tgp.out() for _, tgp in t_gps.items()])
     sender = "christopherpbonnell@icloud.com"

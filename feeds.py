@@ -25,7 +25,8 @@ FEEDS = [
 [1,"NYT Space", "https://rss.nytimes.com/services/xml/rss/nyt/Space.xml", ["Space"]],
 [1,"NYT World", "https://rss.nytimes.com/services/xml/rss/nyt/World.xml", ["World News"]],
 [3,"TLDR Data", "https://tldr.tech/api/rss/data", ["Technology"]],
-[1,"Vox", "https://www.vox.com/rss/index.xml", ["US News", "Politics"]]
+[1,"Vox", "https://www.vox.com/rss/index.xml", ["US News", "Politics"]],
+[1,"Longmont Leader", "https://www.longmontleader.com/rss/",["Local News", "Colorado"]]
 ]
 
 class Feeds:

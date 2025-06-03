@@ -114,14 +114,15 @@ def get_articles(query=None):
     conn = get_connection()
     cols = ["title", "url", "source", "summary", "keywords", "published_at"]
     select = ",".join(cols)
-    query_conditions = ' AND '.join([f"{col} = %s" for col in query.keys()]) if query else 'TRUE'
-    query_values = tuple(query.values()) if query else ()
-    query_str = f"SELECT {select} FROM articles WHERE {query_conditions};"
+    if query is not None:
+        if not query.startswith("WHERE"):
+            query = "WHERE " + query
+    query_str = f"SELECT {select} FROM articles  {query};"
     with conn:
         with conn.cursor() as cur:
-            cur.execute(query_str, query_values)
+            cur.execute(query_str, ())
             result = cur.fetchall()
-    return [
+    arts= [
         Article(
             title=res["title"],
             url=res["url"],
@@ -131,7 +132,10 @@ def get_articles(query=None):
             published_at=res["published_at"]
         )
         for res in result
-    ] if result else None
+    ] 
+    return arts
+def get_recent_articles(days=3):
+    return get_articles("(published_at >= NOW() - INTERVAL '%s days') AND (published_at <= NOW()-Interval '1 days') " % days)
 
 def add_articles(articles):
     if not isinstance(articles, list):
