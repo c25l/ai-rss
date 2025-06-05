@@ -21,7 +21,7 @@ def log(*inp):
 def embed(text, pq = 'p',norm=True):
     payload = {
         "model": "nomic-embed-text",
-        "prompt": ("passage: " if pq=='p' else "query: ") + text,
+        "prompt": ("search_document: " if pq=='p' else "search_query: ") + text,
     }
     try:
         response = requests.post("http://localhost:11434/api/embeddings", json=payload)
@@ -83,19 +83,17 @@ def cluster(arts):
     claims = [embed(aa.title + "\n" + aa.summary) for aa in arts]
     title_summary_clust = cluster_vectors_kmeans(claims)
     tags = [
-    'Conflict', 'Diplomacy', 'Alliances', 'Sanctions', 'Elections', 'Multipolarity',
     'Russia', 'Ukraine', 'Nato', 'Israel', 'Zionism', 'Antisemitism', 'Hamas', 'Gaza', 'Hezbollah',
     'China', 'Taiwan', 'Iran', 'Houthis', "European Union",
     'United Kingdom', 'Germany', 'France', 'Japan', 'South Korea', 'Australia',
     'Canada', 'Mexico', 'Brazil', 'Argentina', 'Turkey', 'Saudi Arabia',
     'United States', 'Joe Biden', 'India', 'Brazil',
-    'South Africa', 'United Nations' 'Artificial Intelligence', 'Automation', 'Regulation',
+    'South Africa', 'United Nations', 'Artificial Intelligence', 'Automation', 'Regulation',
     'Surveillance', 'Semiconductors', 'Openai', 'Chatgpt',
     'Conspiracy','Misinformation','Disinformation','Propaganda','Censorship',
     'Nvidia', 'Bytedance', 'Alibaba', "Apple", 
-    'Doge', 'Us Congress', "Air Traffic Control",
+    'US Congress', 
     'Climate Change', 'Energy', 'Disaster', 'Policy', 'Migration', 'Biodiversity',
-    'Noaa', 'Nasa', 
     'Justice', 'Legislation', 'Culture', 'Civil Rights', 'Tech Policy',
     'Robert F Kennedy Jr.', 'Scotus', 'Florida', 'Texas', 'California',
     "Democrat","Republican","Senate",
@@ -104,7 +102,7 @@ def cluster(arts):
     'Human Rights Watch', 'Trump', 'President', 
     'Sports','Geology','Space','Technology','Science','Chemistry','Biology','Physics',
     "Music","Concert","Artist","Album","Linux","Open Source","Python","Programming","Hardware","Physics","Quantum","Nuclear",]
-    vtags = np.array([embed(aa) for aa in tags])
+    vtags = np.array([embed(aa,'q') for aa in tags])
     kwds = []
     tagvect = None
     for ii,xx in enumerate(claims):
