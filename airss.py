@@ -1,4 +1,9 @@
-#!/usr/bin/env /usr/bin/python3
+#!/usr/bin/env python3
+"""
+AIRSS with Story Generation
+Alternative main script that generates news stories instead of simple article lists
+"""
+
 from collections import defaultdict
 from datetime import datetime
 import numpy as np
@@ -6,167 +11,103 @@ from datamodel import Article,Group
 import feeds 
 import smtplib
 from email.message import EmailMessage
-from markdown import markdown
-from datetime import datetime
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
-import requests
+from storyteller import generate_complete_newsletter
+from airss_base import embed, cluster_vectors_kmeans, make_labelled_groups, make_gps, now, log
 
-def now(short = True):
-    fstring = '%Y-%m-%d %H:%M:%S' if not short else '%Y-%m-%d'
-    return datetime.now().strftime(fstring)
-def log(*inp):
-    print(now(False), *inp)
-
-def embed(text, pq = 'p',norm=True):
-    payload = {
-        "model": "nomic-embed-text",
-        "prompt": ("search_document: " if pq=='p' else "search_query: ") + text,
-    }
-    try:
-        response = requests.post("http://localhost:11434/api/embeddings", json=payload)
-        response.raise_for_status()
-        data = response.json()
-        vect = np.array(data.get("embedding",[]))
-        if norm:
-            vect /= np.linalg.norm(vect)
-        return vect
-    except Exception as e:
-        print(f"[ERROR] Model call failed: {e}")
-        return []
-
-###
-#  Clustering happens here.
-# ###    
-def make_labelled_groups(t_gps):
-    for ii,xx in t_gps.items():
-            keys =defaultdict(int)
-            for aa in xx:
-                for kk in aa.keywords:
-                    keys[kk] += 1
-            keys = sorted(keys.items(), key=lambda x: x[1], reverse=True)
-            print(keys)
-            headline =  ", ".join([f"{ii}" for ii,jj in keys[:3]])
-            t_gps[ii] = Group(text=headline, articles=xx)
-
-    return t_gps
-
-
-def make_gps(g, keyfunc):
-    t_gps = defaultdict(list)
-    misc = defaultdict(list)
-    for xx in g:
-        realkey = keyfunc(xx)
-        if len(g[xx]) < 2:
-            misc[realkey].extend(g[xx])
-    
-        else:
-            t_gps[realkey].extend(g[xx])
-    return make_labelled_groups(t_gps),misc
-
-def cluster_vectors_kmeans(embeddings):
-        # Optimal k-means clustering on embeddings
-        best_k = 2
-        best_score = -1
-        clusters_for_best_score = []
-        for k in range(4, len(embeddings)-1):
-            kmeans = KMeans(n_clusters=k, random_state=42)
-            labels = kmeans.fit_predict(embeddings)
-            score = silhouette_score(embeddings, labels)
-            if score > best_score:
-                best_k = k
-                best_score = score
-                clusters_for_best_score = labels
-        return clusters_for_best_score
-
-def cluster(arts):
+def cluster_for_narratives(arts):
+    """Cluster articles to create narrative-ready groups"""
+    # Embed articles for semantic similarity
     claims = [embed(aa.title + "\n" + aa.summary) for aa in arts]
-    title_summary_clust = cluster_vectors_kmeans(claims)
-    tags = [
-    'Russia', 'Ukraine', 'Nato', 'Israel', 'Zionism', 'Antisemitism', 'Hamas', 'Gaza', 'Hezbollah',
-    'China', 'Taiwan', 'Iran', 'Houthis', "European Union",
-    'United Kingdom', 'Germany', 'France', 'Japan', 'South Korea', 'Australia',
-    'Canada', 'Mexico', 'Brazil', 'Argentina', 'Turkey', 'Saudi Arabia',
-    'United States', 'Joe Biden', 'India', 'Brazil',
-    'South Africa', 'United Nations', 'Artificial Intelligence', 'Automation', 'Regulation',
-    'Surveillance', 'Semiconductors', 'Openai', 'Chatgpt',
-    'Conspiracy','Misinformation','Disinformation','Propaganda','Censorship',
-    'Nvidia', 'Bytedance', 'Alibaba', "Apple", 
-    'US Congress', 
-    'Climate Change', 'Energy', 'Disaster', 'Policy', 'Migration', 'Biodiversity',
-    'Justice', 'Legislation', 'Culture', 'Civil Rights', 'Tech Policy',
-    'Robert F Kennedy Jr.', 'Scotus', 'Florida', 'Texas', 'California',
-    "Democrat","Republican","Senate",
-    'Inflation', 'Recession', 'Employment', 'Housing', 'Finance', 
-    'Misinformation', 'Freedom', 'Protest', 'Repression', 'Identity',
-    'Human Rights Watch', 'Trump', 'President', 
-    'Sports','Geology','Space','Technology','Science','Chemistry','Biology','Physics',
-    "Music","Concert","Artist","Album","Linux","Open Source","Python","Programming","Hardware","Physics","Quantum","Nuclear",]
-    vtags = np.array([embed(aa,'q') for aa in tags])
-    kwds = []
-    tagvect = None
-    for ii,xx in enumerate(claims):
-        sims = vtags@xx
-        use = np.argsort(sims)[::-1][:5]
-        for uu in use:
-            if sims[uu] < 0.65:
-                continue
-            if tagvect is None:
-                tagvect = np.zeros_like(vtags[uu]) 
-            tagvect += vtags[uu] * sims[uu]
-
-        use = [tags[uu] for uu in use  if sims[uu]>=0.5]
+    
+    # Define narrative-focused tags for better story grouping
+    narrative_tags = [
+        # Geopolitical narratives
+        'Russia Ukraine War', 'Middle East Conflict', 'US China Relations', 'European Politics',
+        'Global Security', 'International Trade', 'Climate Action', 'Energy Transition',
         
-        arts[ii].keywords = use
-        arts[ii].vector=xx
-        kwds.append(use)
-    kwd_assigns = cluster_vectors_kmeans([xx.vector for xx in arts])
-    print(title_summary_clust, kwd_assigns)
-    cl = []
-    clc = defaultdict(int)
-    for c2,kk in zip(title_summary_clust, kwd_assigns):
-        tcl = c2 +1000*kk
-        cl.append(tcl)
-        clc[tcl] += 1
-    mhg = defaultdict(int)
-    for _,ii in clc.items():
-        mhg[ii] += 1
-    print(cl,clc,mhg)
-    for aa,cc in zip(arts, cl):
-        aa.cluster = cc
+        # Technology narratives  
+        'AI Development', 'Tech Regulation', 'Cybersecurity', 'Social Media', 'Cryptocurrency',
+        'Space Exploration', 'Electric Vehicles', 'Medical Breakthroughs',
+        
+        # Domestic narratives
+        'US Politics', 'Economic Policy', 'Healthcare', 'Education', 'Immigration',
+        'Civil Rights', 'Supreme Court', 'Elections', 'Infrastructure',
+        
+        # Business narratives
+        'Corporate Earnings', 'Market Trends', 'Banking', 'Real Estate', 'Labor',
+        'Supply Chain', 'Innovation', 'Mergers Acquisitions',
+        
+        # Social narratives
+        'Public Health', 'Environmental Issues', 'Cultural Events', 'Sports',
+        'Entertainment', 'Scientific Discovery', 'Legal Developments'
+    ]
+    
+    vtags = np.array([embed(tag) for tag in narrative_tags])
+    
+    # Enhanced keyword extraction for narrative building
+    for ii, xx in enumerate(claims):
+        sims = vtags@xx
+        use = np.argsort(sims)[::-1][:3]  # Top 3 most relevant narrative tags
+        narrative_keywords = [narrative_tags[uu] for uu in use if sims[uu] >= 0.6]
+        
+        arts[ii].keywords = narrative_keywords
+        arts[ii].vector = xx
+        arts[ii].narrative_score = float(sims[use[0]]) if len(use) > 0 else 0.0
+    
+    # Cluster based on narrative similarity rather than just content similarity
+    narrative_clusters = cluster_vectors_kmeans([xx.vector for xx in arts])
+    
+    # Create narrative-aware groupings
+    narrative_groups = defaultdict(list)
+    for ii, cluster_id in enumerate(narrative_clusters):
+        # Group by primary narrative keyword + cluster
+        primary_narrative = arts[ii].keywords[0] if arts[ii].keywords else "General"
+        group_key = f"{primary_narrative}_{cluster_id}"
+        narrative_groups[group_key].append(arts[ii])
+    
+    # Assign cluster IDs based on narrative groups
+    cluster_map = {}
+    for cluster_idx, (group_key, group_articles) in enumerate(narrative_groups.items()):
+        for article in group_articles:
+            article.cluster = cluster_idx
+            article.narrative_group = group_key
+    
+    log(f"Created {len(narrative_groups)} narrative-based clusters")
     return arts
-###
-# Main control flow.
-###
+
 def main():
+    """Main workflow with AI-driven newsletter generation"""
     today = now()
+    log("Starting AIRSS newsletter generation workflow")
+    
+    # Fetch all articles without pre-clustering
     articles = feeds.Feeds.fetch_articles(feeds.FEEDS)
-
-    print(len(articles), "articles")
-    updated_articles = cluster(articles)
-
-    g = defaultdict(list)
-    old_clusts = set([aa.cluster for aa in updated_articles[len(articles):]])
-    for aa in updated_articles[:len(articles)]:
-        g[aa.cluster].append(aa)
-    t_gps, misc = make_gps(g, lambda x: x)
-    t_gps[-1] = Group(text="Misc.", articles=[xx[0] for yy, xx in misc.items() if yy not in t_gps])
-    print("group ct: ", len(t_gps))
-    text = "\n".join([tgp.out() for _, tgp in t_gps.items()])
+    log(f"Fetched {len(articles)} articles")
+    
+    # Send all articles to AI for narrative grouping and newsletter creation
+    log("Generating complete newsletter from all articles...")
+    html_content = generate_complete_newsletter(articles)
+    log("Newsletter generation completed")
+    
+    # Send email
     sender = "christopherpbonnell@icloud.com"
     receiver = "christopherpbonnell@gmail.com"
-    password="vqxh-oqrp-wjln-eagl"
+    password = "vqxh-oqrp-wjln-eagl"
 
     msg = EmailMessage()
     msg["From"] = sender
     msg["To"] = receiver
-    msg["Subject"] = f"Morning News for {datetime.now().strftime('%Y-%m-%d')}"
-    msg.set_content(markdown(text), subtype="html")
-    with smtplib.SMTP("smtp.mail.me.com", 587) as server:
-        server.starttls()
-        server.login(msg['From'], password)
-        server.send_message(msg)
-
+    msg["Subject"] = f"📰 News Intelligence Brief - {datetime.now().strftime('%Y-%m-%d')}"
+    msg.set_content(html_content, subtype="html")
+    
+    try:
+        with smtplib.SMTP("smtp.mail.me.com", 587) as server:
+            server.starttls()
+            server.login(msg['From'], password)
+            server.send_message(msg)
+        log("Email sent successfully")
+    except Exception as e:
+        log(f"Email sending failed: {e}")
 
 if __name__ == "__main__":
     main()

@@ -1,13 +1,29 @@
-import requests
+import subprocess
 import json
-import ollama 
 
 def generate(prompt):
-    prompt = f"{prompt}\n\n\\no_think"
-    resp = ollama.generate("qwen3:0.6b", prompt, stream=False)
-    print(resp)
-    print(dir(resp))
-    return resp.response.split("</think>")[-1].strip()
+    """Generate text using Claude CLI"""
+    try:
+        # Use Claude CLI with print mode for direct output
+        result = subprocess.run(
+            ["/opt/homebrew/bin/claude", "-p", prompt],
+            capture_output=True,
+            text=True,
+            timeout=180  # Increased timeout for newsletter generation
+        )
+        
+        if result.returncode == 0:
+            return result.stdout.strip()
+        else:
+            print(f"Claude CLI error (code {result.returncode}): {result.stderr}")
+            return ""
+            
+    except subprocess.TimeoutExpired:
+        print("Claude CLI timed out")
+        return ""
+    except Exception as e:
+        print(f"Generation error: {e}")
+        return ""
 
 def parse(response):
     lines = response.split("\n")
