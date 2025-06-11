@@ -279,7 +279,7 @@ def generate_complete_newsletter(articles):
     
     # Second pass: fill remaining slots with diverse sources
     for article in articles:
-        if len(selected_articles) >= 25:
+        if len(selected_articles) >= 40:
             break
         if article.source not in sources_used:
             selected_articles.append(article)
@@ -287,12 +287,12 @@ def generate_complete_newsletter(articles):
     
     # Third pass: add more from any source if needed
     for article in articles:
-        if len(selected_articles) >= 25:
+        if len(selected_articles) >= 40:
             break
         if article not in selected_articles:
             selected_articles.append(article)
     
-    limited_articles = selected_articles[:25]
+    limited_articles = selected_articles[:40]
     
     # Prepare articles for AI processing with concise format
     articles_text = []
@@ -308,7 +308,7 @@ def generate_complete_newsletter(articles):
 ARTICLES:
 {all_articles_text}
 
-OUTPUT: HTML only. Start with <h2>Section Title</h2> then <p>narrative content with <a href="url">source links</a></p>. Create 4-6 sections. Example:
+OUTPUT: HTML only. Start with <h2>Section Title</h2> then <p>narrative content with <a href="url">source links</a></p>. Create 6-8 sections. Example:
 
 <h2>Technology Developments</h2>
 <p>Major tech companies continue advancing AI capabilities. <a href="url1">Company A announced</a> new features while <a href="url2">researchers reported</a> breakthrough findings.</p>
