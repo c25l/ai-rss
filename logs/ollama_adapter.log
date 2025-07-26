@@ -1,0 +1,1516 @@
+2025-07-25 13:22:42,259 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:22:42,260 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:22:43,238 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:22:43,238 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:22:57,073 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 13:22:57,075 - ollama_adapter - INFO - Starting research articles fetch - Model: qwen3:0.6b, Feeds: ['https://export.arxiv.org/rss/cs.AI+cs.LG'], Days back: 1
+2025-07-25 13:22:57,456 - ollama_adapter - INFO - Fetched 359 research articles in 0.38s for validation with qwen3:0.6b
+2025-07-25 13:22:57,456 - ollama_adapter - INFO - Starting validation of 359 research articles...
+2025-07-25 13:22:57,456 - ollama_adapter - INFO - Starting article validation - Title: Enhancing Quantization-Aware Training on Edge Devi...
+2025-07-25 13:22:57,456 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2869 chars
+2025-07-25 13:23:03,939 - ollama_adapter - INFO - Ollama API call completed in 6.48s
+2025-07-25 13:23:03,939 - ollama_adapter - INFO - Ollama query completed successfully in 6.48s - Model: qwen3:0.6b
+2025-07-25 13:23:03,939 - ollama_adapter - INFO - Article validation completed in 6.48s - Result: YES...
+2025-07-25 13:23:03,939 - ollama_adapter - INFO - Starting article validation - Title: ASP-Assisted Symbolic Regression: Uncovering Hidde...
+2025-07-25 13:23:03,940 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3042 chars
+2025-07-25 13:23:09,536 - ollama_adapter - INFO - Ollama API call completed in 5.60s
+2025-07-25 13:23:09,537 - ollama_adapter - INFO - Ollama query completed successfully in 5.60s - Model: qwen3:0.6b
+2025-07-25 13:23:09,537 - ollama_adapter - INFO - Article validation completed in 5.60s - Result: NO...
+2025-07-25 13:23:09,537 - ollama_adapter - INFO - Starting article validation - Title: Knowledge Abstraction for Knowledge-based Semantic...
+2025-07-25 13:23:09,537 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2689 chars
+2025-07-25 13:23:12,727 - ollama_adapter - INFO - Ollama API call completed in 3.19s
+2025-07-25 13:23:12,727 - ollama_adapter - INFO - Ollama query completed successfully in 3.19s - Model: qwen3:0.6b
+2025-07-25 13:23:12,728 - ollama_adapter - INFO - Article validation completed in 3.19s - Result: NO...
+2025-07-25 13:23:12,728 - ollama_adapter - INFO - Starting article validation - Title: Self-similarity Analysis in Deep Neural Networks
+2025-07-25 13:23:12,728 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2470 chars
+2025-07-25 13:23:15,865 - ollama_adapter - INFO - Ollama API call completed in 3.14s
+2025-07-25 13:23:15,865 - ollama_adapter - INFO - Ollama query completed successfully in 3.14s - Model: qwen3:0.6b
+2025-07-25 13:23:15,866 - ollama_adapter - INFO - Article validation completed in 3.14s - Result: NO...
+2025-07-25 13:23:15,866 - ollama_adapter - INFO - Starting article validation - Title: Reinforcement Learning for Accelerated Aerodynamic...
+2025-07-25 13:23:15,866 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2323 chars
+2025-07-25 13:23:18,515 - ollama_adapter - INFO - Ollama API call completed in 2.65s
+2025-07-25 13:23:18,516 - ollama_adapter - INFO - Ollama query completed successfully in 2.65s - Model: qwen3:0.6b
+2025-07-25 13:23:18,516 - ollama_adapter - INFO - Article validation completed in 2.65s - Result: YES...
+2025-07-25 13:23:18,516 - ollama_adapter - INFO - Starting article validation - Title: Hyperbolic Deep Learning for Foundation Models: A ...
+2025-07-25 13:23:18,516 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2613 chars
+2025-07-25 13:23:20,991 - ollama_adapter - INFO - Ollama API call completed in 2.48s
+2025-07-25 13:23:20,992 - ollama_adapter - INFO - Ollama query completed successfully in 2.48s - Model: qwen3:0.6b
+2025-07-25 13:23:20,992 - ollama_adapter - INFO - Article validation completed in 2.48s - Result: NO...
+2025-07-25 13:23:20,993 - ollama_adapter - INFO - Starting article validation - Title: Adaptive Repetition for Mitigating Position Bias i...
+2025-07-25 13:23:20,993 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2869 chars
+2025-07-25 13:23:25,766 - ollama_adapter - INFO - Ollama API call completed in 4.77s
+2025-07-25 13:23:25,766 - ollama_adapter - INFO - Ollama query completed successfully in 4.77s - Model: qwen3:0.6b
+2025-07-25 13:23:25,767 - ollama_adapter - INFO - Article validation completed in 4.77s - Result: YES...
+2025-07-25 13:23:25,767 - ollama_adapter - INFO - Starting article validation - Title: Helix 1.0: An Open-Source Framework for Reproducib...
+2025-07-25 13:23:25,767 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2370 chars
+2025-07-25 13:23:30,385 - ollama_adapter - INFO - Ollama API call completed in 4.62s
+2025-07-25 13:23:30,386 - ollama_adapter - INFO - Ollama query completed successfully in 4.62s - Model: qwen3:0.6b
+2025-07-25 13:23:30,386 - ollama_adapter - INFO - Article validation completed in 4.62s - Result: NO...
+2025-07-25 13:23:30,386 - ollama_adapter - INFO - Starting article validation - Title: Causal Mechanism Estimation in Multi-Sensor System...
+2025-07-25 13:23:30,386 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2138 chars
+2025-07-25 13:23:33,846 - ollama_adapter - INFO - Ollama API call completed in 3.46s
+2025-07-25 13:23:33,847 - ollama_adapter - INFO - Ollama query completed successfully in 3.46s - Model: qwen3:0.6b
+2025-07-25 13:23:33,847 - ollama_adapter - INFO - Article validation completed in 3.46s - Result: NO...
+2025-07-25 13:23:33,847 - ollama_adapter - INFO - Starting article validation - Title: LSDM: LLM-Enhanced Spatio-temporal Diffusion Model...
+2025-07-25 13:23:33,847 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2683 chars
+2025-07-25 13:23:37,405 - ollama_adapter - INFO - Ollama API call completed in 3.56s
+2025-07-25 13:23:37,405 - ollama_adapter - INFO - Ollama query completed successfully in 3.56s - Model: qwen3:0.6b
+2025-07-25 13:23:37,406 - ollama_adapter - INFO - Article validation completed in 3.56s - Result: NO...
+2025-07-25 13:23:37,406 - ollama_adapter - INFO - Research articles progress: 10/359 processed, 3 passed, 7 failed, 3.99s avg per article
+2025-07-25 13:23:37,406 - ollama_adapter - INFO - Starting article validation - Title: CoCAI: Copula-based Conformal Anomaly Identificati...
+2025-07-25 13:23:37,406 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2458 chars
+2025-07-25 13:23:39,705 - ollama_adapter - INFO - Ollama API call completed in 2.30s
+2025-07-25 13:23:39,705 - ollama_adapter - INFO - Ollama query completed successfully in 2.30s - Model: qwen3:0.6b
+2025-07-25 13:23:39,705 - ollama_adapter - INFO - Article validation completed in 2.30s - Result: YES...
+2025-07-25 13:23:39,705 - ollama_adapter - INFO - Starting article validation - Title: GenSelect: A Generative Approach to Best-of-N
+2025-07-25 13:23:39,706 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 1845 chars
+2025-07-25 13:23:43,531 - ollama_adapter - INFO - Ollama API call completed in 3.82s
+2025-07-25 13:23:43,531 - ollama_adapter - INFO - Ollama query completed successfully in 3.83s - Model: qwen3:0.6b
+2025-07-25 13:23:43,531 - ollama_adapter - INFO - Article validation completed in 3.83s - Result: NO...
+2025-07-25 13:23:43,531 - ollama_adapter - INFO - Starting article validation - Title: Wasserstein GAN-Based Precipitation Downscaling wi...
+2025-07-25 13:23:43,532 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2264 chars
+2025-07-25 13:23:47,592 - ollama_adapter - INFO - Ollama API call completed in 4.06s
+2025-07-25 13:23:47,593 - ollama_adapter - INFO - Ollama query completed successfully in 4.06s - Model: qwen3:0.6b
+2025-07-25 13:23:47,593 - ollama_adapter - INFO - Article validation completed in 4.06s - Result: NO...
+2025-07-25 13:23:47,593 - ollama_adapter - INFO - Starting article validation - Title: Explainable Graph Neural Networks via Structural E...
+2025-07-25 13:23:47,593 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2400 chars
+2025-07-25 13:23:50,967 - ollama_adapter - INFO - Ollama API call completed in 3.37s
+2025-07-25 13:23:50,967 - ollama_adapter - INFO - Ollama query completed successfully in 3.37s - Model: qwen3:0.6b
+2025-07-25 13:23:50,967 - ollama_adapter - INFO - Article validation completed in 3.37s - Result: YES...
+2025-07-25 13:23:50,967 - ollama_adapter - INFO - Starting article validation - Title: I2I-STRADA -- Information to Insights via Structur...
+2025-07-25 13:23:50,968 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2489 chars
+2025-07-25 13:23:57,222 - ollama_adapter - INFO - Ollama API call completed in 6.25s
+2025-07-25 13:23:57,223 - ollama_adapter - INFO - Ollama query completed successfully in 6.26s - Model: qwen3:0.6b
+2025-07-25 13:23:57,224 - ollama_adapter - INFO - Article validation completed in 6.26s - Result: NO...
+2025-07-25 13:23:57,224 - ollama_adapter - INFO - Starting article validation - Title: Look the Other Way: Designing 'Positive' Molecules...
+2025-07-25 13:23:57,224 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2185 chars
+2025-07-25 13:24:00,388 - ollama_adapter - INFO - Ollama API call completed in 3.16s
+2025-07-25 13:24:00,389 - ollama_adapter - INFO - Ollama query completed successfully in 3.16s - Model: qwen3:0.6b
+2025-07-25 13:24:00,389 - ollama_adapter - INFO - Article validation completed in 3.17s - Result: NO...
+2025-07-25 13:24:00,389 - ollama_adapter - INFO - Starting article validation - Title: Fourier Neural Operators for Non-Markovian Process...
+2025-07-25 13:24:00,389 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2093 chars
+2025-07-25 13:24:06,200 - ollama_adapter - INFO - Ollama API call completed in 5.81s
+2025-07-25 13:24:06,201 - ollama_adapter - INFO - Ollama query completed successfully in 5.81s - Model: qwen3:0.6b
+2025-07-25 13:24:06,201 - ollama_adapter - INFO - Article validation completed in 5.81s - Result: YES...
+2025-07-25 13:24:06,201 - ollama_adapter - INFO - Starting article validation - Title: Lower Bounds for Public-Private Learning under Dis...
+2025-07-25 13:24:06,201 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2175 chars
+2025-07-25 13:24:09,217 - ollama_adapter - INFO - Ollama API call completed in 3.02s
+2025-07-25 13:24:09,217 - ollama_adapter - INFO - Ollama query completed successfully in 3.02s - Model: qwen3:0.6b
+2025-07-25 13:24:09,217 - ollama_adapter - INFO - Article validation completed in 3.02s - Result: NO...
+2025-07-25 13:24:09,218 - ollama_adapter - INFO - Starting article validation - Title: Federated Learning for Large-Scale Cloud Robotic M...
+2025-07-25 13:24:09,218 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2532 chars
+2025-07-25 13:24:17,719 - ollama_adapter - INFO - Ollama API call completed in 8.50s
+2025-07-25 13:24:17,720 - ollama_adapter - INFO - Ollama query completed successfully in 8.50s - Model: qwen3:0.6b
+2025-07-25 13:24:17,720 - ollama_adapter - INFO - Article validation completed in 8.50s - Result: YES...
+2025-07-25 13:24:17,721 - ollama_adapter - INFO - Starting article validation - Title: Deep learning-aided inverse design of porous metam...
+2025-07-25 13:24:17,721 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2551 chars
+2025-07-25 13:24:20,650 - ollama_adapter - INFO - Ollama API call completed in 2.93s
+2025-07-25 13:24:20,650 - ollama_adapter - INFO - Ollama query completed successfully in 2.93s - Model: qwen3:0.6b
+2025-07-25 13:24:20,651 - ollama_adapter - INFO - Article validation completed in 2.93s - Result: YES...
+2025-07-25 13:24:20,651 - ollama_adapter - INFO - Research articles progress: 20/359 processed, 8 passed, 12 failed, 4.16s avg per article
+2025-07-25 13:24:20,651 - ollama_adapter - INFO - Starting article validation - Title: SETOL: A Semi-Empirical Theory of (Deep) Learning
+2025-07-25 13:24:20,651 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2560 chars
+2025-07-25 13:24:24,677 - ollama_adapter - INFO - Ollama API call completed in 4.03s
+2025-07-25 13:24:24,677 - ollama_adapter - INFO - Ollama query completed successfully in 4.03s - Model: qwen3:0.6b
+2025-07-25 13:24:24,677 - ollama_adapter - INFO - Article validation completed in 4.03s - Result: YES...
+2025-07-25 13:24:24,678 - ollama_adapter - INFO - Starting article validation - Title: From Seed to Harvest: Augmenting Human Creativity ...
+2025-07-25 13:24:24,678 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2774 chars
+2025-07-25 13:24:27,710 - ollama_adapter - INFO - Ollama API call completed in 3.03s
+2025-07-25 13:24:27,711 - ollama_adapter - INFO - Ollama query completed successfully in 3.03s - Model: qwen3:0.6b
+2025-07-25 13:24:27,712 - ollama_adapter - INFO - Article validation completed in 3.03s - Result: NO...
+2025-07-25 13:24:27,712 - ollama_adapter - INFO - Starting article validation - Title: UrbanPulse: A Cross-City Deep Learning Framework f...
+2025-07-25 13:24:27,712 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2578 chars
+2025-07-25 13:24:35,004 - ollama_adapter - INFO - Ollama API call completed in 7.29s
+2025-07-25 13:24:35,005 - ollama_adapter - INFO - Ollama query completed successfully in 7.29s - Model: qwen3:0.6b
+2025-07-25 13:24:35,005 - ollama_adapter - INFO - Article validation completed in 7.29s - Result: YES...
+2025-07-25 13:24:35,005 - ollama_adapter - INFO - Starting article validation - Title: SMARTAPS: Tool-augmented LLMs for Operations Manag...
+2025-07-25 13:24:35,005 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2102 chars
+2025-07-25 13:24:38,825 - ollama_adapter - INFO - Ollama API call completed in 3.82s
+2025-07-25 13:24:38,826 - ollama_adapter - INFO - Ollama query completed successfully in 3.82s - Model: qwen3:0.6b
+2025-07-25 13:24:38,826 - ollama_adapter - INFO - Article validation completed in 3.82s - Result: NO...
+2025-07-25 13:24:38,826 - ollama_adapter - INFO - Starting article validation - Title: Multimodal Fine-grained Reasoning for Post Quality...
+2025-07-25 13:24:38,826 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2642 chars
+2025-07-25 13:24:44,153 - ollama_adapter - INFO - Ollama API call completed in 5.33s
+2025-07-25 13:24:44,154 - ollama_adapter - INFO - Ollama query completed successfully in 5.33s - Model: qwen3:0.6b
+2025-07-25 13:24:44,154 - ollama_adapter - INFO - Article validation completed in 5.33s - Result: NO...
+2025-07-25 13:24:44,154 - ollama_adapter - INFO - Starting article validation - Title: VIBE: Video-Input Brain Encoder for fMRI Response ...
+2025-07-25 13:24:44,154 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 1843 chars
+2025-07-25 13:24:50,905 - ollama_adapter - INFO - Ollama API call completed in 6.75s
+2025-07-25 13:24:50,905 - ollama_adapter - INFO - Ollama query completed successfully in 6.75s - Model: qwen3:0.6b
+2025-07-25 13:24:50,906 - ollama_adapter - INFO - Article validation completed in 6.75s - Result: NO...
+2025-07-25 13:24:50,906 - ollama_adapter - INFO - Starting article validation - Title: Improving the Computational Efficiency and Explain...
+2025-07-25 13:24:50,906 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2394 chars
+2025-07-25 13:24:54,317 - ollama_adapter - INFO - Ollama API call completed in 3.41s
+2025-07-25 13:24:54,318 - ollama_adapter - INFO - Ollama query completed successfully in 3.41s - Model: qwen3:0.6b
+2025-07-25 13:24:54,318 - ollama_adapter - INFO - Article validation completed in 3.41s - Result: YES...
+2025-07-25 13:24:54,318 - ollama_adapter - INFO - Starting article validation - Title: SIFOTL: A Principled, Statistically-Informed Fidel...
+2025-07-25 13:24:54,319 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2695 chars
+2025-07-25 13:25:00,127 - ollama_adapter - INFO - Ollama API call completed in 5.81s
+2025-07-25 13:25:00,128 - ollama_adapter - INFO - Ollama query completed successfully in 5.81s - Model: qwen3:0.6b
+2025-07-25 13:25:00,128 - ollama_adapter - INFO - Article validation completed in 5.81s - Result: YES...
+2025-07-25 13:25:00,128 - ollama_adapter - INFO - Starting article validation - Title: Machine Unlearning of Traffic State Estimation and...
+2025-07-25 13:25:00,128 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2121 chars
+2025-07-25 13:25:06,183 - ollama_adapter - INFO - Ollama API call completed in 6.05s
+2025-07-25 13:25:06,183 - ollama_adapter - INFO - Ollama query completed successfully in 6.06s - Model: qwen3:0.6b
+2025-07-25 13:25:06,184 - ollama_adapter - INFO - Article validation completed in 6.06s - Result: NO...
+2025-07-25 13:25:06,184 - ollama_adapter - INFO - Starting article validation - Title: Synthesis of timeline-based planning strategies av...
+2025-07-25 13:25:06,184 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2094 chars
+2025-07-25 13:25:09,430 - ollama_adapter - INFO - Ollama API call completed in 3.25s
+2025-07-25 13:25:09,430 - ollama_adapter - INFO - Ollama query completed successfully in 3.25s - Model: qwen3:0.6b
+2025-07-25 13:25:09,431 - ollama_adapter - INFO - Article validation completed in 3.25s - Result: YES...
+2025-07-25 13:25:09,431 - ollama_adapter - INFO - Research articles progress: 30/359 processed, 13 passed, 17 failed, 4.40s avg per article
+2025-07-25 13:25:09,431 - ollama_adapter - INFO - Starting article validation - Title: E.A.R.T.H.: Structuring Creative Evolution through...
+2025-07-25 13:25:09,431 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2525 chars
+2025-07-25 13:25:13,249 - ollama_adapter - INFO - Ollama API call completed in 3.82s
+2025-07-25 13:25:13,249 - ollama_adapter - INFO - Ollama query completed successfully in 3.82s - Model: qwen3:0.6b
+2025-07-25 13:25:13,249 - ollama_adapter - INFO - Article validation completed in 3.82s - Result: NO...
+2025-07-25 13:25:13,250 - ollama_adapter - INFO - Starting article validation - Title: Predictive Scaling Laws for Efficient GRPO Trainin...
+2025-07-25 13:25:13,250 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2003 chars
+2025-07-25 13:25:21,498 - ollama_adapter - INFO - Ollama API call completed in 8.25s
+2025-07-25 13:25:21,499 - ollama_adapter - INFO - Ollama query completed successfully in 8.25s - Model: qwen3:0.6b
+2025-07-25 13:25:21,499 - ollama_adapter - INFO - Article validation completed in 8.25s - Result: YES...
+2025-07-25 13:25:21,499 - ollama_adapter - INFO - Starting article validation - Title: Does visualization help AI understand data?
+2025-07-25 13:25:21,499 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 1801 chars
+2025-07-25 13:25:28,185 - ollama_adapter - INFO - Ollama API call completed in 6.69s
+2025-07-25 13:25:28,185 - ollama_adapter - INFO - Ollama query completed successfully in 6.69s - Model: qwen3:0.6b
+2025-07-25 13:25:28,186 - ollama_adapter - INFO - Article validation completed in 6.69s - Result: YES...
+2025-07-25 13:25:28,186 - ollama_adapter - INFO - Starting article validation - Title: Multi-Agent Guided Policy Optimization
+2025-07-25 13:25:28,186 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2249 chars
+2025-07-25 13:25:31,737 - ollama_adapter - INFO - Ollama API call completed in 3.55s
+2025-07-25 13:25:31,737 - ollama_adapter - INFO - Ollama query completed successfully in 3.55s - Model: qwen3:0.6b
+2025-07-25 13:25:31,738 - ollama_adapter - INFO - Article validation completed in 3.55s - Result: NO...
+2025-07-25 13:25:31,738 - ollama_adapter - INFO - Starting article validation - Title: Multiscale Neural PDE Surrogates for Prediction an...
+2025-07-25 13:25:31,738 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2137 chars
+2025-07-25 13:25:36,765 - ollama_adapter - INFO - Ollama API call completed in 5.03s
+2025-07-25 13:25:36,765 - ollama_adapter - INFO - Ollama query completed successfully in 5.03s - Model: qwen3:0.6b
+2025-07-25 13:25:36,766 - ollama_adapter - INFO - Article validation completed in 5.03s - Result: YES...
+2025-07-25 13:25:36,766 - ollama_adapter - INFO - Starting article validation - Title: Group Sequence Policy Optimization
+2025-07-25 13:25:36,766 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 1810 chars
+2025-07-25 13:25:40,692 - ollama_adapter - INFO - Ollama API call completed in 3.93s
+2025-07-25 13:25:40,692 - ollama_adapter - INFO - Ollama query completed successfully in 3.93s - Model: qwen3:0.6b
+2025-07-25 13:25:40,692 - ollama_adapter - INFO - Article validation completed in 3.93s - Result: NO...
+2025-07-25 13:25:40,693 - ollama_adapter - INFO - Starting article validation - Title: C-AAE: Compressively Anonymizing Autoencoders for ...
+2025-07-25 13:25:40,693 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2302 chars
+2025-07-25 13:25:43,878 - ollama_adapter - INFO - Ollama API call completed in 3.19s
+2025-07-25 13:25:43,878 - ollama_adapter - INFO - Ollama query completed successfully in 3.19s - Model: qwen3:0.6b
+2025-07-25 13:25:43,879 - ollama_adapter - INFO - Article validation completed in 3.19s - Result: YES...
+2025-07-25 13:25:43,879 - ollama_adapter - INFO - Starting article validation - Title: Squeeze10-LLM: Squeezing LLMs' Weights by 10 Times...
+2025-07-25 13:25:43,879 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2518 chars
+2025-07-25 13:25:47,605 - ollama_adapter - INFO - Ollama API call completed in 3.73s
+2025-07-25 13:25:47,606 - ollama_adapter - INFO - Ollama query completed successfully in 3.73s - Model: qwen3:0.6b
+2025-07-25 13:25:47,606 - ollama_adapter - INFO - Article validation completed in 3.73s - Result: YES...
+2025-07-25 13:25:47,606 - ollama_adapter - INFO - Starting article validation - Title: AlphaGo Moment for Model Architecture Discovery
+2025-07-25 13:25:47,606 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3033 chars
+2025-07-25 13:25:51,672 - ollama_adapter - INFO - Ollama API call completed in 4.07s
+2025-07-25 13:25:51,673 - ollama_adapter - INFO - Ollama query completed successfully in 4.07s - Model: qwen3:0.6b
+2025-07-25 13:25:51,673 - ollama_adapter - INFO - Article validation completed in 4.07s - Result: YES...
+2025-07-25 13:25:51,673 - ollama_adapter - INFO - Starting article validation - Title: Learning from Hard Labels with Additional Supervis...
+2025-07-25 13:25:51,673 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2981 chars
+2025-07-25 13:25:55,171 - ollama_adapter - INFO - Ollama API call completed in 3.50s
+2025-07-25 13:25:55,172 - ollama_adapter - INFO - Ollama query completed successfully in 3.50s - Model: qwen3:0.6b
+2025-07-25 13:25:55,172 - ollama_adapter - INFO - Article validation completed in 3.50s - Result: NO...
+2025-07-25 13:25:55,172 - ollama_adapter - INFO - Research articles progress: 40/359 processed, 19 passed, 21 failed, 4.44s avg per article
+2025-07-25 13:25:55,172 - ollama_adapter - INFO - Starting article validation - Title: Percentile-Based Deep Reinforcement Learning and R...
+2025-07-25 13:25:55,172 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2442 chars
+2025-07-25 13:26:02,169 - ollama_adapter - INFO - Ollama API call completed in 7.00s
+2025-07-25 13:26:02,170 - ollama_adapter - INFO - Ollama query completed successfully in 7.00s - Model: qwen3:0.6b
+2025-07-25 13:26:02,170 - ollama_adapter - INFO - Article validation completed in 7.00s - Result: YES...
+2025-07-25 13:26:02,170 - ollama_adapter - INFO - Starting article validation - Title: Policy Disruption in Reinforcement Learning:Advers...
+2025-07-25 13:26:02,170 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2283 chars
+2025-07-25 13:26:06,092 - ollama_adapter - INFO - Ollama API call completed in 3.92s
+2025-07-25 13:26:06,093 - ollama_adapter - INFO - Ollama query completed successfully in 3.92s - Model: qwen3:0.6b
+2025-07-25 13:26:06,093 - ollama_adapter - INFO - Article validation completed in 3.92s - Result: NO...
+2025-07-25 13:26:06,093 - ollama_adapter - INFO - Starting article validation - Title: Agentic AI framework for End-to-End Medical Data I...
+2025-07-25 13:26:06,093 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3023 chars
+2025-07-25 13:26:11,064 - ollama_adapter - INFO - Ollama API call completed in 4.97s
+2025-07-25 13:26:11,065 - ollama_adapter - INFO - Ollama query completed successfully in 4.97s - Model: qwen3:0.6b
+2025-07-25 13:26:11,065 - ollama_adapter - INFO - Article validation completed in 4.97s - Result: NO...
+2025-07-25 13:26:11,065 - ollama_adapter - INFO - Starting article validation - Title: Maximizing Prefix-Confidence at Test-Time Efficien...
+2025-07-25 13:26:11,065 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2248 chars
+2025-07-25 13:26:14,645 - ollama_adapter - INFO - Ollama API call completed in 3.58s
+2025-07-25 13:26:14,646 - ollama_adapter - INFO - Ollama query completed successfully in 3.58s - Model: qwen3:0.6b
+2025-07-25 13:26:14,646 - ollama_adapter - INFO - Article validation completed in 3.58s - Result: NO...
+2025-07-25 13:26:14,646 - ollama_adapter - INFO - Starting article validation - Title: Actively evaluating and learning the distinctions ...
+2025-07-25 13:26:14,646 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2619 chars
+2025-07-25 13:26:19,260 - ollama_adapter - INFO - Ollama API call completed in 4.61s
+2025-07-25 13:26:19,260 - ollama_adapter - INFO - Ollama query completed successfully in 4.61s - Model: qwen3:0.6b
+2025-07-25 13:26:19,260 - ollama_adapter - INFO - Article validation completed in 4.61s - Result: NO...
+2025-07-25 13:26:19,261 - ollama_adapter - INFO - Starting article validation - Title: Neuromorphic Computing for Embodied Intelligence i...
+2025-07-25 13:26:19,261 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2470 chars
+2025-07-25 13:26:22,665 - ollama_adapter - INFO - Ollama API call completed in 3.40s
+2025-07-25 13:26:22,666 - ollama_adapter - INFO - Ollama query completed successfully in 3.40s - Model: qwen3:0.6b
+2025-07-25 13:26:22,666 - ollama_adapter - INFO - Article validation completed in 3.41s - Result: NO...
+2025-07-25 13:26:22,666 - ollama_adapter - INFO - Starting article validation - Title: Logical Characterizations of GNNs with Mean Aggreg...
+2025-07-25 13:26:22,666 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2127 chars
+2025-07-25 13:26:25,651 - ollama_adapter - INFO - Ollama API call completed in 2.98s
+2025-07-25 13:26:25,651 - ollama_adapter - INFO - Ollama query completed successfully in 2.99s - Model: qwen3:0.6b
+2025-07-25 13:26:25,651 - ollama_adapter - INFO - Article validation completed in 2.99s - Result: NO...
+2025-07-25 13:26:25,651 - ollama_adapter - INFO - Starting article validation - Title: When Noisy Labels Meet Class Imbalance on Graphs: ...
+2025-07-25 13:26:25,652 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2394 chars
+2025-07-25 13:26:28,184 - ollama_adapter - INFO - Ollama API call completed in 2.53s
+2025-07-25 13:26:28,184 - ollama_adapter - INFO - Ollama query completed successfully in 2.53s - Model: qwen3:0.6b
+2025-07-25 13:26:28,185 - ollama_adapter - INFO - Article validation completed in 2.53s - Result: YES...
+2025-07-25 13:26:28,185 - ollama_adapter - INFO - Starting article validation - Title: Decoupling Knowledge and Reasoning in LLMs: An Exp...
+2025-07-25 13:26:28,185 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2755 chars
+2025-07-25 13:26:32,512 - ollama_adapter - INFO - Ollama API call completed in 4.33s
+2025-07-25 13:26:32,512 - ollama_adapter - INFO - Ollama query completed successfully in 4.33s - Model: qwen3:0.6b
+2025-07-25 13:26:32,512 - ollama_adapter - INFO - Article validation completed in 4.33s - Result: YES...
+2025-07-25 13:26:32,513 - ollama_adapter - INFO - Starting article validation - Title: ChronoSelect: Robust Learning with Noisy Labels vi...
+2025-07-25 13:26:32,513 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2389 chars
+2025-07-25 13:26:35,611 - ollama_adapter - INFO - Ollama API call completed in 3.10s
+2025-07-25 13:26:35,612 - ollama_adapter - INFO - Ollama query completed successfully in 3.10s - Model: qwen3:0.6b
+2025-07-25 13:26:35,612 - ollama_adapter - INFO - Article validation completed in 3.10s - Result: YES...
+2025-07-25 13:26:35,613 - ollama_adapter - INFO - Research articles progress: 50/359 processed, 23 passed, 27 failed, 4.36s avg per article
+2025-07-25 13:26:35,613 - ollama_adapter - INFO - Starting article validation - Title: Goal-based Trajectory Prediction for improved Cros...
+2025-07-25 13:26:35,613 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2084 chars
+2025-07-25 13:26:41,039 - ollama_adapter - INFO - Ollama API call completed in 5.43s
+2025-07-25 13:26:41,040 - ollama_adapter - INFO - Ollama query completed successfully in 5.43s - Model: qwen3:0.6b
+2025-07-25 13:26:41,040 - ollama_adapter - INFO - Article validation completed in 5.43s - Result: YES...
+2025-07-25 13:26:41,040 - ollama_adapter - INFO - Starting article validation - Title: Comparing Non-minimal Semantics for Disjunction in...
+2025-07-25 13:26:41,040 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2241 chars
+2025-07-25 13:26:44,333 - ollama_adapter - INFO - Ollama API call completed in 3.29s
+2025-07-25 13:26:44,334 - ollama_adapter - INFO - Ollama query completed successfully in 3.29s - Model: qwen3:0.6b
+2025-07-25 13:26:44,334 - ollama_adapter - INFO - Article validation completed in 3.29s - Result: NO...
+2025-07-25 13:26:44,334 - ollama_adapter - INFO - Starting article validation - Title: FedSA-GCL: A Semi-Asynchronous Federated Graph Lea...
+2025-07-25 13:26:44,334 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2500 chars
+2025-07-25 13:26:47,471 - ollama_adapter - INFO - Ollama API call completed in 3.14s
+2025-07-25 13:26:47,472 - ollama_adapter - INFO - Ollama query completed successfully in 3.14s - Model: qwen3:0.6b
+2025-07-25 13:26:47,472 - ollama_adapter - INFO - Article validation completed in 3.14s - Result: YES...
+2025-07-25 13:26:47,472 - ollama_adapter - INFO - Starting article validation - Title: Sparse identification of nonlinear dynamics with l...
+2025-07-25 13:26:47,472 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2847 chars
+2025-07-25 13:26:53,692 - ollama_adapter - INFO - Ollama API call completed in 6.22s
+2025-07-25 13:26:53,694 - ollama_adapter - INFO - Ollama query completed successfully in 6.22s - Model: qwen3:0.6b
+2025-07-25 13:26:53,694 - ollama_adapter - INFO - Article validation completed in 6.22s - Result: NO...
+2025-07-25 13:26:53,694 - ollama_adapter - INFO - Starting article validation - Title: Boosting Revisited: Benchmarking and Advancing LP-...
+2025-07-25 13:26:53,694 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2087 chars
+2025-07-25 13:27:01,461 - ollama_adapter - INFO - Ollama API call completed in 7.77s
+2025-07-25 13:27:01,461 - ollama_adapter - INFO - Ollama query completed successfully in 7.77s - Model: qwen3:0.6b
+2025-07-25 13:27:01,462 - ollama_adapter - INFO - Article validation completed in 7.77s - Result: NO...
+2025-07-25 13:27:01,462 - ollama_adapter - INFO - Starting article validation - Title: Foundations for Risk Assessment of AI in Protectin...
+2025-07-25 13:27:01,462 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2563 chars
+2025-07-25 13:27:05,784 - ollama_adapter - INFO - Ollama API call completed in 4.32s
+2025-07-25 13:27:05,785 - ollama_adapter - INFO - Ollama query completed successfully in 4.32s - Model: qwen3:0.6b
+2025-07-25 13:27:05,786 - ollama_adapter - INFO - Article validation completed in 4.32s - Result: NO...
+2025-07-25 13:27:05,786 - ollama_adapter - INFO - Starting article validation - Title: Leveraging Data Augmentation and Siamese Learning ...
+2025-07-25 13:27:05,786 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2400 chars
+2025-07-25 13:27:12,462 - ollama_adapter - INFO - Ollama API call completed in 6.68s
+2025-07-25 13:27:12,462 - ollama_adapter - INFO - Ollama query completed successfully in 6.68s - Model: qwen3:0.6b
+2025-07-25 13:27:12,463 - ollama_adapter - INFO - Article validation completed in 6.68s - Result: NO...
+2025-07-25 13:27:12,463 - ollama_adapter - INFO - Starting article validation - Title: Self-Supervised Coarsening of Unstructured Grid wi...
+2025-07-25 13:27:12,463 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2064 chars
+2025-07-25 13:27:14,885 - ollama_adapter - INFO - Ollama API call completed in 2.42s
+2025-07-25 13:27:14,886 - ollama_adapter - INFO - Ollama query completed successfully in 2.42s - Model: qwen3:0.6b
+2025-07-25 13:27:14,886 - ollama_adapter - INFO - Article validation completed in 2.42s - Result: YES...
+2025-07-25 13:27:14,886 - ollama_adapter - INFO - Starting article validation - Title: Regression-aware Continual Learning for Android Ma...
+2025-07-25 13:27:14,886 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2625 chars
+2025-07-25 13:27:24,701 - ollama_adapter - INFO - Ollama API call completed in 9.81s
+2025-07-25 13:27:24,702 - ollama_adapter - INFO - Ollama query completed successfully in 9.82s - Model: qwen3:0.6b
+2025-07-25 13:27:24,702 - ollama_adapter - INFO - Article validation completed in 9.82s - Result: YES...
+2025-07-25 13:27:24,702 - ollama_adapter - INFO - Starting article validation - Title: State of Health Estimation of Batteries Using a Ti...
+2025-07-25 13:27:24,702 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3005 chars
+2025-07-25 13:27:28,683 - ollama_adapter - INFO - Ollama API call completed in 3.98s
+2025-07-25 13:27:28,683 - ollama_adapter - INFO - Ollama query completed successfully in 3.98s - Model: qwen3:0.6b
+2025-07-25 13:27:28,684 - ollama_adapter - INFO - Article validation completed in 3.98s - Result: NO...
+2025-07-25 13:27:28,684 - ollama_adapter - INFO - Research articles progress: 60/359 processed, 27 passed, 33 failed, 4.52s avg per article
+2025-07-25 13:27:28,684 - ollama_adapter - INFO - Starting article validation - Title: Remembering the Markov Property in Cooperative MAR...
+2025-07-25 13:27:28,684 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2479 chars
+2025-07-25 13:27:32,606 - ollama_adapter - INFO - Ollama API call completed in 3.92s
+2025-07-25 13:27:32,606 - ollama_adapter - INFO - Ollama query completed successfully in 3.92s - Model: qwen3:0.6b
+2025-07-25 13:27:32,607 - ollama_adapter - INFO - Article validation completed in 3.92s - Result: YES...
+2025-07-25 13:27:32,607 - ollama_adapter - INFO - Starting article validation - Title: The AlphaPhysics Term Rewriting System for Marking...
+2025-07-25 13:27:32,607 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2239 chars
+2025-07-25 13:27:36,998 - ollama_adapter - INFO - Ollama API call completed in 4.39s
+2025-07-25 13:27:36,999 - ollama_adapter - INFO - Ollama query completed successfully in 4.39s - Model: qwen3:0.6b
+2025-07-25 13:27:36,999 - ollama_adapter - INFO - Article validation completed in 4.39s - Result: YES...
+2025-07-25 13:27:36,999 - ollama_adapter - INFO - Starting article validation - Title: Low-rank adaptive physics-informed HyperDeepONets ...
+2025-07-25 13:27:36,999 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2147 chars
+2025-07-25 13:27:42,072 - ollama_adapter - INFO - Ollama API call completed in 5.07s
+2025-07-25 13:27:42,073 - ollama_adapter - INFO - Ollama query completed successfully in 5.07s - Model: qwen3:0.6b
+2025-07-25 13:27:42,073 - ollama_adapter - INFO - Article validation completed in 5.07s - Result: YES...
+2025-07-25 13:27:42,073 - ollama_adapter - INFO - Starting article validation - Title: Efficient Uncertainty in LLMs through Evidential K...
+2025-07-25 13:27:42,073 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2479 chars
+2025-07-25 13:27:46,496 - ollama_adapter - INFO - Ollama API call completed in 4.42s
+2025-07-25 13:27:46,497 - ollama_adapter - INFO - Ollama query completed successfully in 4.42s - Model: qwen3:0.6b
+2025-07-25 13:27:46,497 - ollama_adapter - INFO - Article validation completed in 4.42s - Result: YES  
+The paper pres...
+2025-07-25 13:27:46,497 - ollama_adapter - INFO - Starting article validation - Title: Reasoning Beyond the Obvious: Evaluating Divergent...
+2025-07-25 13:27:46,498 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2098 chars
+2025-07-25 13:27:49,827 - ollama_adapter - INFO - Ollama API call completed in 3.33s
+2025-07-25 13:27:49,828 - ollama_adapter - INFO - Ollama query completed successfully in 3.33s - Model: qwen3:0.6b
+2025-07-25 13:27:49,828 - ollama_adapter - INFO - Article validation completed in 3.33s - Result: NO...
+2025-07-25 13:27:49,828 - ollama_adapter - INFO - Starting article validation - Title: A Comprehensive Review of Diffusion Models in Smar...
+2025-07-25 13:27:49,828 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2704 chars
+2025-07-25 13:27:53,759 - ollama_adapter - INFO - Ollama API call completed in 3.93s
+2025-07-25 13:27:53,759 - ollama_adapter - INFO - Ollama query completed successfully in 3.93s - Model: qwen3:0.6b
+2025-07-25 13:27:53,760 - ollama_adapter - INFO - Article validation completed in 3.93s - Result: NO...
+2025-07-25 13:27:53,760 - ollama_adapter - INFO - Starting article validation - Title: Revisiting LLM Reasoning via Information Bottlenec...
+2025-07-25 13:27:53,760 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2433 chars
+2025-07-25 13:27:56,272 - ollama_adapter - INFO - Ollama API call completed in 2.51s
+2025-07-25 13:27:56,273 - ollama_adapter - INFO - Ollama query completed successfully in 2.51s - Model: qwen3:0.6b
+2025-07-25 13:27:56,273 - ollama_adapter - INFO - Article validation completed in 2.51s - Result: YES...
+2025-07-25 13:27:56,273 - ollama_adapter - INFO - Starting article validation - Title: Optimising Call Centre Operations using Reinforcem...
+2025-07-25 13:27:56,273 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2218 chars
+2025-07-25 13:28:00,567 - ollama_adapter - INFO - Ollama API call completed in 4.29s
+2025-07-25 13:28:00,568 - ollama_adapter - INFO - Ollama query completed successfully in 4.29s - Model: qwen3:0.6b
+2025-07-25 13:28:00,568 - ollama_adapter - INFO - Article validation completed in 4.29s - Result: YES  
+The paper pres...
+2025-07-25 13:28:00,568 - ollama_adapter - INFO - Starting article validation - Title: GPU Accelerated Compact-Table Propagation
+2025-07-25 13:28:00,568 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2500 chars
+2025-07-25 13:28:06,455 - ollama_adapter - INFO - Ollama API call completed in 5.89s
+2025-07-25 13:28:06,456 - ollama_adapter - INFO - Ollama query completed successfully in 5.89s - Model: qwen3:0.6b
+2025-07-25 13:28:06,456 - ollama_adapter - INFO - Article validation completed in 5.89s - Result: NO...
+2025-07-25 13:28:06,456 - ollama_adapter - INFO - Starting article validation - Title: Multi-Model Ensemble and Reservoir Computing for R...
+2025-07-25 13:28:06,456 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2992 chars
+2025-07-25 13:28:10,454 - ollama_adapter - INFO - Ollama API call completed in 4.00s
+2025-07-25 13:28:10,455 - ollama_adapter - INFO - Ollama query completed successfully in 4.00s - Model: qwen3:0.6b
+2025-07-25 13:28:10,455 - ollama_adapter - INFO - Article validation completed in 4.00s - Result: NO...
+2025-07-25 13:28:10,455 - ollama_adapter - INFO - Research articles progress: 70/359 processed, 31 passed, 39 failed, 4.47s avg per article
+2025-07-25 13:28:10,455 - ollama_adapter - INFO - Starting article validation - Title: Revisiting Bisimulation Metric for Robust Represen...
+2025-07-25 13:28:10,455 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2375 chars
+2025-07-25 13:28:14,350 - ollama_adapter - INFO - Ollama API call completed in 3.89s
+2025-07-25 13:28:14,351 - ollama_adapter - INFO - Ollama query completed successfully in 3.90s - Model: qwen3:0.6b
+2025-07-25 13:28:14,351 - ollama_adapter - INFO - Article validation completed in 3.90s - Result: YES...
+2025-07-25 13:28:14,351 - ollama_adapter - INFO - Starting article validation - Title: GLANCE: Graph Logic Attention Network with Cluster...
+2025-07-25 13:28:14,351 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2313 chars
+2025-07-25 13:28:17,362 - ollama_adapter - INFO - Ollama API call completed in 3.01s
+2025-07-25 13:28:17,363 - ollama_adapter - INFO - Ollama query completed successfully in 3.01s - Model: qwen3:0.6b
+2025-07-25 13:28:17,363 - ollama_adapter - INFO - Article validation completed in 3.01s - Result: NO...
+2025-07-25 13:28:17,363 - ollama_adapter - INFO - Starting article validation - Title: C2G-KD: PCA-Constrained Generator for Data-Free Kn...
+2025-07-25 13:28:17,363 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 1821 chars
+2025-07-25 13:28:22,363 - ollama_adapter - INFO - Ollama API call completed in 5.00s
+2025-07-25 13:28:22,363 - ollama_adapter - INFO - Ollama query completed successfully in 5.00s - Model: qwen3:0.6b
+2025-07-25 13:28:22,364 - ollama_adapter - INFO - Article validation completed in 5.00s - Result: NO...
+2025-07-25 13:28:22,364 - ollama_adapter - INFO - Starting article validation - Title: The Price equation reveals a universal force-metri...
+2025-07-25 13:28:22,364 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2406 chars
+2025-07-25 13:28:26,478 - ollama_adapter - INFO - Ollama API call completed in 4.11s
+2025-07-25 13:28:26,479 - ollama_adapter - INFO - Ollama query completed successfully in 4.12s - Model: qwen3:0.6b
+2025-07-25 13:28:26,479 - ollama_adapter - INFO - Article validation completed in 4.12s - Result: NO...
+2025-07-25 13:28:26,479 - ollama_adapter - INFO - Starting article validation - Title: On the Performance of Concept Probing: The Influen...
+2025-07-25 13:28:26,479 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2068 chars
+2025-07-25 13:28:30,108 - ollama_adapter - INFO - Ollama API call completed in 3.63s
+2025-07-25 13:28:30,109 - ollama_adapter - INFO - Ollama query completed successfully in 3.63s - Model: qwen3:0.6b
+2025-07-25 13:28:30,109 - ollama_adapter - INFO - Article validation completed in 3.63s - Result: NO...
+2025-07-25 13:28:30,109 - ollama_adapter - INFO - Starting article validation - Title: The Geometry of LLM Quantization: GPTQ as Babai's ...
+2025-07-25 13:28:30,109 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2355 chars
+2025-07-25 13:28:36,908 - ollama_adapter - INFO - Ollama API call completed in 6.80s
+2025-07-25 13:28:36,909 - ollama_adapter - INFO - Ollama query completed successfully in 6.80s - Model: qwen3:0.6b
+2025-07-25 13:28:36,909 - ollama_adapter - INFO - Article validation completed in 6.80s - Result: NO...
+2025-07-25 13:28:36,909 - ollama_adapter - INFO - Starting article validation - Title: Neural Tangent Kernels and Fisher Information Matr...
+2025-07-25 13:28:36,910 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 1577 chars
+2025-07-25 13:28:39,437 - ollama_adapter - INFO - Ollama API call completed in 2.53s
+2025-07-25 13:28:39,438 - ollama_adapter - INFO - Ollama query completed successfully in 2.53s - Model: qwen3:0.6b
+2025-07-25 13:28:39,438 - ollama_adapter - INFO - Article validation completed in 2.53s - Result: NO...
+2025-07-25 13:28:39,438 - ollama_adapter - INFO - Starting article validation - Title: Beyond Internal Data: Constructing Complete Datase...
+2025-07-25 13:28:39,439 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2633 chars
+2025-07-25 13:28:42,750 - ollama_adapter - INFO - Ollama API call completed in 3.31s
+2025-07-25 13:28:42,750 - ollama_adapter - INFO - Ollama query completed successfully in 3.31s - Model: qwen3:0.6b
+2025-07-25 13:28:42,751 - ollama_adapter - INFO - Article validation completed in 3.31s - Result: NO...
+2025-07-25 13:28:42,751 - ollama_adapter - INFO - Starting article validation - Title: SafeWork-R1: Coevolving Safety and Intelligence un...
+2025-07-25 13:28:42,751 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2487 chars
+2025-07-25 13:28:48,379 - ollama_adapter - INFO - Ollama API call completed in 5.63s
+2025-07-25 13:28:48,379 - ollama_adapter - INFO - Ollama query completed successfully in 5.63s - Model: qwen3:0.6b
+2025-07-25 13:28:48,379 - ollama_adapter - INFO - Article validation completed in 5.63s - Result: YES...
+2025-07-25 13:28:48,380 - ollama_adapter - INFO - Starting article validation - Title: Linear Memory SE(2) Invariant Attention
+2025-07-25 13:28:48,380 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2030 chars
+2025-07-25 13:28:52,017 - ollama_adapter - INFO - Ollama API call completed in 3.64s
+2025-07-25 13:28:52,018 - ollama_adapter - INFO - Ollama query completed successfully in 3.64s - Model: qwen3:0.6b
+2025-07-25 13:28:52,018 - ollama_adapter - INFO - Article validation completed in 3.64s - Result: YES...
+2025-07-25 13:28:52,018 - ollama_adapter - INFO - Research articles progress: 80/359 processed, 34 passed, 46 failed, 4.43s avg per article
+2025-07-25 13:28:52,018 - ollama_adapter - INFO - Starting article validation - Title: Demystify Protein Generation with Hierarchical Con...
+2025-07-25 13:28:52,018 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2570 chars
+2025-07-25 13:28:57,900 - ollama_adapter - INFO - Ollama API call completed in 5.88s
+2025-07-25 13:28:57,901 - ollama_adapter - INFO - Ollama query completed successfully in 5.88s - Model: qwen3:0.6b
+2025-07-25 13:28:57,901 - ollama_adapter - INFO - Article validation completed in 5.88s - Result: YES...
+2025-07-25 13:28:57,901 - ollama_adapter - INFO - Starting article validation - Title: Moving Out: Physically-grounded Human-AI Collabora...
+2025-07-25 13:28:57,902 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2413 chars
+2025-07-25 13:29:01,798 - ollama_adapter - INFO - Ollama API call completed in 3.90s
+2025-07-25 13:29:01,799 - ollama_adapter - INFO - Ollama query completed successfully in 3.90s - Model: qwen3:0.6b
+2025-07-25 13:29:01,799 - ollama_adapter - INFO - Article validation completed in 3.90s - Result: NO...
+2025-07-25 13:29:01,799 - ollama_adapter - INFO - Starting article validation - Title: Gait Recognition Based on Tiny ML and IMU Sensors
+2025-07-25 13:29:01,799 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2333 chars
+2025-07-25 13:29:05,631 - ollama_adapter - INFO - Ollama API call completed in 3.83s
+2025-07-25 13:29:05,632 - ollama_adapter - INFO - Ollama query completed successfully in 3.83s - Model: qwen3:0.6b
+2025-07-25 13:29:05,632 - ollama_adapter - INFO - Article validation completed in 3.83s - Result: NO...
+2025-07-25 13:29:05,632 - ollama_adapter - INFO - Starting article validation - Title: Mapping Technological Futures: Anticipatory Discou...
+2025-07-25 13:29:05,632 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2627 chars
+2025-07-25 13:29:10,569 - ollama_adapter - INFO - Ollama API call completed in 4.94s
+2025-07-25 13:29:10,570 - ollama_adapter - INFO - Ollama query completed successfully in 4.94s - Model: qwen3:0.6b
+2025-07-25 13:29:10,570 - ollama_adapter - INFO - Article validation completed in 4.94s - Result: NO...
+2025-07-25 13:29:10,570 - ollama_adapter - INFO - Starting article validation - Title: Learning from Heterogeneity: Generalizing Dynamic ...
+2025-07-25 13:29:10,570 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2686 chars
+2025-07-25 13:29:14,365 - ollama_adapter - INFO - Ollama API call completed in 3.80s
+2025-07-25 13:29:14,366 - ollama_adapter - INFO - Ollama query completed successfully in 3.80s - Model: qwen3:0.6b
+2025-07-25 13:29:14,366 - ollama_adapter - INFO - Article validation completed in 3.80s - Result: YES...
+2025-07-25 13:29:14,366 - ollama_adapter - INFO - Starting article validation - Title: Hybrid Reward-Driven Reinforcement Learning for Ef...
+2025-07-25 13:29:14,366 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2665 chars
+2025-07-25 13:29:20,116 - ollama_adapter - INFO - Ollama API call completed in 5.75s
+2025-07-25 13:29:20,117 - ollama_adapter - INFO - Ollama query completed successfully in 5.75s - Model: qwen3:0.6b
+2025-07-25 13:29:20,117 - ollama_adapter - INFO - Article validation completed in 5.75s - Result: NO...
+2025-07-25 13:29:20,117 - ollama_adapter - INFO - Starting article validation - Title: Exploring Communication Strategies for Collaborati...
+2025-07-25 13:29:20,117 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2283 chars
+2025-07-25 13:29:26,215 - ollama_adapter - INFO - Ollama API call completed in 6.10s
+2025-07-25 13:29:26,216 - ollama_adapter - INFO - Ollama query completed successfully in 6.10s - Model: qwen3:0.6b
+2025-07-25 13:29:26,216 - ollama_adapter - INFO - Article validation completed in 6.10s - Result: YES...
+2025-07-25 13:29:26,216 - ollama_adapter - INFO - Starting article validation - Title: A Custom-Built Ambient Scribe Reduces Cognitive Lo...
+2025-07-25 13:29:26,216 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2342 chars
+2025-07-25 13:29:29,476 - ollama_adapter - INFO - Ollama API call completed in 3.26s
+2025-07-25 13:29:29,476 - ollama_adapter - INFO - Ollama query completed successfully in 3.26s - Model: qwen3:0.6b
+2025-07-25 13:29:29,477 - ollama_adapter - INFO - Article validation completed in 3.26s - Result: NO...
+2025-07-25 13:29:29,477 - ollama_adapter - INFO - Starting article validation - Title: Insights from Railway Professionals: Rethinking Ra...
+2025-07-25 13:29:29,477 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2183 chars
+2025-07-25 13:29:32,983 - ollama_adapter - INFO - Ollama API call completed in 3.51s
+2025-07-25 13:29:32,984 - ollama_adapter - INFO - Ollama query completed successfully in 3.51s - Model: qwen3:0.6b
+2025-07-25 13:29:32,984 - ollama_adapter - INFO - Article validation completed in 3.51s - Result: NO...
+2025-07-25 13:29:32,984 - ollama_adapter - INFO - Starting article validation - Title: BrisT1D Dataset: Young Adults with Type 1 Diabetes...
+2025-07-25 13:29:32,984 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2474 chars
+2025-07-25 13:29:37,791 - ollama_adapter - INFO - Ollama API call completed in 4.81s
+2025-07-25 13:29:37,792 - ollama_adapter - INFO - Ollama query completed successfully in 4.81s - Model: qwen3:0.6b
+2025-07-25 13:29:37,792 - ollama_adapter - INFO - Article validation completed in 4.81s - Result: NO...
+2025-07-25 13:29:37,792 - ollama_adapter - INFO - Research articles progress: 90/359 processed, 37 passed, 53 failed, 4.45s avg per article
+2025-07-25 13:29:37,793 - ollama_adapter - INFO - Starting article validation - Title: How Instructional Sequence and Personalized Suppor...
+2025-07-25 13:29:37,793 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2137 chars
+2025-07-25 13:29:40,992 - ollama_adapter - INFO - Ollama API call completed in 3.20s
+2025-07-25 13:29:40,992 - ollama_adapter - INFO - Ollama query completed successfully in 3.20s - Model: qwen3:0.6b
+2025-07-25 13:29:40,992 - ollama_adapter - INFO - Article validation completed in 3.20s - Result: NO...
+2025-07-25 13:29:40,992 - ollama_adapter - INFO - Starting article validation - Title: ASR-Guided Speaker-Role Diarization and Diarizatio...
+2025-07-25 13:29:40,993 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2074 chars
+2025-07-25 13:29:44,539 - ollama_adapter - INFO - Ollama API call completed in 3.55s
+2025-07-25 13:29:44,539 - ollama_adapter - INFO - Ollama query completed successfully in 3.55s - Model: qwen3:0.6b
+2025-07-25 13:29:44,540 - ollama_adapter - INFO - Article validation completed in 3.55s - Result: NO...
+2025-07-25 13:29:44,540 - ollama_adapter - INFO - Starting article validation - Title: Incentivised Orchestrated Training Architecture (I...
+2025-07-25 13:29:44,540 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2919 chars
+2025-07-25 13:29:50,369 - ollama_adapter - INFO - Ollama API call completed in 5.83s
+2025-07-25 13:29:50,370 - ollama_adapter - INFO - Ollama query completed successfully in 5.83s - Model: qwen3:0.6b
+2025-07-25 13:29:50,370 - ollama_adapter - INFO - Article validation completed in 5.83s - Result: NO...
+2025-07-25 13:29:50,370 - ollama_adapter - INFO - Starting article validation - Title: PolyServe: Efficient Multi-SLO Serving at Scale
+2025-07-25 13:29:50,370 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3035 chars
+2025-07-25 13:29:53,915 - ollama_adapter - INFO - Ollama API call completed in 3.54s
+2025-07-25 13:29:53,915 - ollama_adapter - INFO - Ollama query completed successfully in 3.54s - Model: qwen3:0.6b
+2025-07-25 13:29:53,915 - ollama_adapter - INFO - Article validation completed in 3.55s - Result: NO...
+2025-07-25 13:29:53,916 - ollama_adapter - INFO - Starting article validation - Title: Caching Techniques for Reducing the Communication ...
+2025-07-25 13:29:53,916 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 1963 chars
+2025-07-25 13:29:57,630 - ollama_adapter - INFO - Ollama API call completed in 3.71s
+2025-07-25 13:29:57,631 - ollama_adapter - INFO - Ollama query completed successfully in 3.71s - Model: qwen3:0.6b
+2025-07-25 13:29:57,631 - ollama_adapter - INFO - Article validation completed in 3.72s - Result: YES...
+2025-07-25 13:29:57,631 - ollama_adapter - INFO - Starting article validation - Title: MultiKernelBench: A Multi-Platform Benchmark for K...
+2025-07-25 13:29:57,631 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2552 chars
+2025-07-25 13:30:02,911 - ollama_adapter - INFO - Ollama API call completed in 5.28s
+2025-07-25 13:30:02,911 - ollama_adapter - INFO - Ollama query completed successfully in 5.28s - Model: qwen3:0.6b
+2025-07-25 13:30:02,912 - ollama_adapter - INFO - Article validation completed in 5.28s - Result: NO...
+2025-07-25 13:30:02,912 - ollama_adapter - INFO - Starting article validation - Title: Human-AI Co-Creation: A Framework for Collaborativ...
+2025-07-25 13:30:02,912 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 1859 chars
+2025-07-25 13:30:05,189 - ollama_adapter - INFO - Ollama API call completed in 2.28s
+2025-07-25 13:30:05,189 - ollama_adapter - INFO - Ollama query completed successfully in 2.28s - Model: qwen3:0.6b
+2025-07-25 13:30:05,189 - ollama_adapter - INFO - Article validation completed in 2.28s - Result: NO...
+2025-07-25 13:30:05,189 - ollama_adapter - INFO - Starting article validation - Title: Comparison of Optimised Geometric Deep Learning Ar...
+2025-07-25 13:30:05,190 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2787 chars
+2025-07-25 13:30:09,681 - ollama_adapter - INFO - Ollama API call completed in 4.49s
+2025-07-25 13:30:09,682 - ollama_adapter - INFO - Ollama query completed successfully in 4.49s - Model: qwen3:0.6b
+2025-07-25 13:30:09,682 - ollama_adapter - INFO - Article validation completed in 4.49s - Result: YES...
+2025-07-25 13:30:09,682 - ollama_adapter - INFO - Starting article validation - Title: Axiomatizing Rumsfeld Ignorance
+2025-07-25 13:30:09,683 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 1925 chars
+2025-07-25 13:30:12,787 - ollama_adapter - INFO - Ollama API call completed in 3.10s
+2025-07-25 13:30:12,788 - ollama_adapter - INFO - Ollama query completed successfully in 3.11s - Model: qwen3:0.6b
+2025-07-25 13:30:12,788 - ollama_adapter - INFO - Article validation completed in 3.11s - Result: NO...
+2025-07-25 13:30:12,788 - ollama_adapter - INFO - Starting article validation - Title: An advanced AI driven database system
+2025-07-25 13:30:12,788 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2453 chars
+2025-07-25 13:30:15,340 - ollama_adapter - INFO - Ollama API call completed in 2.55s
+2025-07-25 13:30:15,340 - ollama_adapter - INFO - Ollama query completed successfully in 2.55s - Model: qwen3:0.6b
+2025-07-25 13:30:15,341 - ollama_adapter - INFO - Article validation completed in 2.55s - Result: NO...
+2025-07-25 13:30:15,341 - ollama_adapter - INFO - Research articles progress: 100/359 processed, 39 passed, 61 failed, 4.38s avg per article
+2025-07-25 13:30:15,341 - ollama_adapter - INFO - Starting article validation - Title: CM-UNet: A Self-Supervised Learning-Based Model fo...
+2025-07-25 13:30:15,341 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2641 chars
+2025-07-25 13:30:20,253 - ollama_adapter - INFO - Ollama API call completed in 4.91s
+2025-07-25 13:30:20,253 - ollama_adapter - INFO - Ollama query completed successfully in 4.91s - Model: qwen3:0.6b
+2025-07-25 13:30:20,254 - ollama_adapter - INFO - Article validation completed in 4.91s - Result: YES...
+2025-07-25 13:30:20,254 - ollama_adapter - INFO - Starting article validation - Title: In Reverie Together: Ten Years of Mathematical Dis...
+2025-07-25 13:30:20,254 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2166 chars
+2025-07-25 13:30:23,239 - ollama_adapter - INFO - Ollama API call completed in 2.98s
+2025-07-25 13:30:23,239 - ollama_adapter - INFO - Ollama query completed successfully in 2.99s - Model: qwen3:0.6b
+2025-07-25 13:30:23,240 - ollama_adapter - INFO - Article validation completed in 2.99s - Result: YES...
+2025-07-25 13:30:23,240 - ollama_adapter - INFO - Starting article validation - Title: A Concept-based approach to Voice Disorder Detecti...
+2025-07-25 13:30:23,240 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2130 chars
+2025-07-25 13:30:27,303 - ollama_adapter - INFO - Ollama API call completed in 4.06s
+2025-07-25 13:30:27,304 - ollama_adapter - INFO - Ollama query completed successfully in 4.06s - Model: qwen3:0.6b
+2025-07-25 13:30:27,304 - ollama_adapter - INFO - Article validation completed in 4.06s - Result: YES...
+2025-07-25 13:30:27,304 - ollama_adapter - INFO - Starting article validation - Title: On the Energy Distribution of the Galactic Center ...
+2025-07-25 13:30:27,304 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2559 chars
+2025-07-25 13:30:31,328 - ollama_adapter - INFO - Ollama API call completed in 4.02s
+2025-07-25 13:30:31,329 - ollama_adapter - INFO - Ollama query completed successfully in 4.02s - Model: qwen3:0.6b
+2025-07-25 13:30:31,329 - ollama_adapter - INFO - Article validation completed in 4.03s - Result: NO...
+2025-07-25 13:30:31,329 - ollama_adapter - INFO - Starting article validation - Title: SV3.3B: A Sports Video Understanding Model for Act...
+2025-07-25 13:30:31,330 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2869 chars
+2025-07-25 13:30:36,636 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:30:36,637 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:30:37,693 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:30:37,694 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:43:39,072 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:43:39,073 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:43:39,956 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:43:39,960 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:43:54,088 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 13:43:54,089 - ollama_adapter - INFO - Starting research articles fetch - Model: qwen3:0.6b, Feeds: ['https://export.arxiv.org/rss/cs.AI+cs.LG'], Days back: 1
+2025-07-25 13:43:54,315 - ollama_adapter - INFO - Fetched 359 research articles in 0.23s for validation with qwen3:0.6b
+2025-07-25 13:43:54,315 - ollama_adapter - INFO - Starting validation of 359 research articles...
+2025-07-25 13:43:54,315 - ollama_adapter - INFO - Starting article validation - Title: Enhancing Quantization-Aware Training on Edge Devi...
+2025-07-25 13:43:54,315 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3426 chars
+2025-07-25 13:44:00,091 - ollama_adapter - INFO - Ollama API call completed in 5.78s
+2025-07-25 13:44:00,092 - ollama_adapter - INFO - Ollama query completed successfully in 5.78s - Model: qwen3:0.6b
+2025-07-25 13:44:00,093 - ollama_adapter - INFO - ✓ ACCEPTED - 'Enhancing Quantization-Aware Training on Edge Devi...' passed validation in 5.78s
+2025-07-25 13:44:00,093 - ollama_adapter - INFO - Starting article validation - Title: ASP-Assisted Symbolic Regression: Uncovering Hidde...
+2025-07-25 13:44:00,093 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3599 chars
+2025-07-25 13:44:06,550 - ollama_adapter - INFO - Ollama API call completed in 6.46s
+2025-07-25 13:44:06,551 - ollama_adapter - INFO - Ollama query completed successfully in 6.46s - Model: qwen3:0.6b
+2025-07-25 13:44:06,551 - ollama_adapter - INFO - ✓ ACCEPTED - 'ASP-Assisted Symbolic Regression: Uncovering Hidde...' passed validation in 6.46s
+2025-07-25 13:44:06,551 - ollama_adapter - INFO - Starting article validation - Title: Knowledge Abstraction for Knowledge-based Semantic...
+2025-07-25 13:44:06,551 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3246 chars
+2025-07-25 13:44:10,448 - ollama_adapter - INFO - Ollama API call completed in 3.90s
+2025-07-25 13:44:10,449 - ollama_adapter - INFO - Ollama query completed successfully in 3.90s - Model: qwen3:0.6b
+2025-07-25 13:44:10,449 - ollama_adapter - INFO - ✓ ACCEPTED - 'Knowledge Abstraction for Knowledge-based Semantic...' passed validation in 3.90s
+2025-07-25 13:44:10,449 - ollama_adapter - INFO - Starting article validation - Title: Self-similarity Analysis in Deep Neural Networks
+2025-07-25 13:44:10,450 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3027 chars
+2025-07-25 13:44:15,464 - ollama_adapter - INFO - Ollama API call completed in 5.01s
+2025-07-25 13:44:15,465 - ollama_adapter - INFO - Ollama query completed successfully in 5.02s - Model: qwen3:0.6b
+2025-07-25 13:44:15,465 - ollama_adapter - INFO - ✓ ACCEPTED - 'Self-similarity Analysis in Deep Neural Networks' passed validation in 5.02s
+2025-07-25 13:44:15,465 - ollama_adapter - INFO - Starting article validation - Title: Reinforcement Learning for Accelerated Aerodynamic...
+2025-07-25 13:44:15,465 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2880 chars
+2025-07-25 13:44:19,819 - ollama_adapter - INFO - Ollama API call completed in 4.35s
+2025-07-25 13:44:19,820 - ollama_adapter - INFO - Ollama query completed successfully in 4.35s - Model: qwen3:0.6b
+2025-07-25 13:44:19,820 - ollama_adapter - INFO - ✓ ACCEPTED - 'Reinforcement Learning for Accelerated Aerodynamic...' passed validation in 4.35s
+2025-07-25 13:44:19,820 - ollama_adapter - INFO - Starting article validation - Title: Hyperbolic Deep Learning for Foundation Models: A ...
+2025-07-25 13:44:19,820 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3170 chars
+2025-07-25 13:44:23,601 - ollama_adapter - INFO - Ollama API call completed in 3.78s
+2025-07-25 13:44:23,602 - ollama_adapter - INFO - Ollama query completed successfully in 3.78s - Model: qwen3:0.6b
+2025-07-25 13:44:23,602 - ollama_adapter - INFO - ✓ ACCEPTED - 'Hyperbolic Deep Learning for Foundation Models: A ...' passed validation in 3.78s
+2025-07-25 13:44:23,602 - ollama_adapter - INFO - Starting article validation - Title: Adaptive Repetition for Mitigating Position Bias i...
+2025-07-25 13:44:23,602 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3426 chars
+2025-07-25 13:44:27,965 - ollama_adapter - INFO - Ollama API call completed in 4.36s
+2025-07-25 13:44:27,966 - ollama_adapter - INFO - Ollama query completed successfully in 4.36s - Model: qwen3:0.6b
+2025-07-25 13:44:27,966 - ollama_adapter - INFO - ✓ ACCEPTED - 'Adaptive Repetition for Mitigating Position Bias i...' passed validation in 4.36s
+2025-07-25 13:44:27,966 - ollama_adapter - INFO - Starting article validation - Title: Helix 1.0: An Open-Source Framework for Reproducib...
+2025-07-25 13:44:27,966 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2927 chars
+2025-07-25 13:44:33,032 - ollama_adapter - INFO - Ollama API call completed in 5.07s
+2025-07-25 13:44:33,032 - ollama_adapter - INFO - Ollama query completed successfully in 5.07s - Model: qwen3:0.6b
+2025-07-25 13:44:33,033 - ollama_adapter - INFO - ✓ ACCEPTED - 'Helix 1.0: An Open-Source Framework for Reproducib...' passed validation in 5.07s
+2025-07-25 13:44:33,033 - ollama_adapter - INFO - Starting article validation - Title: Causal Mechanism Estimation in Multi-Sensor System...
+2025-07-25 13:44:33,033 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2695 chars
+2025-07-25 13:44:35,893 - ollama_adapter - INFO - Ollama API call completed in 2.86s
+2025-07-25 13:44:35,894 - ollama_adapter - INFO - Ollama query completed successfully in 2.86s - Model: qwen3:0.6b
+2025-07-25 13:44:35,894 - ollama_adapter - INFO - ✓ ACCEPTED - 'Causal Mechanism Estimation in Multi-Sensor System...' passed validation in 2.86s
+2025-07-25 13:44:35,894 - ollama_adapter - INFO - Starting article validation - Title: LSDM: LLM-Enhanced Spatio-temporal Diffusion Model...
+2025-07-25 13:44:35,894 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3240 chars
+2025-07-25 13:44:39,639 - ollama_adapter - INFO - Ollama API call completed in 3.74s
+2025-07-25 13:44:39,639 - ollama_adapter - INFO - Ollama query completed successfully in 3.75s - Model: qwen3:0.6b
+2025-07-25 13:44:39,640 - ollama_adapter - INFO - ✓ ACCEPTED - 'LSDM: LLM-Enhanced Spatio-temporal Diffusion Model...' passed validation in 3.75s
+2025-07-25 13:44:39,640 - ollama_adapter - INFO - Research articles progress: 10/359 processed, 10 passed, 0 failed, 4.53s avg per article
+2025-07-25 13:44:39,640 - ollama_adapter - INFO - Starting article validation - Title: CoCAI: Copula-based Conformal Anomaly Identificati...
+2025-07-25 13:44:39,640 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3015 chars
+2025-07-25 13:44:43,255 - ollama_adapter - INFO - Ollama API call completed in 3.61s
+2025-07-25 13:44:43,256 - ollama_adapter - INFO - Ollama query completed successfully in 3.62s - Model: qwen3:0.6b
+2025-07-25 13:44:43,256 - ollama_adapter - INFO - ✓ ACCEPTED - 'CoCAI: Copula-based Conformal Anomaly Identificati...' passed validation in 3.62s
+2025-07-25 13:44:43,256 - ollama_adapter - INFO - Starting article validation - Title: GenSelect: A Generative Approach to Best-of-N
+2025-07-25 13:44:43,256 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2402 chars
+2025-07-25 13:44:48,865 - ollama_adapter - INFO - Ollama API call completed in 5.61s
+2025-07-25 13:44:48,865 - ollama_adapter - INFO - Ollama query completed successfully in 5.61s - Model: qwen3:0.6b
+2025-07-25 13:44:48,866 - ollama_adapter - INFO - ✗ REJECTED - 'GenSelect: A Generative Approach to Best-of-N' failed validation in 5.61s
+2025-07-25 13:44:48,866 - ollama_adapter - INFO - Starting article validation - Title: Wasserstein GAN-Based Precipitation Downscaling wi...
+2025-07-25 13:44:48,866 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2821 chars
+2025-07-25 13:44:53,679 - ollama_adapter - INFO - Ollama API call completed in 4.81s
+2025-07-25 13:44:53,680 - ollama_adapter - INFO - Ollama query completed successfully in 4.81s - Model: qwen3:0.6b
+2025-07-25 13:44:53,680 - ollama_adapter - INFO - ✓ ACCEPTED - 'Wasserstein GAN-Based Precipitation Downscaling wi...' passed validation in 4.81s
+2025-07-25 13:44:53,680 - ollama_adapter - INFO - Starting article validation - Title: Explainable Graph Neural Networks via Structural E...
+2025-07-25 13:44:53,681 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2957 chars
+2025-07-25 13:44:56,730 - ollama_adapter - INFO - Ollama API call completed in 3.05s
+2025-07-25 13:44:56,730 - ollama_adapter - INFO - Ollama query completed successfully in 3.05s - Model: qwen3:0.6b
+2025-07-25 13:44:56,731 - ollama_adapter - INFO - ✓ ACCEPTED - 'Explainable Graph Neural Networks via Structural E...' passed validation in 3.05s
+2025-07-25 13:44:56,731 - ollama_adapter - INFO - Starting article validation - Title: I2I-STRADA -- Information to Insights via Structur...
+2025-07-25 13:44:56,731 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3046 chars
+2025-07-25 13:44:59,311 - ollama_adapter - INFO - Ollama API call completed in 2.58s
+2025-07-25 13:44:59,312 - ollama_adapter - INFO - Ollama query completed successfully in 2.58s - Model: qwen3:0.6b
+2025-07-25 13:44:59,312 - ollama_adapter - INFO - ✓ ACCEPTED - 'I2I-STRADA -- Information to Insights via Structur...' passed validation in 2.58s
+2025-07-25 13:44:59,312 - ollama_adapter - INFO - Starting article validation - Title: Look the Other Way: Designing 'Positive' Molecules...
+2025-07-25 13:44:59,312 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2742 chars
+2025-07-25 13:45:03,476 - ollama_adapter - INFO - Ollama API call completed in 4.16s
+2025-07-25 13:45:03,476 - ollama_adapter - INFO - Ollama query completed successfully in 4.16s - Model: qwen3:0.6b
+2025-07-25 13:45:03,476 - ollama_adapter - INFO - ✓ ACCEPTED - 'Look the Other Way: Designing 'Positive' Molecules...' passed validation in 4.16s
+2025-07-25 13:45:03,477 - ollama_adapter - INFO - Starting article validation - Title: Fourier Neural Operators for Non-Markovian Process...
+2025-07-25 13:45:03,477 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2650 chars
+2025-07-25 13:45:09,591 - ollama_adapter - INFO - Ollama API call completed in 6.11s
+2025-07-25 13:45:09,592 - ollama_adapter - INFO - Ollama query completed successfully in 6.12s - Model: qwen3:0.6b
+2025-07-25 13:45:09,592 - ollama_adapter - INFO - ✓ ACCEPTED - 'Fourier Neural Operators for Non-Markovian Process...' passed validation in 6.12s
+2025-07-25 13:45:09,592 - ollama_adapter - INFO - Starting article validation - Title: Lower Bounds for Public-Private Learning under Dis...
+2025-07-25 13:45:09,593 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2732 chars
+2025-07-25 13:45:12,765 - ollama_adapter - INFO - Ollama API call completed in 3.17s
+2025-07-25 13:45:12,766 - ollama_adapter - INFO - Ollama query completed successfully in 3.17s - Model: qwen3:0.6b
+2025-07-25 13:45:12,766 - ollama_adapter - INFO - ✓ ACCEPTED - 'Lower Bounds for Public-Private Learning under Dis...' passed validation in 3.17s
+2025-07-25 13:45:12,766 - ollama_adapter - INFO - Starting article validation - Title: Federated Learning for Large-Scale Cloud Robotic M...
+2025-07-25 13:45:12,766 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3089 chars
+2025-07-25 13:45:22,772 - ollama_adapter - ERROR - Ollama query failed after 10.01s - Model: qwen3:0.6b, Error: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=10)
+2025-07-25 13:45:22,772 - ollama_adapter - WARNING - ⚠ UNCLEAR - 'Federated Learning for Large-Scale Cloud Robotic M...' gave unclear response 'ERROR QUERYING QWEN3:0.6B: HTTPCONNECTIONPOOL(HOST='LOCALHOST', PORT=11434): READ TIMED OUT. (READ TIMEOUT=10)' in 10.01s
+2025-07-25 13:45:22,772 - ollama_adapter - INFO - Starting article validation - Title: Deep learning-aided inverse design of porous metam...
+2025-07-25 13:45:22,772 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3108 chars
+2025-07-25 13:45:28,170 - ollama_adapter - INFO - Ollama API call completed in 5.40s
+2025-07-25 13:45:28,171 - ollama_adapter - INFO - Ollama query completed successfully in 5.40s - Model: qwen3:0.6b
+2025-07-25 13:45:28,171 - ollama_adapter - INFO - ✓ ACCEPTED - 'Deep learning-aided inverse design of porous metam...' passed validation in 5.40s
+2025-07-25 13:45:28,172 - ollama_adapter - INFO - Research articles progress: 20/359 processed, 18 passed, 2 failed, 4.69s avg per article
+2025-07-25 13:45:28,172 - ollama_adapter - INFO - Starting article validation - Title: SETOL: A Semi-Empirical Theory of (Deep) Learning
+2025-07-25 13:45:28,172 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3117 chars
+2025-07-25 13:45:35,443 - ollama_adapter - INFO - Ollama API call completed in 7.27s
+2025-07-25 13:45:35,443 - ollama_adapter - INFO - Ollama query completed successfully in 7.27s - Model: qwen3:0.6b
+2025-07-25 13:45:35,444 - ollama_adapter - INFO - ✓ ACCEPTED - 'SETOL: A Semi-Empirical Theory of (Deep) Learning' passed validation in 7.27s
+2025-07-25 13:45:35,444 - ollama_adapter - INFO - Starting article validation - Title: From Seed to Harvest: Augmenting Human Creativity ...
+2025-07-25 13:45:35,444 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3331 chars
+2025-07-25 13:45:41,726 - ollama_adapter - INFO - Ollama API call completed in 6.28s
+2025-07-25 13:45:41,727 - ollama_adapter - INFO - Ollama query completed successfully in 6.28s - Model: qwen3:0.6b
+2025-07-25 13:45:41,727 - ollama_adapter - INFO - ✗ REJECTED - 'From Seed to Harvest: Augmenting Human Creativity ...' failed validation in 6.28s
+2025-07-25 13:45:41,727 - ollama_adapter - INFO - Starting article validation - Title: UrbanPulse: A Cross-City Deep Learning Framework f...
+2025-07-25 13:45:41,727 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3135 chars
+2025-07-25 13:45:50,713 - ollama_adapter - INFO - Ollama API call completed in 8.99s
+2025-07-25 13:45:50,714 - ollama_adapter - INFO - Ollama query completed successfully in 8.99s - Model: qwen3:0.6b
+2025-07-25 13:45:50,714 - ollama_adapter - WARNING - ⚠ UNCLEAR - 'UrbanPulse: A Cross-City Deep Learning Framework f...' gave unclear response 'NO  
+**REASONING:**  
+1. **THESIS CLARITY**: THE CENTRAL CLAIM IS THAT URBANPULSE ADDRESSES EXISTING LIMITATIONS IN PREDICTING POPULATION FLOW, WITH A TESTABLE HYPOTHESIS THAT COMBINES TEMPORAL GRAPH CONVOLUTIONAL ENCODERS AND TRANSFORMERS FOR MULTI-SCALE SPATIOTEMPORAL MODELING.  
+2. **MATHEMATICAL RIGOR**: THE FRAMEWORK USES LOGICAL CONNECTIONS BETWEEN TEMPORAL AND TRANSFORMER COMPONENTS, AND PROPER NOTATION SUPPORTS THE ARGUMENT. NO MAJOR ISSUES WITH MATHEMATICAL NOTATION.  
+3. **EXPERIMENTAL VALIDITY**: THE EXPERIMENTAL CLAIMS LACK PROPER BASELINES OR CONTROLS (E.G., MISSING COMPARISON GROUPS), WHICH IS A CRITICAL RED FLAG.  
+4. **SUBSTANCE OVER JARGON**: THE WRITING PRIORITIZES CLEAR EXPLANATIONS OVER JARGON, AND THE PROBLEM STATEMENT AND CONTRIBUTIONS ARE EXPLICITLY DEFINED.  
+**TESTABILITY**: THE CORE PROBLEM IS MEASURABLE (POPULATION FLOW PREDICTION), THE HYPOTHESIS IS TESTABLE, AND EVIDENCE IS REPRODUCIBLE. HOWEVER, THE ARTICLE FAILS TO ADDRESS MISSING CONTROLS, WHICH IS A CRITICAL QUALITY CHECK.' in 8.99s
+2025-07-25 13:45:50,714 - ollama_adapter - INFO - Starting article validation - Title: SMARTAPS: Tool-augmented LLMs for Operations Manag...
+2025-07-25 13:45:50,714 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2659 chars
+2025-07-25 13:45:59,041 - ollama_adapter - INFO - Ollama API call completed in 8.33s
+2025-07-25 13:45:59,041 - ollama_adapter - INFO - Ollama query completed successfully in 8.33s - Model: qwen3:0.6b
+2025-07-25 13:45:59,042 - ollama_adapter - INFO - ✓ ACCEPTED - 'SMARTAPS: Tool-augmented LLMs for Operations Manag...' passed validation in 8.33s
+2025-07-25 13:45:59,042 - ollama_adapter - INFO - Starting article validation - Title: Multimodal Fine-grained Reasoning for Post Quality...
+2025-07-25 13:45:59,042 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3199 chars
+2025-07-25 13:46:03,524 - ollama_adapter - INFO - Ollama API call completed in 4.48s
+2025-07-25 13:46:03,525 - ollama_adapter - INFO - Ollama query completed successfully in 4.48s - Model: qwen3:0.6b
+2025-07-25 13:46:03,525 - ollama_adapter - INFO - ✓ ACCEPTED - 'Multimodal Fine-grained Reasoning for Post Quality...' passed validation in 4.48s
+2025-07-25 13:46:03,525 - ollama_adapter - INFO - Starting article validation - Title: VIBE: Video-Input Brain Encoder for fMRI Response ...
+2025-07-25 13:46:03,525 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2400 chars
+2025-07-25 13:46:13,531 - ollama_adapter - ERROR - Ollama query failed after 10.01s - Model: qwen3:0.6b, Error: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=10)
+2025-07-25 13:46:13,531 - ollama_adapter - WARNING - ⚠ UNCLEAR - 'VIBE: Video-Input Brain Encoder for fMRI Response ...' gave unclear response 'ERROR QUERYING QWEN3:0.6B: HTTPCONNECTIONPOOL(HOST='LOCALHOST', PORT=11434): READ TIMED OUT. (READ TIMEOUT=10)' in 10.01s
+2025-07-25 13:46:13,532 - ollama_adapter - INFO - Starting article validation - Title: Improving the Computational Efficiency and Explain...
+2025-07-25 13:46:13,532 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2951 chars
+2025-07-25 13:46:18,243 - ollama_adapter - INFO - Ollama API call completed in 4.71s
+2025-07-25 13:46:18,244 - ollama_adapter - INFO - Ollama query completed successfully in 4.71s - Model: qwen3:0.6b
+2025-07-25 13:46:18,244 - ollama_adapter - INFO - ✓ ACCEPTED - 'Improving the Computational Efficiency and Explain...' passed validation in 4.71s
+2025-07-25 13:46:18,244 - ollama_adapter - INFO - Starting article validation - Title: SIFOTL: A Principled, Statistically-Informed Fidel...
+2025-07-25 13:46:18,244 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3252 chars
+2025-07-25 13:46:24,630 - ollama_adapter - INFO - Ollama API call completed in 6.39s
+2025-07-25 13:46:24,631 - ollama_adapter - INFO - Ollama query completed successfully in 6.39s - Model: qwen3:0.6b
+2025-07-25 13:46:24,632 - ollama_adapter - WARNING - ⚠ UNCLEAR - 'SIFOTL: A Principled, Statistically-Informed Fidel...' gave unclear response 'NO  
+THE PAPER PRESENTS A TESTABLE THESIS AROUND SIFOTL'S METHOD FOR IDENTIFYING PRIVACY-DRIVEN TABULAR SHIFTS. HOWEVER, MATHEMATICAL RIGOR IS QUESTIONABLE AS THE METHODS ARE DESCRIBED WITHOUT ADVANCING THE ARGUMENT, AND EXPERIMENTAL VALIDITY IS UNDERMINED BY LACKING PROPER CONTROLS AND BASELINES. WHILE THE WRITING AVOIDS JARGON FOR SUBSTANCE, THE ABSENCE OF CRITICAL IMPLEMENTATION DETAILS AND MISSING EXPERIMENTAL DETAILS VIOLATE THE CRITERIA.' in 6.39s
+2025-07-25 13:46:24,632 - ollama_adapter - INFO - Starting article validation - Title: Machine Unlearning of Traffic State Estimation and...
+2025-07-25 13:46:24,632 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2678 chars
+2025-07-25 13:46:28,406 - ollama_adapter - INFO - Ollama API call completed in 3.77s
+2025-07-25 13:46:28,407 - ollama_adapter - INFO - Ollama query completed successfully in 3.77s - Model: qwen3:0.6b
+2025-07-25 13:46:28,407 - ollama_adapter - INFO - ✓ ACCEPTED - 'Machine Unlearning of Traffic State Estimation and...' passed validation in 3.78s
+2025-07-25 13:46:28,407 - ollama_adapter - INFO - Starting article validation - Title: Synthesis of timeline-based planning strategies av...
+2025-07-25 13:46:28,407 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2651 chars
+2025-07-25 13:46:32,335 - ollama_adapter - INFO - Ollama API call completed in 3.93s
+2025-07-25 13:46:32,336 - ollama_adapter - INFO - Ollama query completed successfully in 3.93s - Model: qwen3:0.6b
+2025-07-25 13:46:32,336 - ollama_adapter - INFO - ✓ ACCEPTED - 'Synthesis of timeline-based planning strategies av...' passed validation in 3.93s
+2025-07-25 13:46:32,337 - ollama_adapter - INFO - Research articles progress: 30/359 processed, 24 passed, 6 failed, 5.27s avg per article
+2025-07-25 13:46:32,337 - ollama_adapter - INFO - Starting article validation - Title: E.A.R.T.H.: Structuring Creative Evolution through...
+2025-07-25 13:46:32,337 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3082 chars
+2025-07-25 13:46:42,342 - ollama_adapter - ERROR - Ollama query failed after 10.01s - Model: qwen3:0.6b, Error: HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=10)
+2025-07-25 13:46:42,343 - ollama_adapter - WARNING - ⚠ UNCLEAR - 'E.A.R.T.H.: Structuring Creative Evolution through...' gave unclear response 'ERROR QUERYING QWEN3:0.6B: HTTPCONNECTIONPOOL(HOST='LOCALHOST', PORT=11434): READ TIMED OUT. (READ TIMEOUT=10)' in 10.01s
+2025-07-25 13:46:42,343 - ollama_adapter - INFO - Starting article validation - Title: Predictive Scaling Laws for Efficient GRPO Trainin...
+2025-07-25 13:46:42,343 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2560 chars
+2025-07-25 13:46:44,564 - ollama_adapter - INFO - Ollama API call completed in 2.22s
+2025-07-25 13:46:44,565 - ollama_adapter - INFO - Ollama query completed successfully in 2.22s - Model: qwen3:0.6b
+2025-07-25 13:46:44,565 - ollama_adapter - INFO - ✓ ACCEPTED - 'Predictive Scaling Laws for Efficient GRPO Trainin...' passed validation in 2.22s
+2025-07-25 13:46:44,565 - ollama_adapter - INFO - Starting article validation - Title: Does visualization help AI understand data?
+2025-07-25 13:46:44,565 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2358 chars
+2025-07-25 13:46:50,924 - ollama_adapter - INFO - Ollama API call completed in 6.36s
+2025-07-25 13:46:50,925 - ollama_adapter - INFO - Ollama query completed successfully in 6.36s - Model: qwen3:0.6b
+2025-07-25 13:46:50,925 - ollama_adapter - WARNING - ⚠ UNCLEAR - 'Does visualization help AI understand data?' gave unclear response 'NO  
+THE PAPER HAS A CLEAR TESTABLE THESIS ABOUT VISUALIZATION IMPROVING AI UNDERSTANDING, MATHEMATICAL RIGOR WITH CLEAR NOTATION, PROPER METHODOLOGY FOR EXPERIMENTS, AND SUBSTANCE OVER JARGON. HOWEVER, THE ACKNOWLEDGMENTS MENTION AI WRITING TOOLS, WHICH IS A RED FLAG.' in 6.36s
+2025-07-25 13:46:50,925 - ollama_adapter - INFO - Starting article validation - Title: Multi-Agent Guided Policy Optimization
+2025-07-25 13:46:50,925 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2806 chars
+2025-07-25 13:46:55,904 - ollama_adapter - INFO - Ollama API call completed in 4.98s
+2025-07-25 13:46:55,904 - ollama_adapter - INFO - Ollama query completed successfully in 4.98s - Model: qwen3:0.6b
+2025-07-25 13:46:55,905 - ollama_adapter - INFO - ✓ ACCEPTED - 'Multi-Agent Guided Policy Optimization' passed validation in 4.98s
+2025-07-25 13:46:55,905 - ollama_adapter - INFO - Starting article validation - Title: Multiscale Neural PDE Surrogates for Prediction an...
+2025-07-25 13:46:55,905 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2694 chars
+2025-07-25 13:47:01,413 - ollama_adapter - INFO - Ollama API call completed in 5.51s
+2025-07-25 13:47:01,413 - ollama_adapter - INFO - Ollama query completed successfully in 5.51s - Model: qwen3:0.6b
+2025-07-25 13:47:01,413 - ollama_adapter - INFO - ✓ ACCEPTED - 'Multiscale Neural PDE Surrogates for Prediction an...' passed validation in 5.51s
+2025-07-25 13:47:01,413 - ollama_adapter - INFO - Starting article validation - Title: Group Sequence Policy Optimization
+2025-07-25 13:47:01,413 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2367 chars
+2025-07-25 13:47:07,650 - ollama_adapter - INFO - Ollama API call completed in 6.24s
+2025-07-25 13:47:07,651 - ollama_adapter - INFO - Ollama query completed successfully in 6.24s - Model: qwen3:0.6b
+2025-07-25 13:47:07,651 - ollama_adapter - INFO - ✗ REJECTED - 'Group Sequence Policy Optimization' failed validation in 6.24s
+2025-07-25 13:47:07,651 - ollama_adapter - INFO - Starting article validation - Title: C-AAE: Compressively Anonymizing Autoencoders for ...
+2025-07-25 13:47:07,651 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2859 chars
+2025-07-25 13:47:13,069 - ollama_adapter - INFO - Ollama API call completed in 5.42s
+2025-07-25 13:47:13,069 - ollama_adapter - INFO - Ollama query completed successfully in 5.42s - Model: qwen3:0.6b
+2025-07-25 13:47:13,070 - ollama_adapter - INFO - ✗ REJECTED - 'C-AAE: Compressively Anonymizing Autoencoders for ...' failed validation in 5.42s
+2025-07-25 13:47:13,070 - ollama_adapter - INFO - Starting article validation - Title: Squeeze10-LLM: Squeezing LLMs' Weights by 10 Times...
+2025-07-25 13:47:13,070 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3075 chars
+2025-07-25 13:47:17,155 - ollama_adapter - INFO - Ollama API call completed in 4.08s
+2025-07-25 13:47:17,156 - ollama_adapter - INFO - Ollama query completed successfully in 4.09s - Model: qwen3:0.6b
+2025-07-25 13:47:17,156 - ollama_adapter - INFO - ✓ ACCEPTED - 'Squeeze10-LLM: Squeezing LLMs' Weights by 10 Times...' passed validation in 4.09s
+2025-07-25 13:47:17,156 - ollama_adapter - INFO - Starting article validation - Title: AlphaGo Moment for Model Architecture Discovery
+2025-07-25 13:47:17,156 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3590 chars
+2025-07-25 13:47:22,320 - ollama_adapter - INFO - Ollama API call completed in 5.16s
+2025-07-25 13:47:22,321 - ollama_adapter - INFO - Ollama query completed successfully in 5.17s - Model: qwen3:0.6b
+2025-07-25 13:47:22,321 - ollama_adapter - INFO - ✓ ACCEPTED - 'AlphaGo Moment for Model Architecture Discovery' passed validation in 5.17s
+2025-07-25 13:47:22,322 - ollama_adapter - INFO - Starting article validation - Title: Learning from Hard Labels with Additional Supervis...
+2025-07-25 13:47:22,322 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3538 chars
+2025-07-25 13:47:25,964 - ollama_adapter - INFO - Ollama API call completed in 3.64s
+2025-07-25 13:47:25,965 - ollama_adapter - INFO - Ollama query completed successfully in 3.64s - Model: qwen3:0.6b
+2025-07-25 13:47:25,965 - ollama_adapter - INFO - ✓ ACCEPTED - 'Learning from Hard Labels with Additional Supervis...' passed validation in 3.64s
+2025-07-25 13:47:25,965 - ollama_adapter - INFO - Research articles progress: 40/359 processed, 30 passed, 10 failed, 5.29s avg per article
+2025-07-25 13:47:25,966 - ollama_adapter - INFO - Starting article validation - Title: Percentile-Based Deep Reinforcement Learning and R...
+2025-07-25 13:47:25,966 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2999 chars
+2025-07-25 13:47:29,878 - ollama_adapter - INFO - Ollama API call completed in 3.91s
+2025-07-25 13:47:29,879 - ollama_adapter - INFO - Ollama query completed successfully in 3.91s - Model: qwen3:0.6b
+2025-07-25 13:47:29,879 - ollama_adapter - INFO - ✓ ACCEPTED - 'Percentile-Based Deep Reinforcement Learning and R...' passed validation in 3.91s
+2025-07-25 13:47:29,879 - ollama_adapter - INFO - Starting article validation - Title: Policy Disruption in Reinforcement Learning:Advers...
+2025-07-25 13:47:29,879 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2840 chars
+2025-07-25 13:47:36,213 - ollama_adapter - INFO - Ollama API call completed in 6.33s
+2025-07-25 13:47:36,213 - ollama_adapter - INFO - Ollama query completed successfully in 6.33s - Model: qwen3:0.6b
+2025-07-25 13:47:36,214 - ollama_adapter - INFO - ✓ ACCEPTED - 'Policy Disruption in Reinforcement Learning:Advers...' passed validation in 6.33s
+2025-07-25 13:47:36,214 - ollama_adapter - INFO - Starting article validation - Title: Agentic AI framework for End-to-End Medical Data I...
+2025-07-25 13:47:36,214 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3580 chars
+2025-07-25 13:47:41,574 - ollama_adapter - INFO - Ollama API call completed in 5.36s
+2025-07-25 13:47:41,574 - ollama_adapter - INFO - Ollama query completed successfully in 5.36s - Model: qwen3:0.6b
+2025-07-25 13:47:41,574 - ollama_adapter - INFO - ✓ ACCEPTED - 'Agentic AI framework for End-to-End Medical Data I...' passed validation in 5.36s
+2025-07-25 13:47:41,574 - ollama_adapter - INFO - Starting article validation - Title: Maximizing Prefix-Confidence at Test-Time Efficien...
+2025-07-25 13:47:41,575 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2805 chars
+2025-07-25 13:47:44,814 - ollama_adapter - INFO - Ollama API call completed in 3.24s
+2025-07-25 13:47:44,814 - ollama_adapter - INFO - Ollama query completed successfully in 3.24s - Model: qwen3:0.6b
+2025-07-25 13:47:44,814 - ollama_adapter - INFO - ✓ ACCEPTED - 'Maximizing Prefix-Confidence at Test-Time Efficien...' passed validation in 3.24s
+2025-07-25 13:47:44,815 - ollama_adapter - INFO - Starting article validation - Title: Actively evaluating and learning the distinctions ...
+2025-07-25 13:47:44,815 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3176 chars
+2025-07-25 13:47:53,009 - ollama_adapter - INFO - Ollama API call completed in 8.19s
+2025-07-25 13:47:53,010 - ollama_adapter - INFO - Ollama query completed successfully in 8.19s - Model: qwen3:0.6b
+2025-07-25 13:47:53,010 - ollama_adapter - INFO - ✓ ACCEPTED - 'Actively evaluating and learning the distinctions ...' passed validation in 8.20s
+2025-07-25 13:47:53,010 - ollama_adapter - INFO - Starting article validation - Title: Neuromorphic Computing for Embodied Intelligence i...
+2025-07-25 13:47:53,010 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3027 chars
+2025-07-25 13:47:56,496 - ollama_adapter - INFO - Ollama API call completed in 3.49s
+2025-07-25 13:47:56,496 - ollama_adapter - INFO - Ollama query completed successfully in 3.49s - Model: qwen3:0.6b
+2025-07-25 13:47:56,497 - ollama_adapter - INFO - ✓ ACCEPTED - 'Neuromorphic Computing for Embodied Intelligence i...' passed validation in 3.49s
+2025-07-25 13:47:56,497 - ollama_adapter - INFO - Starting article validation - Title: Logical Characterizations of GNNs with Mean Aggreg...
+2025-07-25 13:47:56,497 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2684 chars
+2025-07-25 13:48:00,324 - ollama_adapter - INFO - Ollama API call completed in 3.83s
+2025-07-25 13:48:00,325 - ollama_adapter - INFO - Ollama query completed successfully in 3.83s - Model: qwen3:0.6b
+2025-07-25 13:48:00,325 - ollama_adapter - INFO - ✓ ACCEPTED - 'Logical Characterizations of GNNs with Mean Aggreg...' passed validation in 3.83s
+2025-07-25 13:48:00,325 - ollama_adapter - INFO - Starting article validation - Title: When Noisy Labels Meet Class Imbalance on Graphs: ...
+2025-07-25 13:48:00,326 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2951 chars
+2025-07-25 13:48:04,213 - ollama_adapter - INFO - Ollama API call completed in 3.89s
+2025-07-25 13:48:04,214 - ollama_adapter - INFO - Ollama query completed successfully in 3.89s - Model: qwen3:0.6b
+2025-07-25 13:48:04,214 - ollama_adapter - INFO - ✓ ACCEPTED - 'When Noisy Labels Meet Class Imbalance on Graphs: ...' passed validation in 3.89s
+2025-07-25 13:48:04,214 - ollama_adapter - INFO - Starting article validation - Title: Decoupling Knowledge and Reasoning in LLMs: An Exp...
+2025-07-25 13:48:04,215 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3312 chars
+2025-07-25 13:48:11,402 - ollama_adapter - INFO - Ollama API call completed in 7.19s
+2025-07-25 13:48:11,403 - ollama_adapter - INFO - Ollama query completed successfully in 7.19s - Model: qwen3:0.6b
+2025-07-25 13:48:11,403 - ollama_adapter - WARNING - ⚠ UNCLEAR - 'Decoupling Knowledge and Reasoning in LLMs: An Exp...' gave unclear response 'NO  
+THE PAPER HAS A CLEAR TESTABLE THESIS (DECOUPLING KNOWLEDGE AND REASONING IN LLMS) BUT FAILS TO MEET RIGOROUS EXPERIMENTAL STANDARDS. WHILE THE HYPOTHESIS IS TESTABLE, THE MATHEMATICAL RIGOR IS LACKING (NOTATION SERVES THE ARGUMENT BUT DOES NOT ADVANCE THE CLAIM), AND THE EXPERIMENTAL VALIDITY IS QUESTIONABLE (REPRODUCIBILITY ISSUES). THE WRITING PRIORITIZES CLARITY OVER JARGON.' in 7.19s
+2025-07-25 13:48:11,403 - ollama_adapter - INFO - Starting article validation - Title: ChronoSelect: Robust Learning with Noisy Labels vi...
+2025-07-25 13:48:11,403 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2946 chars
+2025-07-25 13:48:15,095 - ollama_adapter - INFO - Ollama API call completed in 3.69s
+2025-07-25 13:48:15,096 - ollama_adapter - INFO - Ollama query completed successfully in 3.69s - Model: qwen3:0.6b
+2025-07-25 13:48:15,096 - ollama_adapter - INFO - ✓ ACCEPTED - 'ChronoSelect: Robust Learning with Noisy Labels vi...' passed validation in 3.69s
+2025-07-25 13:48:15,096 - ollama_adapter - INFO - Research articles progress: 50/359 processed, 39 passed, 11 failed, 5.22s avg per article
+2025-07-25 13:48:15,096 - ollama_adapter - INFO - Starting article validation - Title: Goal-based Trajectory Prediction for improved Cros...
+2025-07-25 13:48:15,096 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2641 chars
+2025-07-25 13:48:20,754 - ollama_adapter - INFO - Ollama API call completed in 5.66s
+2025-07-25 13:48:20,754 - ollama_adapter - INFO - Ollama query completed successfully in 5.66s - Model: qwen3:0.6b
+2025-07-25 13:48:20,754 - ollama_adapter - INFO - ✓ ACCEPTED - 'Goal-based Trajectory Prediction for improved Cros...' passed validation in 5.66s
+2025-07-25 13:48:20,755 - ollama_adapter - INFO - Starting article validation - Title: Comparing Non-minimal Semantics for Disjunction in...
+2025-07-25 13:48:20,755 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2798 chars
+2025-07-25 13:48:24,647 - ollama_adapter - INFO - Ollama API call completed in 3.89s
+2025-07-25 13:48:24,648 - ollama_adapter - INFO - Ollama query completed successfully in 3.89s - Model: qwen3:0.6b
+2025-07-25 13:48:24,648 - ollama_adapter - INFO - ✓ ACCEPTED - 'Comparing Non-minimal Semantics for Disjunction in...' passed validation in 3.89s
+2025-07-25 13:48:24,648 - ollama_adapter - INFO - Starting article validation - Title: FedSA-GCL: A Semi-Asynchronous Federated Graph Lea...
+2025-07-25 13:48:24,648 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3057 chars
+2025-07-25 13:48:29,140 - ollama_adapter - INFO - Ollama API call completed in 4.49s
+2025-07-25 13:48:29,141 - ollama_adapter - INFO - Ollama query completed successfully in 4.49s - Model: qwen3:0.6b
+2025-07-25 13:48:29,141 - ollama_adapter - INFO - ✓ ACCEPTED - 'FedSA-GCL: A Semi-Asynchronous Federated Graph Lea...' passed validation in 4.49s
+2025-07-25 13:48:29,141 - ollama_adapter - INFO - Starting article validation - Title: Sparse identification of nonlinear dynamics with l...
+2025-07-25 13:48:29,141 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3404 chars
+2025-07-25 13:48:33,436 - ollama_adapter - INFO - Ollama API call completed in 4.29s
+2025-07-25 13:48:33,436 - ollama_adapter - INFO - Ollama query completed successfully in 4.30s - Model: qwen3:0.6b
+2025-07-25 13:48:33,436 - ollama_adapter - INFO - ✓ ACCEPTED - 'Sparse identification of nonlinear dynamics with l...' passed validation in 4.30s
+2025-07-25 13:48:33,437 - ollama_adapter - INFO - Starting article validation - Title: Boosting Revisited: Benchmarking and Advancing LP-...
+2025-07-25 13:48:33,437 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2644 chars
+2025-07-25 13:48:37,115 - ollama_adapter - INFO - Ollama API call completed in 3.68s
+2025-07-25 13:48:37,115 - ollama_adapter - INFO - Ollama query completed successfully in 3.68s - Model: qwen3:0.6b
+2025-07-25 13:48:37,116 - ollama_adapter - INFO - ✓ ACCEPTED - 'Boosting Revisited: Benchmarking and Advancing LP-...' passed validation in 3.68s
+2025-07-25 13:48:37,116 - ollama_adapter - INFO - Starting article validation - Title: Foundations for Risk Assessment of AI in Protectin...
+2025-07-25 13:48:37,116 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3120 chars
+2025-07-25 13:48:40,763 - ollama_adapter - INFO - Ollama API call completed in 3.65s
+2025-07-25 13:48:40,763 - ollama_adapter - INFO - Ollama query completed successfully in 3.65s - Model: qwen3:0.6b
+2025-07-25 13:48:40,764 - ollama_adapter - INFO - ✗ REJECTED - 'Foundations for Risk Assessment of AI in Protectin...' failed validation in 3.65s
+2025-07-25 13:48:40,764 - ollama_adapter - INFO - Starting article validation - Title: Leveraging Data Augmentation and Siamese Learning ...
+2025-07-25 13:48:40,764 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2957 chars
+2025-07-25 13:48:49,832 - ollama_adapter - INFO - Ollama API call completed in 9.07s
+2025-07-25 13:48:49,833 - ollama_adapter - INFO - Ollama query completed successfully in 9.07s - Model: qwen3:0.6b
+2025-07-25 13:48:49,834 - ollama_adapter - INFO - ✓ ACCEPTED - 'Leveraging Data Augmentation and Siamese Learning ...' passed validation in 9.07s
+2025-07-25 13:48:49,834 - ollama_adapter - INFO - Starting article validation - Title: Self-Supervised Coarsening of Unstructured Grid wi...
+2025-07-25 13:48:49,834 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2621 chars
+2025-07-25 13:48:54,047 - ollama_adapter - INFO - Ollama API call completed in 4.21s
+2025-07-25 13:48:54,047 - ollama_adapter - INFO - Ollama query completed successfully in 4.21s - Model: qwen3:0.6b
+2025-07-25 13:48:54,047 - ollama_adapter - INFO - ✗ REJECTED - 'Self-Supervised Coarsening of Unstructured Grid wi...' failed validation in 4.21s
+2025-07-25 13:48:54,048 - ollama_adapter - INFO - Starting article validation - Title: Regression-aware Continual Learning for Android Ma...
+2025-07-25 13:48:54,048 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3182 chars
+2025-07-25 13:49:00,465 - ollama_adapter - INFO - Ollama API call completed in 6.42s
+2025-07-25 13:49:00,465 - ollama_adapter - INFO - Ollama query completed successfully in 6.42s - Model: qwen3:0.6b
+2025-07-25 13:49:00,465 - ollama_adapter - INFO - ✓ ACCEPTED - 'Regression-aware Continual Learning for Android Ma...' passed validation in 6.42s
+2025-07-25 13:49:00,466 - ollama_adapter - INFO - Starting article validation - Title: State of Health Estimation of Batteries Using a Ti...
+2025-07-25 13:49:00,466 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3562 chars
+2025-07-25 13:49:03,355 - ollama_adapter - INFO - Ollama API call completed in 2.89s
+2025-07-25 13:49:03,355 - ollama_adapter - INFO - Ollama query completed successfully in 2.89s - Model: qwen3:0.6b
+2025-07-25 13:49:03,356 - ollama_adapter - INFO - ✓ ACCEPTED - 'State of Health Estimation of Batteries Using a Ti...' passed validation in 2.89s
+2025-07-25 13:49:03,356 - ollama_adapter - INFO - Research articles progress: 60/359 processed, 47 passed, 13 failed, 5.15s avg per article
+2025-07-25 13:49:03,356 - ollama_adapter - INFO - Starting article validation - Title: Remembering the Markov Property in Cooperative MAR...
+2025-07-25 13:49:03,356 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3036 chars
+2025-07-25 13:49:07,774 - ollama_adapter - INFO - Ollama API call completed in 4.42s
+2025-07-25 13:49:07,775 - ollama_adapter - INFO - Ollama query completed successfully in 4.42s - Model: qwen3:0.6b
+2025-07-25 13:49:07,775 - ollama_adapter - INFO - ✗ REJECTED - 'Remembering the Markov Property in Cooperative MAR...' failed validation in 4.42s
+2025-07-25 13:49:07,775 - ollama_adapter - INFO - Starting article validation - Title: The AlphaPhysics Term Rewriting System for Marking...
+2025-07-25 13:49:07,775 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2796 chars
+2025-07-25 13:49:11,272 - ollama_adapter - INFO - Ollama API call completed in 3.50s
+2025-07-25 13:49:11,272 - ollama_adapter - INFO - Ollama query completed successfully in 3.50s - Model: qwen3:0.6b
+2025-07-25 13:49:11,273 - ollama_adapter - INFO - ✓ ACCEPTED - 'The AlphaPhysics Term Rewriting System for Marking...' passed validation in 3.50s
+2025-07-25 13:49:11,273 - ollama_adapter - INFO - Starting article validation - Title: Low-rank adaptive physics-informed HyperDeepONets ...
+2025-07-25 13:49:11,273 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2704 chars
+2025-07-25 13:49:15,306 - ollama_adapter - INFO - Ollama API call completed in 4.03s
+2025-07-25 13:49:15,307 - ollama_adapter - INFO - Ollama query completed successfully in 4.03s - Model: qwen3:0.6b
+2025-07-25 13:49:15,307 - ollama_adapter - INFO - ✓ ACCEPTED - 'Low-rank adaptive physics-informed HyperDeepONets ...' passed validation in 4.03s
+2025-07-25 13:49:15,307 - ollama_adapter - INFO - Starting article validation - Title: Efficient Uncertainty in LLMs through Evidential K...
+2025-07-25 13:49:15,307 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3036 chars
+2025-07-25 13:49:18,313 - ollama_adapter - INFO - Ollama API call completed in 3.01s
+2025-07-25 13:49:18,313 - ollama_adapter - INFO - Ollama query completed successfully in 3.01s - Model: qwen3:0.6b
+2025-07-25 13:49:18,313 - ollama_adapter - INFO - ✓ ACCEPTED - 'Efficient Uncertainty in LLMs through Evidential K...' passed validation in 3.01s
+2025-07-25 13:49:18,313 - ollama_adapter - INFO - Starting article validation - Title: Reasoning Beyond the Obvious: Evaluating Divergent...
+2025-07-25 13:49:18,313 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2655 chars
+2025-07-25 13:49:22,419 - ollama_adapter - INFO - Ollama API call completed in 4.11s
+2025-07-25 13:49:22,420 - ollama_adapter - INFO - Ollama query completed successfully in 4.11s - Model: qwen3:0.6b
+2025-07-25 13:49:22,421 - ollama_adapter - INFO - ✗ REJECTED - 'Reasoning Beyond the Obvious: Evaluating Divergent...' failed validation in 4.11s
+2025-07-25 13:49:22,421 - ollama_adapter - INFO - Starting article validation - Title: A Comprehensive Review of Diffusion Models in Smar...
+2025-07-25 13:49:22,421 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3261 chars
+2025-07-25 13:49:27,594 - ollama_adapter - INFO - Ollama API call completed in 5.17s
+2025-07-25 13:49:27,594 - ollama_adapter - INFO - Ollama query completed successfully in 5.17s - Model: qwen3:0.6b
+2025-07-25 13:49:27,595 - ollama_adapter - INFO - ✓ ACCEPTED - 'A Comprehensive Review of Diffusion Models in Smar...' passed validation in 5.17s
+2025-07-25 13:49:27,595 - ollama_adapter - INFO - Starting article validation - Title: Revisiting LLM Reasoning via Information Bottlenec...
+2025-07-25 13:49:27,595 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2990 chars
+2025-07-25 13:49:37,556 - ollama_adapter - INFO - Ollama API call completed in 9.96s
+2025-07-25 13:49:37,557 - ollama_adapter - INFO - Ollama query completed successfully in 9.96s - Model: qwen3:0.6b
+2025-07-25 13:49:37,557 - ollama_adapter - INFO - ✗ REJECTED - 'Revisiting LLM Reasoning via Information Bottlenec...' failed validation in 9.96s
+2025-07-25 13:49:37,558 - ollama_adapter - INFO - Starting article validation - Title: Optimising Call Centre Operations using Reinforcem...
+2025-07-25 13:49:37,558 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2775 chars
+2025-07-25 13:49:41,625 - ollama_adapter - INFO - Ollama API call completed in 4.07s
+2025-07-25 13:49:41,626 - ollama_adapter - INFO - Ollama query completed successfully in 4.07s - Model: qwen3:0.6b
+2025-07-25 13:49:41,626 - ollama_adapter - INFO - ✓ ACCEPTED - 'Optimising Call Centre Operations using Reinforcem...' passed validation in 4.07s
+2025-07-25 13:49:41,626 - ollama_adapter - INFO - Starting article validation - Title: GPU Accelerated Compact-Table Propagation
+2025-07-25 13:49:41,626 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3057 chars
+2025-07-25 13:49:46,081 - ollama_adapter - INFO - Ollama API call completed in 4.45s
+2025-07-25 13:49:46,082 - ollama_adapter - INFO - Ollama query completed successfully in 4.46s - Model: qwen3:0.6b
+2025-07-25 13:49:46,082 - ollama_adapter - INFO - ✓ ACCEPTED - 'GPU Accelerated Compact-Table Propagation' passed validation in 4.46s
+2025-07-25 13:49:46,082 - ollama_adapter - INFO - Starting article validation - Title: Multi-Model Ensemble and Reservoir Computing for R...
+2025-07-25 13:49:46,082 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3549 chars
+2025-07-25 13:49:49,700 - ollama_adapter - INFO - Ollama API call completed in 3.62s
+2025-07-25 13:49:49,700 - ollama_adapter - INFO - Ollama query completed successfully in 3.62s - Model: qwen3:0.6b
+2025-07-25 13:49:49,701 - ollama_adapter - INFO - ✓ ACCEPTED - 'Multi-Model Ensemble and Reservoir Computing for R...' passed validation in 3.62s
+2025-07-25 13:49:49,701 - ollama_adapter - INFO - Research articles progress: 70/359 processed, 54 passed, 16 failed, 5.08s avg per article
+2025-07-25 13:49:49,701 - ollama_adapter - INFO - Starting article validation - Title: Revisiting Bisimulation Metric for Robust Represen...
+2025-07-25 13:49:49,701 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2932 chars
+2025-07-25 13:49:52,845 - ollama_adapter - INFO - Ollama API call completed in 3.14s
+2025-07-25 13:49:52,846 - ollama_adapter - INFO - Ollama query completed successfully in 3.15s - Model: qwen3:0.6b
+2025-07-25 13:49:52,846 - ollama_adapter - INFO - ✓ ACCEPTED - 'Revisiting Bisimulation Metric for Robust Represen...' passed validation in 3.15s
+2025-07-25 13:49:52,846 - ollama_adapter - INFO - Starting article validation - Title: GLANCE: Graph Logic Attention Network with Cluster...
+2025-07-25 13:49:52,847 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2870 chars
+2025-07-25 13:50:00,555 - ollama_adapter - INFO - Ollama API call completed in 7.71s
+2025-07-25 13:50:00,558 - ollama_adapter - INFO - Ollama query completed successfully in 7.71s - Model: qwen3:0.6b
+2025-07-25 13:50:00,558 - ollama_adapter - INFO - ✗ REJECTED - 'GLANCE: Graph Logic Attention Network with Cluster...' failed validation in 7.71s
+2025-07-25 13:50:00,558 - ollama_adapter - INFO - Starting article validation - Title: C2G-KD: PCA-Constrained Generator for Data-Free Kn...
+2025-07-25 13:50:00,558 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2378 chars
+2025-07-25 13:50:06,414 - ollama_adapter - INFO - Ollama API call completed in 5.86s
+2025-07-25 13:50:06,415 - ollama_adapter - INFO - Ollama query completed successfully in 5.86s - Model: qwen3:0.6b
+2025-07-25 13:50:06,415 - ollama_adapter - INFO - ✓ ACCEPTED - 'C2G-KD: PCA-Constrained Generator for Data-Free Kn...' passed validation in 5.86s
+2025-07-25 13:50:06,415 - ollama_adapter - INFO - Starting article validation - Title: The Price equation reveals a universal force-metri...
+2025-07-25 13:50:06,415 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2963 chars
+2025-07-25 13:50:10,405 - ollama_adapter - INFO - Ollama API call completed in 3.99s
+2025-07-25 13:50:10,406 - ollama_adapter - INFO - Ollama query completed successfully in 3.99s - Model: qwen3:0.6b
+2025-07-25 13:50:10,406 - ollama_adapter - INFO - ✓ ACCEPTED - 'The Price equation reveals a universal force-metri...' passed validation in 3.99s
+2025-07-25 13:50:10,406 - ollama_adapter - INFO - Starting article validation - Title: On the Performance of Concept Probing: The Influen...
+2025-07-25 13:50:10,406 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2625 chars
+2025-07-25 13:50:13,856 - ollama_adapter - INFO - Ollama API call completed in 3.45s
+2025-07-25 13:50:13,856 - ollama_adapter - INFO - Ollama query completed successfully in 3.45s - Model: qwen3:0.6b
+2025-07-25 13:50:13,856 - ollama_adapter - INFO - ✗ REJECTED - 'On the Performance of Concept Probing: The Influen...' failed validation in 3.45s
+2025-07-25 13:50:13,857 - ollama_adapter - INFO - Starting article validation - Title: The Geometry of LLM Quantization: GPTQ as Babai's ...
+2025-07-25 13:50:13,857 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2912 chars
+2025-07-25 13:50:17,744 - ollama_adapter - INFO - Ollama API call completed in 3.89s
+2025-07-25 13:50:17,744 - ollama_adapter - INFO - Ollama query completed successfully in 3.89s - Model: qwen3:0.6b
+2025-07-25 13:50:17,745 - ollama_adapter - INFO - ✓ ACCEPTED - 'The Geometry of LLM Quantization: GPTQ as Babai's ...' passed validation in 3.89s
+2025-07-25 13:50:17,745 - ollama_adapter - INFO - Starting article validation - Title: Neural Tangent Kernels and Fisher Information Matr...
+2025-07-25 13:50:17,745 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2134 chars
+2025-07-25 13:50:20,763 - ollama_adapter - INFO - Ollama API call completed in 3.02s
+2025-07-25 13:50:20,763 - ollama_adapter - INFO - Ollama query completed successfully in 3.02s - Model: qwen3:0.6b
+2025-07-25 13:50:20,764 - ollama_adapter - INFO - ✓ ACCEPTED - 'Neural Tangent Kernels and Fisher Information Matr...' passed validation in 3.02s
+2025-07-25 13:50:20,764 - ollama_adapter - INFO - Starting article validation - Title: Beyond Internal Data: Constructing Complete Datase...
+2025-07-25 13:50:20,764 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3190 chars
+2025-07-25 13:50:24,526 - ollama_adapter - INFO - Ollama API call completed in 3.76s
+2025-07-25 13:50:24,527 - ollama_adapter - INFO - Ollama query completed successfully in 3.76s - Model: qwen3:0.6b
+2025-07-25 13:50:24,527 - ollama_adapter - INFO - ✗ REJECTED - 'Beyond Internal Data: Constructing Complete Datase...' failed validation in 3.76s
+2025-07-25 13:50:24,527 - ollama_adapter - INFO - Starting article validation - Title: SafeWork-R1: Coevolving Safety and Intelligence un...
+2025-07-25 13:50:24,527 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3044 chars
+2025-07-25 13:50:30,359 - ollama_adapter - INFO - Ollama API call completed in 5.83s
+2025-07-25 13:50:30,360 - ollama_adapter - INFO - Ollama query completed successfully in 5.83s - Model: qwen3:0.6b
+2025-07-25 13:50:30,360 - ollama_adapter - INFO - ✓ ACCEPTED - 'SafeWork-R1: Coevolving Safety and Intelligence un...' passed validation in 5.83s
+2025-07-25 13:50:30,360 - ollama_adapter - INFO - Starting article validation - Title: Linear Memory SE(2) Invariant Attention
+2025-07-25 13:50:30,360 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2587 chars
+2025-07-25 13:50:34,742 - ollama_adapter - INFO - Ollama API call completed in 4.38s
+2025-07-25 13:50:34,742 - ollama_adapter - INFO - Ollama query completed successfully in 4.38s - Model: qwen3:0.6b
+2025-07-25 13:50:34,743 - ollama_adapter - INFO - ✓ ACCEPTED - 'Linear Memory SE(2) Invariant Attention' passed validation in 4.38s
+2025-07-25 13:50:34,743 - ollama_adapter - INFO - Research articles progress: 80/359 processed, 61 passed, 19 failed, 5.01s avg per article
+2025-07-25 13:50:34,743 - ollama_adapter - INFO - Starting article validation - Title: Demystify Protein Generation with Hierarchical Con...
+2025-07-25 13:50:34,743 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3127 chars
+2025-07-25 13:50:39,320 - ollama_adapter - INFO - Ollama API call completed in 4.58s
+2025-07-25 13:50:39,320 - ollama_adapter - INFO - Ollama query completed successfully in 4.58s - Model: qwen3:0.6b
+2025-07-25 13:50:39,321 - ollama_adapter - INFO - ✓ ACCEPTED - 'Demystify Protein Generation with Hierarchical Con...' passed validation in 4.58s
+2025-07-25 13:50:39,321 - ollama_adapter - INFO - Starting article validation - Title: Moving Out: Physically-grounded Human-AI Collabora...
+2025-07-25 13:50:39,321 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2970 chars
+2025-07-25 13:50:41,995 - ollama_adapter - INFO - Ollama API call completed in 2.67s
+2025-07-25 13:50:41,995 - ollama_adapter - INFO - Ollama query completed successfully in 2.67s - Model: qwen3:0.6b
+2025-07-25 13:50:41,996 - ollama_adapter - INFO - ✓ ACCEPTED - 'Moving Out: Physically-grounded Human-AI Collabora...' passed validation in 2.67s
+2025-07-25 13:50:41,996 - ollama_adapter - INFO - Starting article validation - Title: Gait Recognition Based on Tiny ML and IMU Sensors
+2025-07-25 13:50:41,996 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2890 chars
+2025-07-25 13:50:48,515 - ollama_adapter - INFO - Ollama API call completed in 6.52s
+2025-07-25 13:50:48,516 - ollama_adapter - INFO - Ollama query completed successfully in 6.52s - Model: qwen3:0.6b
+2025-07-25 13:50:48,517 - ollama_adapter - INFO - ✓ ACCEPTED - 'Gait Recognition Based on Tiny ML and IMU Sensors' passed validation in 6.52s
+2025-07-25 13:50:48,517 - ollama_adapter - INFO - Starting article validation - Title: Mapping Technological Futures: Anticipatory Discou...
+2025-07-25 13:50:48,517 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3184 chars
+2025-07-25 13:50:53,248 - ollama_adapter - INFO - Ollama API call completed in 4.73s
+2025-07-25 13:50:53,249 - ollama_adapter - INFO - Ollama query completed successfully in 4.73s - Model: qwen3:0.6b
+2025-07-25 13:50:53,249 - ollama_adapter - INFO - ✓ ACCEPTED - 'Mapping Technological Futures: Anticipatory Discou...' passed validation in 4.73s
+2025-07-25 13:50:53,249 - ollama_adapter - INFO - Starting article validation - Title: Learning from Heterogeneity: Generalizing Dynamic ...
+2025-07-25 13:50:53,249 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3243 chars
+2025-07-25 13:50:59,571 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:50:59,571 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:51:00,535 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:51:00,536 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:51:58,649 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:51:58,649 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:51:59,569 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:51:59,570 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:58:07,611 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-1' coro=<main() done, defined at /Users/chris/source/airss/mcp_server_1.py:782> exception=BaseExceptionGroup('unhandled errors in a TaskGroup', [BaseExceptionGroup('unhandled errors in a TaskGroup', [KeyboardInterrupt()])])>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/chris/source/airss/mcp_server_1.py", line 786, in main
+  |     fetch_start = time.time()
+  |            ^^^^^^^^^^^^^^
+  |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 235, in __aexit__
+  |     await self.gen.athrow(value)
+  |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/server/stdio.py", line 85, in stdio_server
+  |     async with anyio.create_task_group() as tg:
+  |                ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Exception Group Traceback (most recent call last):
+    |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/server/stdio.py", line 88, in stdio_server
+    |     yield read_stream, write_stream
+    |   File "/Users/chris/source/airss/mcp_server_1.py", line 787, in main
+    |     articles = feeds.Feeds.fetch_articles(feed_urls, days=int(days_back))
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |     ...<10 lines>...
+    |             "feeds_used": feed_urls
+    |     
+    |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/server/lowlevel/server.py", line 569, in run
+    |     async with AsyncExitStack() as stack:
+    |                ~~~~~~~~~~~~~~^^
+    |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 768, in __aexit__
+    |     raise exc
+    |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 751, in __aexit__
+    |     cb_suppress = await cb(*exc_details)
+    |                   ^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/shared/session.py", line 218, in __aexit__
+    |     return await self._task_group.__aexit__(exc_type, exc_val, exc_tb)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+    |     raise BaseExceptionGroup(
+    |         "unhandled errors in a TaskGroup", self._exceptions
+    |     ) from None
+    | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+    +-+---------------- 1 ----------------
+      | Traceback (most recent call last):
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/streams/memory.py", line 111, in receive
+      |     return self.receive_nowait()
+      |            ~~~~~~~~~~~~~~~~~~~^^
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/streams/memory.py", line 106, in receive_nowait
+      |     raise WouldBlock
+      | anyio.WouldBlock
+      | 
+      | During handling of the above exception, another exception occurred:
+      | 
+      | Traceback (most recent call last):
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/shared/session.py", line 337, in _receive_loop
+      |     async for message in self._read_stream:
+      |     ...<76 lines>...
+      |                 )
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/abc/_streams.py", line 35, in __anext__
+      |     return await self.receive()
+      |            ^^^^^^^^^^^^^^^^^^^^
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/streams/memory.py", line 119, in receive
+      |     await receive_event.wait()
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 1774, in wait
+      |     await self._event.wait()
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/locks.py", line 213, in wait
+      |     await fut
+      | asyncio.exceptions.CancelledError: Cancelled by cancel scope 107475d10
+      | 
+      | During handling of the above exception, another exception occurred:
+      | 
+      | Traceback (most recent call last):
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 195, in run
+      |     return runner.run(main)
+      |            ~~~~~~~~~~^^^^^^
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 118, in run
+      |     return self._loop.run_until_complete(task)
+      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 712, in run_until_complete
+      |     self.run_forever()
+      |     ~~~~~~~~~~~~~~~~^^
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 683, in run_forever
+      |     self._run_once()
+      |     ~~~~~~~~~~~~~~^^
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 2042, in _run_once
+      |     handle._run()
+      |     ~~~~~~~~~~~^^
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py", line 89, in _run
+      |     self._context.run(self._callback, *self._args)
+      |     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/server/session.py", line 140, in _receive_loop
+      |     await super()._receive_loop()
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/shared/session.py", line 333, in _receive_loop
+      |     self._read_stream,
+      |     ^^^^^^^^^^^^^^^^^
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/abc/_resources.py", line 29, in __aexit__
+      |     await self.aclose()
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/streams/memory.py", line 160, in aclose
+      |     self.close()
+      |     ~~~~~~~~~~^^
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/streams/memory.py", line 155, in close
+      |     send_events = list(self._state.waiting_senders.keys())
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 157, in _on_sigint
+      |     raise KeyboardInterrupt()
+      | KeyboardInterrupt
+      +------------------------------------
+2025-07-25 13:58:10,091 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:58:10,092 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:58:10,977 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:58:10,978 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:58:16,892 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 13:58:16,893 - ollama_adapter - INFO - Starting research articles fetch - Model: qwen3:0.6b, Feeds: ['https://export.arxiv.org/rss/cs.AI+cs.LG'], Days back: 1
+2025-07-25 13:58:17,076 - ollama_adapter - INFO - Fetched 83 research articles in 0.18s
+2025-07-25 13:58:17,076 - ollama_adapter - INFO - Starting preference-based filtering of 83 articles (threshold: 0.6)
+2025-07-25 13:58:17,076 - ollama_adapter - INFO - Computing research preference embeddings for 31 topics...
+2025-07-25 13:58:18,233 - ollama_adapter - INFO - Computed 31 preference embeddings in 1.16s
+2025-07-25 13:58:22,190 - ollama_adapter - INFO - Preference filtering completed in 5.11s - 74/83 articles passed
+2025-07-25 13:58:22,191 - ollama_adapter - INFO - Starting validation of 74 preference-filtered research articles...
+2025-07-25 13:58:22,191 - ollama_adapter - INFO - Starting article validation - Title: Enhancing Quantization-Aware Training on Edge Devi...
+2025-07-25 13:58:22,191 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3426 chars
+2025-07-25 13:58:27,371 - ollama_adapter - INFO - Ollama API call completed in 5.18s
+2025-07-25 13:58:27,372 - ollama_adapter - INFO - Ollama query completed successfully in 5.18s - Model: qwen3:0.6b
+2025-07-25 13:58:27,373 - ollama_adapter - INFO - ✓ ACCEPTED - 'Enhancing Quantization-Aware Training on Edge Devi...' passed validation in 5.18s
+2025-07-25 13:58:27,373 - ollama_adapter - INFO - Starting article validation - Title: ASP-Assisted Symbolic Regression: Uncovering Hidde...
+2025-07-25 13:58:27,373 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3599 chars
+2025-07-25 13:58:30,995 - ollama_adapter - INFO - Ollama API call completed in 3.62s
+2025-07-25 13:58:30,996 - ollama_adapter - INFO - Ollama query completed successfully in 3.62s - Model: qwen3:0.6b
+2025-07-25 13:58:30,996 - ollama_adapter - INFO - ✓ ACCEPTED - 'ASP-Assisted Symbolic Regression: Uncovering Hidde...' passed validation in 3.62s
+2025-07-25 13:58:30,996 - ollama_adapter - INFO - Starting article validation - Title: Knowledge Abstraction for Knowledge-based Semantic...
+2025-07-25 13:58:30,996 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3246 chars
+2025-07-25 13:58:36,975 - ollama_adapter - INFO - Ollama API call completed in 5.98s
+2025-07-25 13:58:36,976 - ollama_adapter - INFO - Ollama query completed successfully in 5.98s - Model: qwen3:0.6b
+2025-07-25 13:58:36,976 - ollama_adapter - INFO - ✓ ACCEPTED - 'Knowledge Abstraction for Knowledge-based Semantic...' passed validation in 5.98s
+2025-07-25 13:58:36,976 - ollama_adapter - INFO - Starting article validation - Title: Self-similarity Analysis in Deep Neural Networks
+2025-07-25 13:58:36,977 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3027 chars
+2025-07-25 13:58:40,214 - ollama_adapter - INFO - Ollama API call completed in 3.24s
+2025-07-25 13:58:40,214 - ollama_adapter - INFO - Ollama query completed successfully in 3.24s - Model: qwen3:0.6b
+2025-07-25 13:58:40,215 - ollama_adapter - INFO - ✗ REJECTED - 'Self-similarity Analysis in Deep Neural Networks' failed validation in 3.24s
+2025-07-25 13:58:40,215 - ollama_adapter - INFO - Starting article validation - Title: Reinforcement Learning for Accelerated Aerodynamic...
+2025-07-25 13:58:40,215 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2880 chars
+2025-07-25 13:58:44,268 - ollama_adapter - INFO - Ollama API call completed in 4.05s
+2025-07-25 13:58:44,269 - ollama_adapter - INFO - Ollama query completed successfully in 4.05s - Model: qwen3:0.6b
+2025-07-25 13:58:44,269 - ollama_adapter - INFO - ✓ ACCEPTED - 'Reinforcement Learning for Accelerated Aerodynamic...' passed validation in 4.05s
+2025-07-25 13:58:44,269 - ollama_adapter - INFO - Starting article validation - Title: Hyperbolic Deep Learning for Foundation Models: A ...
+2025-07-25 13:58:44,269 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3170 chars
+2025-07-25 13:58:48,633 - ollama_adapter - INFO - Ollama API call completed in 4.36s
+2025-07-25 13:58:48,634 - ollama_adapter - INFO - Ollama query completed successfully in 4.36s - Model: qwen3:0.6b
+2025-07-25 13:58:48,634 - ollama_adapter - INFO - ✓ ACCEPTED - 'Hyperbolic Deep Learning for Foundation Models: A ...' passed validation in 4.36s
+2025-07-25 13:58:48,634 - ollama_adapter - INFO - Starting article validation - Title: Adaptive Repetition for Mitigating Position Bias i...
+2025-07-25 13:58:48,634 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3426 chars
+2025-07-25 13:58:54,280 - ollama_adapter - INFO - Ollama API call completed in 5.65s
+2025-07-25 13:58:54,280 - ollama_adapter - INFO - Ollama query completed successfully in 5.65s - Model: qwen3:0.6b
+2025-07-25 13:58:54,281 - ollama_adapter - WARNING - ⚠ UNCLEAR - 'Adaptive Repetition for Mitigating Position Bias i...' gave unclear response 'YES  
+THE PAPER MEETS ALL CORE QUALITY CHECKS.  
+1. **THESIS CLARITY**: THE CENTRAL CLAIM IS TESTABLE AND ADDRESSES A SPECIFIC PROBLEM (MITIGATING POSITION BIAS IN LLM-BASED RANKING).  
+2. **MATHEMATICAL RIGOR**: THE MATHEMATICAL CONCEPTS CONNECT LOGICALLY, WITH NOTATION ADVANCING THE ARGUMENT.  
+3. **EXPERIMENTAL VALIDITY**: PROPER METHODOLOGY IS USED, INCLUDING BASELINE COMPARISONS AND IMPLEMENTATION DETAILS.  
+4. **SUBSTANCE OVER JARGON**: CLEAR EXPLANATIONS OF CONCEPTS ARE USED, AVOIDING TERMINOLOGY MIXING UNRELATED FIELDS.' in 5.65s
+2025-07-25 13:58:54,281 - ollama_adapter - INFO - Starting article validation - Title: Helix 1.0: An Open-Source Framework for Reproducib...
+2025-07-25 13:58:54,281 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2927 chars
+2025-07-25 13:58:58,399 - ollama_adapter - INFO - Ollama API call completed in 4.12s
+2025-07-25 13:58:58,400 - ollama_adapter - INFO - Ollama query completed successfully in 4.12s - Model: qwen3:0.6b
+2025-07-25 13:58:58,400 - ollama_adapter - INFO - ✓ ACCEPTED - 'Helix 1.0: An Open-Source Framework for Reproducib...' passed validation in 4.12s
+2025-07-25 13:58:58,400 - ollama_adapter - INFO - Starting article validation - Title: Causal Mechanism Estimation in Multi-Sensor System...
+2025-07-25 13:58:58,400 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2695 chars
+2025-07-25 13:59:04,392 - ollama_adapter - INFO - Ollama API call completed in 5.99s
+2025-07-25 13:59:04,392 - ollama_adapter - INFO - Ollama query completed successfully in 5.99s - Model: qwen3:0.6b
+2025-07-25 13:59:04,393 - ollama_adapter - INFO - ✓ ACCEPTED - 'Causal Mechanism Estimation in Multi-Sensor System...' passed validation in 5.99s
+2025-07-25 13:59:04,393 - ollama_adapter - INFO - Starting article validation - Title: LSDM: LLM-Enhanced Spatio-temporal Diffusion Model...
+2025-07-25 13:59:04,393 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3240 chars
+2025-07-25 13:59:06,600 - ollama_adapter - INFO - Ollama API call completed in 2.21s
+2025-07-25 13:59:06,600 - ollama_adapter - INFO - Ollama query completed successfully in 2.21s - Model: qwen3:0.6b
+2025-07-25 13:59:06,601 - ollama_adapter - INFO - ✓ ACCEPTED - 'LSDM: LLM-Enhanced Spatio-temporal Diffusion Model...' passed validation in 2.21s
+2025-07-25 13:59:06,601 - ollama_adapter - INFO - Research articles progress: 10/83 processed, 8 passed, 2 failed, 4.44s avg per article
+2025-07-25 13:59:06,601 - ollama_adapter - INFO - Starting article validation - Title: CoCAI: Copula-based Conformal Anomaly Identificati...
+2025-07-25 13:59:06,601 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3015 chars
+2025-07-25 13:59:11,897 - ollama_adapter - INFO - Ollama API call completed in 5.30s
+2025-07-25 13:59:11,898 - ollama_adapter - INFO - Ollama query completed successfully in 5.30s - Model: qwen3:0.6b
+2025-07-25 13:59:11,898 - ollama_adapter - INFO - ✓ ACCEPTED - 'CoCAI: Copula-based Conformal Anomaly Identificati...' passed validation in 5.30s
+2025-07-25 13:59:11,899 - ollama_adapter - INFO - Starting article validation - Title: GenSelect: A Generative Approach to Best-of-N
+2025-07-25 13:59:11,899 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2402 chars
+2025-07-25 13:59:16,381 - ollama_adapter - INFO - Ollama API call completed in 4.48s
+2025-07-25 13:59:16,382 - ollama_adapter - INFO - Ollama query completed successfully in 4.48s - Model: qwen3:0.6b
+2025-07-25 13:59:16,382 - ollama_adapter - INFO - ✗ REJECTED - 'GenSelect: A Generative Approach to Best-of-N' failed validation in 4.48s
+2025-07-25 13:59:16,382 - ollama_adapter - INFO - Starting article validation - Title: Wasserstein GAN-Based Precipitation Downscaling wi...
+2025-07-25 13:59:16,382 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2821 chars
+2025-07-25 13:59:19,858 - ollama_adapter - INFO - Ollama API call completed in 3.48s
+2025-07-25 13:59:19,858 - ollama_adapter - INFO - Ollama query completed successfully in 3.48s - Model: qwen3:0.6b
+2025-07-25 13:59:19,859 - ollama_adapter - INFO - ✓ ACCEPTED - 'Wasserstein GAN-Based Precipitation Downscaling wi...' passed validation in 3.48s
+2025-07-25 13:59:19,859 - ollama_adapter - INFO - Starting article validation - Title: Explainable Graph Neural Networks via Structural E...
+2025-07-25 13:59:19,859 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2957 chars
+2025-07-25 13:59:27,189 - ollama_adapter - INFO - Ollama API call completed in 7.33s
+2025-07-25 13:59:27,190 - ollama_adapter - INFO - Ollama query completed successfully in 7.33s - Model: qwen3:0.6b
+2025-07-25 13:59:27,191 - ollama_adapter - INFO - ✗ REJECTED - 'Explainable Graph Neural Networks via Structural E...' failed validation in 7.33s
+2025-07-25 13:59:27,191 - ollama_adapter - INFO - Starting article validation - Title: I2I-STRADA -- Information to Insights via Structur...
+2025-07-25 13:59:27,191 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3046 chars
+2025-07-25 13:59:33,429 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:59:33,429 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 13:59:34,401 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 13:59:34,401 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 14:03:05,453 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 14:03:05,454 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 14:03:06,411 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 14:03:06,411 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 14:03:13,865 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 14:03:13,866 - ollama_adapter - INFO - Starting research articles fetch - Model: qwen3:0.6b, Feeds: ['https://export.arxiv.org/rss/cs.AI+cs.LG'], Days back: 1
+2025-07-25 14:03:14,045 - ollama_adapter - INFO - Fetched 83 research articles in 0.18s
+2025-07-25 14:03:14,045 - ollama_adapter - INFO - Starting preference-based filtering of 83 articles (threshold: 0.6)
+2025-07-25 14:03:14,045 - ollama_adapter - INFO - Computing research preference embeddings for 31 topics...
+2025-07-25 14:03:14,610 - ollama_adapter - INFO - Computed 31 preference embeddings in 0.57s
+2025-07-25 14:03:18,570 - ollama_adapter - INFO - Preference filtering completed in 4.53s - 74/83 articles passed
+2025-07-25 14:03:18,570 - ollama_adapter - INFO - Starting validation of 74 preference-filtered research articles...
+2025-07-25 14:03:18,570 - ollama_adapter - INFO - Starting article validation - Title: Enhancing Quantization-Aware Training on Edge Devi...
+2025-07-25 14:03:18,570 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3435 chars
+2025-07-25 14:03:23,569 - ollama_adapter - INFO - Ollama API call completed in 5.00s
+2025-07-25 14:03:23,570 - ollama_adapter - INFO - Ollama query completed successfully in 5.00s - Model: qwen3:0.6b
+2025-07-25 14:03:23,570 - ollama_adapter - INFO - ✗ REJECTED - 'Enhancing Quantization-Aware Training on Edge Devi...' failed validation in 5.00s
+2025-07-25 14:03:23,570 - ollama_adapter - INFO - Starting article validation - Title: ASP-Assisted Symbolic Regression: Uncovering Hidde...
+2025-07-25 14:03:23,570 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3608 chars
+2025-07-25 14:03:28,222 - ollama_adapter - INFO - Ollama API call completed in 4.65s
+2025-07-25 14:03:28,223 - ollama_adapter - INFO - Ollama query completed successfully in 4.65s - Model: qwen3:0.6b
+2025-07-25 14:03:28,223 - ollama_adapter - INFO - ✓ ACCEPTED - 'ASP-Assisted Symbolic Regression: Uncovering Hidde...' passed validation in 4.65s
+2025-07-25 14:03:28,224 - ollama_adapter - INFO - Starting article validation - Title: Knowledge Abstraction for Knowledge-based Semantic...
+2025-07-25 14:03:28,224 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3255 chars
+2025-07-25 14:03:32,320 - ollama_adapter - INFO - Ollama API call completed in 4.10s
+2025-07-25 14:03:32,321 - ollama_adapter - INFO - Ollama query completed successfully in 4.10s - Model: qwen3:0.6b
+2025-07-25 14:03:32,321 - ollama_adapter - INFO - ✓ ACCEPTED - 'Knowledge Abstraction for Knowledge-based Semantic...' passed validation in 4.10s
+2025-07-25 14:03:32,322 - ollama_adapter - INFO - Starting article validation - Title: Self-similarity Analysis in Deep Neural Networks
+2025-07-25 14:03:32,322 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3036 chars
+2025-07-25 14:03:36,288 - ollama_adapter - INFO - Ollama API call completed in 3.97s
+2025-07-25 14:03:36,289 - ollama_adapter - INFO - Ollama query completed successfully in 3.97s - Model: qwen3:0.6b
+2025-07-25 14:03:36,289 - ollama_adapter - INFO - ✓ ACCEPTED - 'Self-similarity Analysis in Deep Neural Networks' passed validation in 3.97s
+2025-07-25 14:03:36,289 - ollama_adapter - INFO - Starting article validation - Title: Reinforcement Learning for Accelerated Aerodynamic...
+2025-07-25 14:03:36,289 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 2889 chars
+2025-07-25 14:03:40,858 - ollama_adapter - INFO - Ollama API call completed in 4.57s
+2025-07-25 14:03:40,858 - ollama_adapter - INFO - Ollama query completed successfully in 4.57s - Model: qwen3:0.6b
+2025-07-25 14:03:40,858 - ollama_adapter - INFO - ✓ ACCEPTED - 'Reinforcement Learning for Accelerated Aerodynamic...' passed validation in 4.57s
+2025-07-25 14:03:40,859 - ollama_adapter - INFO - Starting article validation - Title: Hyperbolic Deep Learning for Foundation Models: A ...
+2025-07-25 14:03:40,859 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3179 chars
+2025-07-25 14:03:46,320 - ollama_adapter - INFO - Ollama API call completed in 5.46s
+2025-07-25 14:03:46,321 - ollama_adapter - INFO - Ollama query completed successfully in 5.46s - Model: qwen3:0.6b
+2025-07-25 14:03:46,321 - ollama_adapter - INFO - ✗ REJECTED - 'Hyperbolic Deep Learning for Foundation Models: A ...' failed validation in 5.46s
+2025-07-25 14:03:46,321 - ollama_adapter - INFO - Starting article validation - Title: Adaptive Repetition for Mitigating Position Bias i...
+2025-07-25 14:03:46,322 - ollama_adapter - INFO - Starting Ollama query - Model: qwen3:0.6b, Prompt length: 3435 chars
+2025-07-25 14:03:53,227 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 14:03:53,228 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 14:03:54,152 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 14:03:54,153 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 14:08:47,533 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 14:08:47,534 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 14:08:48,508 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 14:08:48,509 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 14:08:54,735 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 14:08:54,737 - ollama_adapter - INFO - Starting research articles fetch - Model: qwen3:0.6b, Feeds: ['https://export.arxiv.org/rss/cs.AI+cs.LG'], Days back: 1
+2025-07-25 14:08:54,941 - ollama_adapter - INFO - Fetched 83 research articles in 0.20s
+2025-07-25 14:08:54,941 - ollama_adapter - INFO - Starting preference-based filtering of 83 articles (threshold: 0.6)
+2025-07-25 14:08:54,941 - ollama_adapter - INFO - Computing research preference embeddings for 31 topics...
+2025-07-25 14:08:56,121 - ollama_adapter - INFO - Computed 31 preference embeddings in 1.18s
+2025-07-25 14:09:00,077 - ollama_adapter - INFO - Preference filtering completed in 5.14s - 74/83 articles passed
+2025-07-25 14:09:00,077 - ollama_adapter - INFO - Starting vector-based quality validation of 74 articles
+2025-07-25 14:09:00,077 - ollama_adapter - INFO - Computing quality criteria embeddings for 8 positive and 8 negative patterns...
+2025-07-25 14:09:00,335 - ollama_adapter - INFO - Computed 8 quality + 8 anti-quality embeddings in 0.26s
+2025-07-25 14:09:03,852 - ollama_adapter - INFO - Vector quality validation completed in 3.78s - 0/74 articles passed
+2025-07-25 14:09:03,853 - ollama_adapter - INFO - Research articles processing completed!
+2025-07-25 14:09:03,853 - ollama_adapter - INFO - 📊 SUMMARY: 0 articles passed all filters
+2025-07-25 14:09:03,853 - ollama_adapter - INFO - 🔍 PIPELINE: 83 → 74 (preference) → 0 (quality)
+2025-07-25 14:09:03,853 - ollama_adapter - INFO - ⏱️  TIMING: Total 9.12s | Fetch 0.20s | Filter 5.14s | Validation 3.78s
+2025-07-25 14:09:33,947 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 14:09:33,948 - ollama_adapter - INFO - Starting research articles fetch - Model: qwen3:0.6b, Feeds: ['https://export.arxiv.org/rss/cs.AI+cs.LG'], Days back: 1
+2025-07-25 14:09:34,100 - ollama_adapter - INFO - Fetched 83 research articles in 0.15s
+2025-07-25 14:09:34,100 - ollama_adapter - INFO - Starting preference-based filtering of 83 articles (threshold: 0.6)
+2025-07-25 14:09:38,151 - ollama_adapter - INFO - Preference filtering completed in 4.05s - 74/83 articles passed
+2025-07-25 14:09:38,152 - ollama_adapter - INFO - Starting vector-based quality validation of 74 articles
+2025-07-25 14:09:41,648 - ollama_adapter - INFO - Vector quality validation completed in 3.50s - 0/74 articles passed
+2025-07-25 14:09:41,649 - ollama_adapter - INFO - Research articles processing completed!
+2025-07-25 14:09:41,649 - ollama_adapter - INFO - 📊 SUMMARY: 0 articles passed all filters
+2025-07-25 14:09:41,649 - ollama_adapter - INFO - 🔍 PIPELINE: 83 → 74 (preference) → 0 (quality)
+2025-07-25 14:09:41,649 - ollama_adapter - INFO - ⏱️  TIMING: Total 7.70s | Fetch 0.15s | Filter 4.05s | Validation 3.50s
+2025-07-25 14:10:54,292 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 14:10:54,292 - ollama_adapter - INFO - Starting research articles fetch - Model: qwen3:0.6b, Feeds: ['https://export.arxiv.org/rss/cs.AI+cs.LG'], Days back: 1
+2025-07-25 14:10:54,458 - ollama_adapter - INFO - Fetched 83 research articles in 0.17s
+2025-07-25 14:10:54,458 - ollama_adapter - INFO - Starting preference-based filtering of 83 articles (threshold: 0.6)
+2025-07-25 14:10:59,319 - ollama_adapter - INFO - Preference filtering completed in 4.86s - 74/83 articles passed
+2025-07-25 14:10:59,319 - ollama_adapter - INFO - Starting vector-based quality validation of 74 articles
+2025-07-25 14:11:02,818 - ollama_adapter - INFO - Vector quality validation completed in 3.50s - 0/74 articles passed
+2025-07-25 14:11:02,818 - ollama_adapter - INFO - Research articles processing completed!
+2025-07-25 14:11:02,818 - ollama_adapter - INFO - 📊 SUMMARY: 0 articles passed all filters
+2025-07-25 14:11:02,818 - ollama_adapter - INFO - 🔍 PIPELINE: 83 → 74 (preference) → 0 (quality)
+2025-07-25 14:11:02,818 - ollama_adapter - INFO - ⏱️  TIMING: Total 8.53s | Fetch 0.17s | Filter 4.86s | Validation 3.50s
+2025-07-25 14:11:25,577 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 14:11:25,578 - ollama_adapter - INFO - Starting research articles fetch - Model: qwen3:0.6b, Feeds: ['https://export.arxiv.org/rss/cs.AI+cs.LG'], Days back: 1
+2025-07-25 14:11:25,726 - ollama_adapter - INFO - Fetched 83 research articles in 0.15s
+2025-07-25 14:11:25,726 - ollama_adapter - INFO - Starting preference-based filtering of 83 articles (threshold: 0.6)
+2025-07-25 14:11:29,794 - ollama_adapter - INFO - Preference filtering completed in 4.07s - 74/83 articles passed
+2025-07-25 14:11:29,794 - ollama_adapter - INFO - Starting vector-based quality validation of 74 articles
+2025-07-25 14:11:33,289 - ollama_adapter - INFO - Vector quality validation completed in 3.49s - 0/74 articles passed
+2025-07-25 14:11:33,289 - ollama_adapter - INFO - Research articles processing completed!
+2025-07-25 14:11:33,289 - ollama_adapter - INFO - 📊 SUMMARY: 0 articles passed all filters
+2025-07-25 14:11:33,289 - ollama_adapter - INFO - 🔍 PIPELINE: 83 → 74 (preference) → 0 (quality)
+2025-07-25 14:11:33,290 - ollama_adapter - INFO - ⏱️  TIMING: Total 7.71s | Fetch 0.15s | Filter 4.07s | Validation 3.50s
+2025-07-25 14:11:55,715 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 14:11:55,716 - ollama_adapter - INFO - Starting research articles fetch - Model: qwen3:0.6b, Feeds: ['https://export.arxiv.org/rss/cs.AI+cs.LG'], Days back: 1
+2025-07-25 14:11:55,873 - ollama_adapter - INFO - Fetched 83 research articles in 0.16s
+2025-07-25 14:11:55,873 - ollama_adapter - INFO - Starting preference-based filtering of 83 articles (threshold: 0.6)
+2025-07-25 14:12:00,260 - ollama_adapter - INFO - Preference filtering completed in 4.39s - 74/83 articles passed
+2025-07-25 14:12:00,260 - ollama_adapter - INFO - Starting vector-based quality validation of 74 articles
+2025-07-25 14:12:03,776 - ollama_adapter - INFO - Vector quality validation completed in 3.52s - 0/74 articles passed
+2025-07-25 14:12:03,776 - ollama_adapter - INFO - Research articles processing completed!
+2025-07-25 14:12:03,776 - ollama_adapter - INFO - 📊 SUMMARY: 0 articles passed all filters
+2025-07-25 14:12:03,776 - ollama_adapter - INFO - 🔍 PIPELINE: 83 → 74 (preference) → 0 (quality)
+2025-07-25 14:12:03,777 - ollama_adapter - INFO - ⏱️  TIMING: Total 8.06s | Fetch 0.16s | Filter 4.39s | Validation 3.52s
+2025-07-25 14:13:04,411 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 14:13:04,411 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 14:13:05,325 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 14:13:05,326 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 14:13:13,629 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 14:13:13,629 - ollama_adapter - INFO - Starting research articles fetch - Model: qwen3:0.6b, Feeds: ['https://export.arxiv.org/rss/cs.AI+cs.LG'], Days back: 1
+2025-07-25 14:13:13,816 - ollama_adapter - INFO - Fetched 83 research articles in 0.19s
+2025-07-25 14:13:13,816 - ollama_adapter - INFO - Starting preference-based filtering of 83 articles (threshold: 0.6)
+2025-07-25 14:13:13,816 - ollama_adapter - INFO - Computing research preference embeddings for 31 topics...
+2025-07-25 14:13:14,387 - ollama_adapter - INFO - Computed 31 preference embeddings in 0.57s
+2025-07-25 14:13:18,337 - ollama_adapter - INFO - Preference filtering completed in 4.52s - 74/83 articles passed
+2025-07-25 14:13:18,337 - ollama_adapter - INFO - DEBUG: filtered_articles count: 74, validated_articles count: 74
+2025-07-25 14:13:18,337 - ollama_adapter - INFO - Research articles processing completed!
+2025-07-25 14:13:18,337 - ollama_adapter - INFO - 📊 SUMMARY: 74 articles passed all filters
+2025-07-25 14:13:18,337 - ollama_adapter - INFO - 🔍 PIPELINE: 83 → 74 (preference) → 74 (quality)
+2025-07-25 14:13:18,338 - ollama_adapter - INFO - ⏱️  TIMING: Total 4.71s | Fetch 0.19s | Filter 4.52s | Validation 0.00s
+2025-07-25 14:13:55,752 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 14:13:55,753 - ollama_adapter - INFO - Starting research articles fetch - Model: qwen3:0.6b, Feeds: ['https://export.arxiv.org/rss/cs.AI+cs.LG'], Days back: 1
+2025-07-25 14:13:55,907 - ollama_adapter - INFO - Fetched 83 research articles in 0.15s
+2025-07-25 14:13:55,907 - ollama_adapter - INFO - Starting preference-based filtering of 83 articles (threshold: 0.6)
+2025-07-25 14:13:59,856 - ollama_adapter - INFO - Preference filtering completed in 3.95s - 74/83 articles passed
+2025-07-25 14:13:59,857 - ollama_adapter - INFO - DEBUG: filtered_articles count: 74, validated_articles count: 74
+2025-07-25 14:13:59,857 - ollama_adapter - INFO - Research articles processing completed!
+2025-07-25 14:13:59,857 - ollama_adapter - INFO - 📊 SUMMARY: 74 articles passed all filters
+2025-07-25 14:13:59,857 - ollama_adapter - INFO - 🔍 PIPELINE: 83 → 74 (preference) → 74 (quality)
+2025-07-25 14:13:59,857 - ollama_adapter - INFO - ⏱️  TIMING: Total 4.10s | Fetch 0.15s | Filter 3.95s | Validation 0.00s
+2025-07-25 14:14:06,568 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 14:14:06,568 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 14:14:07,472 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 14:14:07,472 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 14:31:01,988 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 14:31:01,988 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 14:31:03,102 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 14:31:03,102 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 19:02:08,940 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:02:13,579 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:02:17,841 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:02:55,944 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:03:04,563 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 19:03:04,564 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 19:03:05,583 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 19:03:05,584 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 19:03:15,800 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:03:20,351 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:04:04,476 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:04:08,643 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:04:28,840 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-1' coro=<main() done, defined at /Users/chris/source/airss/mcp_server_1.py:1056> exception=BaseExceptionGroup('unhandled errors in a TaskGroup', [BaseExceptionGroup('unhandled errors in a TaskGroup', [KeyboardInterrupt()])])>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/chris/source/airss/mcp_server_1.py", line 1060, in main
+  |     async with stdio_server() as (read_stream, write_stream):
+  |                ~~~~~~~~~~~~^^
+  |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 235, in __aexit__
+  |     await self.gen.athrow(value)
+  |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/server/stdio.py", line 85, in stdio_server
+  |     async with anyio.create_task_group() as tg:
+  |                ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Exception Group Traceback (most recent call last):
+    |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/server/stdio.py", line 88, in stdio_server
+    |     yield read_stream, write_stream
+    |   File "/Users/chris/source/airss/mcp_server_1.py", line 1061, in main
+    |     await mcp_server.run(
+    |     ...<10 lines>...
+    |     )
+    |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/server/lowlevel/server.py", line 569, in run
+    |     async with AsyncExitStack() as stack:
+    |                ~~~~~~~~~~~~~~^^
+    |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 768, in __aexit__
+    |     raise exc
+    |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 751, in __aexit__
+    |     cb_suppress = await cb(*exc_details)
+    |                   ^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/shared/session.py", line 218, in __aexit__
+    |     return await self._task_group.__aexit__(exc_type, exc_val, exc_tb)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+    |     raise BaseExceptionGroup(
+    |         "unhandled errors in a TaskGroup", self._exceptions
+    |     ) from None
+    | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+    +-+---------------- 1 ----------------
+      | Traceback (most recent call last):
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/streams/memory.py", line 111, in receive
+      |     return self.receive_nowait()
+      |            ~~~~~~~~~~~~~~~~~~~^^
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/streams/memory.py", line 106, in receive_nowait
+      |     raise WouldBlock
+      | anyio.WouldBlock
+      | 
+      | During handling of the above exception, another exception occurred:
+      | 
+      | Traceback (most recent call last):
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/shared/session.py", line 337, in _receive_loop
+      |     async for message in self._read_stream:
+      |     ...<76 lines>...
+      |                 )
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/abc/_streams.py", line 35, in __anext__
+      |     return await self.receive()
+      |            ^^^^^^^^^^^^^^^^^^^^
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/streams/memory.py", line 119, in receive
+      |     await receive_event.wait()
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 1774, in wait
+      |     await self._event.wait()
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/locks.py", line 213, in wait
+      |     await fut
+      | asyncio.exceptions.CancelledError: Cancelled by cancel scope 103920a50
+      | 
+      | During handling of the above exception, another exception occurred:
+      | 
+      | Traceback (most recent call last):
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 195, in run
+      |     return runner.run(main)
+      |            ~~~~~~~~~~^^^^^^
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 118, in run
+      |     return self._loop.run_until_complete(task)
+      |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 712, in run_until_complete
+      |     self.run_forever()
+      |     ~~~~~~~~~~~~~~~~^^
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 683, in run_forever
+      |     self._run_once()
+      |     ~~~~~~~~~~~~~~^^
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 2042, in _run_once
+      |     handle._run()
+      |     ~~~~~~~~~~~^^
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py", line 89, in _run
+      |     self._context.run(self._callback, *self._args)
+      |     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/server/session.py", line 140, in _receive_loop
+      |     await super()._receive_loop()
+      |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/shared/session.py", line 428, in _receive_loop
+      |     for id, stream in self._response_streams.items():
+      |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+      |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 157, in _on_sigint
+      |     raise KeyboardInterrupt()
+      | KeyboardInterrupt
+      +------------------------------------
+2025-07-25 19:04:31,925 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 19:04:31,926 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 19:04:32,908 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 19:04:32,909 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 19:04:39,888 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:05:20,303 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:06:25,261 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:22:18,107 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:22:37,110 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:23:10,173 - asyncio - ERROR - unhandled exception during asyncio.run() shutdown
+task: <Task finished name='Task-1' coro=<main() done, defined at /Users/chris/source/airss/mcp_server_1.py:1056> exception=BaseExceptionGroup('unhandled errors in a TaskGroup', [KeyboardInterrupt()])>
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/chris/source/airss/mcp_server_1.py", line 1060, in main
+  |     async with stdio_server() as (read_stream, write_stream):
+  |                ~~~~~~~~~~~~^^
+  |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 235, in __aexit__
+  |     await self.gen.athrow(value)
+  |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/server/stdio.py", line 85, in stdio_server
+  |     async with anyio.create_task_group() as tg:
+  |                ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | BaseExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 195, in run
+    |     return runner.run(main)
+    |            ~~~~~~~~~~^^^^^^
+    |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 118, in run
+    |     return self._loop.run_until_complete(task)
+    |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+    |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 712, in run_until_complete
+    |     self.run_forever()
+    |     ~~~~~~~~~~~~~~~~^^
+    |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 683, in run_forever
+    |     self._run_once()
+    |     ~~~~~~~~~~~~~~^^
+    |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 2042, in _run_once
+    |     handle._run()
+    |     ~~~~~~~~~~~^^
+    |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/events.py", line 89, in _run
+    |     self._context.run(self._callback, *self._args)
+    |     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/Users/chris/source/airss/venv/lib/python3.13/site-packages/mcp/server/stdio.py", line 77, in stdout_writer
+    |     async with write_stream_reader:
+    |                ^^^^^^^^^^^^^^^^^^^
+    |   File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 157, in _on_sigint
+    |     raise KeyboardInterrupt()
+    | KeyboardInterrupt
+    +------------------------------------
+2025-07-25 19:23:18,592 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 19:23:18,593 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 19:23:19,624 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-07-25 19:23:19,624 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-07-25 19:23:24,248 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:28:26,217 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:28:30,277 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:32:03,909 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:32:10,004 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:32:16,305 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-07-25 19:32:22,820 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest

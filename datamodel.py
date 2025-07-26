@@ -17,8 +17,12 @@ class Article:
         self.cluster = cluster
         self.age=age
 
-    def out(self,d=0):
-        return f"- [{self.title}]({self .url})"
+    def out(self, d=0):
+        return f"- [{self.title}]({self.url})"
+    
+    def out_rich(self, d=0):
+        """Rich output format for AI processing with source and summary"""
+        return f"- [{self.title}]({self.url}) ({self.source})\n  {self.summary}"
 
     def json(self):
         return {
@@ -41,9 +45,15 @@ class Group:
         self.articles = articles if articles is not None else []
 
 
-    def out(self,d=1):
+    def out(self, d=1):
         """Generate a string representation of the group with its title and associated articles."""
         article_list = "\n".join([xx.out(d+1) for xx in self.articles])
+        hashes = "".join(["#" for _ in range(d)])
+        return f"{hashes} {self.text}\n{article_list}"
+    
+    def out_rich(self, d=1):
+        """Rich output format for AI processing with source and summary"""
+        article_list = "\n".join([xx.out_rich(d+1) for xx in self.articles])
         hashes = "".join(["#" for _ in range(d)])
         return f"{hashes} {self.text}\n{article_list}"
 

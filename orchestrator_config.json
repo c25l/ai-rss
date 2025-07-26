@@ -1,0 +1,19 @@
+{
+  "schedule": {
+    "enabled": true,
+    "default_cron": "0 6 * * *",
+    "timezone": "UTC",
+    "max_concurrent_workflows": 1
+  },
+  "workflow": {
+    "default_hours_back": 24,
+    "timeout_seconds": 600,
+    "send_sse_events": true
+  },
+  "sse": {
+    "enabled": true,
+    "port": 8080,
+    "max_clients": 100
+  },
+  "debug": false
+}

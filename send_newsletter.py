@@ -1,0 +1,126 @@
+#!/usr/bin/env python3
+"""
+Newsletter sending utility
+Usage: python3 send_newsletter.py [markdown_file] [subject]
+"""
+
+import sys
+import smtplib
+from email.message import EmailMessage
+from datetime import datetime
+try:
+    from markdown import markdown
+except ImportError:
+    print("Installing markdown...")
+    import subprocess
+    subprocess.run(["pip3", "install", "markdown"])
+    from markdown import markdown
+
+def send_newsletter_email(markdown_content, subject=None):
+    """Send newsletter email with markdown content"""
+    
+    if subject is None:
+        subject = f"📰 AIRSS Newsletter - {datetime.now().strftime('%Y-%m-%d')}"
+    
+    try:
+        # Convert markdown to HTML
+        html_body = markdown(markdown_content, extensions=['extra', 'codehilite'])
+        
+        # Add proper HTML styling
+        html_content = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{subject}</title>
+    <style>
+        body {{ 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }}
+        h1 {{ color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }}
+        h2 {{ color: #34495e; border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; }}
+        a {{ color: #3498db; text-decoration: none; }}
+        a:hover {{ text-decoration: underline; }}
+        strong {{ color: #2c3e50; }}
+        em {{ color: #7f8c8d; }}
+        hr {{ border: none; border-top: 2px solid #ecf0f1; margin: 30px 0; }}
+        ul {{ margin: 15px 0; }}
+        li {{ margin: 8px 0; }}
+        blockquote {{ 
+            border-left: 4px solid #3498db; 
+            margin: 20px 0; 
+            padding-left: 20px; 
+            color: #7f8c8d; 
+        }}
+    </style>
+</head>
+<body>
+    {html_body}
+</body>
+</html>"""
+        
+        # Email configuration
+        sender = "christopherpbonnell@icloud.com"
+        receiver = "christopherpbonnell+airss@gmail.com"
+        password = "vqxh-oqrp-wjln-eagl"  # App-specific password
+        
+        # Create and send email
+        msg = EmailMessage()
+        msg["From"] = sender
+        msg["To"] = receiver
+        msg["Subject"] = subject
+        msg.set_content(html_content, subtype="html")
+        
+        with smtplib.SMTP("smtp.mail.me.com", 587) as server:
+            server.starttls()
+            server.login(msg['From'], password)
+            server.send_message(msg)
+        
+        return {
+            "status": "sent",
+            "message": "Newsletter email sent successfully",
+            "recipient": receiver,
+            "subject": subject,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": f"Failed to send email: {str(e)}",
+            "timestamp": datetime.now().isoformat()
+        }
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python3 send_newsletter.py [markdown_file] [optional_subject]")
+        print("   or: echo 'markdown content' | python3 send_newsletter.py")
+        return
+    
+    # Read from file or stdin
+    if sys.argv[1] == "-":
+        # Read from stdin
+        markdown_content = sys.stdin.read()
+    else:
+        # Read from file
+        try:
+            with open(sys.argv[1], 'r') as f:
+                markdown_content = f.read()
+        except FileNotFoundError:
+            print(f"Error: File '{sys.argv[1]}' not found")
+            return
+    
+    # Get subject
+    subject = sys.argv[2] if len(sys.argv) > 2 else None
+    
+    # Send email
+    result = send_newsletter_email(markdown_content, subject)
+    print(f"Result: {result}")
+
+if __name__ == "__main__":
+    main()
