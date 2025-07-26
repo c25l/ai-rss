@@ -1,0 +1,10 @@
+[1,"NYT US", "https://rss.nytimes.com/services/xml/rss/nyt/US.xml", ["US News"]],
+[1,"NYT World", "https://rss.nytimes.com/services/xml/rss/nyt/World.xml", ["World News"]],
+[1,"The Atlantic", "https://www.theatlantic.com/feed/all/", ["US News"]],
+[1,"MF", "https://rss.metafilter.com/metafilter.rss", ["Culture"]],
+[1,"LfaA", "https://heathercoxrichardson.substack.com/feed", ["US News", "History"]],
+[1,"Acoup", "https://acoup.blog/feed/", ["Culture", "Classics", "History", "Warfare"]],
+[1,"MSR", "https://www.microsoft.com/en-us/research/feed/", ["Artificial Intelligence"]],
+[1,"Nature", "https://www.nature.com/nature.rss", ["Science"]],
+[3,"TLDR AI", "https://tldr.tech/api/rss/ai", ["Artificial Intelligence"]],
+[1,"Longmont Leader", "https://www.longmontleader.com/rss/",["Local News", "Colorado"]]

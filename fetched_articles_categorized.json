@@ -1,0 +1,499 @@
+{
+  "Local and World News": {
+    "feed_count": 4,
+    "feeds": [
+      "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+      "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+      "https://www.theatlantic.com/feed/all/",
+      "https://heathercoxrichardson.substack.com/feed"
+    ],
+    "article_count": 46,
+    "articles": [
+      {
+        "title": "Defining Antisemitism Is the Subject of Bitter Debate",
+        "url": "https://www.nytimes.com/2025/07/15/us/defining-antisemitism.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "There\u2019s no consensus about what, precisely, constitutes antisemitism.",
+        "published_at": "Tue, 15 Jul 2025 14:59:59 +0000"
+      },
+      {
+        "title": "Dismissals at Justice Dept. Would Bypass Civil Service and Whistle-Blower Laws",
+        "url": "https://www.nytimes.com/2025/07/15/us/politics/justice-department-dismissals-civil-service-laws.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "In court filings and dismissal letters, the Justice Department\u2019s political leadership claims sweeping authority to fire career law enforcement officials without cause.",
+        "published_at": "Tue, 15 Jul 2025 14:27:43 +0000"
+      },
+      {
+        "title": "What to Know About the Fallout Around the Epstein Files and the Trump Administration",
+        "url": "https://www.nytimes.com/2025/07/15/us/politics/jeffrey-epstein-files-trump.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "Here\u2019s what to know about the disturbing facts and unsubstantiated suspicions that make Jeffrey Epstein, a registered sex offender, a politically potent obsession.",
+        "published_at": "Tue, 15 Jul 2025 13:03:38 +0000"
+      },
+      {
+        "title": "A Summer Camp on the Guadalupe River Reopens After Deadly Texas Flooding",
+        "url": "https://www.nytimes.com/2025/07/15/us/texas-flood-camp-reopens.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "Barely a week after devastating floods destroyed Camp Mystic and killed at least 132, Camp CAMP, which serves disabled youth, reopened Monday, thanks to a herculean cleanup led by a volunteer army.",
+        "published_at": "Tue, 15 Jul 2025 09:02:11 +0000"
+      },
+      {
+        "title": "Democrats Are Workshopping New Tactics After Losses of 2024",
+        "url": "https://www.nytimes.com/2025/07/15/us/politics/democrats-voters-ads-campaigns.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "Among the ideas being promoted: knocking on every single door in a House district and awarding cash prizes for the most effective new ways to reach voters.",
+        "published_at": "Tue, 15 Jul 2025 16:11:57 +0000"
+      },
+      {
+        "title": "Appeals Court Delays Decision on Contempt Plan in Venezuelan Migrant Deportation Case",
+        "url": "https://www.nytimes.com/2025/07/15/us/politics/appeals-court-trump-contempt-el-salvador-deportation.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "The three-judge panel has allowed the case to languish in a kind of legal limbo, catching the eye of some legal experts.",
+        "published_at": "Tue, 15 Jul 2025 12:37:27 +0000"
+      },
+      {
+        "title": "Here\u2019s the latest.",
+        "url": "https://www.nytimes.com/live/2025/07/15/us/college-antisemitism-hearing/antisemitism-hearing-uc-berkeley-georgetown-cuny",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "Leaders from Georgetown, the City University of New York and the University of California, Berkeley, are the latest to testify about accusations of campus antisemitism.",
+        "published_at": "Tue, 15 Jul 2025 16:43:05 +0000"
+      },
+      {
+        "title": "Federal Workers\u2019 \u2018Emotional Roller Coaster\u2019: Fired, Rehired, Fired Again",
+        "url": "https://www.nytimes.com/2025/07/15/us/politics/fired-federal-workers-trump.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "Former government employees are finding that perhaps the only thing harder than getting laid off from the federal government is staying that way.",
+        "published_at": "Tue, 15 Jul 2025 09:00:26 +0000"
+      },
+      {
+        "title": "John MacArthur, Fiery Preacher and Culture Warrior, Dies at 86",
+        "url": "https://www.nytimes.com/2025/07/15/us/john-macarthur-dead.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "He was a theologically uncompromising pastor in Southern California who influenced generations of evangelical preachers.",
+        "published_at": "Tue, 15 Jul 2025 15:06:31 +0000"
+      },
+      {
+        "title": "Appeals Court Blocks Trump Administration From Ending Deportation Protections for Afghans,  for Now",
+        "url": "https://www.nytimes.com/2025/07/14/us/politics/afghanistan-tps-migrants-deportation.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "A short, unsigned order by the Fourth Circuit Court of Appeals in Virginia blocked the Trump administration\u2019s move to terminate deportation protections until next week.",
+        "published_at": "Tue, 15 Jul 2025 01:54:18 +0000"
+      },
+      {
+        "title": "Judge Approves Release of Iranian Arrested in Louisiana After U.S. Bombed Iran",
+        "url": "https://www.nytimes.com/2025/07/14/us/politics/iran-student-released-louisiana.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "Pouria Pourhosseinhendabad, a doctoral student studying mechanical engineering at Louisiana State University, was arrested along with his wife in what his lawyers called \u201can unconstitutional ruse.\u201d",
+        "published_at": "Tue, 15 Jul 2025 14:43:53 +0000"
+      },
+      {
+        "title": "Behind Trump\u2019s Tough Talk on Russia and Putin, Doubts and Missing Details",
+        "url": "https://www.nytimes.com/2025/07/14/us/politics/trump-russia-ukraine-nato.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "Pentagon officials said details were still being worked out, and experts doubted Mr. Trump\u2019s threat of huge tariffs for Russian trading partners.",
+        "published_at": "Tue, 15 Jul 2025 12:30:36 +0000"
+      },
+      {
+        "title": "Unreleased Beyonc\u00e9 Music Stolen During Cowboy Carter Tour in Atlanta, Police Say",
+        "url": "https://www.nytimes.com/2025/07/14/us/beyonce-unreleased-music-stolen-atlanta.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "Two members of Beyonc\u00e9\u2019s team said that their S.U.V. was broken into on July 8, just before a series of concerts in Atlanta, the authorities said. The police said a suspect had emerged.",
+        "published_at": "Tue, 15 Jul 2025 13:33:52 +0000"
+      },
+      {
+        "title": "What to Know About Trump\u2019s Cuts to the Education Department",
+        "url": "https://www.nytimes.com/2025/07/14/us/trump-administration-education-department-dismantle.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "Cuts have hit most of the department\u2019s main functions, which include investigating civil rights complaints, providing financial aid, researching what works in education, testing students and disbursing federal funding.",
+        "published_at": "Tue, 15 Jul 2025 01:31:23 +0000"
+      },
+      {
+        "title": "Trump\u2019s Decision on Patriot Missiles Gives Ukraine Cautious Optimism",
+        "url": "https://www.nytimes.com/2025/07/14/us/politics/trump-ukraine-weapons-patriot-missiles.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "American fatigue with the war and the fickleness of the Trump administration remain concerns for Ukraine\u2019s leaders.",
+        "published_at": "Tue, 15 Jul 2025 12:30:48 +0000"
+      },
+      {
+        "title": "Homeless Population Declines in Los Angeles for Second Straight Year",
+        "url": "https://www.nytimes.com/2025/07/14/us/los-angeles-homeless.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "A key survey of homelessness in Los Angeles determined that the number of people sleeping without shelter fell again. More than 72,000 people remain homeless in Los Angeles County.",
+        "published_at": "Tue, 15 Jul 2025 15:03:46 +0000"
+      },
+      {
+        "title": "Oklahoma Farmer Killed by Water Buffaloes He Had Just Bought, Police Say",
+        "url": "https://www.nytimes.com/2025/07/14/us/water-buffalo-attack-oklahoma.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "The farm where Bradley McMichael, 47, died has been in his family for three generations. His fianc\u00e9e described him as an experienced farmer who had worked with livestock since his teenage years.",
+        "published_at": "Tue, 15 Jul 2025 00:28:50 +0000"
+      },
+      {
+        "title": "Supreme Court Allows Trump to Gut Education Department With Mass Firings",
+        "url": "https://www.nytimes.com/2025/07/14/us/politics/supreme-court-education-department.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "The move by the justices represents an expansion of executive power, allowing President Trump to dismantle the inner workings of a government department.",
+        "published_at": "Tue, 15 Jul 2025 01:02:50 +0000"
+      },
+      {
+        "title": "Fewer Than 100 Unaccounted For in Texas Flood as Officials Decry \u2018Blame Game\u2019",
+        "url": "https://www.nytimes.com/2025/07/14/us/texas-kerr-county-flood-response.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "summary": "In Kerr County, where the most deaths occurred, officials said they were receiving threats, even as they continued to deflect questions about flood warnings.",
+        "published_at": "Tue, 15 Jul 2025 14:50:10 +0000"
+      },
+      {
+        "title": "Would Europe Actually Retaliate Against Trump\u2019s Tariffs?",
+        "url": "https://www.nytimes.com/2025/07/15/world/europe/eu-tariffs-trump-us-retaliate.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "European Union officials have drawn up plans to impose levies on American imports, but questions abound about whether they would go through with them.",
+        "published_at": "Tue, 15 Jul 2025 11:15:55 +0000"
+      },
+      {
+        "title": "Netanyahu\u2019s Ultra-Orthodox Allies Threaten His Coalition Government",
+        "url": "https://www.nytimes.com/2025/07/15/world/middleeast/netanyahu-ultra-orthodox-draft.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "Some of the prime minister\u2019s political allies have quit over a proposal to make religious students serve in military, and more are threatening to do so.",
+        "published_at": "Tue, 15 Jul 2025 14:56:33 +0000"
+      },
+      {
+        "title": "Trump\u2019s Shift on Ukraine Is Good News for Europe, for Now",
+        "url": "https://www.nytimes.com/2025/07/15/world/europe/ukraine-weapons-europe-trump.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "After European leaders stepped up military spending, President Trump aligned himself more closely with them on the war. But his tariffs threats have left bruises.",
+        "published_at": "Tue, 15 Jul 2025 12:14:19 +0000"
+      },
+      {
+        "title": "Israel Targets Syria and Lebanon in Wave of Airstrikes",
+        "url": "https://www.nytimes.com/2025/07/15/world/middleeast/airstrikes-israel-syria-lebanon.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "In Syria, Israel launched rare attacks on forces of the new government, while in Lebanon it took aim at the Iran-backed militant group Hezbollah.",
+        "published_at": "Tue, 15 Jul 2025 13:21:30 +0000"
+      },
+      {
+        "title": "Three Aid Workers Were \u2018Intentionally Killed\u2019 in Tigray Region of Ethiopia, M.S.F. Says",
+        "url": "https://www.nytimes.com/2025/07/15/world/africa/ethiopia-tigray-msf.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "The aid group accused Ethiopia\u2019s government of failing to properly investigate the slayings, which took place in the Tigray region in 2021. A New York Times investigation found that Ethiopian soldiers were responsible.",
+        "published_at": "Tue, 15 Jul 2025 15:55:59 +0000"
+      },
+      {
+        "title": "Blazes in Northern Ireland Recall an Old Message: You Are Not Welcome Here",
+        "url": "https://www.nytimes.com/2025/07/15/world/europe/northern-ireland-bonfire-arson-ballymena-riots.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "A bonfire topped with an effigy of a migrant boat. Homes set alight. During the Troubles, similar tactics were used to target Irish Catholics in the territory.",
+        "published_at": "Tue, 15 Jul 2025 10:38:33 +0000"
+      },
+      {
+        "title": "U.K. Secretly Resettled 4,500 Afghans in Britain After Huge Data Exposure",
+        "url": "https://www.nytimes.com/2025/07/15/world/europe/uk-data-email-afghans-taliban.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "The government said that the personal details of 18,000 Afghans were accidentally revealed in 2022. The previous government had secured a legal order to prevent any reporting on the subject.",
+        "published_at": "Tue, 15 Jul 2025 13:57:12 +0000"
+      },
+      {
+        "title": "What We Know About the U.S. Deal for a Weapons Pipeline to Ukraine",
+        "url": "https://www.nytimes.com/2025/07/15/world/europe/ukraine-weapons-us-nato.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "NATO allies will buy arms, then give them to Ukraine, President Trump said.",
+        "published_at": "Tue, 15 Jul 2025 14:34:38 +0000"
+      },
+      {
+        "title": "Australian Premier Albanese Meets China\u2019s Xi in Beijing",
+        "url": "https://www.nytimes.com/2025/07/15/world/asia/china-australia-trade-security.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "Prime Minister Anthony Albanese is trying to deepen ties with China, his country\u2019s biggest trading partner, while being under pressure from the United States.",
+        "published_at": "Tue, 15 Jul 2025 11:43:01 +0000"
+      },
+      {
+        "title": "Men Who Felled Sycamore Gap Tree Are Given Prison Sentences in U.K.",
+        "url": "https://www.nytimes.com/2025/07/15/world/europe/sycamore-gap-tree-sentencing-prison.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "The tree, a beloved landmark that stood by Hadrian\u2019s Wall in northern England, was found illegally cut down in 2023.",
+        "published_at": "Tue, 15 Jul 2025 15:15:52 +0000"
+      },
+      {
+        "title": "Zelensky Announces Plan for Major Government Shake-Up in Ukraine",
+        "url": "https://www.nytimes.com/2025/07/14/world/europe/ukraine-zelensky-government-shakeup.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "An announcement by the Ukrainian president that he will seek to replace the prime minister with a loyalist came as the country faces battlefield setbacks and a souring mood.",
+        "published_at": "Tue, 15 Jul 2025 13:09:23 +0000"
+      },
+      {
+        "title": "China Puts New Restrictions on E.V. Battery Manufacturing Technology",
+        "url": "https://www.nytimes.com/2025/07/15/business/china-electric-vehicle-battery-manufacturing.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "Beijing will now require government licenses for any effort to transfer abroad the technologies crucial for producing inexpensive electric cars.",
+        "published_at": "Tue, 15 Jul 2025 15:55:21 +0000"
+      },
+      {
+        "title": "Indian Police Find Russian Woman Living in a Cave With 2 Children",
+        "url": "https://www.nytimes.com/2025/07/15/world/asia/india-russian-woman-cave.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "Officials said she had spent years in the country seeking spirituality and living among nature. But she faces deportation after overstaying her visa.",
+        "published_at": "Tue, 15 Jul 2025 10:21:17 +0000"
+      },
+      {
+        "title": "Air India Crash Findings Prompt Inspections of Boeing Fuel Switches",
+        "url": "https://www.nytimes.com/2025/07/15/world/asia/air-india-plane-crash-fuel-switch-boeing.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "Airlines in India, Singapore and South Korea were inspecting fuel control switches on their Boeing jets.",
+        "published_at": "Tue, 15 Jul 2025 15:53:52 +0000"
+      },
+      {
+        "title": "Tuesday Briefing: More Weapons for Ukraine",
+        "url": "https://www.nytimes.com/2025/07/15/briefing/ukraine-trump-russia-gaza-palestinians-syria.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "Plus, why Hitchcock still scares us",
+        "published_at": "Tue, 15 Jul 2025 04:30:04 +0000"
+      },
+      {
+        "title": "Israel and Iran Usher In New Era of Psychological Warfare",
+        "url": "https://www.nytimes.com/2025/07/15/technology/israel-iran-psychological-warfare.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "The 12-day conflict was marked by a flurry of propaganda, disinformation and covert operations aided by artificial intelligence and spread by social media.",
+        "published_at": "Tue, 15 Jul 2025 04:00:05 +0000"
+      },
+      {
+        "title": "Trump Reluctantly Comes Around to Backing Ukraine. Will He Stick With It?",
+        "url": "https://www.nytimes.com/2025/07/14/us/politics/trump-ukraine-biden.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "President Trump is formalizing a new plan to sell American weapons to European allies, who would pass them onto Kyiv. But he made it clear this wasn\u2019t his war.",
+        "published_at": "Tue, 15 Jul 2025 02:08:31 +0000"
+      },
+      {
+        "title": "How Trump Changed His Tone on Putin and the Russia-Ukraine War",
+        "url": "https://www.nytimes.com/2025/07/14/us/politics/trump-putin-ukraine.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "After years of lavishing praise on the Russian leader, President Trump abruptly changed his posture amid mounting frustration with the lack of progress on a cease-fire.",
+        "published_at": "Tue, 15 Jul 2025 02:08:23 +0000"
+      },
+      {
+        "title": "Rubio Visits Asia in Shadow of Trump\u2019s Tariffs",
+        "url": "https://www.nytimes.com/video/world/asia/100000010277461/rubio-visits-asia-in-shadow-of-trumps-tariffs.html",
+        "source": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "summary": "Marco Rubio made his first visit to Asia as secretary of state. Edward Wong, a diplomatic correspondent for The New York Times, reports from Kuala Lumpur, Malaysia, to explain how President Trump\u2019s tariffs have upset U.S. trading partners.",
+        "published_at": "Tue, 15 Jul 2025 14:28:45 +0000"
+      },
+      {
+        "title": "Photos: The Grand Canyon Burns",
+        "url": "https://www.theatlantic.com/photography/archive/2025/07/arizona-wildfires-grand-canyon-photos/683534/?utm_source=feed",
+        "source": "https://www.theatlantic.com/feed/all/",
+        "summary": "The Dragon Bravo wildfire in Arizona grew rapidly over the past weekend, destroying the historic Grand Canyon Lodge and dozens of other structures along the canyon\u2019s North Rim.",
+        "published_at": "2025-07-15T12:10:47-04:00"
+      },
+      {
+        "title": "What We Gain by Forgetting",
+        "url": "https://www.theatlantic.com/books/archive/2025/07/girl-1983-linn-ullmann-novel-review/683521/?utm_source=feed",
+        "source": "https://www.theatlantic.com/feed/all/",
+        "summary": "In Linn Ullmann\u2019s memoiristic fiction, the erosion of memories is a feature, not a bug.",
+        "published_at": "2025-07-15T08:00:00-04:00"
+      },
+      {
+        "title": "The Trump Administration Is Violating the First Rule of Disasters",
+        "url": "https://www.theatlantic.com/science/archive/2025/07/texas-flood-response-preparation/683528/?utm_source=feed",
+        "source": "https://www.theatlantic.com/feed/all/",
+        "summary": "Good disaster management is premised on preparation.",
+        "published_at": "2025-07-15T07:24:20-04:00"
+      },
+      {
+        "title": "I Left My Church\u2014And Found Christianity",
+        "url": "https://www.theatlantic.com/ideas/archive/2025/07/christian-church-gay-marriage/683527/?utm_source=feed",
+        "source": "https://www.theatlantic.com/feed/all/",
+        "summary": "No one should have to choose between their community and their own integrity.",
+        "published_at": "2025-07-15T07:00:00-04:00"
+      },
+      {
+        "title": "An IRS Regulation Change That Could Sow Societal Division",
+        "url": "https://www.theatlantic.com/culture/archive/2025/07/churches-political-endorsements-irs/683523/?utm_source=feed",
+        "source": "https://www.theatlantic.com/feed/all/",
+        "summary": "Churches are now allowed to endorse political candidates. They should resist the temptation.",
+        "published_at": "2025-07-15T07:00:00-04:00"
+      },
+      {
+        "title": "Is Culture Really Dead?",
+        "url": "https://www.theatlantic.com/magazine/archive/2025/08/the-commons/683246/?utm_source=feed",
+        "source": "https://www.theatlantic.com/feed/all/",
+        "summary": "Readers respond to our May and June issues.",
+        "published_at": "2025-07-15T07:00:00-04:00"
+      },
+      {
+        "title": "The Trump Administration Is About to Incinerate 500 Tons of Emergency Food",
+        "url": "https://www.theatlantic.com/health/archive/2025/07/usaid-emergency-food-incinerate-trump/683532/?utm_source=feed",
+        "source": "https://www.theatlantic.com/feed/all/",
+        "summary": "Federal workers warned for months that the high-energy biscuits would go to waste.",
+        "published_at": "2025-07-14T22:21:23-04:00"
+      },
+      {
+        "title": "July 14, 2025",
+        "url": "https://heathercoxrichardson.substack.com/p/july-14-2025",
+        "source": "https://heathercoxrichardson.substack.com/feed",
+        "summary": "Trump appointees insist they have a \u201cmandate\u201d to drive undocumented immigrants out of the U.S.",
+        "published_at": "Tue, 15 Jul 2025 04:51:37 GMT"
+      }
+    ]
+  },
+  "Cultural Interest": {
+    "feed_count": 2,
+    "feeds": [
+      "https://rss.metafilter.com/metafilter.rss",
+      "https://acoup.blog/feed/"
+    ],
+    "article_count": 8,
+    "articles": [
+      {
+        "title": "Update on the GOP war on Education and Science",
+        "url": "https://www.metafilter.com/209575/Update-on-the-GOP-war-on-Education-and-Science",
+        "source": "https://rss.metafilter.com/metafilter.rss",
+        "summary": "The Supreme Court allowed Trump to move forward with dismantling the Education Department and laying off nearly half its staff. In an unsigned order, the justices lifted a lower court ruling that had paused the plan and required the reinstatement of about 1,400 employees. The department had over 4,000 employees before Trump returned to office, but his cuts would leave it with about half that number \u2013 part of a broader effort to shut down the agency without congressional approval. Justice Sonia Sotomayor called the decision \"indefensible\" and said the court was enabling Trump's \"intent to break the law\" by giving him \"the power to repeal statutes by firing all those necessary to carry them out.\" From the same link: \nA group of 24 states and Washington, D.C., sued the Trump administration for withholding $6.8 billion in education funding due July 1. The lawsuit says the freeze violates the Constitution, the Impoundment Control Act, and other laws by blocking money Congress approved for after-school care, teacher training, and programs for migrant children and English learners.\n\nFrom CBS:\nIn a complaint in U.S. District Court for the District of Rhode Island, lawyers for the states said the decision to freeze the funds had caused \"chaos.\" The suit named as defendants Education Secretary Linda McMahon, President Trump and Russell Vought, director of the Office of Management and Budget. \"States already have planned for the upcoming academic year \u2014 which is set to start in weeks in many areas \u2014 in reliance on the billions of dollars that are now frozen,\" they wrote. \"The budgets for many local educational agencies (LEAs) have already been approved and staffing plans have been developed so that LEAs can perform their responsibilities for the impacted programs.\"\n\nFrom Paul Krugman:\nYou've probably heard that the One Big Beautiful Bill will cause immense hardship via its cuts to Medicaid, which will amount to around 15 percent of the program's spending. Well, the Trump administration wants to cut funding for NOAA by 40 percent. Since NOAA is a tiny budget item compared with Medicaid, what's this about? Actually, there's no mystery. Among other things, NOAA research helps us understand and predict climate change, and America's right is firmly committed to climate denial. So Trump officials want to end research that might tell them things they don't want to hear.\n\nWhy not eliminate only research directly focused on climate change? Because that's not how it works. When you have a pervasive phenomenon like climate change just about any research into the weather will provide evidence that it's happening. So the MAGA/Project 2025 solution is to stop almost all research.\n\nThe same logic lies behind the drastic cuts at the National Institutes of Health: They aren't about saving money, they're about preventing researchers from discovering things \u2014 like evidence that vaccines work and are safe \u2014 that don't match the prejudices of the people in charge.\n\nSo Trump's cuts to scientific research aren't about shrinking government and saving money. They're about dealing with possibly inconvenient evidence by covering the nation's ears and shouting \"La, la, la, we can't hear you.\"\n\nWill the war on science hurt America? Massively. As I said, estimating the benefits of NOAA research is tricky. But two first-rate economists, David Cutler and Ed Glaeser, have made a stab at estimating the impact of cuts at NIH. Their analysis suggests that these cuts might save $500 billion in federal spending over the next 25 years \u2014 while imposing more than $8 trillion in losses.\n\nBut don't expect studies like these to change policy. America is now run by people who believe that knowledge is dangerous, and ignorance is strength.",
+        "published_at": "Tue, 15 Jul 2025 13:20:25 GMT"
+      },
+      {
+        "title": "Chimps put grass and sticks in their butts, influencers to blame",
+        "url": "https://www.metafilter.com/209574/Chimps-put-grass-and-sticks-in-their-butts-influencers-to-blame",
+        "source": "https://rss.metafilter.com/metafilter.rss",
+        "summary": "Fifteen years ago, at the Chimfunshi Wildlife Orphanage in Zambia, a female chimp named Julie started sticking blades of grass in her ears and started a trend. She may have observed human caretakers using grass or matchsticks to clean their ears. Now, a male chimp named Juma added a twist by inserting grass and sticks into his butt and, like before, other chimps are adopting this fad. Did they observe humans doing this too? Or did chimps come up with this idea by themselves, as they spend a lot of time checking each other's rear ends? For the whole science behind this: \n\nvan Leeuwen, Edwin J. C., Emile Bryon, Alex Rogers, Aurore Balaran, Peggy Motsch, and Jake S. Brooker. 'Chimpanzees Socially Learn Non-Instrumental Behaviour from Conspecifics'. Behaviour, 4 July 2025. DOI:10.1163/1568539X-bja10313 .",
+        "published_at": "Tue, 15 Jul 2025 10:38:47 GMT"
+      },
+      {
+        "title": "Sending in dogs to sniff out a snake growing thin on the ground",
+        "url": "https://www.metafilter.com/209573/Sending-in-dogs-to-sniff-out-a-snake-growing-thin-on-the-ground",
+        "source": "https://rss.metafilter.com/metafilter.rss",
+        "summary": "Sending in dogs to sniff out a snake growing thin on the ground. Conservation detection dogs are being trialled in the Riverland and Murraylands to find elusive, but once thriving, Murray Darling carpet pythons . (South Australia)",
+        "published_at": "Tue, 15 Jul 2025 07:20:38 GMT"
+      },
+      {
+        "title": "Totalitarianism invades every nook &amp;  cranny &amp; seeks to colonize minds",
+        "url": "https://www.metafilter.com/209572/Totalitarianism-invades-every-nook-and-cranny-and-seeks-to-colonize-minds",
+        "source": "https://rss.metafilter.com/metafilter.rss",
+        "summary": "Still, one might ask, what are these characters doing standing around in museums, discussing Hellenistic art as Nazism gears up to unleash horror upon Europe, and how could this be considered a form of resistance? It might seem like a kind of withdrawal, a retreat from one's responsibilities and the realities of life, until we remember that one of the Nazis' first symbolic displays of their power was a night of book burning. from Unsentimental Education: Peter Weiss's Aesthetics of Resistance [LIberties Journal]",
+        "published_at": "Tue, 15 Jul 2025 07:01:10 GMT"
+      },
+      {
+        "title": "Do'pe",
+        "url": "https://www.metafilter.com/209571/Dope",
+        "source": "https://rss.metafilter.com/metafilter.rss",
+        "summary": "Joe Dope \"was a long running example of the comic book military misfit and all-around bad example such as Sad Sack and Beetle Bailey.\" Created by Will Eisner who wrote: \"I began doing cartoons \u2013 and we began fashioning a magazine that had the ability to talk to the G.I.s in their language. So I began to use comics as a teaching tool \" \"This is a very long introduction to Eisner's work in the Army: Joe Dope.\" ' The murder of a fine cal .50 by 'killer' Joe Dope' \" Don't Be a Dope\": Will Eisner's World War II Poster.",
+        "published_at": "Tue, 15 Jul 2025 05:07:50 GMT"
+      },
+      {
+        "title": "\"It Happened Here\"",
+        "url": "https://www.metafilter.com/209570/It-Happened-Here",
+        "source": "https://rss.metafilter.com/metafilter.rss",
+        "summary": "Rusty Foster, writing a few days ago:  \"Mostly what I want to tell you is to get yourself a set of wheeled furniture casters like these , sooner rather than later.\"",
+        "published_at": "Tue, 15 Jul 2025 04:08:04 GMT"
+      },
+      {
+        "title": "Happy birthday, Metafilter!",
+        "url": "https://www.metafilter.com/209569/Happy-birthday-Metafilter",
+        "source": "https://rss.metafilter.com/metafilter.rss",
+        "summary": "Cat-Scan.com is one of the strangest sites I've seen in some time. I have no idea how these people got their cats wedged into their scanners, or why.",
+        "published_at": "Tue, 15 Jul 2025 02:56:32 GMT"
+      },
+      {
+        "title": "I'll be a winner that day.",
+        "url": "https://www.metafilter.com/209568/Ill-be-a-winner-that-day",
+        "source": "https://rss.metafilter.com/metafilter.rss",
+        "summary": "Andrea Gibson, poet, activist, and Colorado Poet Laureate, has passed at the age of 49. From Andrea Gibson's Facebook page, posted by their wife: \n\n\"Whenever I leave this world, whether it's sixty years from now, I wouldn't want anyone to say I lost some battle. I'll be a winner that day.\" \u2013 Andrea Gibson Andrea Gibson was a winner today. On July 14th, at 4:16AM, Andrea Gibson died in their home surrounded by their wife, Meg, four ex-girlfriends, their mother and father, dozens of friends, and their three beloved dogs. \n\nPoet Laureate of Colorado, world-touring spoken word artist, author of seven books, Calais Maine High School State Basketball Champion, and subject of the award-winning documentary, \"Come See Me in the Good Light\", and so much more \u2014 Andrea Gibson accomplished much on their 49 years on this planet. Though Andrea desperately wished to have lived a longer life, they could not have possibly lived a fuller one. \n\nSince learning they had cancer in 2021, Andrea has been a champion of finding beauty in unlikely places and gratitude in the hardest hours. Over the last four years, they danced with their diagnosis, and continually aimed their internal compass toward joy. One of the last things Andrea said on this plane was, \"I fucking loved my life.\" \n\nNot long ago, Andrea wrote a poem titled \"Love Letter From the Afterlife.\" In it, they offered this line: \"I am more here than I ever was before. I am more with you than I ever could have imagined.\" Today, and all days forward, we hope you feel Andrea's enormous spirit and immense presence beside you. \n\nMeg and Heather, the authors of this post, have absolutely no idea how to encapsulate the magnitude and magnificence of a life like Andrea Gibson's, so they intend to keep writing, to keep telling Andrea's story, to keep Andrea alive in every way they can.\n\nAndrea would want you to know that they got their wish. In the end, their heart was covered in stretch marks.\n\nAndrea Gibson  8/13/75 - 7/14/25\n\n------- Their Youtube channel is available for those who have never had the privilege of seeing them perform live. \n\nTwo performances of note: MAGA Hat In The Chemo Room Angels of the Geth Through",
+        "published_at": "Tue, 15 Jul 2025 02:47:09 GMT"
+      }
+    ]
+  },
+  "AI Articles": {
+    "feed_count": 3,
+    "feeds": [
+      "https://www.microsoft.com/en-us/research/feed/",
+      "https://www.nature.com/nature.rss",
+      "https://tldr.tech/api/rss/ai"
+    ],
+    "article_count": 11,
+    "articles": [
+      {
+        "title": "A canine friend to a feline family",
+        "url": "https://www.nature.com/articles/d41586-025-02062-3",
+        "source": "https://www.nature.com/nature.rss",
+        "summary": "Nature, Published online: 15 July 2025; doi:10.1038/d41586-025-02062-3 Pondering the difficulties faced by metaphysicians, and a dog strikes up an unlikely friendship with a cat and her kittens, in our weekly dip into Nature\u2019s archive.",
+        "published_at": "2025-07-15T10:51:33.492398"
+      },
+      {
+        "title": "Map endemic species before they vanish unrecorded",
+        "url": "https://www.nature.com/articles/d41586-025-02218-1",
+        "source": "https://www.nature.com/nature.rss",
+        "summary": "Nature, Published online: 15 July 2025; doi:10.1038/d41586-025-02218-1 Map endemic species before they vanish unrecorded",
+        "published_at": "2025-07-15T10:51:33.492445"
+      },
+      {
+        "title": "Invest in data resources to make FAIR a reality",
+        "url": "https://www.nature.com/articles/d41586-025-02216-3",
+        "source": "https://www.nature.com/nature.rss",
+        "summary": "Nature, Published online: 15 July 2025; doi:10.1038/d41586-025-02216-3 Invest in data resources to make FAIR a reality",
+        "published_at": "2025-07-15T10:51:33.492480"
+      },
+      {
+        "title": "China\u2019s journal ranking system stands up to scrutiny",
+        "url": "https://www.nature.com/articles/d41586-025-02219-0",
+        "source": "https://www.nature.com/nature.rss",
+        "summary": "Nature, Published online: 15 July 2025; doi:10.1038/d41586-025-02219-0 China\u2019s journal ranking system stands up to scrutiny",
+        "published_at": "2025-07-15T10:51:33.492514"
+      },
+      {
+        "title": "Critical commentaries such as \u2018Matters arising\u2019 have flawed formats",
+        "url": "https://www.nature.com/articles/d41586-025-02217-2",
+        "source": "https://www.nature.com/nature.rss",
+        "summary": "Nature, Published online: 15 July 2025; doi:10.1038/d41586-025-02217-2 Critical commentaries such as \u2018Matters arising\u2019 have flawed formats",
+        "published_at": "2025-07-15T10:51:33.492543"
+      },
+      {
+        "title": "One potent gene raises risk of Alzheimer\u2019s, Parkinson\u2019s and other brain diseases",
+        "url": "https://www.nature.com/articles/d41586-025-02237-y",
+        "source": "https://www.nature.com/nature.rss",
+        "summary": "Nature, Published online: 15 July 2025; doi:10.1038/d41586-025-02237-y Massive proteomics database links gene variant APOE4 to chronic inflammation.",
+        "published_at": "2025-07-15T10:51:33.492573"
+      },
+      {
+        "title": "Without science, there can be no development",
+        "url": "https://www.nature.com/articles/d41586-025-02220-7",
+        "source": "https://www.nature.com/nature.rss",
+        "summary": "Nature, Published online: 15 July 2025; doi:10.1038/d41586-025-02220-7 A United Nations conference on financing sustainable development was a missed opportunity to fund the science needed to create a better world.",
+        "published_at": "2025-07-15T10:51:33.492602"
+      },
+      {
+        "title": "Bring science into business schools to train the leaders of tomorrow",
+        "url": "https://www.nature.com/articles/d41586-025-02214-5",
+        "source": "https://www.nature.com/nature.rss",
+        "summary": "Nature, Published online: 15 July 2025; doi:10.1038/d41586-025-02214-5 The next generation of managers must be fit for a net-zero, nature-positive economy.",
+        "published_at": "2025-07-15T10:51:33.492631"
+      },
+      {
+        "title": "Why the global economy is more uncertain than ever, and what to do about it",
+        "url": "https://www.nature.com/articles/d41586-025-02200-x",
+        "source": "https://www.nature.com/nature.rss",
+        "summary": "Nature, Published online: 15 July 2025; doi:10.1038/d41586-025-02200-x Unexpected events, such as pandemics and wars, are on the rise. Financial markets need tools to help them cope with unforeseen losses.",
+        "published_at": "2025-07-15T10:51:33.492661"
+      },
+      {
+        "title": "Monster black hole merger is biggest ever seen",
+        "url": "https://www.nature.com/articles/d41586-025-02212-7",
+        "source": "https://www.nature.com/nature.rss",
+        "summary": "Nature, Published online: 15 July 2025; doi:10.1038/d41586-025-02212-7 Gravitational wave detector LIGO spots fast-spinning \u2018forbidden\u2019 black holes that challenge physics models.",
+        "published_at": "2025-07-15T10:51:33.492693"
+      },
+      {
+        "title": "Smart brain-zapping implants could revolutionize Parkinson\u2019s treatment",
+        "url": "https://www.nature.com/articles/d41586-025-02196-4",
+        "source": "https://www.nature.com/nature.rss",
+        "summary": "Nature, Published online: 15 July 2025; doi:10.1038/d41586-025-02196-4 The next generation of deep-brain stimulation automatically corrects the precise brain waves that create symptoms of Parkinson\u2019s disease. Can this approach target other conditions?",
+        "published_at": "2025-07-15T10:51:33.492727"
+      }
+    ]
+  },
+  "Local Longmont News": {
+    "feed_count": 2,
+    "feeds": [
+      "https://www.longmontleader.com/rss/",
+      "https://www.reddit.com/r/Longmont/.rss"
+    ],
+    "article_count": 0,
+    "articles": []
+  }
+}

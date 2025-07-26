@@ -1,0 +1,48 @@
+{
+  "mcpServers": {
+    "rss-feeds": {
+      "command": "/Users/chris/source/airss/venv/bin/python",
+      "args": [
+        "/Users/chris/source/airss/mcp_server_1.py"
+      ],
+      "cwd": "/Users/chris/source/airss",
+      "env": {
+        "PYTHONPATH": "/Users/chris/source/airss"
+      }
+    },
+    "outbox": {
+      "command": "/Users/chris/source/airss/venv/bin/python",
+      "args": [
+        "/Users/chris/source/airss/outbox_mcp.py"
+      ],
+      "cwd": "/Users/chris/source/airss",
+      "env": {
+        "PYTHONPATH": "/Users/chris/source/airss"
+      }
+    },
+    "google-calendar": {
+      "command": "node",
+      "args": [
+        "/Users/chris/source/airss/google-calendar-mcp/build/index.js"
+      ]
+    },
+    "playwright-browser": {
+      "command": "node",
+      "args": [
+        "/Users/chris/source/airss/playwright-mcp/cli.js",
+        "--headless"
+      ]
+    },
+    "bluesky": {
+      "command": "node",
+      "args": [
+        "/Users/chris/source/airss/bsky-mcp-server/build/src/index.js"
+      ],
+      "env": {
+        "BLUESKY_IDENTIFIER": "landgull.bsky.social",
+        "BLUESKY_APP_PASSWORD": "zrxg-qxzg-6dkr-76mn",
+        "BLUESKY_SERVICE_URL": "https://bsky.social"
+      }
+    }
+  }
+}

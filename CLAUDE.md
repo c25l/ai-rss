@@ -2,77 +2,49 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Running the Application
+## Design-First Development Process
 
-**Main execution:**
-```bash
-python3 airss.py
-# or via shell script:
-./run-nb.sh
+**IMPORTANT**: Before implementing any complex features or architecture changes, follow this process:
+
+### 1. Clarify Requirements
+- Ask specific questions about responsibilities: "Should component X do Y or Z?"
+- Confirm the data flow: "What calls what, and when?"
+- Understand constraints: "What must be preserved from existing code?"
+- Identify the problem clearly before proposing solutions
+
+### 2. Propose Architecture
+- Draw the system design in text/ASCII before writing code
+- Define each component's single responsibility 
+- Specify interfaces between components (what data flows where)
+- Distinguish between pull servers (provide data) vs push servers (take action)
+- Get explicit approval: "Does this design match your mental model?"
+
+### 3. Design Example Format
+```
+Component A (Pull Server):
+- Responsibility: [single clear purpose]
+- Tools: [list of tools/functions]
+- Interfaces: [what it provides to other components]
+
+Component B (Push Server):  
+- Responsibility: [single clear purpose]
+- Tools: [list of tools/functions]
+- Interfaces: [what it receives from other components]
+
+Data Flow:
+User/Cron → Component C → Component A → Component B → Email/Action
 ```
 
-**Terminal interface:**
-```bash
-npm install  # Install wetty for web terminal
-```
+### 4. Implementation Guidelines
+- Implement the agreed design without changing it mid-stream
+- If you discover issues during implementation, stop and redesign rather than pivot silently
+- Each component should have minimal, focused responsibilities
+- Preserve existing working logic unless explicitly asked to replace it
 
-## Architecture Overview
+### 5. When Uncertain
+- Ask "Is this what you had in mind?" before major changes
+- Propose alternatives: "We could do X or Y - which fits your vision?"
+- Admit when you're not sure rather than guessing and pivoting later
 
-AIRSS is an intelligent RSS feed aggregator that follows this data flow:
+**Goal**: Align on the mental model first, then implement that model faithfully.
 
-1. **Feed Collection** (`feeds.py`) - Fetches from 20+ RSS sources with 3 feed types:
-   - Type 1: Standard RSS feeds (majority)
-   - Type 2: Hacker News daily digest (special link extraction)
-   - Type 3: TLDR newsletters (requires HTTP requests to extract content)
-
-2. **Content Processing** (`airss.py`) - AI-powered clustering:
-   - Embeds articles using local Ollama API (`nomic-embed-text` model)
-   - Extracts keywords via semantic similarity to 100+ predefined tags
-   - Performs two-level K-means clustering (content + keywords)
-   - Groups articles by topic similarity
-
-3. **Email Generation** - Converts clustered articles to HTML email digest
-
-## Required Services
-
-**Local Ollama API** (http://localhost:11434):
-```bash
-# Must have these models installed:
-ollama pull nomic-embed-text  # For embeddings
-ollama pull qwen3:0.6b       # For text generation (generate.py)
-```
-
-**PostgreSQL Database** with connection string:
-```bash
-export PGVECTOR_URL="postgresql://postgres:yourpassword@localhost:5432/rss"
-# Default: postgresql://postgres:yourpassword@localhost:5432/rss
-```
-
-**Email Configuration** - Currently hardcoded in `airss.py:158`:
-- Uses iCloud SMTP (smtp.mail.me.com:587)
-- Sender: christopherpbonnell@icloud.com
-- Password stored in code (security concern)
-
-## Database Schema
-
-Tables created by `database.py:setup_db()`:
-- `feeds` - RSS feed configurations (type, source, url)
-- `articles` - Article storage with keywords and grouping
-- `secrets` - Encrypted configuration values
-- `topics` - Topic categorization
-
-## Key Integration Points
-
-**Feed Processing** (`feeds.py:FEEDS`):
-- 24-hour article window with deduplication by title
-- Categories: Science, Technology, US News, World News, Local News
-- Sources include NYT, Wired, Nature, Science, Ars Technica, Vox
-
-**Clustering Logic** (`airss.py:cluster`):
-- Uses 100+ predefined keyword tags for semantic matching
-- Silhouette analysis for optimal K-means cluster count
-- Combines title/summary clustering with keyword clustering
-
-**Content Generation** (`generate.py`):
-- Uses `qwen3:0.6b` model for text generation
-- Includes thinking pattern with `\\no_think` prompt modifier

@@ -1,0 +1,33 @@
+Arxiv Digest Event Description
+
+Event: Arxiv digest
+
+Description: 
+1. Use your rss-reader mcp to get the last day's worth of papers from arxiv
+```
+rss_reader({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.Lg"]})
+```
+
+2. You will be analyzing the new developments and releases. Think carefully. The audience is a high-level ai/ml practitioner who will be familiar with the state of the art before these papers. Your job is to pick the most interesting, most promising, best papers from the lot, and showcase and contextualize these, based on their abstracts, to the best of your ability.
+
+For each paper you selected, apply a 30-second skeptical review: 
+(1) Is the central claim testable and precisely stated? 
+(2) Do the mathematical concepts actually connect logically? 
+(3) Are experimental claims backed by proper methodology? 
+(4) Does the writing prioritize substance over jargon? 
+Flag any papers that fail these checks.
+
+Before recommending papers, scan for these warning signs: terminology salad mixing unrelated fields, mathematical notation that doesn't serve the argument, experimental claims without proper baselines, missing implementation details for claimed results, acknowledgments mentioning AI tools prominently. Deprioritize papers with multiple red flags.
+
+Focus on papers where you can clearly explain: What specific problem does this solve? What is the core testable hypothesis? What would convincing evidence look like? If you can't answer these crisply, don't recommend the paper.
+
+Use the preferences and analysis here "/Users/chris/source/airss/research_interests_analysis.md" to customize the objects of interest in the summary. You may also use a bibliography of the library from 250711 to be found at "/Users/chris/source/airss/zotero_library_export.csv".
+
+Keep in mind that the abstract links will have the form https://arxiv.org/abs/<identifier> (https://arxiv.org/abs/2507.00002) and the easy to read html versions of the papers are available at https://arxiv.org/html/<identifier>.
+
+3. Include links to the best papers under these criteria, along with your analysis.
+
+4. Deliver this content to the outbox via MCP outbox:send.
+
+Event Schedule: Recurring daily around 21:00-23:00 UTC (15 minute duration)
+Event IDs: Various recurring instances (hd5024lin0hlm8jkg8r50tvtun, 67im9eh94jl6c1ofcv9ko0p1vu, etc.)
