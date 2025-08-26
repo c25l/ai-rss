@@ -9,10 +9,10 @@ from email.message import EmailMessage
 ### the model could do all of this, but the point here is to ensure that no models are called unless there's some reason to.
 
 server_params = StdioServerParameters(
-    command = 'node',
-    args = ['build/index.js'],  # Path to your server script
-    cwd = 'google-calendar-mcp',  # Set the working directory to google-calendar-mcp
-    env = None
+    command = '/opt/homebrew/bin/npx',  # Path to mcp-ical server executable
+    args = ["@cocal/google-calendar-mcp"],  # Path to mcp-ical server
+    cwd = '/Users/chris/source/airss',  # Set working directory
+    env = {"GOOGLE_OAUTH_CREDENTIALS":"/Users/chris/source/airss/credentials.json"}  # Path to Google OAuth credentials
 )
 
 
@@ -25,73 +25,76 @@ async def run():
             await session.initialize()
 
             # List available tools
-            tools = await session.list_tools()
+            #tools = await session.list_tools()
 
-            # Call a tool
-            time = await session.call_tool("get-current-time", arguments = {})
-            time = datetime.fromisoformat(json.loads(time.model_dump()['content'][0]['text'])['currentTime']['utc'])
-            time = time - timedelta(minutes=time.minute%30, seconds=time.second,microseconds=time.microsecond)   # Round down to the nearest half hour
+            # Get current time and round down to nearest half hour
+            time = datetime.now()
+            time = time - timedelta(minutes=time.minute%30, seconds=time.second, microseconds=time.microsecond)
             endtime = time + timedelta(minutes=30)
-            print("checking calendar for events between", time, "and", endtime )
-            events = await session.call_tool("list-events", arguments={"calendarId": '969a157ef1848f6ff639e8099d8ecd9b6b07f6c0f7f7d781b5c09e9ff8e738b8@group.calendar.google.com',
-                                                                       "timeMin": str(time.isoformat().split(".")[0]),
-                                                                       "timeMax": str(endtime.isoformat().split(".")[0])})# calendar})
-            if "No events found" not in str(events):
-                events = parse(events.model_dump()['content'][0]['text'])
-                print(events)
-                events = [xx for xx in events if  'Start' in xx and (xx['Start'] >= time.replace(tzinfo=None) and xx['Start'] <= endtime.replace(tzinfo=None))]
-                if len(events)==0:
-                    print("No events remained in the specified time range.")
+            print("checking calendar for events between", time, "and", endtime)
+            
+            # Call mcp-ical list_events tool
+            events = await session.call_tool("list-events", arguments={
+                "timeMin": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                "timeMax": endtime.strftime("%Y-%m-%dT%H:%M:%S"),
+                "timeZone": "America/Denver",
+                "calendarId":"969a157ef1848f6ff639e8099d8ecd9b6b07f6c0f7f7d781b5c09e9ff8e738b8@group.calendar.google.com"
+            })
+            
+            events_text = events.model_dump()['content'][0]['text']
+            if "No events found" not in events_text and events_text.strip():
+                print("Found events:")
+                print(events_text)
+                
+                # Extract event descriptions from the mcp-ical format
+                # Look for events with "Notes: " containing substantial content
+                lines = events_text.split('\n')
+                current_event = {}
+                events_to_process = []
+                current_event = {'title': lines[0].replace('Event: ', '').strip().rstrip(',')}
+                notes_loc = events_text.find('Description:')
+                current_event['notes'] = events_text[notes_loc:].replace('Description: ', '').strip()
+                print(current_event)
+                if current_event.get('notes') and len(current_event['notes']) > 100:
+                    events_to_process.append(current_event)
+                
+                if not events_to_process:
+                    print("No events with substantial descriptions found.")
                     return
-                for zz in events:
-                    if "Event" in zz:
-                        print(f"Event: {zz['Event']}")
-                    else:
-                        print(f"Event: {zz['Description'][:200]}")
-                    result = subprocess.run(["claude", "--dangerously-skip-permissions", "-p", zz["Description"].replace('"', '\\"').replace("'", "\\'")],capture_output=True, text=True)
-
-                    with open("logs/err.log","a") as f: 
-                        f.writelines(result.stderr.strip())
+                
+                for event in events_to_process:
+                    print(f"Processing Event: {event['title']}")
+                    print(f"Description length: {len(event['notes'])} chars")
+                    
+                    # Execute Claude CLI with the event description
+                    result = subprocess.run([
+                        "claude", "--dangerously-skip-permissions", "-p", 
+                        event['notes'].replace('"', '\\"').replace("'", "\\'")
+                    ], capture_output=True, text=True)
+                    
+                    # Log both stdout and stderr
+                    with open("logs/out.log", "a") as f: 
+                        if result.stdout:
+                            f.write(f"\n=== {event['title']} - {datetime.now().isoformat()} ===\n")
+                            f.write(result.stdout)
+                            f.write("\n")
+                    
+                    with open("logs/err.log", "a") as f: 
+                        if result.stderr:
+                            f.write(f"\n=== {event['title']} - {datetime.now().isoformat()} ===\n")
+                            f.write(result.stderr)
+                            f.write("\n")
+                    
+                    # Print stdout to console as well
+                    if result.stdout:
+                        print("Claude output:")
+                        print(result.stdout)
+                    
             else:
                 print("No events found in the specified time range.")
 
 
-def timeparse(timetext):
-    dt = datetime.strptime(timetext, "%a, %b %d, %Y, %I:%M %p %Z")
-    dt = dt.astimezone(timezone.utc).replace(tzinfo=None)
-    return dt
-
-def parse(text):
-    texts = text.split("\n")
-    outout = []
-    for ii in range(1,int(texts[0].split(" ")[1])+1):
-        start = [ll for ll,yy in enumerate(texts) if  yy.startswith(f"{ii}. Event:")]
-        end = [ll for ll,yy in enumerate(texts) if  yy.startswith(f"{ii+1}. Event:")]
-        if len(start)==0:
-            continue
-        start = start[-1]
-        if len(end)==0:
-            end = len(texts)
-        print(start,end)
-        outout.append(parse_inner(texts[start:end]))
-    return outout
-
-def parse_inner(thistask):
-    out= {}
-    if len(thistask) < 4:
-        print("Skipping task with insufficient information:", thistask)
-        return out
-    out["Event"] = thistask[0].split("Event:")[-1]
-    out["Event ID"] = thistask[1].split("Event ID:")[-1]
-    startline = [ii for ii, yy in enumerate(thistask) if yy.startswith("Start:")]
-    if len(startline)==0:
-        print("No start line found in task:", thistask)
-        return {}
-    startline = startline[0]
-    out["Description"]= "\n".join(thistask[2:startline])
-    out["Start"] = timeparse(thistask[startline].split("Start:")[-1].strip())
-    out["End"] = timeparse(thistask[startline+1].split("End:")[-1].strip())
-    return out
+# Old parsing functions removed - no longer needed with mcp-ical format
 
 
 if __name__ == "__main__":
