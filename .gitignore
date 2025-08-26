@@ -11,3 +11,6 @@
 *.ipynb
 __pycache__
 .aider*
+chaff/*
+tmp/*
+logs/*
