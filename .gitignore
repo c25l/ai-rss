@@ -10,3 +10,4 @@
 *.md
 *.ipynb
 __pycache__
+.aider*

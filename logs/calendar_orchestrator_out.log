@@ -3049,3 +3049,1813 @@ checking calendar for events between 2025-07-26 01:00:00+00:00 and 2025-07-26 01
 No events found in the specified time range.
 checking calendar for events between 2025-07-26 01:30:00+00:00 and 2025-07-26 02:00:00+00:00
 No events found in the specified time range.
+checking calendar for events between 2025-07-26 02:00:00+00:00 and 2025-07-26 02:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 02:30:00+00:00 and 2025-07-26 03:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 03:00:00+00:00 and 2025-07-26 03:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 03:30:00+00:00 and 2025-07-26 04:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 04:00:00+00:00 and 2025-07-26 04:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 04:30:00+00:00 and 2025-07-26 05:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 05:00:00+00:00 and 2025-07-26 05:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 05:30:00+00:00 and 2025-07-26 06:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 06:00:00+00:00 and 2025-07-26 06:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 06:30:00+00:00 and 2025-07-26 07:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 07:00:00+00:00 and 2025-07-26 07:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 07:30:00+00:00 and 2025-07-26 08:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 08:00:00+00:00 and 2025-07-26 08:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 08:30:00+00:00 and 2025-07-26 09:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 09:00:00+00:00 and 2025-07-26 09:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 09:30:00+00:00 and 2025-07-26 10:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 10:00:00+00:00 and 2025-07-26 10:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 10:30:00+00:00 and 2025-07-26 11:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 11:00:00+00:00 and 2025-07-26 11:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 11:30:00+00:00 and 2025-07-26 12:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 12:00:00+00:00 and 2025-07-26 12:30:00+00:00
+2 8
+[{'Event': ' News Briefing', 'Event ID': ' 6osj2d9m6ssj4bb26kp3ib9kcoqjibb1ccqj0b9l69gj4oj66hj34ob668_20250726T120000Z', 'Description': 'Description: Your job is to generate and send a news intelligence brief. This newsletter is meant to be informative, but also to abstract away some of the more stressful details and subjects in the news. In particular, the recipients will not want to hear about partisan infighting in Us politics, nor about Israel, nor about Trump, inasmuch as is possible. For cultural interest, the recipients will prefer not to hear anything about sports, music or performances.\xa0<br><br>## Your Task:<br><br>1. **Get articles from the rss feeds server:**<br>\xa0\xa0\xa0```<br>\xa0 \xa0local_and_world_news = get_articles({"feeds":["<a href="https://rss.nytimes.com/services/xml/rss/nyt/US.xml" target="_blank">https://rss.nytimes.com/services/xml/rss/nyt/US.xml</a>",<br>"<a href="https://rss.nytimes.com/services/xml/rss/nyt/World.xml" target="_blank">https://rss.nytimes.com/services/xml/rss/nyt/World.xml</a>",<br>"<a href="https://www.theatlantic.com/feed/all/" target="_blank">https://www.theatlantic.com/feed/all/</a>",<br>"<a href="https://heathercoxrichardson.substack.com/feed" target="_blank">https://heathercoxrichardson.substack.com/feed</a>"]}) # Pull: server 1 returns articles.<br>cultural_interest = get_articles({"feeds":["<a href="https://rss.metafilter.com/metafilter.rss" target="_blank">https://rss.metafilter.com/metafilter.rss</a>",<br>"<a href="https://acoup.blog/feed/" target="_blank">https://acoup.blog/feed/</a>"]})<br><br>ai_articles = get_articles({"feeds": ["<a href="https://www.microsoft.com/en-us/research/feed/" target="_blank">https://www.microsoft.com/en-us/research/feed/</a>",<br>"<a href="https://www.nature.com/nature.rss" target="_blank">https://www.nature.com/nature.rss</a>",<br>"<a href="https://tldr.tech/api/rss/ai" target="_blank">https://tldr.tech/api/rss/ai</a>"]}) # for this one the tldr-ai feed will point to a newsletter. You will need to scrape this newsletter uri to see the contents.<br><br>local = get_articles({"feeds":["<a href="https://www.longmontleader.com/rss/" target="_blank">https://www.longmontleader.com/rss/</a>","<a href="https://www.reddit.com/r/Longmont/">https://www.reddit.com/r/Longmont</a>.rss"]})\xa0\xa0\xa0```<br><br>2. **Write an engaging newsletter** from the article groups you pulled:<br>\xa0\xa0\xa0- Synthesize articles into coherent narrative sections<br>\xa0\xa0\xa0- Create engaging headlines and stories that connect related articles<br>\xa0\xa0\xa0- Use markdown formatting with inline links: [article title](url)<br>\xa0\xa0\xa0- Write as a complete intelligence brief<br>\xa0 \xa0- there should be a section for each of the sets of articles above at least for Us and world news, for cultural interest stories, for AI news, and for local news about longmont colorado.<br><br><br>## Your Writing Style:<br>- Create **engaging, coherent narratives** that connect related articles<br>- Write **concise but informative** content suitable for a daily intelligence brief<br>- Use **markdown formatting** with proper headers and inline links<br>- **Synthesize information** rather than just summarizing individual articles<br>- Focus on **meaningful analysis and context** between stories<br><br>3. Deliver the intended markdown content of the newsletter to the outbox via MCP outbox:send.', 'Start': datetime.datetime(2025, 7, 26, 12, 0), 'End': datetime.datetime(2025, 7, 26, 12, 15)}]
+Event:  News Briefing
+checking calendar for events between 2025-07-26 12:30:00+00:00 and 2025-07-26 13:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 13:00:00+00:00 and 2025-07-26 13:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 13:30:00+00:00 and 2025-07-26 14:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 14:00:00+00:00 and 2025-07-26 14:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 14:30:00+00:00 and 2025-07-26 15:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 15:00:00+00:00 and 2025-07-26 15:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 15:30:00+00:00 and 2025-07-26 16:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 16:00:00+00:00 and 2025-07-26 16:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 16:30:00+00:00 and 2025-07-26 17:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 17:00:00+00:00 and 2025-07-26 17:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 17:30:00+00:00 and 2025-07-26 18:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 18:00:00+00:00 and 2025-07-26 18:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 18:30:00+00:00 and 2025-07-26 19:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 19:00:00+00:00 and 2025-07-26 19:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 19:30:00+00:00 and 2025-07-26 20:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 20:00:00+00:00 and 2025-07-26 20:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 20:30:00+00:00 and 2025-07-26 21:00:00+00:00
+2 8
+[{'Event': ' Bsky', 'Event ID': ' 7itk66sr00nvh8vhp6d017fp7v_20250726T203000Z', 'Description': "Description: Please use MCP to collect today's activity on my bluesky timeline. summarize the activity into themes with links to linked articles as appropriate.\xa0 Deliver this summary to the MCP outbox:send", 'Start': datetime.datetime(2025, 7, 26, 20, 30), 'End': datetime.datetime(2025, 7, 26, 20, 45)}]
+Event:  Bsky
+checking calendar for events between 2025-07-26 21:00:00+00:00 and 2025-07-26 21:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 21:30:00+00:00 and 2025-07-26 22:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 22:00:00+00:00 and 2025-07-26 22:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 22:30:00+00:00 and 2025-07-26 23:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 23:00:00+00:00 and 2025-07-26 23:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-26 23:30:00+00:00 and 2025-07-27 00:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 00:00:00+00:00 and 2025-07-27 00:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 00:30:00+00:00 and 2025-07-27 01:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 01:00:00+00:00 and 2025-07-27 01:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 01:30:00+00:00 and 2025-07-27 02:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 02:00:00+00:00 and 2025-07-27 02:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 02:30:00+00:00 and 2025-07-27 03:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 03:00:00+00:00 and 2025-07-27 03:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 03:30:00+00:00 and 2025-07-27 04:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 04:00:00+00:00 and 2025-07-27 04:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 04:30:00+00:00 and 2025-07-27 05:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 05:00:00+00:00 and 2025-07-27 05:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 05:30:00+00:00 and 2025-07-27 06:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 06:00:00+00:00 and 2025-07-27 06:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 06:30:00+00:00 and 2025-07-27 07:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 07:00:00+00:00 and 2025-07-27 07:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 07:30:00+00:00 and 2025-07-27 08:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 08:00:00+00:00 and 2025-07-27 08:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 08:30:00+00:00 and 2025-07-27 09:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 09:00:00+00:00 and 2025-07-27 09:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 09:30:00+00:00 and 2025-07-27 10:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 10:00:00+00:00 and 2025-07-27 10:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 10:30:00+00:00 and 2025-07-27 11:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 11:00:00+00:00 and 2025-07-27 11:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 11:30:00+00:00 and 2025-07-27 12:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 12:00:00+00:00 and 2025-07-27 12:30:00+00:00
+2 8
+[{'Event': ' News Briefing', 'Event ID': ' 6osj2d9m6ssj4bb26kp3ib9kcoqjibb1ccqj0b9l69gj4oj66hj34ob668_20250727T120000Z', 'Description': 'Description: Your job is to generate and send a news intelligence brief. This newsletter is meant to be informative, but also to abstract away some of the more stressful details and subjects in the news. In particular, the recipients will not want to hear about partisan infighting in Us politics, nor about Israel, nor about Trump, inasmuch as is possible. For cultural interest, the recipients will prefer not to hear anything about sports, music or performances.\xa0<br><br>## Your Task:<br><br>1. **Get articles from the rss feeds server:**<br>\xa0\xa0\xa0```<br>\xa0 \xa0local_and_world_news = get_articles({"feeds":["<a href="https://rss.nytimes.com/services/xml/rss/nyt/US.xml" target="_blank">https://rss.nytimes.com/services/xml/rss/nyt/US.xml</a>",<br>"<a href="https://rss.nytimes.com/services/xml/rss/nyt/World.xml" target="_blank">https://rss.nytimes.com/services/xml/rss/nyt/World.xml</a>",<br>"<a href="https://www.theatlantic.com/feed/all/" target="_blank">https://www.theatlantic.com/feed/all/</a>",<br>"<a href="https://heathercoxrichardson.substack.com/feed" target="_blank">https://heathercoxrichardson.substack.com/feed</a>"]}) # Pull: server 1 returns articles.<br>cultural_interest = get_articles({"feeds":["<a href="https://rss.metafilter.com/metafilter.rss" target="_blank">https://rss.metafilter.com/metafilter.rss</a>",<br>"<a href="https://acoup.blog/feed/" target="_blank">https://acoup.blog/feed/</a>"]})<br><br>ai_articles = get_articles({"feeds": ["<a href="https://www.microsoft.com/en-us/research/feed/" target="_blank">https://www.microsoft.com/en-us/research/feed/</a>",<br>"<a href="https://www.nature.com/nature.rss" target="_blank">https://www.nature.com/nature.rss</a>",<br>"<a href="https://tldr.tech/api/rss/ai" target="_blank">https://tldr.tech/api/rss/ai</a>"]}) # for this one the tldr-ai feed will point to a newsletter. You will need to scrape this newsletter uri to see the contents.<br><br>local = get_articles({"feeds":["<a href="https://www.longmontleader.com/rss/" target="_blank">https://www.longmontleader.com/rss/</a>","<a href="https://www.reddit.com/r/Longmont/">https://www.reddit.com/r/Longmont</a>.rss"]})\xa0\xa0\xa0```<br><br>2. **Write an engaging newsletter** from the article groups you pulled:<br>\xa0\xa0\xa0- Synthesize articles into coherent narrative sections<br>\xa0\xa0\xa0- Create engaging headlines and stories that connect related articles<br>\xa0\xa0\xa0- Use markdown formatting with inline links: [article title](url)<br>\xa0\xa0\xa0- Write as a complete intelligence brief<br>\xa0 \xa0- there should be a section for each of the sets of articles above at least for Us and world news, for cultural interest stories, for AI news, and for local news about longmont colorado.<br><br><br>## Your Writing Style:<br>- Create **engaging, coherent narratives** that connect related articles<br>- Write **concise but informative** content suitable for a daily intelligence brief<br>- Use **markdown formatting** with proper headers and inline links<br>- **Synthesize information** rather than just summarizing individual articles<br>- Focus on **meaningful analysis and context** between stories<br><br>3. Deliver the intended markdown content of the newsletter to the outbox via MCP outbox:send.', 'Start': datetime.datetime(2025, 7, 27, 12, 0), 'End': datetime.datetime(2025, 7, 27, 12, 15)}]
+Event:  News Briefing
+checking calendar for events between 2025-07-27 12:30:00+00:00 and 2025-07-27 13:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 13:00:00+00:00 and 2025-07-27 13:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 13:30:00+00:00 and 2025-07-27 14:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 14:00:00+00:00 and 2025-07-27 14:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 14:30:00+00:00 and 2025-07-27 15:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 15:00:00+00:00 and 2025-07-27 15:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 15:30:00+00:00 and 2025-07-27 16:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 16:00:00+00:00 and 2025-07-27 16:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 16:30:00+00:00 and 2025-07-27 17:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 17:00:00+00:00 and 2025-07-27 17:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 17:30:00+00:00 and 2025-07-27 18:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 18:00:00+00:00 and 2025-07-27 18:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 18:30:00+00:00 and 2025-07-27 19:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 19:00:00+00:00 and 2025-07-27 19:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 19:30:00+00:00 and 2025-07-27 20:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 20:00:00+00:00 and 2025-07-27 20:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 20:30:00+00:00 and 2025-07-27 21:00:00+00:00
+2 8
+[{'Event': ' Bsky', 'Event ID': ' 7itk66sr00nvh8vhp6d017fp7v_20250727T203000Z', 'Description': "Description: Please use MCP to collect today's activity on my bluesky timeline. summarize the activity into themes with links to linked articles as appropriate.\xa0 Deliver this summary to the MCP outbox:send", 'Start': datetime.datetime(2025, 7, 27, 20, 30), 'End': datetime.datetime(2025, 7, 27, 20, 45)}]
+Event:  Bsky
+checking calendar for events between 2025-07-27 21:00:00+00:00 and 2025-07-27 21:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 21:30:00+00:00 and 2025-07-27 22:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 22:00:00+00:00 and 2025-07-27 22:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 22:30:00+00:00 and 2025-07-27 23:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 23:00:00+00:00 and 2025-07-27 23:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-27 23:30:00+00:00 and 2025-07-28 00:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 00:00:00+00:00 and 2025-07-28 00:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 00:30:00+00:00 and 2025-07-28 01:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 01:00:00+00:00 and 2025-07-28 01:30:00+00:00
+2 66
+[{'Event': ' Arxiv digest', 'Event ID': ' atpl87c399b0jdb2p42l1igd2k_20250728T010000Z', 'Description': 'Description: Arxiv Digest Event Description\n\nEvent: Arxiv digest\n\nDescription: \n1. **Progressive Paper Analysis**: Use your rss-feeds mcp to systematically traverse ALL papers from the last day, building your analysis progressively:\n\n**Step 1 - Get first batch:**\n```\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 0})\n```\n\n**Step 2 - Continue through all batches:**\nKeep paginating through ALL available papers, building your digest progressively:\n```\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 20})\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 40})\n# Continue until has_more: false\n```\n\n**Important**: Build your digest article PROGRESSIVELY as you traverse each batch. Don\'t wait until the end - update and refine your recommendations as you discover better papers in later batches.\n\n2. **Quality Analysis & Crackpot Filtering**: For each batch, apply rigorous skeptical review:\n\n**Core Quality Criteria:**\n(1) Is the central claim testable and precisely stated? \n(2) Do the mathematical concepts actually connect logically? \n(3) Are experimental claims backed by proper methodology? \n(4) Does the writing prioritize substance over jargon?\n\n**CRACKPOT WARNING SIGNS - IMMEDIATE REJECTION:**\n- **Grand Unification Claims**: Papers claiming to unify disparate fields under one simple equation/framework without rigorous validation\n- **Revolutionary Breakthrough Language**: Excessive use of "breakthrough," "revolutionary," "paradigm shift" without proportional evidence\n- **Vague Mathematical Formalism**: Mathematical notation that looks impressive but doesn\'t serve a clear logical purpose\n- **Missing Baselines/Comparisons**: Experimental claims without proper controls or baseline comparisons\n- **Theory of Everything Syndrome**: Attempting to explain too much with too little evidence\n- **Buzzword Bingo**: Terminology salad mixing unrelated trending fields (quantum + AI + consciousness, etc.)\n- **AI Tool Acknowledgments**: Papers prominently crediting AI tools for core contributions\n\n**REJECT IMMEDIATELY**: Any paper that reads like a "theory of everything" or claims universal laws without extraordinary evidence.\n\n3. **Progressive Refinement Strategy**:\n- Start with top papers from first batch\n- As you find better papers in later batches, replace weaker selections\n- Maintain a running "best of" list that evolves\n- **Apply crackpot filter at each step** - better to have fewer high-quality papers than include questionable work\n- Final digest should represent the absolute best from ALL papers, not just early ones\n\n4. **Research Preferences**: Use "/Users/chris/source/airss/research_interests_analysis.md" and "/Users/chris/source/airss/zotero_library_export.csv" to customize selection.\n\n5. **Output Format**: \n- Abstract links: https://arxiv.org/abs/<identifier>\n- HTML versions: https://arxiv.org/html/<identifier>\n- Include total papers analyzed (e.g., "Analyzed 83 of 83 total papers")\n- **Flag any questionable papers you filtered out** for transparency\n\n6. **Final Step**: Deliver complete digest to outbox via MCP outbox:send only after analyzing ALL available papers.\n\nEvent Schedule: Recurring daily around 21:00-23:00 UTC (15 minute duration)', 'Start': datetime.datetime(2025, 7, 28, 1, 0), 'End': datetime.datetime(2025, 7, 28, 1, 15)}]
+Event:  Arxiv digest
+checking calendar for events between 2025-07-28 01:30:00+00:00 and 2025-07-28 02:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 02:00:00+00:00 and 2025-07-28 02:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 02:30:00+00:00 and 2025-07-28 03:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 03:00:00+00:00 and 2025-07-28 03:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 03:30:00+00:00 and 2025-07-28 04:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 04:00:00+00:00 and 2025-07-28 04:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 04:30:00+00:00 and 2025-07-28 05:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 05:00:00+00:00 and 2025-07-28 05:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 05:30:00+00:00 and 2025-07-28 06:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 06:00:00+00:00 and 2025-07-28 06:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 06:30:00+00:00 and 2025-07-28 07:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 07:00:00+00:00 and 2025-07-28 07:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 07:30:00+00:00 and 2025-07-28 08:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 08:00:00+00:00 and 2025-07-28 08:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 08:30:00+00:00 and 2025-07-28 09:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 09:00:00+00:00 and 2025-07-28 09:30:00+00:00
+checking calendar for events between 2025-07-28 09:30:00+00:00 and 2025-07-28 10:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 10:00:00+00:00 and 2025-07-28 10:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 10:30:00+00:00 and 2025-07-28 11:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 11:00:00+00:00 and 2025-07-28 11:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 11:30:00+00:00 and 2025-07-28 12:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 12:00:00+00:00 and 2025-07-28 12:30:00+00:00
+2 8
+[{'Event': ' News Briefing', 'Event ID': ' 6osj2d9m6ssj4bb26kp3ib9kcoqjibb1ccqj0b9l69gj4oj66hj34ob668_20250728T120000Z', 'Description': 'Description: Your job is to generate and send a news intelligence brief. This newsletter is meant to be informative, but also to abstract away some of the more stressful details and subjects in the news. In particular, the recipients will not want to hear about partisan infighting in Us politics, nor about Israel, nor about Trump, inasmuch as is possible. For cultural interest, the recipients will prefer not to hear anything about sports, music or performances.\xa0<br><br>## Your Task:<br><br>1. **Get articles from the rss feeds server:**<br>\xa0\xa0\xa0```<br>\xa0 \xa0local_and_world_news = get_articles({"feeds":["<a href="https://rss.nytimes.com/services/xml/rss/nyt/US.xml" target="_blank">https://rss.nytimes.com/services/xml/rss/nyt/US.xml</a>",<br>"<a href="https://rss.nytimes.com/services/xml/rss/nyt/World.xml" target="_blank">https://rss.nytimes.com/services/xml/rss/nyt/World.xml</a>",<br>"<a href="https://www.theatlantic.com/feed/all/" target="_blank">https://www.theatlantic.com/feed/all/</a>",<br>"<a href="https://heathercoxrichardson.substack.com/feed" target="_blank">https://heathercoxrichardson.substack.com/feed</a>"]}) # Pull: server 1 returns articles.<br>cultural_interest = get_articles({"feeds":["<a href="https://rss.metafilter.com/metafilter.rss" target="_blank">https://rss.metafilter.com/metafilter.rss</a>",<br>"<a href="https://acoup.blog/feed/" target="_blank">https://acoup.blog/feed/</a>"]})<br><br>ai_articles = get_articles({"feeds": ["<a href="https://www.microsoft.com/en-us/research/feed/" target="_blank">https://www.microsoft.com/en-us/research/feed/</a>",<br>"<a href="https://www.nature.com/nature.rss" target="_blank">https://www.nature.com/nature.rss</a>",<br>"<a href="https://tldr.tech/api/rss/ai" target="_blank">https://tldr.tech/api/rss/ai</a>"]}) # for this one the tldr-ai feed will point to a newsletter. You will need to scrape this newsletter uri to see the contents.<br><br>local = get_articles({"feeds":["<a href="https://www.longmontleader.com/rss/" target="_blank">https://www.longmontleader.com/rss/</a>","<a href="https://www.reddit.com/r/Longmont/">https://www.reddit.com/r/Longmont</a>.rss"]})\xa0\xa0\xa0```<br><br>2. **Write an engaging newsletter** from the article groups you pulled:<br>\xa0\xa0\xa0- Synthesize articles into coherent narrative sections<br>\xa0\xa0\xa0- Create engaging headlines and stories that connect related articles<br>\xa0\xa0\xa0- Use markdown formatting with inline links: [article title](url)<br>\xa0\xa0\xa0- Write as a complete intelligence brief<br>\xa0 \xa0- there should be a section for each of the sets of articles above at least for Us and world news, for cultural interest stories, for AI news, and for local news about longmont colorado.<br><br><br>## Your Writing Style:<br>- Create **engaging, coherent narratives** that connect related articles<br>- Write **concise but informative** content suitable for a daily intelligence brief<br>- Use **markdown formatting** with proper headers and inline links<br>- **Synthesize information** rather than just summarizing individual articles<br>- Focus on **meaningful analysis and context** between stories<br><br>3. Deliver the intended markdown content of the newsletter to the outbox via MCP outbox:send.', 'Start': datetime.datetime(2025, 7, 28, 12, 0), 'End': datetime.datetime(2025, 7, 28, 12, 15)}]
+Event:  News Briefing
+checking calendar for events between 2025-07-28 12:30:00+00:00 and 2025-07-28 13:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 13:00:00+00:00 and 2025-07-28 13:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 13:30:00+00:00 and 2025-07-28 14:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 14:00:00+00:00 and 2025-07-28 14:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 14:30:00+00:00 and 2025-07-28 15:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 15:00:00+00:00 and 2025-07-28 15:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 15:30:00+00:00 and 2025-07-28 16:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 16:00:00+00:00 and 2025-07-28 16:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 16:30:00+00:00 and 2025-07-28 17:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 17:00:00+00:00 and 2025-07-28 17:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 17:30:00+00:00 and 2025-07-28 18:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 18:00:00+00:00 and 2025-07-28 18:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 18:30:00+00:00 and 2025-07-28 19:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 19:00:00+00:00 and 2025-07-28 19:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 19:30:00+00:00 and 2025-07-28 20:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 20:00:00+00:00 and 2025-07-28 20:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 20:30:00+00:00 and 2025-07-28 21:00:00+00:00
+2 8
+[{'Event': ' Bsky', 'Event ID': ' 7itk66sr00nvh8vhp6d017fp7v_20250728T203000Z', 'Description': "Description: Please use MCP to collect today's activity on my bluesky timeline. summarize the activity into themes with links to linked articles as appropriate.\xa0 Deliver this summary to the MCP outbox:send", 'Start': datetime.datetime(2025, 7, 28, 20, 30), 'End': datetime.datetime(2025, 7, 28, 20, 45)}]
+Event:  Bsky
+checking calendar for events between 2025-07-28 21:00:00+00:00 and 2025-07-28 21:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 21:30:00+00:00 and 2025-07-28 22:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 22:00:00+00:00 and 2025-07-28 22:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 22:30:00+00:00 and 2025-07-28 23:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 23:00:00+00:00 and 2025-07-28 23:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-28 23:30:00+00:00 and 2025-07-29 00:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 00:00:00+00:00 and 2025-07-29 00:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 00:30:00+00:00 and 2025-07-29 01:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 01:00:00+00:00 and 2025-07-29 01:30:00+00:00
+2 66
+[{'Event': ' Arxiv digest', 'Event ID': ' atpl87c399b0jdb2p42l1igd2k_20250729T010000Z', 'Description': 'Description: Arxiv Digest Event Description\n\nEvent: Arxiv digest\n\nDescription: \n1. **Progressive Paper Analysis**: Use your rss-feeds mcp to systematically traverse ALL papers from the last day, building your analysis progressively:\n\n**Step 1 - Get first batch:**\n```\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 0})\n```\n\n**Step 2 - Continue through all batches:**\nKeep paginating through ALL available papers, building your digest progressively:\n```\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 20})\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 40})\n# Continue until has_more: false\n```\n\n**Important**: Build your digest article PROGRESSIVELY as you traverse each batch. Don\'t wait until the end - update and refine your recommendations as you discover better papers in later batches.\n\n2. **Quality Analysis & Crackpot Filtering**: For each batch, apply rigorous skeptical review:\n\n**Core Quality Criteria:**\n(1) Is the central claim testable and precisely stated? \n(2) Do the mathematical concepts actually connect logically? \n(3) Are experimental claims backed by proper methodology? \n(4) Does the writing prioritize substance over jargon?\n\n**CRACKPOT WARNING SIGNS - IMMEDIATE REJECTION:**\n- **Grand Unification Claims**: Papers claiming to unify disparate fields under one simple equation/framework without rigorous validation\n- **Revolutionary Breakthrough Language**: Excessive use of "breakthrough," "revolutionary," "paradigm shift" without proportional evidence\n- **Vague Mathematical Formalism**: Mathematical notation that looks impressive but doesn\'t serve a clear logical purpose\n- **Missing Baselines/Comparisons**: Experimental claims without proper controls or baseline comparisons\n- **Theory of Everything Syndrome**: Attempting to explain too much with too little evidence\n- **Buzzword Bingo**: Terminology salad mixing unrelated trending fields (quantum + AI + consciousness, etc.)\n- **AI Tool Acknowledgments**: Papers prominently crediting AI tools for core contributions\n\n**REJECT IMMEDIATELY**: Any paper that reads like a "theory of everything" or claims universal laws without extraordinary evidence.\n\n3. **Progressive Refinement Strategy**:\n- Start with top papers from first batch\n- As you find better papers in later batches, replace weaker selections\n- Maintain a running "best of" list that evolves\n- **Apply crackpot filter at each step** - better to have fewer high-quality papers than include questionable work\n- Final digest should represent the absolute best from ALL papers, not just early ones\n\n4. **Research Preferences**: Use "/Users/chris/source/airss/research_interests_analysis.md" and "/Users/chris/source/airss/zotero_library_export.csv" to customize selection.\n\n5. **Output Format**: \n- Abstract links: https://arxiv.org/abs/<identifier>\n- HTML versions: https://arxiv.org/html/<identifier>\n- Include total papers analyzed (e.g., "Analyzed 83 of 83 total papers")\n- **Flag any questionable papers you filtered out** for transparency\n\n6. **Final Step**: Deliver complete digest to outbox via MCP outbox:send only after analyzing ALL available papers.\n\nEvent Schedule: Recurring daily around 21:00-23:00 UTC (15 minute duration)', 'Start': datetime.datetime(2025, 7, 29, 1, 0), 'End': datetime.datetime(2025, 7, 29, 1, 15)}]
+Event:  Arxiv digest
+checking calendar for events between 2025-07-29 01:30:00+00:00 and 2025-07-29 02:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 02:00:00+00:00 and 2025-07-29 02:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 02:30:00+00:00 and 2025-07-29 03:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 03:00:00+00:00 and 2025-07-29 03:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 03:30:00+00:00 and 2025-07-29 04:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 04:00:00+00:00 and 2025-07-29 04:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 04:30:00+00:00 and 2025-07-29 05:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 05:00:00+00:00 and 2025-07-29 05:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 05:30:00+00:00 and 2025-07-29 06:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 06:00:00+00:00 and 2025-07-29 06:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 06:30:00+00:00 and 2025-07-29 07:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 07:00:00+00:00 and 2025-07-29 07:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 07:30:00+00:00 and 2025-07-29 08:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 08:00:00+00:00 and 2025-07-29 08:30:00+00:00
+2 32
+[{'Event': ' Calendar copier', 'Event ID': ' 344lvnbshb6eoe89m11t4s0vbs_20250729T080000Z', 'Description': 'Description: # Calendar Boundary Creator\n\nCreate Start and End events on personal calendar based on work calendar meetings.\n\n## Task\n1. **Delete existing**: Search personal calendar for events titled "Start" or "End" in next 2 weeks, delete all found\n2. **Fetch work calendar**: Get all Busy/Tentative events from work calendar (Chris@work) for next 5 weekdays\n3. **Create Start events**: For each weekday, create "Start" event that is either:\n   - First meeting\'s exact time/duration, OR\n   - 10:00 AM - 11:00 AM (1 hour)\n   - **Use whichever is EARLIER**\n4. **Create End events**: For each weekday, create "End" event that is either:\n   - Overlaps with last meeting\'s exact time/duration, OR  \n   - 5:00 PM - 6:00 PM (1 hour)\n   - **Use whichever is LATER**\n\n## Calendar IDs\n- Work: `2i9i000osgrujeqnqfd9usotbr29dlpq@import.calendar.google.com` (Pacific Time)\n- Personal: `primary` (Mountain Time)\n\n## Notes\n- Skip weekends entirely\n- Convert PT → MT as needed\n- Only process Busy/Tentative events (ignore Free)\n- Events should have no reminders', 'Start': datetime.datetime(2025, 7, 29, 8, 0), 'End': datetime.datetime(2025, 7, 29, 8, 15)}]
+Event:  Calendar copier
+checking calendar for events between 2025-07-29 08:30:00+00:00 and 2025-07-29 09:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 09:00:00+00:00 and 2025-07-29 09:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 09:30:00+00:00 and 2025-07-29 10:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 10:00:00+00:00 and 2025-07-29 10:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 10:30:00+00:00 and 2025-07-29 11:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 11:00:00+00:00 and 2025-07-29 11:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 11:30:00+00:00 and 2025-07-29 12:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 12:00:00+00:00 and 2025-07-29 12:30:00+00:00
+2 8
+[{'Event': ' News Briefing', 'Event ID': ' 6osj2d9m6ssj4bb26kp3ib9kcoqjibb1ccqj0b9l69gj4oj66hj34ob668_20250729T120000Z', 'Description': 'Description: Your job is to generate and send a news intelligence brief. This newsletter is meant to be informative, but also to abstract away some of the more stressful details and subjects in the news. In particular, the recipients will not want to hear about partisan infighting in Us politics, nor about Israel, nor about Trump, inasmuch as is possible. For cultural interest, the recipients will prefer not to hear anything about sports, music or performances.\xa0<br><br>## Your Task:<br><br>1. **Get articles from the rss feeds server:**<br>\xa0\xa0\xa0```<br>\xa0 \xa0local_and_world_news = get_articles({"feeds":["<a href="https://rss.nytimes.com/services/xml/rss/nyt/US.xml" target="_blank">https://rss.nytimes.com/services/xml/rss/nyt/US.xml</a>",<br>"<a href="https://rss.nytimes.com/services/xml/rss/nyt/World.xml" target="_blank">https://rss.nytimes.com/services/xml/rss/nyt/World.xml</a>",<br>"<a href="https://www.theatlantic.com/feed/all/" target="_blank">https://www.theatlantic.com/feed/all/</a>",<br>"<a href="https://heathercoxrichardson.substack.com/feed" target="_blank">https://heathercoxrichardson.substack.com/feed</a>"]}) # Pull: server 1 returns articles.<br>cultural_interest = get_articles({"feeds":["<a href="https://rss.metafilter.com/metafilter.rss" target="_blank">https://rss.metafilter.com/metafilter.rss</a>",<br>"<a href="https://acoup.blog/feed/" target="_blank">https://acoup.blog/feed/</a>"]})<br><br>ai_articles = get_articles({"feeds": ["<a href="https://www.microsoft.com/en-us/research/feed/" target="_blank">https://www.microsoft.com/en-us/research/feed/</a>",<br>"<a href="https://www.nature.com/nature.rss" target="_blank">https://www.nature.com/nature.rss</a>",<br>"<a href="https://tldr.tech/api/rss/ai" target="_blank">https://tldr.tech/api/rss/ai</a>"]}) # for this one the tldr-ai feed will point to a newsletter. You will need to scrape this newsletter uri to see the contents.<br><br>local = get_articles({"feeds":["<a href="https://www.longmontleader.com/rss/" target="_blank">https://www.longmontleader.com/rss/</a>","<a href="https://www.reddit.com/r/Longmont/">https://www.reddit.com/r/Longmont</a>.rss"]})\xa0\xa0\xa0```<br><br>2. **Write an engaging newsletter** from the article groups you pulled:<br>\xa0\xa0\xa0- Synthesize articles into coherent narrative sections<br>\xa0\xa0\xa0- Create engaging headlines and stories that connect related articles<br>\xa0\xa0\xa0- Use markdown formatting with inline links: [article title](url)<br>\xa0\xa0\xa0- Write as a complete intelligence brief<br>\xa0 \xa0- there should be a section for each of the sets of articles above at least for Us and world news, for cultural interest stories, for AI news, and for local news about longmont colorado.<br><br><br>## Your Writing Style:<br>- Create **engaging, coherent narratives** that connect related articles<br>- Write **concise but informative** content suitable for a daily intelligence brief<br>- Use **markdown formatting** with proper headers and inline links<br>- **Synthesize information** rather than just summarizing individual articles<br>- Focus on **meaningful analysis and context** between stories<br><br>3. Deliver the intended markdown content of the newsletter to the outbox via MCP outbox:send.', 'Start': datetime.datetime(2025, 7, 29, 12, 0), 'End': datetime.datetime(2025, 7, 29, 12, 15)}]
+Event:  News Briefing
+checking calendar for events between 2025-07-29 12:30:00+00:00 and 2025-07-29 13:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 13:00:00+00:00 and 2025-07-29 13:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 13:30:00+00:00 and 2025-07-29 14:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 14:00:00+00:00 and 2025-07-29 14:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 14:30:00+00:00 and 2025-07-29 15:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 15:00:00+00:00 and 2025-07-29 15:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 15:30:00+00:00 and 2025-07-29 16:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 16:00:00+00:00 and 2025-07-29 16:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 16:30:00+00:00 and 2025-07-29 17:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 17:00:00+00:00 and 2025-07-29 17:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 17:30:00+00:00 and 2025-07-29 18:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 18:00:00+00:00 and 2025-07-29 18:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 18:30:00+00:00 and 2025-07-29 19:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 19:00:00+00:00 and 2025-07-29 19:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 19:30:00+00:00 and 2025-07-29 20:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 20:00:00+00:00 and 2025-07-29 20:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 20:30:00+00:00 and 2025-07-29 21:00:00+00:00
+2 8
+[{'Event': ' Bsky', 'Event ID': ' 7itk66sr00nvh8vhp6d017fp7v_20250729T203000Z', 'Description': "Description: Please use MCP to collect today's activity on my bluesky timeline. summarize the activity into themes with links to linked articles as appropriate.\xa0 Deliver this summary to the MCP outbox:send", 'Start': datetime.datetime(2025, 7, 29, 20, 30), 'End': datetime.datetime(2025, 7, 29, 20, 45)}]
+Event:  Bsky
+checking calendar for events between 2025-07-29 21:00:00+00:00 and 2025-07-29 21:30:00+00:00
+2 15
+[{'Event': ' Personal summary', 'Event ID': ' u6d338bbj5udmogrhmadtvkr60', 'Description': 'Description: Create a personal status update by gathering:\n1. Last week\'s calendar events (personal calendars only, skip AI orchestrator, include Shara\'s calendar as partner\'s schedule)\n2. Today\'s schedule \n3. Next week\'s upcoming events\n4. Recent Obsidian materials from the past week\n5. Open todos from Obsidian using: mcp__obsidian-mcp__obsidian_complex_search with query {"regexp": ["- \\\\[ \\\\]", {"var": "content"}]}\n\nFocus on identifying items from both past and upcoming weeks that may need attention, follow-up, or preparation. Draft as a factual status report without summary or reflection sections, then send to outbox.', 'Start': datetime.datetime(2025, 7, 29, 21, 0), 'End': datetime.datetime(2025, 7, 29, 21, 15)}]
+Event:  Personal summary
+checking calendar for events between 2025-07-29 22:00:00+00:00 and 2025-07-29 22:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 22:30:00+00:00 and 2025-07-29 23:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 23:00:00+00:00 and 2025-07-29 23:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-29 23:30:00+00:00 and 2025-07-30 00:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 00:00:00+00:00 and 2025-07-30 00:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 00:30:00+00:00 and 2025-07-30 01:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 01:00:00+00:00 and 2025-07-30 01:30:00+00:00
+2 66
+[{'Event': ' Arxiv digest', 'Event ID': ' atpl87c399b0jdb2p42l1igd2k_20250730T010000Z', 'Description': 'Description: Arxiv Digest Event Description\n\nEvent: Arxiv digest\n\nDescription: \n1. **Progressive Paper Analysis**: Use your rss-feeds mcp to systematically traverse ALL papers from the last day, building your analysis progressively:\n\n**Step 1 - Get first batch:**\n```\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 0})\n```\n\n**Step 2 - Continue through all batches:**\nKeep paginating through ALL available papers, building your digest progressively:\n```\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 20})\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 40})\n# Continue until has_more: false\n```\n\n**Important**: Build your digest article PROGRESSIVELY as you traverse each batch. Don\'t wait until the end - update and refine your recommendations as you discover better papers in later batches.\n\n2. **Quality Analysis & Crackpot Filtering**: For each batch, apply rigorous skeptical review:\n\n**Core Quality Criteria:**\n(1) Is the central claim testable and precisely stated? \n(2) Do the mathematical concepts actually connect logically? \n(3) Are experimental claims backed by proper methodology? \n(4) Does the writing prioritize substance over jargon?\n\n**CRACKPOT WARNING SIGNS - IMMEDIATE REJECTION:**\n- **Grand Unification Claims**: Papers claiming to unify disparate fields under one simple equation/framework without rigorous validation\n- **Revolutionary Breakthrough Language**: Excessive use of "breakthrough," "revolutionary," "paradigm shift" without proportional evidence\n- **Vague Mathematical Formalism**: Mathematical notation that looks impressive but doesn\'t serve a clear logical purpose\n- **Missing Baselines/Comparisons**: Experimental claims without proper controls or baseline comparisons\n- **Theory of Everything Syndrome**: Attempting to explain too much with too little evidence\n- **Buzzword Bingo**: Terminology salad mixing unrelated trending fields (quantum + AI + consciousness, etc.)\n- **AI Tool Acknowledgments**: Papers prominently crediting AI tools for core contributions\n\n**REJECT IMMEDIATELY**: Any paper that reads like a "theory of everything" or claims universal laws without extraordinary evidence.\n\n3. **Progressive Refinement Strategy**:\n- Start with top papers from first batch\n- As you find better papers in later batches, replace weaker selections\n- Maintain a running "best of" list that evolves\n- **Apply crackpot filter at each step** - better to have fewer high-quality papers than include questionable work\n- Final digest should represent the absolute best from ALL papers, not just early ones\n\n4. **Research Preferences**: Use "/Users/chris/source/airss/research_interests_analysis.md" and "/Users/chris/source/airss/zotero_library_export.csv" to customize selection.\n\n5. **Output Format**: \n- Abstract links: https://arxiv.org/abs/<identifier>\n- HTML versions: https://arxiv.org/html/<identifier>\n- Include total papers analyzed (e.g., "Analyzed 83 of 83 total papers")\n- **Flag any questionable papers you filtered out** for transparency\n\n6. **Final Step**: Deliver complete digest to outbox via MCP outbox:send only after analyzing ALL available papers.\n\nEvent Schedule: Recurring daily around 21:00-23:00 UTC (15 minute duration)', 'Start': datetime.datetime(2025, 7, 30, 1, 0), 'End': datetime.datetime(2025, 7, 30, 1, 15)}]
+Event:  Arxiv digest
+checking calendar for events between 2025-07-30 01:30:00+00:00 and 2025-07-30 02:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 02:00:00+00:00 and 2025-07-30 02:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 02:30:00+00:00 and 2025-07-30 03:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 03:00:00+00:00 and 2025-07-30 03:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 03:30:00+00:00 and 2025-07-30 04:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 04:00:00+00:00 and 2025-07-30 04:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 04:30:00+00:00 and 2025-07-30 05:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 05:00:00+00:00 and 2025-07-30 05:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 05:30:00+00:00 and 2025-07-30 06:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 06:00:00+00:00 and 2025-07-30 06:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 06:30:00+00:00 and 2025-07-30 07:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 07:00:00+00:00 and 2025-07-30 07:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 07:30:00+00:00 and 2025-07-30 08:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 08:00:00+00:00 and 2025-07-30 08:30:00+00:00
+2 [33]
+checking calendar for events between 2025-07-30 08:30:00+00:00 and 2025-07-30 09:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 09:00:00+00:00 and 2025-07-30 09:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 09:30:00+00:00 and 2025-07-30 10:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 10:00:00+00:00 and 2025-07-30 10:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 10:30:00+00:00 and 2025-07-30 11:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 11:00:00+00:00 and 2025-07-30 11:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 11:30:00+00:00 and 2025-07-30 12:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 12:00:00+00:00 and 2025-07-30 12:30:00+00:00
+2 8
+[{'Event': ' News Briefing', 'Event ID': ' 6osj2d9m6ssj4bb26kp3ib9kcoqjibb1ccqj0b9l69gj4oj66hj34ob668_20250730T120000Z', 'Description': 'Description: Your job is to generate and send a news intelligence brief. This newsletter is meant to be informative, but also to abstract away some of the more stressful details and subjects in the news. In particular, the recipients will not want to hear about partisan infighting in Us politics, nor about Israel, nor about Trump, inasmuch as is possible. For cultural interest, the recipients will prefer not to hear anything about sports, music or performances.\xa0<br><br>## Your Task:<br><br>1. **Get articles from the rss feeds server:**<br>\xa0\xa0\xa0```<br>\xa0 \xa0local_and_world_news = get_articles({"feeds":["<a href="https://rss.nytimes.com/services/xml/rss/nyt/US.xml" target="_blank">https://rss.nytimes.com/services/xml/rss/nyt/US.xml</a>",<br>"<a href="https://rss.nytimes.com/services/xml/rss/nyt/World.xml" target="_blank">https://rss.nytimes.com/services/xml/rss/nyt/World.xml</a>",<br>"<a href="https://www.theatlantic.com/feed/all/" target="_blank">https://www.theatlantic.com/feed/all/</a>",<br>"<a href="https://heathercoxrichardson.substack.com/feed" target="_blank">https://heathercoxrichardson.substack.com/feed</a>"]}) # Pull: server 1 returns articles.<br>cultural_interest = get_articles({"feeds":["<a href="https://rss.metafilter.com/metafilter.rss" target="_blank">https://rss.metafilter.com/metafilter.rss</a>",<br>"<a href="https://acoup.blog/feed/" target="_blank">https://acoup.blog/feed/</a>"]})<br><br>ai_articles = get_articles({"feeds": ["<a href="https://www.microsoft.com/en-us/research/feed/" target="_blank">https://www.microsoft.com/en-us/research/feed/</a>",<br>"<a href="https://www.nature.com/nature.rss" target="_blank">https://www.nature.com/nature.rss</a>",<br>"<a href="https://tldr.tech/api/rss/ai" target="_blank">https://tldr.tech/api/rss/ai</a>"]}) # for this one the tldr-ai feed will point to a newsletter. You will need to scrape this newsletter uri to see the contents.<br><br>local = get_articles({"feeds":["<a href="https://www.longmontleader.com/rss/" target="_blank">https://www.longmontleader.com/rss/</a>","<a href="https://www.reddit.com/r/Longmont/">https://www.reddit.com/r/Longmont</a>.rss"]})\xa0\xa0\xa0```<br><br>2. **Write an engaging newsletter** from the article groups you pulled:<br>\xa0\xa0\xa0- Synthesize articles into coherent narrative sections<br>\xa0\xa0\xa0- Create engaging headlines and stories that connect related articles<br>\xa0\xa0\xa0- Use markdown formatting with inline links: [article title](url)<br>\xa0\xa0\xa0- Write as a complete intelligence brief<br>\xa0 \xa0- there should be a section for each of the sets of articles above at least for Us and world news, for cultural interest stories, for AI news, and for local news about longmont colorado.<br><br><br>## Your Writing Style:<br>- Create **engaging, coherent narratives** that connect related articles<br>- Write **concise but informative** content suitable for a daily intelligence brief<br>- Use **markdown formatting** with proper headers and inline links<br>- **Synthesize information** rather than just summarizing individual articles<br>- Focus on **meaningful analysis and context** between stories<br><br>3. Deliver the intended markdown content of the newsletter to the outbox via MCP outbox:send.', 'Start': datetime.datetime(2025, 7, 30, 12, 0), 'End': datetime.datetime(2025, 7, 30, 12, 15)}]
+Event:  News Briefing
+checking calendar for events between 2025-07-30 12:30:00+00:00 and 2025-07-30 13:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 13:00:00+00:00 and 2025-07-30 13:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 13:30:00+00:00 and 2025-07-30 14:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 14:00:00+00:00 and 2025-07-30 14:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 14:30:00+00:00 and 2025-07-30 15:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 15:00:00+00:00 and 2025-07-30 15:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 15:30:00+00:00 and 2025-07-30 16:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 16:00:00+00:00 and 2025-07-30 16:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 16:30:00+00:00 and 2025-07-30 17:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 17:00:00+00:00 and 2025-07-30 17:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 17:30:00+00:00 and 2025-07-30 18:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 18:00:00+00:00 and 2025-07-30 18:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 18:30:00+00:00 and 2025-07-30 19:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 19:00:00+00:00 and 2025-07-30 19:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 19:30:00+00:00 and 2025-07-30 20:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 20:00:00+00:00 and 2025-07-30 20:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 20:30:00+00:00 and 2025-07-30 21:00:00+00:00
+2 8
+[{'Event': ' Bsky', 'Event ID': ' 7itk66sr00nvh8vhp6d017fp7v_20250730T203000Z', 'Description': "Description: Please use MCP to collect today's activity on my bluesky timeline. summarize the activity into themes with links to linked articles as appropriate.\xa0 Deliver this summary to the MCP outbox:send", 'Start': datetime.datetime(2025, 7, 30, 20, 30), 'End': datetime.datetime(2025, 7, 30, 20, 45)}]
+Event:  Bsky
+checking calendar for events between 2025-07-30 21:00:00+00:00 and 2025-07-30 21:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 21:30:00+00:00 and 2025-07-30 22:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 22:00:00+00:00 and 2025-07-30 22:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 22:30:00+00:00 and 2025-07-30 23:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 23:00:00+00:00 and 2025-07-30 23:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-30 23:30:00+00:00 and 2025-07-31 00:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 00:00:00+00:00 and 2025-07-31 00:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 00:30:00+00:00 and 2025-07-31 01:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 01:00:00+00:00 and 2025-07-31 01:30:00+00:00
+2 66
+[{'Event': ' Arxiv digest', 'Event ID': ' atpl87c399b0jdb2p42l1igd2k_20250731T010000Z', 'Description': 'Description: Arxiv Digest Event Description\n\nEvent: Arxiv digest\n\nDescription: \n1. **Progressive Paper Analysis**: Use your rss-feeds mcp to systematically traverse ALL papers from the last day, building your analysis progressively:\n\n**Step 1 - Get first batch:**\n```\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 0})\n```\n\n**Step 2 - Continue through all batches:**\nKeep paginating through ALL available papers, building your digest progressively:\n```\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 20})\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 40})\n# Continue until has_more: false\n```\n\n**Important**: Build your digest article PROGRESSIVELY as you traverse each batch. Don\'t wait until the end - update and refine your recommendations as you discover better papers in later batches.\n\n2. **Quality Analysis & Crackpot Filtering**: For each batch, apply rigorous skeptical review:\n\n**Core Quality Criteria:**\n(1) Is the central claim testable and precisely stated? \n(2) Do the mathematical concepts actually connect logically? \n(3) Are experimental claims backed by proper methodology? \n(4) Does the writing prioritize substance over jargon?\n\n**CRACKPOT WARNING SIGNS - IMMEDIATE REJECTION:**\n- **Grand Unification Claims**: Papers claiming to unify disparate fields under one simple equation/framework without rigorous validation\n- **Revolutionary Breakthrough Language**: Excessive use of "breakthrough," "revolutionary," "paradigm shift" without proportional evidence\n- **Vague Mathematical Formalism**: Mathematical notation that looks impressive but doesn\'t serve a clear logical purpose\n- **Missing Baselines/Comparisons**: Experimental claims without proper controls or baseline comparisons\n- **Theory of Everything Syndrome**: Attempting to explain too much with too little evidence\n- **Buzzword Bingo**: Terminology salad mixing unrelated trending fields (quantum + AI + consciousness, etc.)\n- **AI Tool Acknowledgments**: Papers prominently crediting AI tools for core contributions\n\n**REJECT IMMEDIATELY**: Any paper that reads like a "theory of everything" or claims universal laws without extraordinary evidence.\n\n3. **Progressive Refinement Strategy**:\n- Start with top papers from first batch\n- As you find better papers in later batches, replace weaker selections\n- Maintain a running "best of" list that evolves\n- **Apply crackpot filter at each step** - better to have fewer high-quality papers than include questionable work\n- Final digest should represent the absolute best from ALL papers, not just early ones\n\n4. **Research Preferences**: Use "/Users/chris/source/airss/research_interests_analysis.md" and "/Users/chris/source/airss/zotero_library_export.csv" to customize selection.\n\n5. **Output Format**: \n- Abstract links: https://arxiv.org/abs/<identifier>\n- HTML versions: https://arxiv.org/html/<identifier>\n- Include total papers analyzed (e.g., "Analyzed 83 of 83 total papers")\n- **Flag any questionable papers you filtered out** for transparency\n\n6. **Final Step**: Deliver complete digest to outbox via MCP outbox:send only after analyzing ALL available papers.\n\nEvent Schedule: Recurring daily around 21:00-23:00 UTC (15 minute duration)', 'Start': datetime.datetime(2025, 7, 31, 1, 0), 'End': datetime.datetime(2025, 7, 31, 1, 15)}]
+Event:  Arxiv digest
+checking calendar for events between 2025-07-31 01:30:00+00:00 and 2025-07-31 02:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 02:00:00+00:00 and 2025-07-31 02:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 02:30:00+00:00 and 2025-07-31 03:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 03:00:00+00:00 and 2025-07-31 03:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 03:30:00+00:00 and 2025-07-31 04:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 04:00:00+00:00 and 2025-07-31 04:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 04:30:00+00:00 and 2025-07-31 05:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 05:00:00+00:00 and 2025-07-31 05:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 05:30:00+00:00 and 2025-07-31 06:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 06:00:00+00:00 and 2025-07-31 06:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 06:30:00+00:00 and 2025-07-31 07:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 07:00:00+00:00 and 2025-07-31 07:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 07:30:00+00:00 and 2025-07-31 08:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 08:00:00+00:00 and 2025-07-31 08:30:00+00:00
+2 32
+[{'Event': ' Calendar copier', 'Event ID': ' 344lvnbshb6eoe89m11t4s0vbs_20250731T080000Z', 'Description': 'Description: # Calendar Boundary Creator\n\nCreate Start and End events on personal calendar based on work calendar meetings.\n\n## Task\n1. **Delete existing**: Search personal calendar for events titled "Start" or "End" in next 2 weeks, delete all found\n2. **Fetch work calendar**: Get all Busy/Tentative events from work calendar (Chris@work) for next 5 weekdays\n3. **Create Start events**: For each weekday, create "Start" event that is either:\n   - First meeting\'s exact time/duration, OR\n   - 10:00 AM - 11:00 AM (1 hour)\n   - **Use whichever is EARLIER**\n4. **Create End events**: For each weekday, create "End" event that is either:\n   - Overlaps with last meeting\'s exact time/duration, OR  \n   - 5:00 PM - 6:00 PM (1 hour)\n   - **Use whichever is LATER**\n\n## Calendar IDs\n- Work: `2i9i000osgrujeqnqfd9usotbr29dlpq@import.calendar.google.com` (Pacific Time)\n- Personal: `primary` (Mountain Time)\n\n## Notes\n- Skip weekends entirely\n- Convert PT → MT as needed\n- Only process Busy/Tentative events (ignore Free)\n- Events should have no reminders', 'Start': datetime.datetime(2025, 7, 31, 8, 0), 'End': datetime.datetime(2025, 7, 31, 8, 15)}]
+Event:  Calendar copier
+checking calendar for events between 2025-07-31 08:30:00+00:00 and 2025-07-31 09:00:00+00:00
+2 15
+[{'Event': ' Personal summary', 'Event ID': ' u6d338bbj5udmogrhmadtvkr60_20250731T083000Z', 'Description': 'Description: Create a personal status update by gathering:\n1. Figure out what might need following up on from the last week of emails, calendar events, and obsidian updates (personal calendars only, skip AI orchestrator, include Shara\'s calendar as partner\'s schedule, keep in mind that we are different people and don\'t do the same things) Do not mention those parts of this content with no follow-ups.\n2. Today\'s schedule \n3. Next week\'s upcoming events if they need to be prepared for.\n4. Open todos from Obsidian using: mcp__obsidian-mcp__obsidian_complex_search with query {"regexp": ["- \\\\[ \\\\]", {"var": "content"}]}\n\nPlease review these materials and integrate them into a personal status briefing.\xa0\nFocus on identifying items from both past and upcoming weeks that may need attention, follow-up, or preparation. Draft as a factual status report without summary or reflection sections, then send to outbox.', 'Start': datetime.datetime(2025, 7, 31, 8, 30), 'End': datetime.datetime(2025, 7, 31, 8, 45)}]
+Event:  Personal summary
+checking calendar for events between 2025-07-31 09:30:00+00:00 and 2025-07-31 10:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 10:00:00+00:00 and 2025-07-31 10:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 10:30:00+00:00 and 2025-07-31 11:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 11:00:00+00:00 and 2025-07-31 11:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 11:30:00+00:00 and 2025-07-31 12:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 12:00:00+00:00 and 2025-07-31 12:30:00+00:00
+2 8
+[{'Event': ' News Briefing', 'Event ID': ' 6osj2d9m6ssj4bb26kp3ib9kcoqjibb1ccqj0b9l69gj4oj66hj34ob668_20250731T120000Z', 'Description': 'Description: Your job is to generate and send a news intelligence brief. This newsletter is meant to be informative, but also to abstract away some of the more stressful details and subjects in the news. In particular, the recipients will not want to hear about partisan infighting in Us politics, nor about Israel, nor about Trump, inasmuch as is possible. For cultural interest, the recipients will prefer not to hear anything about sports, music or performances.\xa0<br><br>## Your Task:<br><br>1. **Get articles from the rss feeds server:**<br>\xa0\xa0\xa0```<br>\xa0 \xa0local_and_world_news = get_articles({"feeds":["<a href="https://rss.nytimes.com/services/xml/rss/nyt/US.xml" target="_blank">https://rss.nytimes.com/services/xml/rss/nyt/US.xml</a>",<br>"<a href="https://rss.nytimes.com/services/xml/rss/nyt/World.xml" target="_blank">https://rss.nytimes.com/services/xml/rss/nyt/World.xml</a>",<br>"<a href="https://www.theatlantic.com/feed/all/" target="_blank">https://www.theatlantic.com/feed/all/</a>",<br>"<a href="https://heathercoxrichardson.substack.com/feed" target="_blank">https://heathercoxrichardson.substack.com/feed</a>"]}) # Pull: server 1 returns articles.<br>cultural_interest = get_articles({"feeds":["<a href="https://rss.metafilter.com/metafilter.rss" target="_blank">https://rss.metafilter.com/metafilter.rss</a>",<br>"<a href="https://acoup.blog/feed/" target="_blank">https://acoup.blog/feed/</a>"]})<br><br>ai_articles = get_articles({"feeds": ["<a href="https://www.microsoft.com/en-us/research/feed/" target="_blank">https://www.microsoft.com/en-us/research/feed/</a>",<br>"<a href="https://www.nature.com/nature.rss" target="_blank">https://www.nature.com/nature.rss</a>",<br>"<a href="https://tldr.tech/api/rss/ai" target="_blank">https://tldr.tech/api/rss/ai</a>"]}) # for this one the tldr-ai feed will point to a newsletter. You will need to scrape this newsletter uri to see the contents.<br><br>local = get_articles({"feeds":["<a href="https://www.longmontleader.com/rss/" target="_blank">https://www.longmontleader.com/rss/</a>","<a href="https://www.reddit.com/r/Longmont/">https://www.reddit.com/r/Longmont</a>.rss"]})\xa0\xa0\xa0```<br><br>2. **Write an engaging newsletter** from the article groups you pulled:<br>\xa0\xa0\xa0- Synthesize articles into coherent narrative sections<br>\xa0\xa0\xa0- Create engaging headlines and stories that connect related articles<br>\xa0\xa0\xa0- Use markdown formatting with inline links: [article title](url)<br>\xa0\xa0\xa0- Write as a complete intelligence brief<br>\xa0 \xa0- there should be a section for each of the sets of articles above at least for Us and world news, for cultural interest stories, for AI news, and for local news about longmont colorado.<br><br><br>## Your Writing Style:<br>- Create **engaging, coherent narratives** that connect related articles<br>- Write **concise but informative** content suitable for a daily intelligence brief<br>- Use **markdown formatting** with proper headers and inline links<br>- **Synthesize information** rather than just summarizing individual articles<br>- Focus on **meaningful analysis and context** between stories<br><br>3. Deliver the intended markdown content of the newsletter to the outbox via MCP outbox:send.', 'Start': datetime.datetime(2025, 7, 31, 12, 0), 'End': datetime.datetime(2025, 7, 31, 12, 15)}]
+Event:  News Briefing
+checking calendar for events between 2025-07-31 12:30:00+00:00 and 2025-07-31 13:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 13:00:00+00:00 and 2025-07-31 13:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 13:30:00+00:00 and 2025-07-31 14:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 14:00:00+00:00 and 2025-07-31 14:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 14:30:00+00:00 and 2025-07-31 15:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 15:00:00+00:00 and 2025-07-31 15:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 15:30:00+00:00 and 2025-07-31 16:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 16:00:00+00:00 and 2025-07-31 16:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 16:30:00+00:00 and 2025-07-31 17:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 17:00:00+00:00 and 2025-07-31 17:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 17:30:00+00:00 and 2025-07-31 18:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 18:00:00+00:00 and 2025-07-31 18:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 18:30:00+00:00 and 2025-07-31 19:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 19:00:00+00:00 and 2025-07-31 19:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 19:30:00+00:00 and 2025-07-31 20:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 20:00:00+00:00 and 2025-07-31 20:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 20:30:00+00:00 and 2025-07-31 21:00:00+00:00
+2 8
+[{'Event': ' Bsky', 'Event ID': ' 7itk66sr00nvh8vhp6d017fp7v_20250731T203000Z', 'Description': "Description: Please use MCP to collect today's activity on my bluesky timeline. summarize the activity into themes with links to linked articles as appropriate.\xa0 Deliver this summary to the MCP outbox:send", 'Start': datetime.datetime(2025, 7, 31, 20, 30), 'End': datetime.datetime(2025, 7, 31, 20, 45)}]
+Event:  Bsky
+checking calendar for events between 2025-07-31 21:00:00+00:00 and 2025-07-31 21:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 21:30:00+00:00 and 2025-07-31 22:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 22:00:00+00:00 and 2025-07-31 22:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 22:30:00+00:00 and 2025-07-31 23:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 23:00:00+00:00 and 2025-07-31 23:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-07-31 23:30:00+00:00 and 2025-08-01 00:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 00:00:00+00:00 and 2025-08-01 00:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 00:30:00+00:00 and 2025-08-01 01:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 01:00:00+00:00 and 2025-08-01 01:30:00+00:00
+2 66
+[{'Event': ' Arxiv digest', 'Event ID': ' atpl87c399b0jdb2p42l1igd2k_20250801T010000Z', 'Description': 'Description: Arxiv Digest Event Description\n\nEvent: Arxiv digest\n\nDescription: \n1. **Progressive Paper Analysis**: Use your rss-feeds mcp to systematically traverse ALL papers from the last day, building your analysis progressively:\n\n**Step 1 - Get first batch:**\n```\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 0})\n```\n\n**Step 2 - Continue through all batches:**\nKeep paginating through ALL available papers, building your digest progressively:\n```\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 20})\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 40})\n# Continue until has_more: false\n```\n\n**Important**: Build your digest article PROGRESSIVELY as you traverse each batch. Don\'t wait until the end - update and refine your recommendations as you discover better papers in later batches.\n\n2. **Quality Analysis & Crackpot Filtering**: For each batch, apply rigorous skeptical review:\n\n**Core Quality Criteria:**\n(1) Is the central claim testable and precisely stated? \n(2) Do the mathematical concepts actually connect logically? \n(3) Are experimental claims backed by proper methodology? \n(4) Does the writing prioritize substance over jargon?\n\n**CRACKPOT WARNING SIGNS - IMMEDIATE REJECTION:**\n- **Grand Unification Claims**: Papers claiming to unify disparate fields under one simple equation/framework without rigorous validation\n- **Revolutionary Breakthrough Language**: Excessive use of "breakthrough," "revolutionary," "paradigm shift" without proportional evidence\n- **Vague Mathematical Formalism**: Mathematical notation that looks impressive but doesn\'t serve a clear logical purpose\n- **Missing Baselines/Comparisons**: Experimental claims without proper controls or baseline comparisons\n- **Theory of Everything Syndrome**: Attempting to explain too much with too little evidence\n- **Buzzword Bingo**: Terminology salad mixing unrelated trending fields (quantum + AI + consciousness, etc.)\n- **AI Tool Acknowledgments**: Papers prominently crediting AI tools for core contributions\n\n**REJECT IMMEDIATELY**: Any paper that reads like a "theory of everything" or claims universal laws without extraordinary evidence.\n\n3. **Progressive Refinement Strategy**:\n- Start with top papers from first batch\n- As you find better papers in later batches, replace weaker selections\n- Maintain a running "best of" list that evolves\n- **Apply crackpot filter at each step** - better to have fewer high-quality papers than include questionable work\n- Final digest should represent the absolute best from ALL papers, not just early ones\n\n4. **Research Preferences**: Use "/Users/chris/source/airss/research_interests_analysis.md" and "/Users/chris/source/airss/zotero_library_export.csv" to customize selection.\n\n5. **Output Format**: \n- Abstract links: https://arxiv.org/abs/<identifier>\n- HTML versions: https://arxiv.org/html/<identifier>\n- Include total papers analyzed (e.g., "Analyzed 83 of 83 total papers")\n- **Flag any questionable papers you filtered out** for transparency\n\n6. **Final Step**: Deliver complete digest to outbox via MCP outbox:send only after analyzing ALL available papers.\n\nEvent Schedule: Recurring daily around 21:00-23:00 UTC (15 minute duration)', 'Start': datetime.datetime(2025, 8, 1, 1, 0), 'End': datetime.datetime(2025, 8, 1, 1, 15)}]
+Event:  Arxiv digest
+checking calendar for events between 2025-08-01 01:30:00+00:00 and 2025-08-01 02:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 02:00:00+00:00 and 2025-08-01 02:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 02:30:00+00:00 and 2025-08-01 03:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 03:00:00+00:00 and 2025-08-01 03:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 03:30:00+00:00 and 2025-08-01 04:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 04:00:00+00:00 and 2025-08-01 04:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 04:30:00+00:00 and 2025-08-01 05:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 05:00:00+00:00 and 2025-08-01 05:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 05:30:00+00:00 and 2025-08-01 06:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 06:00:00+00:00 and 2025-08-01 06:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 06:30:00+00:00 and 2025-08-01 07:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 07:00:00+00:00 and 2025-08-01 07:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 07:30:00+00:00 and 2025-08-01 08:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-01 08:00:00+00:00 and 2025-08-01 08:30:00+00:00
+2 32
+[{'Event': ' Calendar copier', 'Event ID': ' 344lvnbshb6eoe89m11t4s0vbs_20250801T080000Z', 'Description': 'Description: # Calendar Boundary Creator\n\nCreate Start and End events on personal calendar based on work calendar meetings.\n\n## Task\n1. **Delete existing**: Search personal calendar for events titled "Start" or "End" in next 2 weeks, delete all found\n2. **Fetch work calendar**: Get all Busy/Tentative events from work calendar (Chris@work) for next 5 weekdays\n3. **Create Start events**: For each weekday, create "Start" event that is either:\n   - First meeting\'s exact time/duration, OR\n   - 10:00 AM - 11:00 AM (1 hour)\n   - **Use whichever is EARLIER**\n4. **Create End events**: For each weekday, create "End" event that is either:\n   - Overlaps with last meeting\'s exact time/duration, OR  \n   - 5:00 PM - 6:00 PM (1 hour)\n   - **Use whichever is LATER**\n\n## Calendar IDs\n- Work: `2i9i000osgrujeqnqfd9usotbr29dlpq@import.calendar.google.com` (Pacific Time)\n- Personal: `primary` (Mountain Time)\n\n## Notes\n- Skip weekends entirely\n- Convert PT → MT as needed\n- Only process Busy/Tentative events (ignore Free)\n- Events should have no reminders', 'Start': datetime.datetime(2025, 8, 1, 8, 0), 'End': datetime.datetime(2025, 8, 1, 8, 15)}]
+Event:  Calendar copier
+checking calendar for events between 2025-08-01 08:30:00+00:00 and 2025-08-01 09:00:00+00:00
+2 16
+[{'Event': ' Personal summary', 'Event ID': ' j3num96g12ua1qlpclkbjpilua_20250801T083000Z', 'Description': 'Description: Create a personal status update by gathering:\n1. Last week\'s calendar events (personal calendars only, skip AI orchestrator, include Shara\'s calendar as partner\'s schedule) to be used only for context or if one is indicated to have generated follow-up items. I do not care about these events if there are no obvious, definitive follow-ups.\n2. Today\'s schedule \n3. Next week\'s upcoming events if they need to be prepared for.\n4. Recent Obsidian materials from the past week\n5. Open todos from Obsidian using: mcp__obsidian-mcp__obsidian_complex_search with query {"regexp": ["- \\\\[ \\\\]", {"var": "content"}]}\n\nPlease review these materials and integrate them into a personal status briefing.\xa0\nFocus on identifying items from both past and upcoming weeks that may need attention, follow-up, or preparation. Draft as a factual status report without summary or reflection sections, then send to outbox.', 'Start': datetime.datetime(2025, 8, 1, 8, 30), 'End': datetime.datetime(2025, 8, 1, 8, 45)}]
+Event:  Personal summary
+checking calendar for events between 2025-08-04 00:30:00+00:00 and 2025-08-04 01:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 01:00:00+00:00 and 2025-08-04 01:30:00+00:00
+2 66
+[{'Event': ' Arxiv digest', 'Event ID': ' atpl87c399b0jdb2p42l1igd2k_20250804T010000Z', 'Description': 'Description: Arxiv Digest Event Description\n\nEvent: Arxiv digest\n\nDescription: \n1. **Progressive Paper Analysis**: Use your rss-feeds mcp to systematically traverse ALL papers from the last day, building your analysis progressively:\n\n**Step 1 - Get first batch:**\n```\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 0})\n```\n\n**Step 2 - Continue through all batches:**\nKeep paginating through ALL available papers, building your digest progressively:\n```\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 20})\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 40})\n# Continue until has_more: false\n```\n\n**Important**: Build your digest article PROGRESSIVELY as you traverse each batch. Don\'t wait until the end - update and refine your recommendations as you discover better papers in later batches.\n\n2. **Quality Analysis & Crackpot Filtering**: For each batch, apply rigorous skeptical review:\n\n**Core Quality Criteria:**\n(1) Is the central claim testable and precisely stated? \n(2) Do the mathematical concepts actually connect logically? \n(3) Are experimental claims backed by proper methodology? \n(4) Does the writing prioritize substance over jargon?\n\n**CRACKPOT WARNING SIGNS - IMMEDIATE REJECTION:**\n- **Grand Unification Claims**: Papers claiming to unify disparate fields under one simple equation/framework without rigorous validation\n- **Revolutionary Breakthrough Language**: Excessive use of "breakthrough," "revolutionary," "paradigm shift" without proportional evidence\n- **Vague Mathematical Formalism**: Mathematical notation that looks impressive but doesn\'t serve a clear logical purpose\n- **Missing Baselines/Comparisons**: Experimental claims without proper controls or baseline comparisons\n- **Theory of Everything Syndrome**: Attempting to explain too much with too little evidence\n- **Buzzword Bingo**: Terminology salad mixing unrelated trending fields (quantum + AI + consciousness, etc.)\n- **AI Tool Acknowledgments**: Papers prominently crediting AI tools for core contributions\n\n**REJECT IMMEDIATELY**: Any paper that reads like a "theory of everything" or claims universal laws without extraordinary evidence.\n\n3. **Progressive Refinement Strategy**:\n- Start with top papers from first batch\n- As you find better papers in later batches, replace weaker selections\n- Maintain a running "best of" list that evolves\n- **Apply crackpot filter at each step** - better to have fewer high-quality papers than include questionable work\n- Final digest should represent the absolute best from ALL papers, not just early ones\n\n4. **Research Preferences**: Use "/Users/chris/source/airss/research_interests_analysis.md" and "/Users/chris/source/airss/zotero_library_export.csv" to customize selection.\n\n5. **Output Format**: \n- Abstract links: https://arxiv.org/abs/<identifier>\n- HTML versions: https://arxiv.org/html/<identifier>\n- Include total papers analyzed (e.g., "Analyzed 83 of 83 total papers")\n- **Flag any questionable papers you filtered out** for transparency\n\n6. **Final Step**: Deliver complete digest to outbox via MCP outbox:send only after analyzing ALL available papers.\n\nEvent Schedule: Recurring daily around 21:00-23:00 UTC (15 minute duration)', 'Start': datetime.datetime(2025, 8, 4, 1, 0), 'End': datetime.datetime(2025, 8, 4, 1, 15)}]
+Event:  Arxiv digest
+checking calendar for events between 2025-08-04 01:30:00+00:00 and 2025-08-04 02:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 02:00:00+00:00 and 2025-08-04 02:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 02:30:00+00:00 and 2025-08-04 03:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 03:00:00+00:00 and 2025-08-04 03:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 03:30:00+00:00 and 2025-08-04 04:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 04:00:00+00:00 and 2025-08-04 04:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 04:30:00+00:00 and 2025-08-04 05:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 05:00:00+00:00 and 2025-08-04 05:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 05:30:00+00:00 and 2025-08-04 06:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 06:00:00+00:00 and 2025-08-04 06:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 06:30:00+00:00 and 2025-08-04 07:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 07:00:00+00:00 and 2025-08-04 07:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 07:30:00+00:00 and 2025-08-04 08:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 08:00:00+00:00 and 2025-08-04 08:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 08:30:00+00:00 and 2025-08-04 09:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 09:00:00+00:00 and 2025-08-04 09:30:00+00:00
+checking calendar for events between 2025-08-04 09:30:00+00:00 and 2025-08-04 10:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 10:00:00+00:00 and 2025-08-04 10:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 10:30:00+00:00 and 2025-08-04 11:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 11:00:00+00:00 and 2025-08-04 11:30:00+00:00
+2 151
+[{'Event': ' AI Orchestrator - Daily Workflow', 'Event ID': ' 4heufuqmq6stn395mnmjlfctm4_20250804T110000Z', 'Description': 'Description: # AI Orchestrator Master Prompt - Daily Workflow\n\nExecute these tasks sequentially in the order presented:\n\n## Task 1: Calendar Boundary Creator\n\nCreate Start and End events on personal calendar based on work calendar meetings.\n\n### Steps:\n1. **Fetch work calendar**: Get all Busy/Tentative events from work calendar (Chris@work) for next 5 weekdays\n2. **Create or Move Start events**: For each weekday, create or move the day\'s "Start" event so that it\'s aligned with:\n   - First meeting\'s exact time/duration, OR\n   - 10:00 AM - 11:00 AM (1 hour)\n   - **Use whichever is EARLIER**\n3. **Create or Move End events**: For each weekday, create or move the day\'s "End" event to align with:\n   - Overlaps with last meeting\'s exact time/duration, OR  \n   - 5:00 PM - 6:00 PM (1 hour)\n   - **Use whichever is LATER**\n\n### Calendar IDs:\n- Work: `2i9i000osgrujeqnqfd9usotbr29dlpq@import.calendar.google.com` (Pacific Time)\n- Personal: `primary` (Mountain Time)\n\n### Notes:\n- Skip weekends entirely\n- Convert PT → MT as needed\n- Only process Busy/Tentative events (ignore Free)\n- Events should have no reminders or descriptions\n\n## Task 2: Personal Summary\n\nCreate a personal status update by gathering:\n1. Today\'s schedule \n2. Next week\'s upcoming personal calendar events except work start/end\n3. Next week\'s multi-day or evening events on the shara calendar\n4. Recent Obsidian materials from the past week if available\n5. Open todos from Obsidian via: `mcp__obsidian-mcp__obsidian_complex_search` with query `{"regexp": ["- \\\\[ \\\\]", {"var": "content"}]}`\n\nReview these materials and integrate them into a personal status briefing. Focus on identifying items that may need attention, follow-up, or preparation. Draft as a factual status report without summary or reflection sections, then send via the outbox MCP server.\n\n## Task 3: News Briefing\n\nGenerate and send a news intelligence brief. Abstract away stressful details and avoid partisan US politics, Israel, Trump, sports, music, or performances.\n\n### Article Collection:\n```javascript\nlocal_and_world_news = get_articles({"feeds":["https://rss.nytimes.com/services/xml/rss/nyt/US.xml",\n"https://rss.nytimes.com/services/xml/rss/nyt/World.xml",\n"https://www.theatlantic.com/feed/all/",\n"https://heathercoxrichardson.substack.com/feed"]})\n\ncultural_interest = get_articles({"feeds":["https://rss.metafilter.com/metafilter.rss",\n"https://acoup.blog/feed/"]})\n\nai_articles = get_articles({"feeds": ["https://www.microsoft.com/en-us/research/feed/",\n"https://www.nature.com/nature.rss",\n"https://tldr.tech/api/rss/ai"]}) // scrape tldr-ai newsletter URI for contents\n\nlocal = get_articles({"feeds":["https://www.longmontleader.com/rss/","https://www.reddit.com/r/Longmont.rss"]})\n```\n\n### Newsletter Requirements:\n- Synthesize articles into coherent narrative sections\n- Create engaging headlines and stories that connect related articles\n- Use markdown formatting with inline links: [article title](url)\n- Write as a complete intelligence brief\n- Include sections for: US/world news, cultural interest, AI news, local Longmont news\n- Create engaging, coherent narratives that connect related articles\n- Write concise but informative content suitable for daily intelligence brief\n- Focus on meaningful analysis and context between stories\n\nDeliver the markdown content to the outbox via MCP outbox:send.\n\n## Task 4: Bluesky Activity Summary\n\nUse MCP to collect today\'s activity on bluesky timeline. Summarize the activity into themes with links to linked articles as appropriate. Deliver this summary to the MCP outbox:send.\n\n## Task 5: Arxiv Digest\n\n### Progressive Paper Analysis:\nSystematically traverse ALL papers from the last day, building analysis progressively:\n\n**Step 1 - Get first batch:**\n```javascript\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 0})\n```\n\n**Step 2 - Continue through all batches:**\nKeep paginating through ALL available papers, building digest progressively:\n```javascript\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 20})\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 40})\n// Continue until has_more: false\n```\n\n**Important**: Build digest article PROGRESSIVELY as you traverse each batch. Don\'t wait until the end - update and refine recommendations as you discover better papers in later batches.\n\n### Quality Analysis & Crackpot Filtering:\nFor each batch, apply rigorous skeptical review:\n\n**Core Quality Criteria:**\n1. Is the central claim testable and precisely stated? \n2. Do the mathematical concepts actually connect logically? \n3. Are experimental claims backed by proper methodology? \n4. Does the writing prioritize substance over jargon?\n\n**CRACKPOT WARNING SIGNS - IMMEDIATE REJECTION:**\n- **Grand Unification Claims**: Papers claiming to unify disparate fields under one simple equation/framework without rigorous validation\n- **Revolutionary Breakthrough Language**: Excessive use of "breakthrough," "revolutionary," "paradigm shift" without proportional evidence\n- **Vague Mathematical Formalism**: Mathematical notation that looks impressive but doesn\'t serve a clear logical purpose\n- **Missing Baselines/Comparisons**: Experimental claims without proper controls or baseline comparisons\n- **Theory of Everything Syndrome**: Attempting to explain too much with too little evidence\n- **Buzzword Bingo**: Terminology salad mixing unrelated trending fields (quantum + AI + consciousness, etc.)\n- **AI Tool Acknowledgments**: Papers prominently crediting AI tools for core contributions\n\n**REJECT IMMEDIATELY**: Any paper that reads like a "theory of everything" or claims universal laws without extraordinary evidence.\n\n### Progressive Refinement Strategy:\n- Start with top papers from first batch\n- As you find better papers in later batches, replace weaker selections\n- Maintain a running "best of" list that evolves\n- Apply crackpot filter at each step - better to have fewer high-quality papers than include questionable work\n- Final digest should represent the absolute best from ALL papers, not just early ones\n\n### Research Preferences:\nUse `/Users/chris/source/airss/research_interests_analysis.md` and `/Users/chris/source/airss/zotero_library_export.csv` to customize selection.\n\n### Output Format:\n- Abstract links: https://arxiv.org/abs/<identifier>\n- HTML versions: https://arxiv.org/html/<identifier>\n- Include total papers analyzed (e.g., "Analyzed 83 of 83 total papers")\n- Flag any questionable papers you filtered out for transparency\n\n### Final Step:\nDeliver complete digest to outbox via MCP outbox:send only after analyzing ALL available papers.\n\n---\n\n## Execution Notes:\n- Execute tasks in chronological order\n- Each task outputs to the MCP outbox:send when specified\n- Use proper timezone conversions (PT→MT) where needed\n- Apply rigorous quality filters, especially for arxiv digest\n- Focus on actionable intelligence rather than summaries', 'Start': datetime.datetime(2025, 8, 4, 11, 0), 'End': datetime.datetime(2025, 8, 4, 11, 15)}]
+Event:  AI Orchestrator - Daily Workflow
+checking calendar for events between 2025-08-04 11:30:00+00:00 and 2025-08-04 12:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 12:00:00+00:00 and 2025-08-04 12:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 12:30:00+00:00 and 2025-08-04 13:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 13:00:00+00:00 and 2025-08-04 13:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 13:30:00+00:00 and 2025-08-04 14:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 14:00:00+00:00 and 2025-08-04 14:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 14:30:00+00:00 and 2025-08-04 15:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 15:00:00+00:00 and 2025-08-04 15:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 15:30:00+00:00 and 2025-08-04 16:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 16:00:00+00:00 and 2025-08-04 16:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 16:30:00+00:00 and 2025-08-04 17:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 17:00:00+00:00 and 2025-08-04 17:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 17:30:00+00:00 and 2025-08-04 18:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 18:00:00+00:00 and 2025-08-04 18:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 18:30:00+00:00 and 2025-08-04 19:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 19:00:00+00:00 and 2025-08-04 19:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 19:30:00+00:00 and 2025-08-04 20:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 20:00:00+00:00 and 2025-08-04 20:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 20:30:00+00:00 and 2025-08-04 21:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 21:00:00+00:00 and 2025-08-04 21:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 21:30:00+00:00 and 2025-08-04 22:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 22:00:00+00:00 and 2025-08-04 22:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 22:30:00+00:00 and 2025-08-04 23:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 23:00:00+00:00 and 2025-08-04 23:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-04 23:30:00+00:00 and 2025-08-05 00:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 00:00:00+00:00 and 2025-08-05 00:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 00:30:00+00:00 and 2025-08-05 01:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 01:00:00+00:00 and 2025-08-05 01:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 01:30:00+00:00 and 2025-08-05 02:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 02:00:00+00:00 and 2025-08-05 02:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 02:30:00+00:00 and 2025-08-05 03:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 03:00:00+00:00 and 2025-08-05 03:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 03:30:00+00:00 and 2025-08-05 04:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 04:00:00+00:00 and 2025-08-05 04:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 04:30:00+00:00 and 2025-08-05 05:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 05:00:00+00:00 and 2025-08-05 05:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 05:30:00+00:00 and 2025-08-05 06:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 06:00:00+00:00 and 2025-08-05 06:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 06:30:00+00:00 and 2025-08-05 07:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 07:00:00+00:00 and 2025-08-05 07:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 07:30:00+00:00 and 2025-08-05 08:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 08:00:00+00:00 and 2025-08-05 08:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 08:30:00+00:00 and 2025-08-05 09:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 09:00:00+00:00 and 2025-08-05 09:30:00+00:00
+2 16
+[{'Event': ' Personal summary', 'Event ID': ' 31dmnqu9eiinqa0fgp4pvfigp5_20250805T090000Z', 'Description': 'Description: Create a personal status update by gathering:\n1. Today\'s schedule \n2. Next week\'s upcoming personal calendar events except work start/end.\n3. Next week\'s multi-day or evening events on the shara calendar.\n3. Recent Obsidian materials from the past week if available.\n4. Open todos from Obsidian via: mcp__obsidian-mcp__obsidian_complex_search with query {"regexp": ["- \\\\[ \\\\]", {"var": "content"}]}\n\nPlease review these materials and integrate them into a personal status briefing.\xa0\nFocus on identifying items and that may need attention, follow-up, or preparation. Draft as a factual status report without summary or reflection sections, then send via the outbox MCP server.', 'Start': datetime.datetime(2025, 8, 5, 9, 0), 'End': datetime.datetime(2025, 8, 5, 9, 15)}]
+Event:  Personal summary
+checking calendar for events between 2025-08-05 09:30:00+00:00 and 2025-08-05 10:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 10:00:00+00:00 and 2025-08-05 10:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 10:30:00+00:00 and 2025-08-05 11:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 11:00:00+00:00 and 2025-08-05 11:30:00+00:00
+2 151
+[{'Event': ' AI Orchestrator - Daily Workflow', 'Event ID': ' 4heufuqmq6stn395mnmjlfctm4_20250805T110000Z', 'Description': 'Description: # AI Orchestrator Master Prompt - Daily Workflow\n\nExecute these tasks sequentially in the order presented:\n\n## Task 1: Calendar Boundary Creator\n\nCreate Start and End events on personal calendar based on work calendar meetings.\n\n### Steps:\n1. **Fetch work calendar**: Get all Busy/Tentative events from work calendar (Chris@work) for next 5 weekdays\n2. **Create or Move Start events**: For each weekday, create or move the day\'s "Start" event so that it\'s aligned with:\n   - First meeting\'s exact time/duration, OR\n   - 10:00 AM - 11:00 AM (1 hour)\n   - **Use whichever is EARLIER**\n3. **Create or Move End events**: For each weekday, create or move the day\'s "End" event to align with:\n   - Overlaps with last meeting\'s exact time/duration, OR  \n   - 5:00 PM - 6:00 PM (1 hour)\n   - **Use whichever is LATER**\n\n### Calendar IDs:\n- Work: `2i9i000osgrujeqnqfd9usotbr29dlpq@import.calendar.google.com` (Pacific Time)\n- Personal: `primary` (Mountain Time)\n\n### Notes:\n- Skip weekends entirely\n- Convert PT → MT as needed\n- Only process Busy/Tentative events (ignore Free)\n- Events should have no reminders or descriptions\n\n## Task 2: Personal Summary\n\nCreate a personal status update by gathering:\n1. Today\'s schedule \n2. Next week\'s upcoming personal calendar events except work start/end\n3. Next week\'s multi-day or evening events on the shara calendar\n4. Recent Obsidian materials from the past week if available\n5. Open todos from Obsidian via: `mcp__obsidian-mcp__obsidian_complex_search` with query `{"regexp": ["- \\\\[ \\\\]", {"var": "content"}]}`\n\nReview these materials and integrate them into a personal status briefing. Focus on identifying items that may need attention, follow-up, or preparation. Draft as a factual status report without summary or reflection sections, then send via the outbox MCP server.\n\n## Task 3: News Briefing\n\nGenerate and send a news intelligence brief. Abstract away stressful details and avoid partisan US politics, Israel, Trump, sports, music, or performances.\n\n### Article Collection:\n```javascript\nlocal_and_world_news = get_articles({"feeds":["https://rss.nytimes.com/services/xml/rss/nyt/US.xml",\n"https://rss.nytimes.com/services/xml/rss/nyt/World.xml",\n"https://www.theatlantic.com/feed/all/",\n"https://heathercoxrichardson.substack.com/feed"]})\n\ncultural_interest = get_articles({"feeds":["https://rss.metafilter.com/metafilter.rss",\n"https://acoup.blog/feed/"]})\n\nai_articles = get_articles({"feeds": ["https://www.microsoft.com/en-us/research/feed/",\n"https://www.nature.com/nature.rss",\n"https://tldr.tech/api/rss/ai"]}) // scrape tldr-ai newsletter URI for contents\n\nlocal = get_articles({"feeds":["https://www.longmontleader.com/rss/","https://www.reddit.com/r/Longmont.rss"]})\n```\n\n### Newsletter Requirements:\n- Synthesize articles into coherent narrative sections\n- Create engaging headlines and stories that connect related articles\n- Use markdown formatting with inline links: [article title](url)\n- Write as a complete intelligence brief\n- Include sections for: US/world news, cultural interest, AI news, local Longmont news\n- Create engaging, coherent narratives that connect related articles\n- Write concise but informative content suitable for daily intelligence brief\n- Focus on meaningful analysis and context between stories\n\nDeliver the markdown content to the outbox via MCP outbox:send.\n\n## Task 4: Bluesky Activity Summary\n\nUse MCP to collect today\'s activity on bluesky timeline. Summarize the activity into themes with links to linked articles as appropriate. Deliver this summary to the MCP outbox:send.\n\n## Task 5: Arxiv Digest\n\n### Progressive Paper Analysis:\nSystematically traverse ALL papers from the last day, building analysis progressively:\n\n**Step 1 - Get first batch:**\n```javascript\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 0})\n```\n\n**Step 2 - Continue through all batches:**\nKeep paginating through ALL available papers, building digest progressively:\n```javascript\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 20})\nget_articles({"feeds":["https://export.arxiv.org/rss/cs.AI+cs.LG"], "days_back": 1, "limit": 20, "offset": 40})\n// Continue until has_more: false\n```\n\n**Important**: Build digest article PROGRESSIVELY as you traverse each batch. Don\'t wait until the end - update and refine recommendations as you discover better papers in later batches.\n\n### Quality Analysis & Crackpot Filtering:\nFor each batch, apply rigorous skeptical review:\n\n**Core Quality Criteria:**\n1. Is the central claim testable and precisely stated? \n2. Do the mathematical concepts actually connect logically? \n3. Are experimental claims backed by proper methodology? \n4. Does the writing prioritize substance over jargon?\n\n**CRACKPOT WARNING SIGNS - IMMEDIATE REJECTION:**\n- **Grand Unification Claims**: Papers claiming to unify disparate fields under one simple equation/framework without rigorous validation\n- **Revolutionary Breakthrough Language**: Excessive use of "breakthrough," "revolutionary," "paradigm shift" without proportional evidence\n- **Vague Mathematical Formalism**: Mathematical notation that looks impressive but doesn\'t serve a clear logical purpose\n- **Missing Baselines/Comparisons**: Experimental claims without proper controls or baseline comparisons\n- **Theory of Everything Syndrome**: Attempting to explain too much with too little evidence\n- **Buzzword Bingo**: Terminology salad mixing unrelated trending fields (quantum + AI + consciousness, etc.)\n- **AI Tool Acknowledgments**: Papers prominently crediting AI tools for core contributions\n\n**REJECT IMMEDIATELY**: Any paper that reads like a "theory of everything" or claims universal laws without extraordinary evidence.\n\n### Progressive Refinement Strategy:\n- Start with top papers from first batch\n- As you find better papers in later batches, replace weaker selections\n- Maintain a running "best of" list that evolves\n- Apply crackpot filter at each step - better to have fewer high-quality papers than include questionable work\n- Final digest should represent the absolute best from ALL papers, not just early ones\n\n### Research Preferences:\nUse `/Users/chris/source/airss/research_interests_analysis.md` and `/Users/chris/source/airss/zotero_library_export.csv` to customize selection.\n\n### Output Format:\n- Abstract links: https://arxiv.org/abs/<identifier>\n- HTML versions: https://arxiv.org/html/<identifier>\n- Include total papers analyzed (e.g., "Analyzed 83 of 83 total papers")\n- Flag any questionable papers you filtered out for transparency\n\n### Final Step:\nDeliver complete digest to outbox via MCP outbox:send only after analyzing ALL available papers.\n\n---\n\n## Execution Notes:\n- Execute tasks in chronological order\n- Each task outputs to the MCP outbox:send when specified\n- Use proper timezone conversions (PT→MT) where needed\n- Apply rigorous quality filters, especially for arxiv digest\n- Focus on actionable intelligence rather than summaries', 'Start': datetime.datetime(2025, 8, 5, 11, 0), 'End': datetime.datetime(2025, 8, 5, 11, 15)}]
+Event:  AI Orchestrator - Daily Workflow
+checking calendar for events between 2025-08-05 11:30:00+00:00 and 2025-08-05 12:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 12:00:00+00:00 and 2025-08-05 12:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 12:30:00+00:00 and 2025-08-05 13:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 13:00:00+00:00 and 2025-08-05 13:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 13:30:00+00:00 and 2025-08-05 14:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 14:00:00+00:00 and 2025-08-05 14:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 14:30:00+00:00 and 2025-08-05 15:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 15:00:00+00:00 and 2025-08-05 15:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 15:30:00+00:00 and 2025-08-05 16:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 16:00:00+00:00 and 2025-08-05 16:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 16:30:00+00:00 and 2025-08-05 17:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 17:00:00+00:00 and 2025-08-05 17:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 17:30:00+00:00 and 2025-08-05 18:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 18:00:00+00:00 and 2025-08-05 18:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 18:30:00+00:00 and 2025-08-05 19:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 19:00:00+00:00 and 2025-08-05 19:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 19:30:00+00:00 and 2025-08-05 20:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 20:00:00+00:00 and 2025-08-05 20:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 20:30:00+00:00 and 2025-08-05 21:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 21:00:00+00:00 and 2025-08-05 21:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-05 21:30:00+00:00 and 2025-08-05 22:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-06 21:00:00+00:00 and 2025-08-06 21:30:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-06 21:30:00+00:00 and 2025-08-06 22:00:00+00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-08 18:00:00 and 2025-08-08 18:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 13:30:00 and 2025-08-09 14:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 14:00:00 and 2025-08-09 14:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 14:30:00 and 2025-08-09 15:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 15:00:00 and 2025-08-09 15:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 16:00:00 and 2025-08-09 16:30:00
+Found events:
+Found 1 event(s):
+
+1. Event: Daily Workflow
+Event ID: 3q6bgimbd33du451n7vf9a26jc
+Description: # AI Orchestrator Master Prompt - Daily Workflow
+
+**IMPORTANT**: Use mcp__outbox__add after completing each task below, then mcp__outbox__send_all at the end.
+
+Execute these tasks in order, adding each completed section to the outbox:
+
+## Task 1: Calendar Boundary Creator
+
+Create Start and End events on the Personal calendar based on work calendar meetings.
+
+### Steps:
+1. **Fetch Chris@work calendar**: Use `mcp__calendar__list_events` to get events from the next 10 weekdays
+2. **Filter work events**: Look for busy/tentative meetings (ignore all-day, declined, and free events)
+3. If the calendar is marked as out of office, that start time should be taken as the end of the day. If the out of office events cover the whole day, ignore the day and move on.
+4. If the day does not have start or end events on the personal calendar, simply move on to the next day 
+5. **Move Start boundaries**: For each weekday, use the calendar mcp to update the "Start" events as follows:
+   - Time: First meeting's start time OR 10:00 AM MDT (whichever is EARLIER)
+   - Duration: 1 hour
+   - Calendar: "Personal"
+6. **Move End boundaries**: For each weekday, use the calendar mcp to update the "End" events as follows:
+   - Time: Last meeting's end time OR 5:00 PM MDT (whichever is LATER)
+   - Duration: 1 hour
+   - Calendar: "Personal"
+
+### Available Calendars:
+- Personal calendar for boundary events
+- Work calendar contains imported Google Calendar meetings
+- Use `mcp__ical__list_calendars` to see all options
+
+### Output Requirements:
+- Report today's start and end times and whether the task was successful
+- Use `mcp__outbox__add` with content:
+```markdown
+# Calendar Boundaries - [DATE]
+
+## Today's Schedule
+- Start: [TIME]
+- End: [TIME]
+- Status: [SUCCESS/FAILED]
+```
+
+## Task 2: Personal Summary
+
+Add a personal status update by gathering information from multiple sources.
+
+### Data Collection:
+1. Today's schedule via `mcp__ical__list_events` 
+2. Next week's upcoming personal calendar events (except work start/end)
+3. Next week's multi-day or evening events on the shara calendar
+4. Recent Obsidian materials from the past week as available
+5. Open todos from Obsidian via: `mcp__obsidian-mcp__obsidian_complex_search` with query `{"regexp": ["- \\[ \\]", {"var": "content"}]}`
+
+### Output Requirements:
+- Review materials and integrate into a factual status briefing
+- Focus on items needing attention, follow-up, or preparation
+- Use `mcp__outbox__add` with content:
+```markdown
+## Personal Status Update
+
+### This Week's Key Items
+[Today's important items]
+
+### Upcoming Week
+[Next week's notable events and commitments]
+
+### Action Items
+[Open todos and items requiring attention]
+
+### Recent Activity
+[Relevant Obsidian materials from past week]
+```
+
+## Task 3: News Briefing
+
+Generate news intelligence brief from RSS sources.
+
+### Article Collection (use mcp__rss-feeds__get_articles):
+- `local_and_world_news`: feeds `["https://rss.nytimes.com/services/xml/rss/nyt/US.xml", "https://rss.nytimes.com/services/xml/rss/nyt/World.xml", "https://www.theatlantic.com/feed/all/", "https://heathercoxrichardson.substack.com/feed"]`
+- `cultural_interest`: feeds `["https://rss.metafilter.com/metafilter.rss", "https://acoup.blog/feed/"]`
+- `ai_articles`: feeds `["https://www.microsoft.com/en-us/research/feed/", "https://www.nature.com/nature.rss", "https://tldr.tech/api/rss/ai"]`
+- `local`: feeds `["https://www.longmontleader.com/rss/", "https://www.reddit.com/r/Longmont.rss"]`
+
+### Content Guidelines:
+- Filter out anything to do with Trump, Israel sports, music, performances
+- Synthesize articles into coherent narrative sections
+- Create engaging headlines connecting related articles
+- Use markdown with inline links: [article title](url)
+
+### Output Requirements:
+- Use `mcp__outbox__add` with content:
+```markdown
+## News Intelligence Brief
+
+### US & World News
+[Synthesized narrative of major stories]
+
+### Cultural & Society
+[Interesting cultural developments and discussions]
+
+### AI & Technology
+[Relevant AI/tech developments]
+
+### Local Longmont
+[Local news and community updates]
+```
+
+## Task 4: ArXiv Digest
+
+Progressive analysis of AI/ML papers from the last day.
+
+### Paper Collection Strategy:
+1. **Get first batch**: Use `mcp__rss-feeds__get_articles` with feeds `["https://export.arxiv.org/rss/cs.AI+cs.LG"]`, days_back: 1, limit: 20, offset: 0
+2. **Continue pagination**: Keep getting batches with increasing offset (20, 40, 60...) until has_more: false
+3. **Build progressively**: Update your recommendations as you discover better papers in later batches
+
+### Quality Filtering (Apply Rigorous Standards):
+**REJECT papers with these red flags:**
+- Big claims without big evidence
+- Vague mathematical formalism
+- Missing baselines/comparisons
+- Buzzword bingo (mixing unrelated trending fields)
+- Prominent AI tool acknowledgments
+
+**Accept only papers that:**
+- Make testable, precisely stated claims
+- Have logical mathematical connections
+- Use proper experimental methodology
+- Prioritize substance over jargon
+
+**Research Preferences:**
+machine learning and computational linguistics, large language models, embeddings, transformers, and statistical methodology. Particular interest in the theoretical foundations of AI systems, representation learning, and the intersection of computer science with statistical applications.
+
+### Output Requirements:
+- Use `mcp__outbox__add` with content:
+```markdown
+## ArXiv Research Digest
+
+### Top Papers (Analyzed [X] of [Y] total papers)
+[Best 3-5 papers with abstracts and analysis]
+
+### Notable Mentions
+[Additional interesting papers worth tracking]
+
+### Research Trends
+[Patterns observed across all papers]
+
+```
+
+---
+
+## Final Execution:
+After completing all 4 tasks above, use `mcp__outbox__send_all` to send the complete accumulated document.
+
+## Notes:
+- Execute tasks sequentially in the numbered order
+- Use native macOS Calendar access via mcp-ical instead of Google Calendar MCP
+- Apply timezone conversions (PT→MT) where needed
+- Focus on actionable intelligence rather than summaries
+- Each task should add meaningful content to build a comprehensive daily brief
+Start: Sat, Aug 9, 2025, 4:00 PM MDT
+End: Sat, Aug 9, 2025, 4:15 PM MDT
+View: https://www.google.com/calendar/event?eid=M3E2YmdpbWJkMzNkdTQ1MW43dmY5YTI2amMgOTY5YTE1N2VmMTg0OGY2ZmY2MzllODA5OWQ4ZWNkOWI2YjA3ZjZjMGY3ZjdkNzgxYjVjMDllOWZmOGU3MzhiOEBn
+{'title': 'Found 1 event(s):', 'notes': 'n'}
+No events with substantial descriptions found.
+checking calendar for events between 2025-08-09 16:30:00 and 2025-08-09 17:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 17:00:00 and 2025-08-09 17:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 17:30:00 and 2025-08-09 18:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 18:00:00 and 2025-08-09 18:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 18:30:00 and 2025-08-09 19:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 19:00:00 and 2025-08-09 19:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 19:30:00 and 2025-08-09 20:00:00
+Found events:
+Found 1 event(s):
+
+1. Event: Daily Workflow
+Event ID: cdim4c9k6kpjgbb16ko36b9k60ojgb9ocosj8b9h71im2cpo60q66d1ic4
+Description: # AI Orchestrator Master Prompt - Daily Workflow
+
+**IMPORTANT**: Use mcp__outbox__add after completing each task below, then mcp__outbox__send_all at the end.
+
+Execute these tasks in order, adding each completed section to the outbox:
+
+## Task 1: Calendar Boundary Creator
+
+Create Start and End events on the Personal calendar based on work calendar meetings.
+
+### Steps:
+1. **Fetch Chris@work calendar**: Use `mcp__calendar__list_events` to get events from the next 10 weekdays
+2. **Filter work events**: Look for busy/tentative meetings (ignore all-day, declined, and free events)
+3. If the calendar is marked as out of office, that start time should be taken as the end of the day. If the out of office events cover the whole day, ignore the day and move on.
+4. If the day does not have start or end events on the personal calendar, simply move on to the next day 
+5. **Move Start boundaries**: For each weekday, use the calendar mcp to update the "Start" events as follows:
+   - Time: First meeting's start time OR 10:00 AM MDT (whichever is EARLIER)
+   - Duration: 1 hour
+   - Calendar: "Personal"
+6. **Move End boundaries**: For each weekday, use the calendar mcp to update the "End" events as follows:
+   - Time: Last meeting's end time OR 5:00 PM MDT (whichever is LATER)
+   - Duration: 1 hour
+   - Calendar: "Personal"
+
+### Available Calendars:
+- Personal calendar for boundary events
+- Work calendar contains imported Google Calendar meetings
+- Use `mcp__ical__list_calendars` to see all options
+
+### Output Requirements:
+- Report today's start and end times and whether the task was successful
+- Use `mcp__outbox__add` with content:
+```markdown
+# Calendar Boundaries - [DATE]
+
+## Today's Schedule
+- Start: [TIME]
+- End: [TIME]
+- Status: [SUCCESS/FAILED]
+```
+
+## Task 2: Personal Summary
+
+Add a personal status update by gathering information from multiple sources.
+
+### Data Collection:
+1. Today's schedule via `mcp__ical__list_events` 
+2. Next week's upcoming personal calendar events (except work start/end)
+3. Next week's multi-day or evening events on the shara calendar
+4. Recent Obsidian materials from the past week as available
+5. Open todos from Obsidian via: `mcp__obsidian-mcp__obsidian_complex_search` with query `{"regexp": ["- \\[ \\]", {"var": "content"}]}`
+
+### Output Requirements:
+- Review materials and integrate into a factual status briefing
+- Focus on items needing attention, follow-up, or preparation
+- Use `mcp__outbox__add` with content:
+```markdown
+## Personal Status Update
+
+### This Week's Key Items
+[Today's important items]
+
+### Upcoming Week
+[Next week's notable events and commitments]
+
+### Action Items
+[Open todos and items requiring attention]
+
+### Recent Activity
+[Relevant Obsidian materials from past week]
+```
+
+## Task 3: News Briefing
+
+Generate news intelligence brief from RSS sources.
+
+### Article Collection (use mcp__rss-feeds__get_articles):
+- `local_and_world_news`: feeds `["https://rss.nytimes.com/services/xml/rss/nyt/US.xml", "https://rss.nytimes.com/services/xml/rss/nyt/World.xml", "https://www.theatlantic.com/feed/all/", "https://heathercoxrichardson.substack.com/feed"]`
+- `cultural_interest`: feeds `["https://rss.metafilter.com/metafilter.rss", "https://acoup.blog/feed/"]`
+- `ai_articles`: feeds `["https://www.microsoft.com/en-us/research/feed/", "https://www.nature.com/nature.rss", "https://tldr.tech/api/rss/ai"]`
+- `local`: feeds `["https://www.longmontleader.com/rss/", "https://www.reddit.com/r/Longmont.rss"]`
+
+### Content Guidelines:
+- Filter out anything to do with Trump, Israel sports, music, performances
+- Synthesize articles into coherent narrative sections
+- Create engaging headlines connecting related articles
+- Use markdown with inline links: [article title](url)
+
+### Output Requirements:
+- Use `mcp__outbox__add` with content:
+```markdown
+## News Intelligence Brief
+
+### US & World News
+[Synthesized narrative of major stories]
+
+### Cultural & Society
+[Interesting cultural developments and discussions]
+
+### AI & Technology
+[Relevant AI/tech developments]
+
+### Local Longmont
+[Local news and community updates]
+```
+
+## Task 4: ArXiv Digest
+
+Progressive analysis of AI/ML papers from the last day.
+
+### Paper Collection Strategy:
+1. **Get first batch**: Use `mcp__rss-feeds__get_articles` with feeds `["https://export.arxiv.org/rss/cs.AI+cs.LG"]`, days_back: 1, limit: 20, offset: 0
+2. **Continue pagination**: Keep getting batches with increasing offset (20, 40, 60...) until has_more: false
+3. **Build progressively**: Update your recommendations as you discover better papers in later batches
+
+### Quality Filtering (Apply Rigorous Standards):
+**REJECT papers with these red flags:**
+- Big claims without big evidence
+- Vague mathematical formalism
+- Missing baselines/comparisons
+- Buzzword bingo (mixing unrelated trending fields)
+- Prominent AI tool acknowledgments
+
+**Accept only papers that:**
+- Make testable, precisely stated claims
+- Have logical mathematical connections
+- Use proper experimental methodology
+- Prioritize substance over jargon
+
+**Research Preferences:**
+machine learning and computational linguistics, large language models, embeddings, transformers, and statistical methodology. Particular interest in the theoretical foundations of AI systems, representation learning, and the intersection of computer science with statistical applications.
+
+### Output Requirements:
+- Use `mcp__outbox__add` with content:
+```markdown
+## ArXiv Research Digest
+
+### Top Papers (Analyzed [X] of [Y] total papers)
+[Best 3-5 papers with abstracts and analysis]
+
+### Notable Mentions
+[Additional interesting papers worth tracking]
+
+### Research Trends
+[Patterns observed across all papers]
+
+```
+
+---
+
+## Final Execution:
+After completing all 4 tasks above, use `mcp__outbox__send_all` to send the complete accumulated document.
+
+## Notes:
+- Execute tasks sequentially in the numbered order
+- Use native macOS Calendar access via mcp-ical instead of Google Calendar MCP
+- Apply timezone conversions (PT→MT) where needed
+- Focus on actionable intelligence rather than summaries
+- Each task should add meaningful content to build a comprehensive daily brief
+Start: Sat, Aug 9, 2025, 7:30 PM MDT
+End: Sat, Aug 9, 2025, 7:45 PM MDT
+View: https://www.google.com/calendar/event?eid=Y2RpbTRjOWs2a3BqZ2JiMTZrbzM2YjlrNjBvamdiOW9jb3NqOGI5aDcxaW0yY3BvNjBxNjZkMWljNCA5NjlhMTU3ZWYxODQ4ZjZmZjYzOWU4MDk5ZDhlY2Q5YjZiMDdmNmMwZjdmN2Q3ODFiNWMwOWU5ZmY4ZTczOGI4QGc
+{'title': 'Found 1 event(s):', 'notes': 'c'}
+No events with substantial descriptions found.
+checking calendar for events between 2025-08-09 20:00:00 and 2025-08-09 20:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 20:30:00 and 2025-08-09 21:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 21:00:00 and 2025-08-09 21:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 21:30:00 and 2025-08-09 22:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 22:00:00 and 2025-08-09 22:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 22:30:00 and 2025-08-09 23:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 23:00:00 and 2025-08-09 23:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-09 23:30:00 and 2025-08-10 00:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 00:00:00 and 2025-08-10 00:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 00:30:00 and 2025-08-10 01:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 01:00:00 and 2025-08-10 01:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 01:30:00 and 2025-08-10 02:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 02:00:00 and 2025-08-10 02:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 02:30:00 and 2025-08-10 03:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 03:00:00 and 2025-08-10 03:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 03:30:00 and 2025-08-10 04:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 04:00:00 and 2025-08-10 04:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 04:30:00 and 2025-08-10 05:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 05:00:00 and 2025-08-10 05:30:00
+Found events:
+Found 1 event(s):
+
+1. Event: Daily Workflow
+Event ID: 4heufuqmq6stn395mnmjlfctm4_20250810T110000Z
+Description: # AI Orchestrator Master Prompt - Daily Workflow<br><br>**IMPORTANT**: Use mcp__outbox__add after completing each task below, then mcp__outbox__send_all at the end.<br><br>Execute these tasks in order, adding each completed section to the outbox:<br><br>## Task 1: Calendar Boundary Creator<br><br>Create Start and End events on the Personal calendar based on work calendar meetings.<br><br>### Steps:<br>1. **Fetch Chris@work calendar**: Use `mcp__calendar__list_events` to get events from the next 10 weekdays<br>2. **Filter work events**: Look for busy/tentative meetings (ignore all-day, declined, and free events)<br>3. If the calendar is marked as out of office, that start time should be taken as the end of the day. If the out of office events cover the whole day, ignore the day and move on.<br>4. If the day does not have start or end events on the personal calendar, simply move on to the next day<br>5. **Move Start boundaries**: For each weekday, usecalendar mcp to update the events to align "Start" events:<br>   - Time: First meeting's start time OR 10:00 AM MDT (whichever is EARLIER)<br>   - Duration: 1 hour<br>   - Calendar: "Personal"<br>6. **Move End boundaries**: For each weekday, use calendar mcp to update the events to align "End" events:<br>   - Time: Last meeting's end time OR 5:00 PM MDT (whichever is LATER)<br>   - Duration: 1 hour<br>   - Calendar: "Personal"<br><br>### Available Calendars:<br>- Personal calendar for boundary events<br>- Work calendar contains imported Google Calendar meetings<br>- Use `mcp__ical__list_calendars` to see all options<br><br>### Output Requirements:<br>- Report today's start and end times and whether the task was successful<br>- Use `mcp__outbox__add` with content:<br>```markdown<br># Calendar Boundaries - [DATE]<br><br>## Today's Schedule<br>- Start: [TIME]<br>- End: [TIME]<br>- Status: [SUCCESS/FAILED]<br>```<br><br>## Task 2: Personal Summary<br><br>Add a personal status update by gathering information from multiple sources.<br><br>### Data Collection:<br>1. Today's schedule via `mcp__ical__list_events` <br>2. Next week's upcoming personal calendar events (except work start/end)<br>3. Next week's multi-day or evening events on the shara calendar<br>4. Recent Obsidian materials from the past week if available<br>5. Open todos from Obsidian via: `mcp__obsidian-mcp__obsidian_complex_search` with query `{"regexp": ["- \\[ \\]", {"var": "content"}]}`<br><br>### Output Requirements:<br>- Review materials and integrate into a factual status briefing<br>- Focus on items needing attention, follow-up, or preparation<br>- Use `mcp__outbox__add` with content:<br>```markdown<br>## Personal Status Update<br><br>### This Week's Key Items<br>[Today's important items]<br><br>### Upcoming Week<br>[Next week's notable events and commitments]<br><br>### Action Items<br>[Open todos and items requiring attention]<br><br>### Recent Activity<br>[Relevant Obsidian materials from past week]<br>```<br><br>## Task 3: News Briefing<br><br>Generate news intelligence brief from RSS sources.<br><br>### Article Collection (use mcp__rss-feeds__get_articles):<br>- `local_and_world_news`: feeds `["<a href="https://rss.nytimes.com/services/xml/rss/nyt/US.xml" target="_blank"><u>https://rss.nytimes.com/services/xml/rss/nyt/US.xml</u></a>", "<a href="https://rss.nytimes.com/services/xml/rss/nyt/World.xml" target="_blank"><u>https://rss.nytimes.com/services/xml/rss/nyt/World.xml</u></a>", "<a href="https://www.theatlantic.com/feed/all/" target="_blank"><u>https://www.theatlantic.com/feed/all/</u></a>", "<a href="https://heathercoxrichardson.substack.com/feed" target="_blank"><u>https://heathercoxrichardson.substack.com/feed</u></a>"]`<br>- `cultural_interest`: feeds `["<a href="https://rss.metafilter.com/metafilter.rss" target="_blank"><u>https://rss.metafilter.com/metafilter.rss</u></a>", "<a href="https://acoup.blog/feed/" target="_blank"><u>https://acoup.blog/feed/</u></a>"]`<br>- `ai_articles`: feeds `["<a href="https://www.microsoft.com/en-us/research/feed/" target="_blank"><u>https://www.microsoft.com/en-us/research/feed/</u></a>", "<a href="https://www.nature.com/nature.rss" target="_blank"><u>https://www.nature.com/nature.rss</u></a>", "<a href="https://tldr.tech/api/rss/ai" target="_blank"><u>https://tldr.tech/api/rss/ai</u></a>"]`<br>- `local`: feeds `["<a href="https://www.longmontleader.com/rss/" target="_blank"><u>https://www.longmontleader.com/rss/</u></a>", "<a href="https://www.reddit.com/r/Longmont.rss" target="_blank"><u>https://www.reddit.com/r/Longmont.rss</u></a>"]`<br><br>### Content Guidelines:<br>- Filter out anything to do with Trump, Israel sports, music, performances<br>- Synthesize articles into coherent narrative sections<br>- Create engaging headlines connecting related articles<br>- Use markdown with inline links: [article title](url)<br><br>### Output Requirements:<br>- Use `mcp__outbox__add` with content:<br>```markdown<br>## News Intelligence Brief<br><br>### US &amp; World News<br>[Synthesized narrative of major stories]<br><br>### Cultural &amp; Society<br>[Interesting cultural developments and discussions]<br><br>### AI &amp; Technology<br>[Relevant AI/tech developments]<br><br>### Local Longmont<br>[Local news and community updates]<br>```<br><br>## Task 4: ArXiv Digest<br><br>Progressive analysis of AI/ML papers from the last day.<br><br>### Paper Collection Strategy:<br>1. **Get first batch**: Use `mcp__rss-feeds__get_articles` with feeds `["<a href="https://export.arxiv.org/rss/cs.AI+cs.LG" target="_blank"><u>https://export.arxiv.org/rss/cs.AI+cs.LG</u></a>"]`, days_back: 1, limit: 20, offset: 0<br>2. **Continue pagination**: Keep getting batches with increasing offset (20, 40, 60...) until has_more: false<br>3. **Build progressively**: Update your recommendations as you discover better papers in later batches<br><br>### Quality Filtering (Apply Rigorous Standards):<br>**REJECT papers with these red flags:**<br>- Big claims without big evidence<br>- Vague mathematical formalism<br>- Missing baselines/comparisons<br>- Buzzword bingo (mixing unrelated trending fields)<br>- Prominent AI tool acknowledgments<br><br>**Accept only papers that:**<br>- Make testable, precisely stated claims<br>- Have logical mathematical connections<br>- Use proper experimental methodology<br>- Prioritize substance over jargon<br><br>**Research Preferences:**<br>machine learning and computational linguistics, large language models, embeddings, transformers, and statistical methodology. Particular interest in the theoretical foundations of AI systems, representation learning, and the intersection of computer science with statistical applications.<br><br>### Output Requirements:<br>- Use `mcp__outbox__add` with content:<br>```markdown<br>## ArXiv Research Digest<br><br>### Top Papers (Analyzed [X] of [Y] total papers)<br>[Best 3-5 papers with abstracts and analysis]<br><br>### Notable Mentions<br>[Additional interesting papers worth tracking]<br><br>### Research Trends<br>[Patterns observed across all papers]<br><br>```<br><br>---<br><br>## Final Execution:<br>After completing all 4 tasks above, use `mcp__outbox__send_all` to send the complete accumulated document.<br><br>## Notes:<br>- Execute tasks sequentially in the numbered order<br>- Use native macOS Calendar access via mcp-ical instead of Google Calendar MCP<br>- Apply timezone conversions (PT→MT) where needed<br>- Focus on actionable intelligence rather than summaries<br>- Each task should add meaningful content to build a comprehensive daily brief
+Start: Sun, Aug 10, 2025, 5:00 AM MDT
+End: Sun, Aug 10, 2025, 5:15 AM MDT
+View: https://www.google.com/calendar/event?eid=NGhldWZ1cW1xNnN0bjM5NW1ubWpsZmN0bTRfMjAyNTA4MTBUMTEwMDAwWiA5NjlhMTU3ZWYxODQ4ZjZmZjYzOWU4MDk5ZDhlY2Q5YjZiMDdmNmMwZjdmN2Q3ODFiNWMwOWU5ZmY4ZTczOGI4QGc
+{'title': 'Found 1 event(s):', 'notes': 'c'}
+No events with substantial descriptions found.
+checking calendar for events between 2025-08-10 05:30:00 and 2025-08-10 06:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 06:00:00 and 2025-08-10 06:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 06:30:00 and 2025-08-10 07:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 07:00:00 and 2025-08-10 07:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 07:30:00 and 2025-08-10 08:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 08:00:00 and 2025-08-10 08:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 08:30:00 and 2025-08-10 09:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 09:00:00 and 2025-08-10 09:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 09:30:00 and 2025-08-10 10:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 10:00:00 and 2025-08-10 10:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 10:30:00 and 2025-08-10 11:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 11:00:00 and 2025-08-10 11:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 11:30:00 and 2025-08-10 12:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 12:00:00 and 2025-08-10 12:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 12:30:00 and 2025-08-10 13:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 13:00:00 and 2025-08-10 13:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 13:30:00 and 2025-08-10 14:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 14:00:00 and 2025-08-10 14:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 14:30:00 and 2025-08-10 15:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 15:00:00 and 2025-08-10 15:30:00
+Found events:
+Found 1 event(s):
+
+1. Event: Daily Workflow
+Event ID: 33ua9f93i48o7g38d0lomj3ubo_20250810T210000Z
+Description: # AI Orchestrator Master Prompt - Daily Workflow
+
+**IMPORTANT**: Use mcp__utilities__outbox_add_document after completing each task below, then mcp__utilities__outbox_flush at the end.
+
+Execute these tasks in order, adding each completed section to the outbox:
+
+## Task 1: Calendar Boundary Creator
+Call `mcp__utilities__align_events` to fix my calendar for the week.
+
+## Task 2: Personal Summary
+
+Add a personal status update by gathering information from multiple sources.
+
+### Data Collection:
+1. Today&#39;s schedule and the upcoming week&#39;s events via `mcp__utilities__get_events`set to the &#39;personal&#39; calendar. 
+2. My partner&#39;s upcoming events via `mcp__utilities_get_events` on the &#39;partner&#39; calendar
+4. Recent journal entries via `mcp__utilities__recent_journal_entries`
+5. Open todos via: `mcp__utilities__open_todos`
+
+### Output Requirements:
+- Review materials and integrate into a factual status briefing
+- Focus on items needing attention, follow-up, or preparation
+- Use `mcp__utilities__outbox_add_document` with content:
+```markdown
+## Personal Status Update
+
+### This Week&#39;s Key Items
+[Today&#39;s important items]
+
+### Upcoming Week
+[Next week&#39;s notable events and commitments]
+
+### Action Items
+[Open todos and items requiring attention]
+
+### Recent Activity
+[Relevant Obsidian materials from past week]
+```
+
+## Task 3: News Briefing
+
+Generate news intelligence brief from RSS sources.
+
+### Article Collection 
+ 1. use `mcp__utilities__get_news_feed` on each of the &#39;news&#39;,&#39;culture&#39;,&#39;ai&#39;,and &#39;local&#39; feeds 
+2. Content Guidelines:
+- Filter out anything to do with Trump, Israel sports, music, performances
+- Synthesize articles into coherent narrative sections
+- Create engaging headlines connecting related articles
+- Use markdown with inline links: [article title](url)
+
+3. Output Requirements:
+- Use `mcp__utilities__outbox_add_document` with content:
+```markdown
+## News Intelligence Brief
+
+### US &amp; World News
+[Synthesized narrative of major stories]
+
+### Cultural &amp; Society
+[Interesting cultural developments and discussions]
+
+### AI &amp; Technology
+[Relevant AI/tech developments]
+
+### Local Longmont
+[Local news and community updates]
+```
+
+## Task 4: ArXiv Digest
+
+Progressive analysis of AI/ML papers from the last day.
+
+### Paper Collection Strategy:
+1. 
+1. **Get first batch**: Use `mcp__utilities__get_news_feed` on the &#39;research&#39; feed 
+2. **Continue pagination**: Keep getting pages until they&#39;re empty.
+3. **Build progressively**: Update your recommendations as you discover better papers in later batches
+
+### Quality Filtering (Apply Rigorous Standards):
+**REJECT papers with these red flags:**
+- Big claims without big evidence
+- Vague mathematical formalism
+- Missing baselines/comparisons
+- Buzzword bingo (mixing unrelated trending fields)
+- Prominent AI tool acknowledgments
+
+**Accept only papers that:**
+- Make testable, precisely stated claims
+- Have logical mathematical connections
+- Use proper experimental methodology
+- Prioritize substance over jargon
+
+**Research Preferences:**
+machine learning and computational linguistics, large language models, embeddings, transformers, and statistical methodology. Particular interest in the theoretical foundations of AI systems, representation learning, and the intersection of computer science with statistical applications.
+
+### Output Requirements:
+- Use `mcp__utilities__outbox_add_document` with content:
+```markdown
+## ArXiv Research Digest
+
+### Top Papers (Analyzed [X] of [Y] total papers)
+[Best 3-5 papers with abstracts and analysis]
+
+### Notable Mentions
+[Additional interesting papers worth tracking]
+
+### Research Trends
+[Patterns observed across all papers]
+
+```
+
+---
+
+## Final Execution:
+After completing all 4 tasks above, use `mcp__utilities__outbox_flush` to send the complete accumulated document.
+
+## Notes:
+- Execute tasks sequentially in the numbered order
+- Focus on actionable intelligence rather than summaries
+- Each task should add meaningful content to build a comprehensive daily brief
+Start: Sun, Aug 10, 2025, 3:00 PM MDT
+End: Sun, Aug 10, 2025, 3:15 PM MDT
+View: https://www.google.com/calendar/event?eid=MzN1YTlmOTNpNDhvN2czOGQwbG9tajN1Ym9fMjAyNTA4MTBUMjEwMDAwWiA5NjlhMTU3ZWYxODQ4ZjZmZjYzOWU4MDk5ZDhlY2Q5YjZiMDdmNmMwZjdmN2Q3ODFiNWMwOWU5ZmY4ZTczOGI4QGc
+{'title': 'Found 1 event(s):', 'notes': 'c'}
+No events with substantial descriptions found.
+checking calendar for events between 2025-08-10 15:30:00 and 2025-08-10 16:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 16:00:00 and 2025-08-10 16:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 16:30:00 and 2025-08-10 17:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 17:00:00 and 2025-08-10 17:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 17:30:00 and 2025-08-10 18:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 18:00:00 and 2025-08-10 18:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 18:30:00 and 2025-08-10 19:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 19:00:00 and 2025-08-10 19:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 19:30:00 and 2025-08-10 20:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 20:00:00 and 2025-08-10 20:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 20:30:00 and 2025-08-10 21:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 21:00:00 and 2025-08-10 21:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 21:30:00 and 2025-08-10 22:00:00
+Found events:
+Found 1 event(s):
+
+1. Event: Daily Workflow
+Event ID: 33ua9f93i48o7g38d0lomj3ubo_20250810T210000Z
+Description: # AI Orchestrator Master Prompt - Daily Workflow
+
+**IMPORTANT**: Use mcp__utilities__outbox_add_document after completing each task below, then mcp__utilities__outbox_flush at the end.
+
+Execute these tasks in order, adding each completed section to the outbox:
+
+## Task 1: Calendar Boundary Creator
+Call `mcp__utilities__align_events` to fix my calendar for the week.
+
+## Task 2: Personal Summary
+
+Add a personal status update by gathering information from multiple sources.
+
+### Data Collection:
+1. Today&#39;s schedule and the upcoming week&#39;s events via `mcp__utilities__get_events`set to the &#39;personal&#39; calendar. 
+2. My partner&#39;s upcoming events via `mcp__utilities_get_events` on the &#39;partner&#39; calendar
+4. Recent journal entries via `mcp__utilities__recent_journal_entries`
+5. Open todos via: `mcp__utilities__open_todos`
+
+### Output Requirements:
+- Review materials and integrate into a factual status briefing
+- Focus on items needing attention, follow-up, or preparation
+- Use `mcp__utilities__outbox_add_document` with content:
+```markdown
+## Personal Status Update
+
+### This Week&#39;s Key Items
+[Today&#39;s important items]
+
+### Upcoming Week
+[Next week&#39;s notable events and commitments]
+
+### Action Items
+[Open todos and items requiring attention]
+
+### Recent Activity
+[Relevant Obsidian materials from past week]
+```
+
+## Task 3: News Briefing
+
+Generate news intelligence brief from RSS sources.
+
+### Article Collection 
+ 1. use `mcp__utilities__get_news_feed` on each of the &#39;news&#39;,&#39;culture&#39;,&#39;ai&#39;,and &#39;local&#39; feeds 
+2. Content Guidelines:
+- Filter out anything to do with Trump, Israel sports, music, performances
+- Synthesize articles into coherent narrative sections
+- Create engaging headlines connecting related articles
+- Use markdown with inline links: [article title](url)
+
+3. Output Requirements:
+- Use `mcp__utilities__outbox_add_document` with content:
+```markdown
+## News Intelligence Brief
+
+### US &amp; World News
+[Synthesized narrative of major stories]
+
+### Cultural &amp; Society
+[Interesting cultural developments and discussions]
+
+### AI &amp; Technology
+[Relevant AI/tech developments]
+
+### Local Longmont
+[Local news and community updates]
+```
+
+## Task 4: ArXiv Digest
+
+Progressive analysis of AI/ML papers from the last day.
+
+### Paper Collection Strategy:
+1. 
+1. **Get first batch**: Use `mcp__utilities__get_news_feed` on the &#39;research&#39; feed 
+2. **Continue pagination**: Keep getting pages until they&#39;re empty.
+3. **Build progressively**: Update your recommendations as you discover better papers in later batches
+
+### Quality Filtering (Apply Rigorous Standards):
+**REJECT papers with these red flags:**
+- Big claims without big evidence
+- Vague mathematical formalism
+- Missing baselines/comparisons
+- Buzzword bingo (mixing unrelated trending fields)
+- Prominent AI tool acknowledgments
+
+**Accept only papers that:**
+- Make testable, precisely stated claims
+- Have logical mathematical connections
+- Use proper experimental methodology
+- Prioritize substance over jargon
+
+**Research Preferences:**
+machine learning and computational linguistics, large language models, embeddings, transformers, and statistical methodology. Particular interest in the theoretical foundations of AI systems, representation learning, and the intersection of computer science with statistical applications.
+
+### Output Requirements:
+- Use `mcp__utilities__outbox_add_document` with content:
+```markdown
+## ArXiv Research Digest
+
+### Top Papers (Analyzed [X] of [Y] total papers)
+[Best 3-5 papers with abstracts and analysis]
+
+### Notable Mentions
+[Additional interesting papers worth tracking]
+
+### Research Trends
+[Patterns observed across all papers]
+
+```
+
+---
+
+## Final Execution:
+After completing all 4 tasks above, use `mcp__utilities__outbox_flush` to send the complete accumulated document.
+
+## Notes:
+- Execute tasks sequentially in the numbered order
+- Focus on actionable intelligence rather than summaries
+- Each task should add meaningful content to build a comprehensive daily brief
+Start: Sun, Aug 10, 2025, 9:30 PM MDT
+End: Sun, Aug 10, 2025, 9:45 PM MDT
+View: https://www.google.com/calendar/event?eid=MzN1YTlmOTNpNDhvN2czOGQwbG9tajN1Ym9fMjAyNTA4MTBUMjEwMDAwWiA5NjlhMTU3ZWYxODQ4ZjZmZjYzOWU4MDk5ZDhlY2Q5YjZiMDdmNmMwZjdmN2Q3ODFiNWMwOWU5ZmY4ZTczOGI4QGc
+{'title': 'Found 1 event(s):', 'notes': '# AI Orchestrator Master Prompt - Daily Workflow\n\n**IMPORTANT**: Use mcp__utilities__outbox_add_document after completing each task below, then mcp__utilities__outbox_flush at the end.\n\nExecute these tasks in order, adding each completed section to the outbox:\n\n## Task 1: Calendar Boundary Creator\nCall `mcp__utilities__align_events` to fix my calendar for the week.\n\n## Task 2: Personal Summary\n\nAdd a personal status update by gathering information from multiple sources.\n\n### Data Collection:\n1. Today&#39;s schedule and the upcoming week&#39;s events via `mcp__utilities__get_events`set to the &#39;personal&#39; calendar.\xa0\n2. My partner&#39;s upcoming events via `mcp__utilities_get_events` on the &#39;partner&#39; calendar\n4. Recent journal entries via `mcp__utilities__recent_journal_entries`\n5. Open todos via: `mcp__utilities__open_todos`\n\n### Output Requirements:\n- Review materials and integrate into a factual status briefing\n- Focus on items needing attention, follow-up, or preparation\n- Use `mcp__utilities__outbox_add_document` with content:\n```markdown\n## Personal Status Update\n\n### This Week&#39;s Key Items\n[Today&#39;s important items]\n\n### Upcoming Week\n[Next week&#39;s notable events and commitments]\n\n### Action Items\n[Open todos and items requiring attention]\n\n### Recent Activity\n[Relevant Obsidian materials from past week]\n```\n\n## Task 3: News Briefing\n\nGenerate news intelligence brief from RSS sources.\n\n### Article Collection\xa0\n\xa01. use `mcp__utilities__get_news_feed` on each of the &#39;news&#39;,&#39;culture&#39;,&#39;ai&#39;,and &#39;local&#39; feeds\xa0\n2. Content Guidelines:\n- Filter out anything to do with Trump, Israel sports, music, performances\n- Synthesize articles into coherent narrative sections\n- Create engaging headlines connecting related articles\n- Use markdown with inline links: [article title](url)\n\n3. Output Requirements:\n- Use `mcp__utilities__outbox_add_document` with content:\n```markdown\n## News Intelligence Brief\n\n### US &amp; World News\n[Synthesized narrative of major stories]\n\n### Cultural &amp; Society\n[Interesting cultural developments and discussions]\n\n### AI &amp; Technology\n[Relevant AI/tech developments]\n\n### Local Longmont\n[Local news and community updates]\n```\n\n## Task 4: ArXiv Digest\n\nProgressive analysis of AI/ML papers from the last day.\n\n### Paper Collection Strategy:\n1.\xa0\n1. **Get first batch**: Use `mcp__utilities__get_news_feed` on the &#39;research&#39; feed\xa0\n2. **Continue pagination**: Keep getting pages until they&#39;re empty.\n3. **Build progressively**: Update your recommendations as you discover better papers in later batches\n\n### Quality Filtering (Apply Rigorous Standards):\n**REJECT papers with these red flags:**\n- Big claims without big evidence\n- Vague mathematical formalism\n- Missing baselines/comparisons\n- Buzzword bingo (mixing unrelated trending fields)\n- Prominent AI tool acknowledgments\n\n**Accept only papers that:**\n- Make testable, precisely stated claims\n- Have logical mathematical connections\n- Use proper experimental methodology\n- Prioritize substance over jargon\n\n**Research Preferences:**\nmachine learning and computational linguistics, large language models, embeddings, transformers,\xa0and statistical methodology. Particular interest in the theoretical foundations of AI systems, representation learning, and the intersection of computer science with statistical applications.\n\n### Output Requirements:\n- Use `mcp__utilities__outbox_add_document` with content:\n```markdown\n## ArXiv Research Digest\n\n### Top Papers (Analyzed [X] of [Y] total papers)\n[Best 3-5 papers with abstracts and analysis]\n\n### Notable Mentions\n[Additional interesting papers worth tracking]\n\n### Research Trends\n[Patterns observed across all papers]\n\n```\n\n---\n\n## Final Execution:\nAfter completing all 4 tasks above, use `mcp__utilities__outbox_flush` to send the complete accumulated document.\n\n## Notes:\n- Execute tasks sequentially in the numbered order\n- Focus on actionable intelligence rather than summaries\n- Each task should add meaningful content to build a comprehensive daily brief\nStart: Sun, Aug 10, 2025, 9:30 PM MDT\nEnd: Sun, Aug 10, 2025, 9:45 PM MDT\nView: https://www.google.com/calendar/event?eid=MzN1YTlmOTNpNDhvN2czOGQwbG9tajN1Ym9fMjAyNTA4MTBUMjEwMDAwWiA5NjlhMTU3ZWYxODQ4ZjZmZjYzOWU4MDk5ZDhlY2Q5YjZiMDdmNmMwZjdmN2Q3ODFiNWMwOWU5ZmY4ZTczOGI4QGc'}
+Processing Event: Found 1 event(s):
+Description length: 4356 chars
+Claude output:
+Daily workflow completed successfully! 
+
+✅ **Task 1:** Calendar boundaries aligned  
+✅ **Task 2:** Personal status update compiled from calendar events, journal entries, and open todos  
+✅ **Task 3:** News intelligence brief created from news, culture, and local feeds  
+✅ **Task 4:** ArXiv research digest (noted empty feed status)  
+✅ **Final:** All content sent via outbox flush
+
+Your comprehensive daily briefing has been emailed to christopherpbonnell+airss@gmail.com with the subject "📰 2025-08-10".
+
+checking calendar for events between 2025-08-10 22:00:00 and 2025-08-10 22:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 22:30:00 and 2025-08-10 23:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 23:00:00 and 2025-08-10 23:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-10 23:30:00 and 2025-08-11 00:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 00:00:00 and 2025-08-11 00:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 00:30:00 and 2025-08-11 01:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 01:00:00 and 2025-08-11 01:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 01:30:00 and 2025-08-11 02:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 02:00:00 and 2025-08-11 02:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 02:30:00 and 2025-08-11 03:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 03:00:00 and 2025-08-11 03:30:00
+Found events:
+MCP error -32600: Google API error: request to https://www.googleapis.com/calendar/v3/calendars/969a157ef1848f6ff639e8099d8ecd9b6b07f6c0f7f7d781b5c09e9ff8e738b8%40group.calendar.google.com/events?timeMin=2025-08-11T03%3A00%3A00Z&timeMax=2025-08-11T03%3A30%3A00Z&singleEvents=true&orderBy=startTime failed, reason: getaddrinfo ENOTFOUND www.googleapis.com
+{'title': 'MCP error -32600: Google API error: request to https://www.googleapis.com/calendar/v3/calendars/969a157ef1848f6ff639e8099d8ecd9b6b07f6c0f7f7d781b5c09e9ff8e738b8%40group.calendar.google.com/events?timeMin=2025-08-11T03%3A00%3A00Z&timeMax=2025-08-11T03%3A30%3A00Z&singleEvents=true&orderBy=startTime failed, reason: getaddrinfo ENOTFOUND www.googleapis.com', 'notes': 'm'}
+No events with substantial descriptions found.
+checking calendar for events between 2025-08-11 03:30:00 and 2025-08-11 04:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 04:00:00 and 2025-08-11 04:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 04:30:00 and 2025-08-11 05:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 05:00:00 and 2025-08-11 05:30:00
+Found events:
+Found 1 event(s):
+
+1. Event: Daily Workflow
+Event ID: 4heufuqmq6stn395mnmjlfctm4_20250811T110000Z
+Description: # AI Orchestrator Master Prompt - Daily Workflow
+
+**IMPORTANT**: Use mcp__utilities__outbox_add_document after completing each task below, then mcp__utilities__outbox_flush at the end.
+
+Execute these tasks in order, adding each completed section to the outbox:
+
+## Task 1: Calendar Boundary Creator
+Call `mcp__utilities__align_events` to fix my calendar for the week.
+
+## Task 2: Personal Summary
+
+Add a personal status update by gathering information from multiple sources.
+
+### Data Collection:
+1. Today's schedule and the upcoming week's events via `mcp__utilities__get_events`set to the 'personal' calendar. 
+2. My partner's upcoming events via `mcp__utilities_get_events` on the 'partner' calendar
+4. Recent journal entries via `mcp__utilities__recent_journal_entries`
+5. Open todos via: `mcp__utilities__open_todos`
+
+### Output Requirements:
+- Review materials and integrate into a factual status briefing
+- Focus on items needing attention, follow-up, or preparation
+- Use `mcp__utilities__outbox_add_document` with content:
+```markdown
+## Personal Status Update
+
+### This Week's Key Items
+[Today's important items]
+
+### Upcoming Week
+[Next week's notable events and commitments]
+
+### Action Items
+[Open todos and items requiring attention]
+
+### Recent Activity
+[Relevant Obsidian materials from past week]
+```
+
+## Task 3: News Briefing
+
+Generate news intelligence brief from RSS sources.
+
+### Article Collection 
+ 1. use `mcp__utilities__get_news_feed` on each of the 'news','culture','ai',and 'local' feeds 
+2. Content Guidelines:
+- Filter out anything to do with Trump, Israel sports, music, performances
+- Synthesize articles into coherent narrative sections
+- Create engaging headlines connecting related articles
+- Use markdown with inline links: [article title](url)
+
+3. Output Requirements:
+- Use `mcp__utilities__outbox_add_document` with content:
+```markdown
+## News Intelligence Brief
+
+### US & World News
+[Synthesized narrative of major stories]
+
+### Cultural & Society
+[Interesting cultural developments and discussions]
+
+### AI & Technology
+[Relevant AI/tech developments]
+
+### Local Longmont
+[Local news and community updates]
+```
+
+## Task 4: ArXiv Digest
+
+Progressive analysis of AI/ML papers from the last day.
+
+### Paper Collection Strategy:
+1. 
+1. **Get first batch**: Use `mcp__utilities__get_news_feed` on the 'research' feed 
+2. **Continue pagination**: Keep getting pages until they're empty.
+3. **Build progressively**: Update your recommendations as you discover better papers in later batches
+
+### Quality Filtering (Apply Rigorous Standards):
+**REJECT papers with these red flags:**
+- Big claims without big evidence
+- Vague mathematical formalism
+- Missing baselines/comparisons
+- Buzzword bingo (mixing unrelated trending fields)
+- Prominent AI tool acknowledgments
+
+**Accept only papers that:**
+- Make testable, precisely stated claims
+- Have logical mathematical connections
+- Use proper experimental methodology
+- Prioritize substance over jargon
+
+**Research Preferences:**
+machine learning and computational linguistics, large language models, embeddings, transformers, and statistical methodology. Particular interest in the theoretical foundations of AI systems, representation learning, and the intersection of computer science with statistical applications.
+
+### Output Requirements:
+- Use `mcp__utilities__outbox_add_document` with content:
+```markdown
+## ArXiv Research Digest
+
+### Top Papers (Analyzed [X] of [Y] total papers)
+[Best 3-5 papers with abstracts and analysis]
+
+### Notable Mentions
+[Additional interesting papers worth tracking]
+
+### Research Trends
+[Patterns observed across all papers]
+
+```
+
+---
+
+## Final Execution:
+After completing all 4 tasks above, use `mcp__utilities__outbox_flush` to send the complete accumulated document.
+
+## Notes:
+- Execute tasks sequentially in the numbered order
+- Focus on actionable intelligence rather than summaries
+- Each task should add meaningful content to build a comprehensive daily brief
+Start: Mon, Aug 11, 2025, 5:00 AM MDT
+End: Mon, Aug 11, 2025, 5:15 AM MDT
+View: https://www.google.com/calendar/event?eid=NGhldWZ1cW1xNnN0bjM5NW1ubWpsZmN0bTRfMjAyNTA4MTFUMTEwMDAwWiA5NjlhMTU3ZWYxODQ4ZjZmZjYzOWU4MDk5ZDhlY2Q5YjZiMDdmNmMwZjdmN2Q3ODFiNWMwOWU5ZmY4ZTczOGI4QGc
+{'title': 'Found 1 event(s):', 'notes': "# AI Orchestrator Master Prompt - Daily Workflow\n\n**IMPORTANT**: Use mcp__utilities__outbox_add_document after completing each task below, then mcp__utilities__outbox_flush at the end.\n\nExecute these tasks in order, adding each completed section to the outbox:\n\n## Task 1: Calendar Boundary Creator\nCall `mcp__utilities__align_events` to fix my calendar for the week.\n\n## Task 2: Personal Summary\n\nAdd a personal status update by gathering information from multiple sources.\n\n### Data Collection:\n1. Today's schedule and the upcoming week's events via `mcp__utilities__get_events`set to the 'personal' calendar.\xa0\n2. My partner's upcoming events via `mcp__utilities_get_events` on the 'partner' calendar\n4. Recent journal entries via `mcp__utilities__recent_journal_entries`\n5. Open todos via: `mcp__utilities__open_todos`\n\n### Output Requirements:\n- Review materials and integrate into a factual status briefing\n- Focus on items needing attention, follow-up, or preparation\n- Use `mcp__utilities__outbox_add_document` with content:\n```markdown\n## Personal Status Update\n\n### This Week's Key Items\n[Today's important items]\n\n### Upcoming Week\n[Next week's notable events and commitments]\n\n### Action Items\n[Open todos and items requiring attention]\n\n### Recent Activity\n[Relevant Obsidian materials from past week]\n```\n\n## Task 3: News Briefing\n\nGenerate news intelligence brief from RSS sources.\n\n### Article Collection\xa0\n\xa01. use `mcp__utilities__get_news_feed` on each of the 'news','culture','ai',and 'local' feeds\xa0\n2. Content Guidelines:\n- Filter out anything to do with Trump, Israel sports, music, performances\n- Synthesize articles into coherent narrative sections\n- Create engaging headlines connecting related articles\n- Use markdown with inline links: [article title](url)\n\n3. Output Requirements:\n- Use `mcp__utilities__outbox_add_document` with content:\n```markdown\n## News Intelligence Brief\n\n### US & World News\n[Synthesized narrative of major stories]\n\n### Cultural & Society\n[Interesting cultural developments and discussions]\n\n### AI & Technology\n[Relevant AI/tech developments]\n\n### Local Longmont\n[Local news and community updates]\n```\n\n## Task 4: ArXiv Digest\n\nProgressive analysis of AI/ML papers from the last day.\n\n### Paper Collection Strategy:\n1.\xa0\n1. **Get first batch**: Use `mcp__utilities__get_news_feed` on the 'research' feed\xa0\n2. **Continue pagination**: Keep getting pages until they're empty.\n3. **Build progressively**: Update your recommendations as you discover better papers in later batches\n\n### Quality Filtering (Apply Rigorous Standards):\n**REJECT papers with these red flags:**\n- Big claims without big evidence\n- Vague mathematical formalism\n- Missing baselines/comparisons\n- Buzzword bingo (mixing unrelated trending fields)\n- Prominent AI tool acknowledgments\n\n**Accept only papers that:**\n- Make testable, precisely stated claims\n- Have logical mathematical connections\n- Use proper experimental methodology\n- Prioritize substance over jargon\n\n**Research Preferences:**\nmachine learning and computational linguistics, large language models, embeddings, transformers,\xa0and statistical methodology. Particular interest in the theoretical foundations of AI systems, representation learning, and the intersection of computer science with statistical applications.\n\n### Output Requirements:\n- Use `mcp__utilities__outbox_add_document` with content:\n```markdown\n## ArXiv Research Digest\n\n### Top Papers (Analyzed [X] of [Y] total papers)\n[Best 3-5 papers with abstracts and analysis]\n\n### Notable Mentions\n[Additional interesting papers worth tracking]\n\n### Research Trends\n[Patterns observed across all papers]\n\n```\n\n---\n\n## Final Execution:\nAfter completing all 4 tasks above, use `mcp__utilities__outbox_flush` to send the complete accumulated document.\n\n## Notes:\n- Execute tasks sequentially in the numbered order\n- Focus on actionable intelligence rather than summaries\n- Each task should add meaningful content to build a comprehensive daily brief\nStart: Mon, Aug 11, 2025, 5:00 AM MDT\nEnd: Mon, Aug 11, 2025, 5:15 AM MDT\nView: https://www.google.com/calendar/event?eid=NGhldWZ1cW1xNnN0bjM5NW1ubWpsZmN0bTRfMjAyNTA4MTFUMTEwMDAwWiA5NjlhMTU3ZWYxODQ4ZjZmZjYzOWU4MDk5ZDhlY2Q5YjZiMDdmNmMwZjdmN2Q3ODFiNWMwOWU5ZmY4ZTczOGI4QGc"}
+Processing Event: Found 1 event(s):
+Description length: 4260 chars
+Claude output:
+✅ Daily workflow completed successfully! All four tasks executed:
+
+1. **Calendar alignment** - Synchronized work and personal calendars
+2. **Personal status update** - Integrated calendar events, partner schedule, journal entries, and open todos
+3. **News intelligence brief** - Synthesized articles from news, culture, AI, and local feeds into coherent narratives
+4. **ArXiv research digest** - Analyzed 80+ papers with rigorous filtering, identified top papers based on theoretical foundations and practical impact
+
+The complete brief has been sent to your inbox covering today's key items, upcoming week priorities, news developments, and cutting-edge research trends in AI/ML.
+
+checking calendar for events between 2025-08-11 05:30:00 and 2025-08-11 06:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 06:00:00 and 2025-08-11 06:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 06:30:00 and 2025-08-11 07:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 07:00:00 and 2025-08-11 07:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 07:30:00 and 2025-08-11 08:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 08:00:00 and 2025-08-11 08:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 08:30:00 and 2025-08-11 09:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 09:00:00 and 2025-08-11 09:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 09:30:00 and 2025-08-11 10:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 10:00:00 and 2025-08-11 10:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 10:30:00 and 2025-08-11 11:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 11:00:00 and 2025-08-11 11:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 11:30:00 and 2025-08-11 12:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 12:00:00 and 2025-08-11 12:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 12:30:00 and 2025-08-11 13:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 13:00:00 and 2025-08-11 13:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 13:30:00 and 2025-08-11 14:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 14:00:00 and 2025-08-11 14:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 14:30:00 and 2025-08-11 15:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 15:00:00 and 2025-08-11 15:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 15:30:00 and 2025-08-11 16:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 16:00:00 and 2025-08-11 16:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 16:30:00 and 2025-08-11 17:00:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 17:00:00 and 2025-08-11 17:30:00
+No events found in the specified time range.
+checking calendar for events between 2025-08-11 17:30:00 and 2025-08-11 18:00:00
+No events found in the specified time range.

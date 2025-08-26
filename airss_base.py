@@ -68,19 +68,33 @@ def cluster_vectors_kmeans(embeddings):
         # Optimal k-means clustering on embeddings
         best_k = 2
         best_score = -1
-        clusters_for_best_score = []
+        clusters_for_best_score = [0 for _ in range(len(embeddings))]
         for k in range(4, len(embeddings)-1):
             kmeans = KMeans(n_clusters=k, random_state=42)
             labels = kmeans.fit_predict(embeddings)
+            if len(set(labels))==1:
+                continue
             score = silhouette_score(embeddings, labels)
             if score > best_score:
                 best_k = k
                 best_score = score
                 clusters_for_best_score = labels
         return clusters_for_best_score
-
+def rank_articles(articles, preferences):
+    if not articles or not preferences:
+        return articles[:5]
+    arts = np.array([embed(aa) for aa in articles])
+    prefs = np.array([embed(aa,'q') for aa in preferences])
+    print("prefs", prefs.shape, "arts", arts.shape)
+    sims = arts @ prefs.T
+    closest = np.max(sims, axis=0)
+    sorteds = list(zip(closest, articles))
+    sorteds.sort(key=lambda x: x[0], reverse=True)
+    return [y for x,y in sorteds[:5]]
 def cluster(arts):
-    claims = [embed(aa.title + "\n" + aa.summary) for aa in arts]
+    if not arts:
+        return {}
+    claims = [embed(aa) for aa in arts]
     title_summary_clust = cluster_vectors_kmeans(claims)
     tags = [
     'Russia', 'Ukraine', 'Nato', 'Israel', 'Zionism', 'Antisemitism', 'Hamas', 'Gaza', 'Hezbollah',
@@ -104,24 +118,20 @@ def cluster(arts):
     "Music","Concert","Artist","Album","Linux","Open Source","Python","Programming","Hardware","Physics","Quantum","Nuclear",]
     vtags = np.array([embed(aa,'q') for aa in tags])
     kwds = []
-    tagvect = None
+    claims2 = []
     for ii,xx in enumerate(claims):
+        tagvect = np.zeros_like(vtags[0]) 
         sims = vtags@xx
         use = np.argsort(sims)[::-1][:5]
         for uu in use:
-            if sims[uu] < 0.65:
+            if sims[uu] < 0.5:
                 continue
-            if tagvect is None:
-                tagvect = np.zeros_like(vtags[uu]) 
             tagvect += vtags[uu] * sims[uu]
+        claims2.append(tagvect)
 
         use = [tags[uu] for uu in use  if sims[uu]>=0.5]
-        
-        arts[ii].keywords = use
-        arts[ii].vector=xx
         kwds.append(use)
-    kwd_assigns = cluster_vectors_kmeans([xx.vector for xx in arts])
-    print(title_summary_clust, kwd_assigns)
+    kwd_assigns = cluster_vectors_kmeans(claims2)
     cl = []
     clc = defaultdict(int)
     for c2,kk in zip(title_summary_clust, kwd_assigns):
@@ -131,20 +141,16 @@ def cluster(arts):
     mhg = defaultdict(int)
     for _,ii in clc.items():
         mhg[ii] += 1
-    print(cl,clc,mhg)
+    out = defaultdict(list)
     for aa,cc in zip(arts, cl):
-        aa.cluster = cc
-    return arts
-###
-# Main control flow.
-###
-def main():
-    today = now()
-    articles = feeds.Feeds.fetch_articles(feeds.FEEDS)
+        out[cc].append(aa)
+    print(out)
+    return out
 
+def cluster_articles(articles):
     print(len(articles), "articles")
     updated_articles = cluster(articles)
-
+    return updated_articles.values()
     g = defaultdict(list)
     old_clusts = set([aa.cluster for aa in updated_articles[len(articles):]])
     for aa in updated_articles[:len(articles)]:
@@ -152,7 +158,16 @@ def main():
     t_gps, misc = make_gps(g, lambda x: x)
     t_gps[-1] = Group(text="Misc.", articles=[xx[0] for yy, xx in misc.items() if yy not in t_gps])
     print("group ct: ", len(t_gps))
-    text = "\n".join([tgp.out() for _, tgp in t_gps.items()])
+    text = [tgp.out() for _, tgp in t_gps.items()]
+    return text
+###
+# Main control flow.
+###
+def main():
+    today = now()
+    articles = feeds.Feeds.fetch_articles(feeds.FEEDS)
+
+    text = cluster_articles(articles)
     sender = "christopherpbonnell@icloud.com"
     receiver = "christopherpbonnell@gmail.com"
     password="vqxh-oqrp-wjln-eagl"

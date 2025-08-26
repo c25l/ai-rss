@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from datamodel import Article
 
-
 class Feeds:
     @staticmethod
     def fetch_articles(feeds, days=1):
@@ -15,7 +14,7 @@ class Feeds:
         cutoff_struct = time.gmtime(time.mktime(now_struct) - 86400*days)
         articles = []
         for xx in feeds:
-            feed = feedparser.parse(xx)
+            feed = feedparser.parse(xx, agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",request_headers={'Accept': 'application/rss+xml, application/xml, text/xml'})
             for entry in feed.entries:
                 if ("published_parsed" in entry and entry.published_parsed < cutoff_struct) or ("updated_parsed" in entry and entry.updated_parsed < cutoff_struct):
                     continue
