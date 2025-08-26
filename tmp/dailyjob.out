@@ -1,0 +1,1154 @@
+Fetched 41 articles
+little_news: news 41
+little_news: news 21
+Fetched 10 articles
+little_news: culture 10
+little_news: culture 10
+Fetched 7 articles
+little_news: ai 7
+little_news: ai 7
+Fetched 9 articles
+little_news: local 9
+little_news: local 9
+4
+
+
+
+No news for news
+No news for culture
+No news for local
+research
+Fetched 107 articles
+little_news: research 107
+little_news: research 98
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+accept:  [['- [Topos Theory for Generative AI and LLMs](https://arxiv.org/abs/2508.08293)\n\t - arXiv:2508.08293v1 Announce Type: new \nAbstract: We propose the design of novel categorical generative AI architectures (GAIAs) using topos theory, a type of category that is ``set-like": a topos has all (co)limits, is Cartesian closed, and has a subobject classifier. Previous theoretical results on the Transformer model have shown that it is a universal sequence-to-sequence function approximator, and dense in the space of all continuous functions with compact support on the Euclidean space of e...', 0.0], ['- [Topos Causal Models](https://arxiv.org/abs/2508.08295)\n\t - arXiv:2508.08295v1 Announce Type: new \nAbstract: We propose topos causal models (TCMs), a novel class of causal models that exploit the key properties of a topos category: they are (co)complete, meaning all (co)limits exist, they admit a subobject classifier, and allow exponential objects. The main goal of this paper is to show that these properties are central to many applications in causal inference. For example, subobject classifiers allow a categorical formulation of causal intervention, whi...', 1.0], ['- [An Efficient Application of Goal Programming to Tackle Multiobjective Problems with Recurring Fitness Landscapes](https://arxiv.org/abs/2508.08297)\n\t - arXiv:2508.08297v1 Announce Type: new \nAbstract: Many real-world applications require decision-makers to assess the quality of solutions while considering multiple conflicting objectives. Obtaining good approximation sets for highly constrained many-objective problems is often a difficult task even for modern multiobjective algorithms. In some cases, multiple instances of the problem scenario present similarities in their fitness landscapes. That is, there are recurring features in the fitness l...', 0.0], ['- [LLM-BI: Towards Fully Automated Bayesian Inference with Large Language Models](https://arxiv.org/abs/2508.08300)\n\t - arXiv:2508.08300v1 Announce Type: new \nAbstract: A significant barrier to the widespread adoption of Bayesian inference is the specification of prior distributions and likelihoods, which often requires specialized statistical expertise. This paper investigates the feasibility of using a Large Language Model (LLM) to automate this process. We introduce LLM-BI (Large Language Model-driven Bayesian Inference), a conceptual pipeline for automating Bayesian workflows. As a proof-of-concept, we presen...', 0.75], ['- [First Ask Then Answer: A Framework Design for AI Dialogue Based on Supplementary Questioning with Large Language Models](https://arxiv.org/abs/2508.08308)\n\t - arXiv:2508.08308v1 Announce Type: new \nAbstract: Large Language Models (LLMs) often struggle to deliver accurate and actionable answers when user-provided information is incomplete or ill-specified. We propose a new interaction paradigm, First Ask Then Answer (FATA), in which, through prompt words, LLMs are guided to proactively generate multidimensional supplementary questions for users prior to response generation. Subsequently, by integrating user-provided supplementary information with the o...', 0.0], ['- [What Breaks Knowledge Graph based RAG? Empirical Insights into Reasoning under Incomplete Knowledge](https://arxiv.org/abs/2508.08344)\n\t - arXiv:2508.08344v1 Announce Type: new \nAbstract: Knowledge Graph-based Retrieval-Augmented Generation (KG-RAG) is an increasingly explored approach for combining the reasoning capabilities of large language models with the structured evidence of knowledge graphs. However, current evaluation practices fall short: existing benchmarks often include questions that can be directly answered using existing triples in KG, making it unclear whether models perform reasoning or simply retrieve answers dire...', 0.0], ['- [Bilevel MCTS for Amortized O(1) Node Selection in Classical Planning](https://arxiv.org/abs/2508.08385)\n\t - arXiv:2508.08385v1 Announce Type: new \nAbstract: We study an efficient implementation of Multi-Armed Bandit (MAB)-based Monte-Carlo Tree Search (MCTS) for classical planning. One weakness of MCTS is that it spends a significant time deciding which node to expand next. While selecting a node from an OPEN list with $N$ nodes has $O(1)$ runtime complexity with traditional array-based priority-queues for dense integer keys, the tree-based OPEN list used by MCTS requires $O(\\log N)$, which roughly co...', 0.5], ['- [Solver-Aided Expansion of Loops to Avoid Generate-and-Test](https://arxiv.org/abs/2508.08442)\n\t - arXiv:2508.08442v1 Announce Type: new \nAbstract: Constraint modelling languages like MiniZinc and Essence rely on unrolling loops (in the form of quantified expressions and comprehensions) during compilation. Standard approaches generate all combinations of induction variables and use partial evaluation to discard those that simplify to identity elements of associative-commutative operators (e.g. true for conjunction, 0 for summation). This can be inefficient for problems where most combinations...', 0.0], ['- [OverFill: Two-Stage Models for Efficient Language Model Decoding](https://arxiv.org/abs/2508.08446)\n\t - arXiv:2508.08446v1 Announce Type: new \nAbstract: Large language models (LLMs) excel across diverse tasks but face significant deployment challenges due to high inference costs. LLM inference comprises prefill (compute-bound) and decode (memory-bound) stages, with decode dominating latency particularly for long sequences. Current decoder-only models handle both stages uniformly, despite their distinct computational profiles. We propose OverFill, which decouples these stages to optimize accuracy-e...', 1.0], ['- [A Fast GRASP Metaheuristic for the Trigger Arc TSP with MIP-Based Construction and Multi-Neighborhood Local Search](https://arxiv.org/abs/2508.08477)\n\t - arXiv:2508.08477v1 Announce Type: new \nAbstract: The Trigger Arc Traveling Salesman Problem (TA-TSP) extends the classical TSP by introducing dynamic arc costs that change when specific \\textit{trigger} arcs are traversed, modeling scenarios such as warehouse operations with compactable storage systems. This paper introduces a GRASP-based metaheuristic that combines multiple construction heuristics with a multi-neighborhood local search. The construction phase uses mixed-integer programming (MIP...', 1.0], ['- [Beyond Ordinal Preferences: Why Alignment Needs Cardinal Human Feedback](https://arxiv.org/abs/2508.08486)\n\t - arXiv:2508.08486v1 Announce Type: new \nAbstract: Alignment techniques for LLMs rely on optimizing preference-based objectives -- where these preferences are typically elicited as ordinal, binary choices between responses. Recent work has focused on improving label quality or mitigating particular biases, but we identify a more fundamental limitation: these methods collect the wrong kind of data. We prove an impossibility result: no algorithm relying solely on ordinal comparisons can systematical...', 1.0], ['- [Large Language Models as Oracles for Ontology Alignment](https://arxiv.org/abs/2508.08500)\n\t - arXiv:2508.08500v1 Announce Type: new \nAbstract: Ontology alignment plays a crucial role in integrating diverse data sources across domains. There is a large plethora of systems that tackle the ontology alignment problem, yet challenges persist in producing highly quality correspondences among a set of input ontologies. Human-in-the-loop during the alignment process is essential in applications requiring very accurate mappings. User involvement is, however, expensive when dealing with large onto...', 0.5], ["- [GVGAI-LLM: Evaluating Large Language Model Agents with Infinite Games](https://arxiv.org/abs/2508.08501)\n\t - arXiv:2508.08501v1 Announce Type: new \nAbstract: We introduce GVGAI-LLM, a video game benchmark for evaluating the reasoning and problem-solving capabilities of large language models (LLMs). Built on the General Video Game AI framework, it features a diverse collection of arcade-style games designed to test a model's ability to handle tasks that differ from most existing LLM benchmarks. The benchmark leverages a game description language that enables rapid creation of new games and levels, helpi...", 0.75], ['- [UGM2N: An Unsupervised and Generalizable Mesh Movement Network via M-Uniform Loss](https://arxiv.org/abs/2508.08615)\n\t - arXiv:2508.08615v1 Announce Type: new \nAbstract: Partial differential equations (PDEs) form the mathematical foundation for modeling physical systems in science and engineering, where numerical solutions demand rigorous accuracy-efficiency tradeoffs. Mesh movement techniques address this challenge by dynamically relocating mesh nodes to rapidly-varying regions, enhancing both simulation accuracy and computational efficiency. However, traditional approaches suffer from high computational complexi...', 0.0], ['- [AgriGPT: a Large Language Model Ecosystem for Agriculture](https://arxiv.org/abs/2508.08632)\n\t - arXiv:2508.08632v1 Announce Type: new \nAbstract: Despite the rapid progress of Large Language Models (LLMs), their application in agriculture remains limited due to the lack of domain-specific models, curated datasets, and robust evaluation frameworks. To address these challenges, we propose AgriGPT, a domain-specialized LLM ecosystem for agricultural usage. At its core, we design a multi-agent scalable data engine that systematically compiles credible data sources into Agri-342K, a high-quality...', 0.0], ['- [Diminution: On Reducing the Size of Grounding ASP Programs](https://arxiv.org/abs/2508.08633)\n\t - arXiv:2508.08633v1 Announce Type: new \nAbstract: Answer Set Programming (ASP) is often hindered by the grounding bottleneck: large Herbrand universes generate ground programs so large that solving becomes difficult. Many methods employ ad-hoc heuristics to improve grounding performance, motivating the need for a more formal and generalizable strategy. We introduce the notion of diminution, defined as a selected subset of the Herbrand universe used to generate a reduced ground program before solv...', 0.0], ['- [P-CAFE: Personalized Cost-Aware Incremental Feature Selection For Electronic Health Records](https://arxiv.org/abs/2508.08646)\n\t - arXiv:2508.08646v1 Announce Type: new \nAbstract: Electronic Health Records (EHR) have revolutionized healthcare by digitizing patient data, improving accessibility, and streamlining clinical workflows. However, extracting meaningful insights from these complex and multimodal datasets remains a significant challenge for researchers. Traditional feature selection methods often struggle with the inherent sparsity and heterogeneity of EHR data, especially when accounting for patient-specific variati...', 1.0], ['- [Prompt-and-Check: Using Large Language Models to Evaluate Communication Protocol Compliance in Simulation-Based Training](https://arxiv.org/abs/2508.08652)\n\t - arXiv:2508.08652v1 Announce Type: new \nAbstract: Accurate evaluation of procedural communication compliance is essential in simulation-based training, particularly in safety-critical domains where adherence to compliance checklists reflects operational competence. This paper explores a lightweight, deployable approach using prompt-based inference with open-source large language models (LLMs) that can run efficiently on consumer-grade GPUs. We present Prompt-and-Check, a method that uses context-...', 1.0], ['- [Hybrid Node-Destroyer Model with Large Neighborhood Search for Solving the Capacitated Vehicle Routing Problem](https://arxiv.org/abs/2508.08659)\n\t - arXiv:2508.08659v1 Announce Type: new \nAbstract: In this research, we propose an iterative learning hybrid optimization solver developed to strengthen the performance of metaheuristic algorithms in solving the Capacitated Vehicle Routing Problem (CVRP). The iterative hybrid mechanism integrates the proposed Node-Destroyer Model, a machine learning hybrid model that utilized Graph Neural Networks (GNNs) such identifies and selects customer nodes to guide the Large Neighborhood Search (LNS) operat...', 1.0], ['- [Aryabhata: An exam-focused language model for JEE Math](https://arxiv.org/abs/2508.08665)\n\t - arXiv:2508.08665v1 Announce Type: new \nAbstract: We present $\\textbf{Aryabhata 1.0}$, a compact 7B parameter math reasoning model optimized for the Indian academic exam, the Joint Entrance Examination (JEE). Despite rapid progress in large language models (LLMs), current models often remain unsuitable for educational use. Aryabhata 1.0 is built by merging strong open-weight reasoning models, followed by supervised fine-tuning (SFT) with curriculum learning on verified chain-of-thought (CoT) trac...', 0.0], ['- [STELAR-VISION: Self-Topology-Aware Efficient Learning for Aligned Reasoning in Vision](https://arxiv.org/abs/2508.08688)\n\t - arXiv:2508.08688v1 Announce Type: new \nAbstract: Vision-language models (VLMs) have made significant strides in reasoning, yet they often struggle with complex multimodal tasks and tend to generate overly verbose outputs. A key limitation is their reliance on chain-of-thought (CoT) reasoning, despite many tasks benefiting from alternative topologies like trees or graphs. To address this, we introduce STELAR-Vision, a training framework for topology-aware reasoning. At its core is TopoAug, a synt...', 1.0], ["- [Simulating Generative Social Agents via Theory-Informed Workflow Design](https://arxiv.org/abs/2508.08726)\n\t - arXiv:2508.08726v1 Announce Type: new \nAbstract: Recent advances in large language models have demonstrated strong reasoning and role-playing capabilities, opening new opportunities for agent-based social simulations. However, most existing agents' implementations are scenario-tailored, without a unified framework to guide the design. This lack of a general social agent limits their ability to generalize across different social contexts and to produce consistent, realistic behaviors. To address ...", 0.0], ['- [Designing Memory-Augmented AR Agents for Spatiotemporal Reasoning in Personalized Task Assistance](https://arxiv.org/abs/2508.08774)\n\t - arXiv:2508.08774v1 Announce Type: new \nAbstract: Augmented Reality (AR) systems are increasingly integrating foundation models, such as Multimodal Large Language Models (MLLMs), to provide more context-aware and adaptive user experiences. This integration has led to the development of AR agents to support intelligent, goal-directed interactions in real-world environments. While current AR agents effectively support immediate tasks, they struggle with complex multi-step scenarios that require und...', 0.5], ["- [A Dual-Axis Taxonomy of Knowledge Editing for LLMs: From Mechanisms to Functions](https://arxiv.org/abs/2508.08795)\n\t - arXiv:2508.08795v1 Announce Type: new \nAbstract: Large language models (LLMs) acquire vast knowledge from large text corpora, but this information can become outdated or inaccurate. Since retraining is computationally expensive, knowledge editing offers an efficient alternative -- modifying internal knowledge without full retraining. These methods aim to update facts precisely while preserving the model's overall capabilities. While existing surveys focus on the mechanism of editing (e.g., param...", 1.0], ['- [GRainsaCK: a Comprehensive Software Library for Benchmarking Explanations of Link Prediction Tasks on Knowledge Graphs](https://arxiv.org/abs/2508.08815)\n\t - arXiv:2508.08815v1 Announce Type: new \nAbstract: Since Knowledge Graphs are often incomplete, link prediction methods are adopted for predicting missing facts. Scalable embedding based solutions are mostly adopted for this purpose, however, they lack comprehensibility, which may be crucial in several domains. Explanation methods tackle this issue by identifying supporting knowledge explaining the predicted facts. Regretfully, evaluating/comparing quantitatively the resulting explanations is chal...', 0.0], ['- [Efficient Agent: Optimizing Planning Capability for Multimodal Retrieval Augmented Generation](https://arxiv.org/abs/2508.08816)\n\t - arXiv:2508.08816v1 Announce Type: new \nAbstract: Multimodal Retrieval-Augmented Generation (mRAG) has emerged as a promising solution to address the temporal limitations of Multimodal Large Language Models (MLLMs) in real-world scenarios like news analysis and trending topics. However, existing approaches often suffer from rigid retrieval strategies and under-utilization of visual information. To bridge this gap, we propose E-Agent, an agent framework featuring two key innovations: a mRAG planne...', 0.0], ["- [Silicon Minds versus Human Hearts: The Wisdom of Crowds Beats the Wisdom of AI in Emotion Recognition](https://arxiv.org/abs/2508.08830)\n\t - arXiv:2508.08830v1 Announce Type: new \nAbstract: The ability to discern subtle emotional cues is fundamental to human social intelligence. As artificial intelligence (AI) becomes increasingly common, AI's ability to recognize and respond to human emotions is crucial for effective human-AI interactions. In particular, whether such systems can match or surpass human experts remains to be seen. However, the emotional intelligence of AI, particularly multimodal large language models (MLLMs), remains...", 0.5], ['- [Reducing Cognitive Load in Multi-Agent Reinforcement Learning for Mathematical Problem Solving: Decoupling Reasoning and Code Generation](https://arxiv.org/abs/2508.08882)\n\t - arXiv:2508.08882v1 Announce Type: new \nAbstract: Current tool-integrated mathematical reasoning systems often adopt a single-agent paradigm, where one large language model handles problem reasoning, code generation, and code execution in an integrated workflow. While this design eases coordination, we hypothesize that it imposes cognitive load interference, as the agent must interleave long-horizon reasoning with precise program synthesis. We validate this hypothesis through a controlled compari...', 0.0], ['- [Compass-Thinker-7B Technical Report](https://arxiv.org/abs/2508.08909)\n\t - arXiv:2508.08909v1 Announce Type: new \nAbstract: Recent R1-Zero-like research further demonstrates that reasoning extension has given large language models (LLMs) unprecedented reasoning capabilities, and Reinforcement Learning is the core tech- nology to elicit its complex reasoning. However, conducting RL experiments directly on hyperscale models involves high computational costs and resource demands, posing significant risks. We pro- pose the Compass-Thinker-7B model, which aims to explore th...', 0.0], ['- [Safe Semantics, Unsafe Interpretations: Tackling Implicit Reasoning Safety in Large Vision-Language Models](https://arxiv.org/abs/2508.08926)\n\t - arXiv:2508.08926v1 Announce Type: new \nAbstract: Large Vision-Language Models face growing safety challenges with multimodal inputs. This paper introduces the concept of Implicit Reasoning Safety, a vulnerability in LVLMs. Benign combined inputs trigger unsafe LVLM outputs due to flawed or hidden reasoning. To showcase this, we developed Safe Semantics, Unsafe Interpretations, the first dataset for this critical issue. Our demonstrations show that even simple In-Context Learning with SSUI signif...', 1.0], ['- [Prospect Theory Fails for LLMs: Revealing Instability of Decision-Making under Epistemic Uncertainty](https://arxiv.org/abs/2508.08992)\n\t - arXiv:2508.08992v1 Announce Type: new \nAbstract: Prospect Theory (PT) models human decision-making under uncertainty, while epistemic markers (e.g., maybe) serve to express uncertainty in language. However, it remains largely unexplored whether Prospect Theory applies to contemporary Large Language Models and whether epistemic markers, which express human uncertainty, affect their decision-making behaviour. To address these research gaps, we design a three-stage experiment based on economic ques...', 0.0], ['- [Intrinsic Memory Agents: Heterogeneous Multi-Agent LLM Systems through Structured Contextual Memory](https://arxiv.org/abs/2508.08997)\n\t - arXiv:2508.08997v1 Announce Type: new \nAbstract: Multi-agent systems built on Large Language Models (LLMs) show exceptional promise for complex collaborative problem-solving, yet they face fundamental challenges stemming from context window limitations that impair memory consistency, role adherence, and procedural integrity. This paper introduces Intrinsic Memory Agents, a novel framework that addresses these limitations through structured agent-specific memories that evolve intrinsically with a...', 0.0], ['- [Activation Steering for Bias Mitigation: An Interpretable Approach to Safer LLMs](https://arxiv.org/abs/2508.09019)\n\t - arXiv:2508.09019v1 Announce Type: new \nAbstract: As large language models (LLMs) become more integrated into societal systems, the risk of them perpetuating and amplifying harmful biases becomes a critical safety concern. Traditional methods for mitigating bias often rely on data filtering or post-hoc output moderation, which treat the model as an opaque black box. In this work, we introduce a complete, end-to-end system that uses techniques from mechanistic interpretability to both identify and...', 0.0], ['- [A First Look at Predictability and Explainability of Pre-request Passenger Waiting Time in Ridesharing Systems](https://arxiv.org/abs/2508.09027)\n\t - arXiv:2508.09027v1 Announce Type: new \nAbstract: Passenger waiting time prediction plays a critical role in enhancing both ridesharing user experience and platform efficiency. While most existing research focuses on post-request waiting time prediction with knowing the matched driver information, pre-request waiting time prediction (i.e., before submitting a ride request and without matching a driver) is also important, as it enables passengers to plan their trips more effectively and enhance th...', 0.0], ['- [CVCM Track Circuits Pre-emptive Failure Diagnostics for Predictive Maintenance Using Deep Neural Networks](https://arxiv.org/abs/2508.09054)\n\t - arXiv:2508.09054v1 Announce Type: new \nAbstract: Track circuits are critical for railway operations, acting as the main signalling sub-system to locate trains. Continuous Variable Current Modulation (CVCM) is one such technology. Like any field-deployed, safety-critical asset, it can fail, triggering cascading disruptions. Many failures originate as subtle anomalies that evolve over time, often not visually apparent in monitored signals. Conventional approaches, which rely on clear signal change...', 0.0], ['- [SMA: Who Said That? Auditing Membership Leakage in Semi-Black-box RAG Controlling](https://arxiv.org/abs/2508.09105)\n\t - arXiv:2508.09105v1 Announce Type: new \nAbstract: Retrieval-Augmented Generation (RAG) and its Multimodal Retrieval-Augmented Generation (MRAG) significantly improve the knowledge coverage and contextual understanding of Large Language Models (LLMs) by introducing external knowledge sources. However, retrieval and multimodal fusion obscure content provenance, rendering existing membership inference methods unable to reliably attribute generated outputs to pre-training, external retrieval, or user...', 0.8], ['- [OpenCUA: Open Foundations for Computer-Use Agents](https://arxiv.org/abs/2508.09123)\n\t - arXiv:2508.09123v1 Announce Type: new \nAbstract: Vision-language models have demonstrated impressive capabilities as computer-use agents (CUAs) capable of automating diverse computer tasks. As their commercial potential grows, critical details of the most capable CUA systems remain closed. As these agents will increasingly mediate digital interactions and execute consequential decisions on our behalf, the research community needs access to open CUA frameworks to study their capabilities, limitat...', 0.5], ['- [BrowseMaster: Towards Scalable Web Browsing via Tool-Augmented Programmatic Agent Pair](https://arxiv.org/abs/2508.09129)\n\t - arXiv:2508.09129v1 Announce Type: new \nAbstract: Effective information seeking in the vast and ever-growing digital landscape requires balancing expansive search with strategic reasoning. Current large language model (LLM)-based agents struggle to achieve this balance due to limitations in search breadth and reasoning depth, where slow, serial querying restricts coverage of relevant sources and noisy raw inputs disrupt the continuity of multi-step reasoning. To address these challenges, we propo...', 1.0], ["- [Benchmarking Large Language Models for Geolocating Colonial Virginia Land Grants](https://arxiv.org/abs/2508.08266)\n\t - arXiv:2508.08266v1 Announce Type: new \nAbstract: Virginia's seventeenth- and eighteenth-century land patents survive primarily as narrative metes-and-bounds descriptions, limiting spatial analysis. This study systematically evaluates current-generation large language models (LLMs) in converting these prose abstracts into geographically accurate latitude/longitude coordinates within a focused evaluation context. A digitized corpus of 5,471 Virginia patent abstracts (1695-1732) is released, with 4...", 0.85], ['- [Doctor Sun: A Bilingual Multimodal Large Language Model for Biomedical AI](https://arxiv.org/abs/2508.08270)\n\t - arXiv:2508.08270v1 Announce Type: new \nAbstract: Large multimodal models (LMMs) have demonstrated significant potential in providing innovative solutions for various biomedical tasks, including pathology analysis, radiology report generation, and biomedical assistance. However, the existing multimodal biomedical AI is typically based on foundation LLMs, thus hindering the understanding of intricate medical concepts with limited medical training data. Moreover, recent LLaVA-induced medical LMMs s...', 0.0], ['- [XFMNet: Decoding Cross-Site and Nonstationary Water Patterns via Stepwise Multimodal Fusion for Long-Term Water Quality Forecasting](https://arxiv.org/abs/2508.08279)\n\t - arXiv:2508.08279v1 Announce Type: new \nAbstract: Long-term time-series forecasting is critical for environmental monitoring, yet water quality prediction remains challenging due to complex periodicity, nonstationarity, and abrupt fluctuations induced by ecological factors. These challenges are further amplified in multi-site scenarios that require simultaneous modeling of temporal and spatial dynamics. To tackle this, we introduce XFMNet, a stepwise multimodal fusion network that integrates remo...', 1.0], ['- [MoSSDA: A Semi-Supervised Domain Adaptation Framework for Multivariate Time-Series Classification using Momentum Encoder](https://arxiv.org/abs/2508.08280)\n\t - arXiv:2508.08280v1 Announce Type: new \nAbstract: Deep learning has emerged as the most promising approach in various fields; however, when the distributions of training and test data are different (domain shift), the performance of deep learning models can degrade. Semi-supervised domain adaptation (SSDA) is a major approach for addressing this issue, assuming that a fully labeled training set (source domain) is available, but the test set (target domain) provides labels only for a small subset....', 0.0], ['- [Multi-grained spatial-temporal feature complementarity for accurate online cellular traffic prediction](https://arxiv.org/abs/2508.08281)\n\t - arXiv:2508.08281v1 Announce Type: new \nAbstract: Knowledge discovered from telecom data can facilitate proactive understanding of network dynamics and user behaviors, which in turn empowers service providers to optimize cellular traffic scheduling and resource allocation. Nevertheless, the telecom industry still heavily relies on manual expert intervention. Existing studies have been focused on exhaustively explore the spatial-temporal correlations. However, they often overlook the underlying ch...', 0.0], ['- [Understanding Transformers through the Lens of Pavlovian Conditioning](https://arxiv.org/abs/2508.08289)\n\t - arXiv:2508.08289v1 Announce Type: new \nAbstract: Transformer architectures have revolutionized artificial intelligence (AI) through their attention mechanisms, yet the computational principles underlying their success remain opaque. We present a novel theoretical framework that reinterprets the core computation of attention as Pavlovian conditioning. Our model finds a direct mathematical analogue in linear attention, which simplifies the analysis of the underlying associative process. We demonst...', 0.5], ['- [Channel-Wise MLPs Improve the Generalization of Recurrent Convolutional Networks](https://arxiv.org/abs/2508.08298)\n\t - arXiv:2508.08298v1 Announce Type: new \nAbstract: We investigate the impact of channel-wise mixing via multi-layer perceptrons (MLPs) on the generalization capabilities of recurrent convolutional networks. Specifically, we compare two architectures: DARC (Depth Aware Recurrent Convolution), which employs a simple recurrent convolutional structure, and DAMP (Depth Aware Multi-layer Perceptron), which extends DARC with a gated MLP for channel mixing. Using the Re-ARC benchmark, we find that DAMP si...', 0.0], ['- [Comparative study of machine learning and statistical methods for automatic identification and quantification in {\\gamma}-ray spectrometry](https://arxiv.org/abs/2508.08306)\n\t - arXiv:2508.08306v1 Announce Type: new \nAbstract: During the last decade, a large number of different numerical methods have been proposed to tackle the automatic identification and quantification in {\\gamma}-ray spectrometry. However, the lack of common benchmarks, including datasets, code and comparison metrics, makes their evaluation and comparison hard. In that context, we propose an open-source benchmark that comprises simulated datasets of various {\\gamma}-spectrometry settings, codes of di...', 0.0], ['- [Weather-Driven Agricultural Decision-Making Using Digital Twins Under Imperfect Conditions](https://arxiv.org/abs/2508.08326)\n\t - arXiv:2508.08326v1 Announce Type: new \nAbstract: By offering a dynamic, real-time virtual representation of physical systems, digital twin technology can enhance data-driven decision-making in digital agriculture. Our research shows how digital twins are useful for detecting inconsistencies in agricultural weather data measurements, which are key attributes for various agricultural decision-making and automation tasks. We develop a modular framework named Cerealia that allows end-users to check ...', 0.0], ['- [HSA-Net: Hierarchical and Structure-Aware Framework for Efficient and Scalable Molecular Language Modeling](https://arxiv.org/abs/2508.08334)\n\t - arXiv:2508.08334v1 Announce Type: new \nAbstract: Molecular representation learning, a cornerstone for downstream tasks like molecular captioning and molecular property prediction, heavily relies on Graph Neural Networks (GNN). However, GNN suffers from the over-smoothing problem, where node-level features collapse in deep GNN layers. While existing feature projection methods with cross-attention have been introduced to mitigate this issue, they still perform poorly in deep features. This motivat...', 0.5], ['- [SHeRL-FL: When Representation Learning Meets Split Learning in Hierarchical Federated Learning](https://arxiv.org/abs/2508.08339)\n\t - arXiv:2508.08339v1 Announce Type: new \nAbstract: Federated learning (FL) is a promising approach for addressing scalability and latency issues in large-scale networks by enabling collaborative model training without requiring the sharing of raw data. However, existing FL frameworks often overlook the computational heterogeneity of edge clients and the growing training burden on resource-limited devices. However, FL suffers from high communication costs and complex model aggregation, especially w...', 0.0], ['- [Fuzzy-Pattern Tsetlin Machine](https://arxiv.org/abs/2508.08350)\n\t - arXiv:2508.08350v1 Announce Type: new \nAbstract: The "all-or-nothing" clause evaluation strategy is a core mechanism in the Tsetlin Machine (TM) family of algorithms. In this approach, each clause - a logical pattern composed of binary literals mapped to input data - is disqualified from voting if even a single literal fails. Due to this strict requirement, standard TMs must employ thousands of clauses to achieve competitive accuracy. This paper introduces the Fuzzy-Pattern Tsetlin Machine (FPTM...', 1.0], ['- [Scaled-Dot-Product Attention as One-Sided Entropic Optimal Transport](https://arxiv.org/abs/2508.08369)\n\t - arXiv:2508.08369v1 Announce Type: new \nAbstract: The scaled-dot-product attention (SDPA) mechanism is a core component of modern deep learning, but its mathematical form is often motivated by heuristics. This work provides a first-principles justification for SDPA. We first show that the attention forward pass is the exact solution to a degenerate, one-sided Entropic Optimal Transport (EOT) problem, which seeks a distribution that maximizes similarity while being maximally entropic. This optimiz...', 0.8], ['- [Regret minimization in Linear Bandits with offline data via extended D-optimal exploration](https://arxiv.org/abs/2508.08420)\n\t - arXiv:2508.08420v1 Announce Type: new \nAbstract: We consider the problem of online regret minimization in linear bandits with access to prior observations (offline data) from the underlying bandit model. There are numerous applications where extensive offline data is often available, such as in recommendation systems, online advertising. Consequently, this problem has been studied intensively in recent literature. Our algorithm, Offline-Online Phased Elimination (OOPE), effectively incorporates ...', 1.0], ['- [Fast weight programming and linear transformers: from machine learning to neurobiology](https://arxiv.org/abs/2508.08435)\n\t - arXiv:2508.08435v1 Announce Type: new \nAbstract: Recent advances in artificial neural networks for machine learning, and language modeling in particular, have established a family of recurrent neural network (RNN) architectures that, unlike conventional RNNs with vector-form hidden states, use two-dimensional (2D) matrix-form hidden states. Such 2D-state RNNs, known as Fast Weight Programmers (FWPs), can be interpreted as a neural network whose synaptic weights (called fast weights) dynamically ...', 0.0], ['- [Differentiable Cyclic Causal Discovery Under Unmeasured Confounders](https://arxiv.org/abs/2508.08450)\n\t - arXiv:2508.08450v1 Announce Type: new \nAbstract: Understanding causal relationships between variables is fundamental across scientific disciplines. Most causal discovery algorithms rely on two key assumptions: (i) all variables are observed, and (ii) the underlying causal graph is acyclic. While these assumptions simplify theoretical analysis, they are often violated in real-world systems, such as biological networks. Existing methods that account for confounders either assume linearity or strug...', 0.0], ['- [Enhanced Liver Tumor Detection in CT Images Using 3D U-Net and Bat Algorithm for Hyperparameter Optimization](https://arxiv.org/abs/2508.08452)\n\t - arXiv:2508.08452v1 Announce Type: new \nAbstract: Liver cancer is one of the most prevalent and lethal forms of cancer, making early detection crucial for effective treatment. This paper introduces a novel approach for automated liver tumor segmentation in computed tomography (CT) images by integrating a 3D U-Net architecture with the Bat Algorithm for hyperparameter optimization. The method enhances segmentation accuracy and robustness by intelligently optimizing key parameters like the learning...', 0.0], ['- [Discrete Diffusion-Based Model-Level Explanation of Heterogeneous GNNs with Node Features](https://arxiv.org/abs/2508.08458)\n\t - arXiv:2508.08458v1 Announce Type: new \nAbstract: Many real-world datasets, such as citation networks, social networks, and molecular structures, are naturally represented as heterogeneous graphs, where nodes belong to different types and have additional features. For example, in a citation network, nodes representing "Paper" or "Author" may include attributes like keywords or affiliations. A critical machine learning task on these graphs is node classification, which is useful for applications s...', 1.0], ['- [Sparse Partial Optimal Transport via Quadratic Regularization](https://arxiv.org/abs/2508.08476)\n\t - arXiv:2508.08476v1 Announce Type: new \nAbstract: Partial Optimal Transport (POT) has recently emerged as a central tool in various Machine Learning (ML) applications. It lifts the stringent assumption of the conventional Optimal Transport (OT) that input measures are of equal masses, which is often not guaranteed in real-world datasets, and thus offers greater flexibility by permitting transport between unbalanced input measures. Nevertheless, existing major solvers for POT commonly rely on entr...', 1.0], ['- [Biased Local SGD for Efficient Deep Learning on Heterogeneous Systems](https://arxiv.org/abs/2508.08540)\n\t - arXiv:2508.08540v1 Announce Type: new \nAbstract: Most large-scale neural network training methods assume homogeneous parallel computing resources. For example, synchronous SGD with data parallelism, the most widely used parallel training strategy, incurs significant synchronization overhead when workers process their assigned data at different speeds. Consequently, in systems with heterogeneous compute resources, users often rely solely on the fastest components, such as GPUs, for training. In t...', 0.5], ['- [M3-Net: A Cost-Effective Graph-Free MLP-Based Model for Traffic Prediction](https://arxiv.org/abs/2508.08543)\n\t - arXiv:2508.08543v1 Announce Type: new \nAbstract: Achieving accurate traffic prediction is a fundamental but crucial task in the development of current intelligent transportation systems.Most of the mainstream methods that have made breakthroughs in traffic prediction rely on spatio-temporal graph neural networks, spatio-temporal attention mechanisms, etc. The main challenges of the existing deep learning approaches are that they either depend on a complete traffic network structure or require in...', 0.0], ['- [UQGNN: Uncertainty Quantification of Graph Neural Networks for Multivariate Spatiotemporal Prediction](https://arxiv.org/abs/2508.08551)\n\t - arXiv:2508.08551v1 Announce Type: new \nAbstract: Spatiotemporal prediction plays a critical role in numerous real-world applications such as urban planning, transportation optimization, disaster response, and pandemic control. In recent years, researchers have made significant progress by developing advanced deep learning models for spatiotemporal prediction. However, most existing models are deterministic, i.e., predicting only the expected mean values without quantifying uncertainty, leading t...', 0.0], ['- [SHEFL: Resource-Aware Aggregation and Sparsification in Heterogeneous Ensemble Federated Learning](https://arxiv.org/abs/2508.08552)\n\t - arXiv:2508.08552v1 Announce Type: new \nAbstract: Federated learning enables distributed training with private data of clients, but its convergence is hindered by data and system heterogeneity in realistic communication scenarios. Most existing system heterogeneous FL schemes utilize global pruning or ensemble distillation, yet they often overlook typical constraints required for communication efficiency. Meanwhile, deep ensembles can aggregate predictions from individually trained models to impr...', 0.0], ["- [Dynamic Rank Adjustment for Accurate and Efficient Neural Network Training](https://arxiv.org/abs/2508.08625)\n\t - arXiv:2508.08625v1 Announce Type: new \nAbstract: Low-rank training methods reduce the number of trainable parameters by re-parameterizing the weights with matrix decompositions (e.g., singular value decomposition). However, enforcing a fixed low-rank structure caps the rank of the weight matrices and can hinder the model's ability to learn complex patterns. Furthermore, the effective rank of the model's weights tends to decline during training, and this drop is accelerated when the model is repa...", 0.75], ['- [Classifier Language Models: Unifying Sparse Finetuning and Adaptive Tokenization for Specialized Classification Tasks](https://arxiv.org/abs/2508.08635)\n\t - arXiv:2508.08635v1 Announce Type: new \nAbstract: Semantic text classification requires the understanding of the contextual significance of specific tokens rather than surface-level patterns or keywords (as in rule-based or statistical text classification), making large language models (LLMs) well-suited for this task. However, semantic classification applications in industry, like customer intent detection or semantic role labeling, tend to be highly specialized. They require annotation by domai...', 1.0], ['- [MiGrATe: Mixed-Policy GRPO for Adaptation at Test-Time](https://arxiv.org/abs/2508.08641)\n\t - arXiv:2508.08641v1 Announce Type: new \nAbstract: Large language models (LLMs) are increasingly being applied to black-box optimization tasks, from program synthesis to molecule design. Prior work typically leverages in-context learning to iteratively guide the model towards better solutions. Such methods, however, often struggle to balance exploration of new solution spaces with exploitation of high-reward ones. Recently, test-time training (TTT) with synthetic data has shown promise in improvin...', 1.0], ['- [$\\text{M}^{2}$LLM: Multi-view Molecular Representation Learning with Large Language Models](https://arxiv.org/abs/2508.08657)\n\t - arXiv:2508.08657v1 Announce Type: new \nAbstract: Accurate molecular property prediction is a critical challenge with wide-ranging applications in chemistry, materials science, and drug discovery. Molecular representation methods, including fingerprints and graph neural networks (GNNs), achieve state-of-the-art results by effectively deriving features from molecular structures. However, these methods often overlook decades of accumulated semantic and contextual knowledge. Recent advancements in l...', 0.0], ['- [Multi-level Collaborative Distillation Meets Global Workspace Model: A Unified Framework for OCIL](https://arxiv.org/abs/2508.08677)\n\t - arXiv:2508.08677v1 Announce Type: new \nAbstract: Online Class-Incremental Learning (OCIL) enables models to learn continuously from non-i.i.d. data streams and samples of the data streams can be seen only once, making it more suitable for real-world scenarios compared to offline learning. However, OCIL faces two key challenges: maintaining model stability under strict memory constraints and ensuring adaptability to new tasks. Under stricter memory constraints, current replay-based methods are le...', 0.0], ['- [Expert-Guided Diffusion Planner for Auto-bidding](https://arxiv.org/abs/2508.08687)\n\t - arXiv:2508.08687v1 Announce Type: new \nAbstract: Auto-bidding is extensively applied in advertising systems, serving a multitude of advertisers. Generative bidding is gradually gaining traction due to its robust planning capabilities and generalizability. In contrast to traditional reinforcement learning-based bidding, generative bidding does not rely on the Markov Decision Process (MDP) exhibiting superior planning capabilities in long-horizon scenarios. Conditional diffusion modeling approache...', 0.8], ['- [Generative Modeling for Robust Deep Reinforcement Learning on the Traveling Salesman Problem](https://arxiv.org/abs/2508.08718)\n\t - arXiv:2508.08718v1 Announce Type: new \nAbstract: The Traveling Salesman Problem (TSP) is a classic NP-hard combinatorial optimization task with numerous practical applications. Classic heuristic solvers can attain near-optimal performance for small problem instances, but become computationally intractable for larger problems. Real-world logistics problems such as dynamically re-routing last-mile deliveries demand a solver with fast inference time, which has led researchers to investigate special...', 0.0], ['- [Elucidating Rectified Flow with Deterministic Sampler: Polynomial Discretization Complexity for Multi and One-step Models](https://arxiv.org/abs/2508.08735)\n\t - arXiv:2508.08735v1 Announce Type: new \nAbstract: Recently, rectified flow (RF)-based models have achieved state-of-the-art performance in many areas for both the multi-step and one-step generation. However, only a few theoretical works analyze the discretization complexity of RF-based models. Existing works either focus on flow-based models with stochastic samplers or establish complexity results that exhibit exponential dependence on problem parameters. In this work, under the realistic bounded...', 0.0], ['- [Interpretable Reward Model via Sparse Autoencoder](https://arxiv.org/abs/2508.08746)\n\t - arXiv:2508.08746v1 Announce Type: new \nAbstract: Large language models (LLMs) have been widely deployed across numerous fields. Reinforcement Learning from Human Feedback (RLHF) leverages reward models (RMs) as proxies for human preferences to align LLM behaviors with human values, making the accuracy, reliability, and interpretability of RMs critical for effective alignment. However, traditional RMs lack interpretability, offer limited insight into the reasoning behind reward assignments, and a...', 0.0], ['- [Differentiated Information Mining: A Semi-supervised Learning Framework for GNNs](https://arxiv.org/abs/2508.08769)\n\t - arXiv:2508.08769v1 Announce Type: new \nAbstract: In semi-supervised learning (SSL) for enhancing the performance of graph neural networks (GNNs) with unlabeled data, introducing mutually independent decision factors for cross-validation is regarded as an effective strategy to alleviate pseudo-label confirmation bias and training collapse. However, obtaining such factors is challenging in practice: additional and valid information sources are inherently scarce, and even when such sources are avai...', 0.7], ['- [TechOps: Technical Documentation Templates for the AI Act](https://arxiv.org/abs/2508.08804)\n\t - arXiv:2508.08804v1 Announce Type: new \nAbstract: Operationalizing the EU AI Act requires clear technical documentation to ensure AI systems are transparent, traceable, and accountable. Existing documentation templates for AI systems do not fully cover the entire AI lifecycle while meeting the technical documentation requirements of the AI Act.\n  This paper addresses those shortcomings by introducing open-source templates and examples for documenting data, models, and applications to provide suff...', 1.0], ['- [TempOpt -- Unsupervised Alarm Relation Learning for Telecommunication Networks](https://arxiv.org/abs/2508.08814)\n\t - arXiv:2508.08814v1 Announce Type: new \nAbstract: In a telecommunications network, fault alarms generated by network nodes are monitored in a Network Operations Centre (NOC) to ensure network availability and continuous network operations. The monitoring process comprises of tasks such as active alarms analysis, root alarm identification, and resolution of the underlying problem. Each network node potentially can generate alarms of different types, while nodes can be from multiple vendors, a netw...', 0.0], ['- [Wavelet Mixture of Experts for Time Series Forecasting](https://arxiv.org/abs/2508.08825)\n\t - arXiv:2508.08825v1 Announce Type: new \nAbstract: The field of time series forecasting is rapidly advancing, with recent large-scale Transformers and lightweight Multilayer Perceptron (MLP) models showing strong predictive performance. However, conventional Transformer models are often hindered by their large number of parameters and their limited ability to capture non-stationary features in data through smoothing. Similarly, MLP models struggle to manage multi-channel dependencies effectively. ...', 0.0], ['- [Flow Battery Manifold Design with Heterogeneous Inputs Through Generative Adversarial Neural Networks](https://arxiv.org/abs/2508.08863)\n\t - arXiv:2508.08863v1 Announce Type: new \nAbstract: Generative machine learning has emerged as a powerful tool for design representation and exploration. However, its application is often constrained by the need for large datasets of existing designs and the lack of interpretability about what features drive optimality. To address these challenges, we introduce a systematic framework for constructing training datasets tailored to generative models and demonstrate how these models can be leveraged f...', 1.0], ['- [Towards Scalable Lottery Ticket Networks using Genetic Algorithms](https://arxiv.org/abs/2508.08877)\n\t - arXiv:2508.08877v1 Announce Type: new \nAbstract: Building modern deep learning systems that are not just effective but also efficient requires rethinking established paradigms for model training and neural architecture design. Instead of adapting highly overparameterized networks and subsequently applying model compression techniques to reduce resource consumption, a new class of high-performing networks skips the need for expensive parameter updates, while requiring only a fraction of parameter...', 0.75], ["- [Hi-fi functional priors by learning activations](https://arxiv.org/abs/2508.08880)\n\t - arXiv:2508.08880v1 Announce Type: new \nAbstract: Function-space priors in Bayesian Neural Networks (BNNs) provide a more intuitive approach to embedding beliefs directly into the model's output, thereby enhancing regularization, uncertainty quantification, and risk-aware decision-making. However, imposing function-space priors on BNNs is challenging. We address this task through optimization techniques that explore how trainable activations can accommodate higher-complexity priors and match intr...", 0.0], ['- [Position: Causal Machine Learning Requires Rigorous Synthetic Experiments for Broader Adoption](https://arxiv.org/abs/2508.08883)\n\t - arXiv:2508.08883v1 Announce Type: new \nAbstract: Causal machine learning has the potential to revolutionize decision-making by combining the predictive power of machine learning algorithms with the theory of causal inference. However, these methods remain underutilized by the broader machine learning community, in part because current empirical evaluations do not permit assessment of their reliability and robustness, undermining their practical utility. Specifically, one of the principal critici...', 0.8], ['- [Stationarity Exploration for Multivariate Time Series Forecasting](https://arxiv.org/abs/2508.08919)\n\t - arXiv:2508.08919v1 Announce Type: new \nAbstract: Deep learning-based time series forecasting has found widespread applications. Recently, converting time series data into the frequency domain for forecasting has become popular for accurately exploring periodic patterns. However, existing methods often cannot effectively explore stationary information from complex intertwined frequency components. In this paper, we propose a simple yet effective Amplitude-Phase Reconstruct Network (APRNet) that m...', 0.6], ['- [Exploring Cross-Stage Adversarial Transferability in Class-Incremental Continual Learning](https://arxiv.org/abs/2508.08920)\n\t - arXiv:2508.08920v1 Announce Type: new \nAbstract: Class-incremental continual learning addresses catastrophic forgetting by enabling classification models to preserve knowledge of previously learned classes while acquiring new ones. However, the vulnerability of the models against adversarial attacks during this process has not been investigated sufficiently. In this paper, we present the first exploration of vulnerability to stage-transferred attacks, i.e., an adversarial example generated using...', 0.0], ['- [LNN-PINN: A Unified Physics-Only Training Framework with Liquid Residual Blocks](https://arxiv.org/abs/2508.08935)\n\t - arXiv:2508.08935v1 Announce Type: new \nAbstract: Physics-informed neural networks (PINNs) have attracted considerable attention for their ability to integrate partial differential equation priors into deep learning frameworks; however, they often exhibit limited predictive accuracy when applied to complex problems. To address this issue, we propose LNN-PINN, a physics-informed neural network framework that incorporates a liquid residual gating architecture while preserving the original physics m...', 0.8], ['- [Generalising Traffic Forecasting to Regions without Traffic Observations](https://arxiv.org/abs/2508.08947)\n\t - arXiv:2508.08947v1 Announce Type: new \nAbstract: Traffic forecasting is essential for intelligent transportation systems. Accurate forecasting relies on continuous observations collected by traffic sensors. However, due to high deployment and maintenance costs, not all regions are equipped with such sensors. This paper aims to forecast for regions without traffic sensors, where the lack of historical traffic observations challenges the generalisability of existing models. We propose a model name...', 0.0], ['- [GRAVITY: A Controversial Graph Representation Learning for Vertex Classification](https://arxiv.org/abs/2508.08954)\n\t - arXiv:2508.08954v1 Announce Type: new \nAbstract: In the quest of accurate vertex classification, we introduce GRAVITY (Graph-based Representation leArning via Vertices Interaction TopologY), a framework inspired by physical systems where objects self-organize under attractive forces. GRAVITY models each vertex as exerting influence through learned interactions shaped by structural proximity and attribute similarity. These interactions induce a latent potential field in which vertices move toward...', 0.85], ['- [Fre-CW: Targeted Attack on Time Series Forecasting using Frequency Domain Loss](https://arxiv.org/abs/2508.08955)\n\t - arXiv:2508.08955v1 Announce Type: new \nAbstract: Transformer-based models have made significant progress in time series forecasting. However, a key limitation of deep learning models is their susceptibility to adversarial attacks, which has not been studied enough in the context of time series prediction. In contrast to areas such as computer vision, where adversarial robustness has been extensively studied, frequency domain features of time series data play an important role in the prediction t...', 1.0], ['- [Integrating attention into explanation frameworks for language and vision transformers](https://arxiv.org/abs/2508.08966)\n\t - arXiv:2508.08966v1 Announce Type: new \nAbstract: The attention mechanism lies at the core of the transformer architecture, providing an interpretable model-internal signal that has motivated a growing interest in attention-based model explanations. Although attention weights do not directly determine model outputs, they reflect patterns of token influence that can inform and complement established explainability techniques. This work studies the potential of utilising the information encoded in ...', 0.0], ['- [Low-Regret and Low-Complexity Learning for Hierarchical Inference](https://arxiv.org/abs/2508.08985)\n\t - arXiv:2508.08985v1 Announce Type: new \nAbstract: This work focuses on Hierarchical Inference (HI) in edge intelligence systems, where a compact Local-ML model on an end-device works in conjunction with a high-accuracy Remote-ML model on an edge-server. HI aims to reduce latency, improve accuracy, and lower bandwidth usage by first using the Local-ML model for inference and offloading to the Remote-ML only when the local inference is likely incorrect. A critical challenge in HI is estimating the ...', 0.0], ['- [MechaFormer: Sequence Learning for Kinematic Mechanism Design Automation](https://arxiv.org/abs/2508.09005)\n\t - arXiv:2508.09005v1 Announce Type: new \nAbstract: Designing mechanical mechanisms to trace specific paths is a classic yet notoriously difficult engineering problem, characterized by a vast and complex search space of discrete topologies and continuous parameters. We introduce MechaFormer, a Transformer-based model that tackles this challenge by treating mechanism design as a conditional sequence generation task. Our model learns to translate a target curve into a domain-specific language (DSL) s...', 1.0], ['- [FetFIDS: A Feature Embedding Attention based Federated Network Intrusion Detection Algorithm](https://arxiv.org/abs/2508.09056)\n\t - arXiv:2508.09056v1 Announce Type: new \nAbstract: Intrusion Detection Systems (IDS) have an increasingly important role in preventing exploitation of network vulnerabilities by malicious actors. Recent deep learning based developments have resulted in significant improvements in the performance of IDS systems. In this paper, we present FetFIDS, where we explore the employment of feature embedding instead of positional embedding to improve intrusion detection performance of a transformer based dee...', 0.5], ['- [Causal Machine Learning for Patient-Level Intraoperative Opioid Dose Prediction from Electronic Health Records](https://arxiv.org/abs/2508.09059)\n\t - arXiv:2508.09059v1 Announce Type: new \nAbstract: This paper introduces the OPIAID algorithm, a novel approach for predicting and recommending personalized opioid dosages for individual patients. The algorithm optimizes pain management while minimizing opioid related adverse events (ORADE) by employing machine learning models trained on observational electronic health records (EHR) data. It leverages a causal machine learning approach to understand the relationship between opioid dose, case speci...', 1.0], ["- [Meta-learning optimizes predictions of missing links in real-world networks](https://arxiv.org/abs/2508.09069)\n\t - arXiv:2508.09069v1 Announce Type: new \nAbstract: Relational data are ubiquitous in real-world data applications, e.g., in social network analysis or biological modeling, but networks are nearly always incompletely observed. The state-of-the-art for predicting missing links in the hard case of a network without node attributes uses model stacking or neural network techniques. It remains unknown which approach is best, and whether or how the best choice of algorithm depends on the input network's ...", 0.0], ['- [Scaling Up Active Testing to Large Language Models](https://arxiv.org/abs/2508.09093)\n\t - arXiv:2508.09093v1 Announce Type: new \nAbstract: Active testing enables label-efficient evaluation of models through careful data acquisition. However, its significant computational costs have previously undermined its use for large models. We show how it can be successfully scaled up to the evaluation of large language models (LLMs). In particular we show that the surrogate model used to guide data acquisition can be constructed cheaply using in-context learning, does not require updating withi...', 1.0], ["- [Chi-Geometry: A Library for Benchmarking Chirality Prediction of GNNs](https://arxiv.org/abs/2508.09097)\n\t - arXiv:2508.09097v1 Announce Type: new \nAbstract: We introduce Chi-Geometry - a library that generates graph data for testing and benchmarking GNNs' ability to predict chirality. Chi-Geometry generates synthetic graph samples with (i) user-specified geometric and topological traits to isolate certain types of samples and (ii) randomized node positions and species to minimize extraneous correlations. Each generated graph contains exactly one chiral center labeled either R or S, while all other nod...", 0.0], ['- [Bridging Formal Language with Chain-of-Thought Reasoning to Geometry Problem Solving](https://arxiv.org/abs/2508.09099)\n\t - arXiv:2508.09099v1 Announce Type: new \nAbstract: Large vision language models exhibit notable limitations on Geometry Problem Solving (GPS) because of their unreliable diagram interpretation and pure natural-language reasoning. A recent line of work mitigates this by using symbolic solvers: the model directly generates a formal program that a geometry solver can execute. However, this direct program generation lacks intermediate reasoning, making the decision process opaque and prone to errors. ...', 0.0], ['- [Towards Universal Neural Inference](https://arxiv.org/abs/2508.09100)\n\t - arXiv:2508.09100v1 Announce Type: new \nAbstract: Real-world data often appears in diverse, disjoint forms -- with varying schemas, inconsistent semantics, and no fixed feature ordering -- making it challenging to build general-purpose models that can leverage information across datasets. We introduce ASPIRE, Arbitrary Set-based Permutation-Invariant Reasoning Engine, a Universal Neural Inference model for semantic reasoning and prediction over heterogeneous structured data. ASPIRE combines a per...', 0.0], ['- [On Experiments](https://arxiv.org/abs/2508.08288)\n\t - arXiv:2508.08288v1 Announce Type: new \nAbstract: The scientific process is a means for turning the results of experiments into knowledge about the world in which we live. Much research effort has been directed toward automating this process. To do this, one needs to formulate the scientific process in a precise mathematical language. This paper outlines one such language. What is presented here is hardly new. The material leans much on great thinkers of times past as well as more modern contribu...', 0.0], ['- [Projection-based multifidelity linear regression for data-scarce applications](https://arxiv.org/abs/2508.08517)\n\t - arXiv:2508.08517v1 Announce Type: new \nAbstract: Surrogate modeling for systems with high-dimensional quantities of interest remains challenging, particularly when training data are costly to acquire. This work develops multifidelity methods for multiple-input multiple-output linear regression targeting data-limited applications with high-dimensional outputs. Multifidelity methods integrate many inexpensive low-fidelity model evaluations with limited, costly high-fidelity evaluations. We introdu...', 0.0], ['- [In-Context Learning as Nonparametric Conditional Probability Estimation: Risk Bounds and Optimality](https://arxiv.org/abs/2508.08673)\n\t - arXiv:2508.08673v1 Announce Type: new \nAbstract: This paper investigates the expected excess risk of In-Context Learning (ICL) for multiclass classification. We model each task as a sequence of labeled prompt samples and a query input, where a pre-trained model estimates the conditional class probabilities of the query. The expected excess risk is defined as the average truncated Kullback-Leibler (KL) divergence between the predicted and ground-truth conditional class distributions, averaged ove...', 1.0], ['- [Bio-Inspired Artificial Neural Networks based on Predictive Coding](https://arxiv.org/abs/2508.08762)\n\t - arXiv:2508.08762v1 Announce Type: new \nAbstract: Backpropagation (BP) of errors is the backbone training algorithm for artificial neural networks (ANNs). It updates network weights through gradient descent to minimize a loss function representing the mismatch between predictions and desired outputs. BP uses the chain rule to propagate the loss gradient backward through the network hierarchy, allowing efficient weight updates. However, this process requires weight updates at every layer to rely o...', 0.0]]
+# Research
+6  /  98
+calendar
+obsidian
+Session is closed
+obsidian: 
+sending
+news news
+Fetched 46 articles
+little_news: news 46
+little_news: news 25
+25 articles
+defaultdict(<class 'list'>, {np.int32(2008): ['- [He Was Lost. Could a Shooting Range Like Thunder Ranch Help Him Find Himself?](https://www.nytimes.com/2025/08/14/us/men-shooting-range-thunder-ranch-guns.html)'], np.int32(2005): ['- [3 Officers Injured in Virginia Shooting](https://www.nytimes.com/2025/08/14/us/virginia-shooting-officers.html)', '- [4 Inmates Are Killed in Less Than a Month at Nevada Prisons, State Says](https://www.nytimes.com/2025/08/13/us/nevada-prisons-inmate-homicides.html)'], np.int32(8004): ['- [Bakers on Texas-Mexican Border Are Found Guilty of Harboring Illegal Workers](https://www.nytimes.com/2025/08/13/us/border-bakery-undocumented-immigrants.html)'], np.int32(6004): ['- [Solomon Peña, Republican Ex-Candidate, Sentenced in Politically Motivated Shooting Plot](https://www.nytimes.com/2025/08/13/us/solomon-pena-new-mexico-political-shootings-sentencing.html)', '- [Hispanic Democratic Officials in Texas Plead Not Guilty to Voter Fraud](https://www.nytimes.com/2025/08/13/us/politics/voter-fraud-texas.html)'], np.int32(2000): ['- [3 Arrested in $2 Million Heist From Brinks Truck in Philadelphia](https://www.nytimes.com/2025/08/13/us/armored-truck-robberies-philadelphia.html)'], np.int32(4000): ['- [Bessent Has Yet to Fully Divest Assets, Raising Concern at Ethics Agency](https://www.nytimes.com/2025/08/13/us/politics/scott-bessent-conflicts-of-interest.html)'], np.int32(0): ['- [Florida Approves First Black Bear Hunt Since 2015](https://www.nytimes.com/2025/08/13/us/florida-black-bear-hunt.html)', '- [Man Who Tried to Export 850 Turtles Hidden in Socks Pleads Guilty](https://www.nytimes.com/2025/08/13/us/illegal-wildlife-turtles-export.html)', '- [The U.S. Is Auctioning a Seized Russian Yacht. Will Anyone Buy It?](https://www.nytimes.com/2025/08/14/world/europe/russian-yacht-seized-sanctions-auction.html)'], np.int32(9006): ['- [A Year After the Revolution, Bangladesh Grapples With Frustration](https://www.nytimes.com/2025/08/14/world/asia/bangladesh-revolution-sheikh-hasina.html)'], np.int32(1006): ['- [Sudan Hit by Its ‘Worst Cholera Outbreak’ in Years, Medical Charity Says](https://www.nytimes.com/2025/08/14/world/africa/sudan-cholera-outbreak.html)', '- [Dozens of Migrants Drown Off Lampedusa, Italy](https://www.nytimes.com/2025/08/13/world/europe/migrants-drown-lampedusa-italy.html)'], np.int32(7002): ['- [What to Know About the Heat Wave in Southern Europe](https://www.nytimes.com/2025/08/12/world/europe/heat-wave-europe-france-spain-fires.html)'], np.int32(1001): ['- [U.S. Pilot Stranded in Antarctica Says It’s ‘Isolating and Lonely’](https://www.nytimes.com/2025/08/13/world/americas/ethan-guo-pilot-antarctica-chile.html)'], np.int32(1002): ['- [Canada’s Wildfire Season Is One of Its Worst Ever, and It’s Not Over Yet](https://www.nytimes.com/2025/08/13/world/canada/canada-wildfire-season-newfoundland-saskatchewan.html)'], np.int32(5007): ['- [Top Iranian Official Visits Lebanon as Hezbollah Bucks Calls to Disarm](https://www.nytimes.com/2025/08/13/world/europe/iran-lebanon-hezbollah-disarm.html)'], np.int32(3000): ['- [U.K. Secretly Spent $3.2 Million to Stop Journalists From Reporting on Data Breach](https://www.nytimes.com/2025/08/13/world/europe/uk-data-breach-afghan.html)'], np.int32(9002): ['- [Mendenhall River Hit Record High From Glacier Melt](https://www.nytimes.com/2025/08/13/climate/alaska-juneau-flood-glacier.html)'], np.int32(2009): ['- [A Radical Answer to the Fentanyl Crisis](https://www.theatlantic.com/podcasts/archive/2025/08/a-radical-answer-to-the-fentanyl-crisis/683699/?utm_source=feed)'], np.int32(3): ['- [What Happened When Canada Gave Citizens the Right to Die](https://www.theatlantic.com/newsletters/archive/2025/08/canada-euthanasia-plott-calabro/683862/?utm_source=feed)'], np.int32(3009): ['- [The Awkward Adolescence of a Media Revolution](https://www.theatlantic.com/technology/archive/2025/08/awkward-adolescence-media-revolution/683863/?utm_source=feed)'], np.int32(5): ['- [Yes, Stephen Miller Is Surrounded By Criminals](https://www.theatlantic.com/newsletters/archive/2025/08/criminals-dc-white-house/683859/?utm_source=feed)'], np.int32(2003): ['- [August 13, 2025](https://heathercoxrichardson.substack.com/p/august-13-2025)']})
+news  news 25 dict_values([['- [He Was Lost. Could a Shooting Range Like Thunder Ranch Help Him Find Himself?](https://www.nytimes.com/2025/08/14/us/men-shooting-range-thunder-ranch-guns.html)'], ['- [3 Officers Injured in Virginia Shooting](https://www.nytimes.com/2025/08/14/us/virginia-shooting-officers.html)', '- [4 Inmates Are Killed in Less Than a Month at Nevada Prisons, State Says](https://www.nytimes.com/2025/08/13/us/nevada-prisons-inmate-homicides.html)'], ['- [Bakers on Texas-Mexican Border Are Found Guilty of Harboring Illegal Workers](https://www.nytimes.com/2025/08/13/us/border-bakery-undocumented-immigrants.html)'], ['- [Solomon Peña, Republican Ex-Candidate, Sentenced in Politically Motivated Shooting Plot](https://www.nytimes.com/2025/08/13/us/solomon-pena-new-mexico-political-shootings-sentencing.html)', '- [Hispanic Democratic Officials in Texas Plead Not Guilty to Voter Fraud](https://www.nytimes.com/2025/08/13/us/politics/voter-fraud-texas.html)'], ['- [3 Arrested in $2 Million Heist From Brinks Truck in Philadelphia](https://www.nytimes.com/2025/08/13/us/armored-truck-robberies-philadelphia.html)'], ['- [Bessent Has Yet to Fully Divest Assets, Raising Concern at Ethics Agency](https://www.nytimes.com/2025/08/13/us/politics/scott-bessent-conflicts-of-interest.html)'], ['- [Florida Approves First Black Bear Hunt Since 2015](https://www.nytimes.com/2025/08/13/us/florida-black-bear-hunt.html)', '- [Man Who Tried to Export 850 Turtles Hidden in Socks Pleads Guilty](https://www.nytimes.com/2025/08/13/us/illegal-wildlife-turtles-export.html)', '- [The U.S. Is Auctioning a Seized Russian Yacht. Will Anyone Buy It?](https://www.nytimes.com/2025/08/14/world/europe/russian-yacht-seized-sanctions-auction.html)'], ['- [A Year After the Revolution, Bangladesh Grapples With Frustration](https://www.nytimes.com/2025/08/14/world/asia/bangladesh-revolution-sheikh-hasina.html)'], ['- [Sudan Hit by Its ‘Worst Cholera Outbreak’ in Years, Medical Charity Says](https://www.nytimes.com/2025/08/14/world/africa/sudan-cholera-outbreak.html)', '- [Dozens of Migrants Drown Off Lampedusa, Italy](https://www.nytimes.com/2025/08/13/world/europe/migrants-drown-lampedusa-italy.html)'], ['- [What to Know About the Heat Wave in Southern Europe](https://www.nytimes.com/2025/08/12/world/europe/heat-wave-europe-france-spain-fires.html)'], ['- [U.S. Pilot Stranded in Antarctica Says It’s ‘Isolating and Lonely’](https://www.nytimes.com/2025/08/13/world/americas/ethan-guo-pilot-antarctica-chile.html)'], ['- [Canada’s Wildfire Season Is One of Its Worst Ever, and It’s Not Over Yet](https://www.nytimes.com/2025/08/13/world/canada/canada-wildfire-season-newfoundland-saskatchewan.html)'], ['- [Top Iranian Official Visits Lebanon as Hezbollah Bucks Calls to Disarm](https://www.nytimes.com/2025/08/13/world/europe/iran-lebanon-hezbollah-disarm.html)'], ['- [U.K. Secretly Spent $3.2 Million to Stop Journalists From Reporting on Data Breach](https://www.nytimes.com/2025/08/13/world/europe/uk-data-breach-afghan.html)'], ['- [Mendenhall River Hit Record High From Glacier Melt](https://www.nytimes.com/2025/08/13/climate/alaska-juneau-flood-glacier.html)'], ['- [A Radical Answer to the Fentanyl Crisis](https://www.theatlantic.com/podcasts/archive/2025/08/a-radical-answer-to-the-fentanyl-crisis/683699/?utm_source=feed)'], ['- [What Happened When Canada Gave Citizens the Right to Die](https://www.theatlantic.com/newsletters/archive/2025/08/canada-euthanasia-plott-calabro/683862/?utm_source=feed)'], ['- [The Awkward Adolescence of a Media Revolution](https://www.theatlantic.com/technology/archive/2025/08/awkward-adolescence-media-revolution/683863/?utm_source=feed)'], ['- [Yes, Stephen Miller Is Surrounded By Criminals](https://www.theatlantic.com/newsletters/archive/2025/08/criminals-dc-white-house/683859/?utm_source=feed)'], ['- [August 13, 2025](https://heathercoxrichardson.substack.com/p/august-13-2025)']])
+news culture
+Fetched 7 articles
+little_news: culture 7
+little_news: culture 6
+6 articles
+defaultdict(<class 'list'>, {np.int32(2002): ["- [Study: Social media probably can't be fixed](https://www.metafilter.com/209963/Study-Social-media-probably-cant-be-fixed)"], np.int32(3001): ['- [Can a country have too much money?](https://www.metafilter.com/209962/Can-a-country-have-too-much-money)'], np.int32(0): ['- [Hooking the tools up to the tools.](https://www.metafilter.com/209961/Hooking-the-tools-up-to-the-tools)'], np.int32(3003): ['- [Breed of feral chickens that survived despite the odds](https://www.metafilter.com/209959/Breed-of-feral-chickens-that-survived-despite-the-odds)'], np.int32(2000): ['- [Sub/Title - a movie dialogue game](https://www.metafilter.com/209958/Sub-Title-a-movie-dialogue-game)'], np.int32(1001): ['- [We know what happens when despots creep into central banking](https://www.metafilter.com/209957/We-know-what-happens-when-despots-creep-into-central-banking)']})
+news  culture 6 dict_values([["- [Study: Social media probably can't be fixed](https://www.metafilter.com/209963/Study-Social-media-probably-cant-be-fixed)"], ['- [Can a country have too much money?](https://www.metafilter.com/209962/Can-a-country-have-too-much-money)'], ['- [Hooking the tools up to the tools.](https://www.metafilter.com/209961/Hooking-the-tools-up-to-the-tools)'], ['- [Breed of feral chickens that survived despite the odds](https://www.metafilter.com/209959/Breed-of-feral-chickens-that-survived-despite-the-odds)'], ['- [Sub/Title - a movie dialogue game](https://www.metafilter.com/209958/Sub-Title-a-movie-dialogue-game)'], ['- [We know what happens when despots creep into central banking](https://www.metafilter.com/209957/We-know-what-happens-when-despots-creep-into-central-banking)']])
+news ai
+Fetched 0 articles
+little_news: ai 0
+little_news: ai 0
+news  ai 0 {}
+news local
+Fetched 10 articles
+little_news: local 10
+little_news: local 10
+10 articles
+defaultdict(<class 'list'>, {np.int32(1000): ['- [Former Weld County State Prison to Become ICE Detention Facility by End of 2025](https://www.longmontleader.com/colorado-news/former-weld-county-state-prison-to-become-ice-detention-facility-by-end-of-2025-11072884)', '- [Mark IV Capital Acquires North Colorado Industrial Assets in Initial Phase of Elevation 25 Development for $43 Million](https://www.longmontleader.com/colorado-news/mark-iv-capital-acquires-north-colorado-industrial-assets-in-initial-phase-of-elevation-25-development-for-43-million-11071970)'], np.int32(2002): ['- [Boulder Cyclist Dies One Week After Collision With Pickup Truck](https://www.longmontleader.com/local-news/boulder-cyclist-dies-one-week-after-collision-with-pickup-truck-11072424)', '- [Longmont City Council Candidate Alex Kalkhofer Elected Chair of Transportation Advisory Board](https://www.longmontleader.com/local-news/longmont-city-council-candidate-alex-kalkhofer-elected-chair-of-transportation-advisory-board-11071493)'], np.int32(0): ['- [Pivot Energy and CU Boulder Break Ground on 5 MW Solar Project Supporting Campus Decarbonization Goals](https://www.longmontleader.com/local-news/pivot-energy-and-cu-boulder-break-ground-on-5-mw-solar-project-supporting-campus-decarbonization-goals-11071946)'], np.int32(1003): ['- [Sunset was so pretty last night 😍](https://www.reddit.com/r/Longmont/comments/1mpghaf/sunset_was_so_pretty_last_night/)'], np.int32(1004): ['- [Police barricade on Terry st behind natural grocers](https://www.reddit.com/r/Longmont/comments/1mpn7i2/police_barricade_on_terry_st_behind_natural/)'], np.int32(3004): ['- [Where in Longmont (or nearby) would I be able to find massive cardboard boxes?](https://www.reddit.com/r/Longmont/comments/1mpc4my/where_in_longmont_or_nearby_would_i_be_able_to/)'], np.int32(3003): ['- [Does anyone have kids in Sunset Academy or Primrose?](https://www.reddit.com/r/Longmont/comments/1mphsb6/does_anyone_have_kids_in_sunset_academy_or/)'], np.int32(2001): ["- [Where do y'all watch UFC fights?](https://www.reddit.com/r/Longmont/comments/1mpkx5q/where_do_yall_watch_ufc_fights/)"]})
+news  local 10 dict_values([['- [Former Weld County State Prison to Become ICE Detention Facility by End of 2025](https://www.longmontleader.com/colorado-news/former-weld-county-state-prison-to-become-ice-detention-facility-by-end-of-2025-11072884)', '- [Mark IV Capital Acquires North Colorado Industrial Assets in Initial Phase of Elevation 25 Development for $43 Million](https://www.longmontleader.com/colorado-news/mark-iv-capital-acquires-north-colorado-industrial-assets-in-initial-phase-of-elevation-25-development-for-43-million-11071970)'], ['- [Boulder Cyclist Dies One Week After Collision With Pickup Truck](https://www.longmontleader.com/local-news/boulder-cyclist-dies-one-week-after-collision-with-pickup-truck-11072424)', '- [Longmont City Council Candidate Alex Kalkhofer Elected Chair of Transportation Advisory Board](https://www.longmontleader.com/local-news/longmont-city-council-candidate-alex-kalkhofer-elected-chair-of-transportation-advisory-board-11071493)'], ['- [Pivot Energy and CU Boulder Break Ground on 5 MW Solar Project Supporting Campus Decarbonization Goals](https://www.longmontleader.com/local-news/pivot-energy-and-cu-boulder-break-ground-on-5-mw-solar-project-supporting-campus-decarbonization-goals-11071946)'], ['- [Sunset was so pretty last night 😍](https://www.reddit.com/r/Longmont/comments/1mpghaf/sunset_was_so_pretty_last_night/)'], ['- [Police barricade on Terry st behind natural grocers](https://www.reddit.com/r/Longmont/comments/1mpn7i2/police_barricade_on_terry_st_behind_natural/)'], ['- [Where in Longmont (or nearby) would I be able to find massive cardboard boxes?](https://www.reddit.com/r/Longmont/comments/1mpc4my/where_in_longmont_or_nearby_would_i_be_able_to/)'], ['- [Does anyone have kids in Sunset Academy or Primrose?](https://www.reddit.com/r/Longmont/comments/1mphsb6/does_anyone_have_kids_in_sunset_academy_or/)'], ["- [Where do y'all watch UFC fights?](https://www.reddit.com/r/Longmont/comments/1mpkx5q/where_do_yall_watch_ufc_fights/)"]])
+research
+Fetched 111 articles
+little_news: research 111
+little_news: research 96
+prefs (16, 768) arts (96, 768)
+news news
+Fetched 49 articles
+little_news: news 49
+little_news: news 49
+news culture
+Fetched 11 articles
+little_news: culture 11
+little_news: culture 11
+news ai
+Fetched 1 articles
+little_news: ai 1
+little_news: ai 1
+news local
+Fetched 3 articles
+little_news: local 3
+little_news: local 3
+research
+Fetched 111 articles
+little_news: research 111
+little_news: research 111
+# Research
+112  /  111
+calendar
+obsidian
+sending
+news news
+Fetched 46 articles
+little_news: news 46
+little_news: news 46
+news culture
+Fetched 7 articles
+little_news: culture 7
+little_news: culture 7
+news ai
+Fetched 0 articles
+little_news: ai 0
+little_news: ai 0
+news local
+Fetched 2 articles
+little_news: local 2
+little_news: local 2
+research
+Fetched 0 articles
+little_news: research 0
+little_news: research 0
+calendar
+obsidian
+Research: 0  /  0
+sending 
+Sent 1398  / 11589 input (tkns)
+
+news news
+Fetched 29 articles
+little_news: news 29
+little_news: news 29
+news culture
+Fetched 5 articles
+little_news: culture 5
+little_news: culture 5
+news ai
+Fetched 0 articles
+little_news: ai 0
+little_news: ai 0
+news local
+Fetched 2 articles
+little_news: local 2
+little_news: local 2
+research
+Fetched 0 articles
+little_news: research 0
+little_news: research 0
+calendar
+obsidian
+Research: 0  /  0
+sending 
+Sent 1473  / 9559 input (tkns)
+
+news news
+Fetched 0 articles
+little_news: news 0
+little_news: news 0
+news culture
+Fetched 0 articles
+little_news: culture 0
+little_news: culture 0
+news ai
+Fetched 0 articles
+little_news: ai 0
+little_news: ai 0
+news local
+Fetched 0 articles
+little_news: local 0
+little_news: local 0
+research
+Fetched 0 articles
+little_news: research 0
+little_news: research 0
+calendar
+news news
+Fetched 49 articles
+little_news: news 49
+little_news: news 49
+news culture
+Fetched 7 articles
+little_news: culture 7
+little_news: culture 7
+news ai
+Fetched 9 articles
+little_news: ai 9
+little_news: ai 9
+news local
+Fetched 7 articles
+little_news: local 7
+little_news: local 7
+research
+Fetched 175 articles
+little_news: research 175
+little_news: research 175
+calendar
+obsidian
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxResearch: 47  /  175
+sending 
+Sent 2212  / 21586 input (tkns)
+
+news news
+Fetched 54 articles
+little_news: news 54
+little_news: news 54
+news culture
+Fetched 8 articles
+little_news: culture 8
+little_news: culture 8
+news ai
+Fetched 2 articles
+little_news: ai 2
+little_news: ai 2
+news local
+Fetched 7 articles
+little_news: local 7
+little_news: local 7
+research
+Fetched 124 articles
+little_news: research 124
+little_news: research 124
+calendar
+obsidian
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxResearch: 28  /  124
+
+## News
+- [Texas Republicans Ready to Pass New Redistricting Maps, Just as Trump Wanted](https://www.nytimes.com/2025/08/20/us/politics/texas-republicans-redistricting-maps.html)
+	 - The effort is intended to help the G.O.P. win five more U.S. House seats in the midterm elections. Other states, red and blue, are likely to redraw their own maps.
+
+- [5 Takeaways From the Times Analysis of Democratic Decline in Voter Registration](https://www.nytimes.com/2025/08/20/us/politics/takeaways-democratic-decline-voter-registration.html)
+	 - Thirty states, as well as Washington, D.C., allow voters to register with a political party. Here’s what the data shows.
+
+- [Trump’s Tactics Mean Many International Students Won’t Make It to Campus](https://www.nytimes.com/2025/08/20/us/trump-visa-vetting-international-students.html)
+	 - Students from some countries won’t make it to class this fall because of President Trump’s travel ban. Others can’t get visa appointments. Some are simply scared. Universities are panicking.
+
+- [Where Democrats Lost on Voter Registration](https://www.nytimes.com/video/us/politics/100000010299630/where-democrats-lost-on-voter-registration.html)
+	 - If you want to understand the health of a political party, take a look at their voter registration numbers. And for the Democrats, it’s not looking good.
+
+- [The Democratic Party’s Voter Registration Crisis](https://www.nytimes.com/2025/08/20/us/politics/democratic-party-voter-registration-crisis.html)
+	 - The party is bleeding support beyond the ballot box, a new analysis shows.
+
+- [Trump Says Smithsonian Focuses Too Much on ‘How Bad Slavery Was’](https://www.nytimes.com/2025/08/19/us/politics/trump-smithsonian-slavery.html)
+	 - The remark, made as the president has ordered a wide-ranging review of museum exhibits, added to his pattern of minimizing Black history.
+
+- [Susan Collins to Get Hollywood Treatment at Fund-Raiser Featuring Democrats](https://www.nytimes.com/2025/08/19/us/politics/hollywood-fundraiser-susan-collins-democrats.html)
+	 - Democrats hoping to retake the Senate in the midterm elections next year are targeting the seat of Senator Collins, a Maine Republican who is seen as a moderate.
+
+- [Trump’s White House Joins TikTok](https://www.nytimes.com/2025/08/19/us/politics/white-house-tiktok-trump.html)
+	 - The move continues a remarkable turnabout toward the app for President Trump, who tried to ban TikTok in his first term.
+
+- [For Trump, Flashy Summits Come First. Grunt Work Comes Next.](https://www.nytimes.com/2025/08/19/us/politics/trump-summits-putin-zelensky.html)
+	 - Diplomats scrambled to come up with detailed proposals for security guarantees and other sticking points following two high-level summits in Alaska and Washington.
+
+- [Stabbing at Arizona High School Leaves 1 Student Dead, Officials Say](https://www.nytimes.com/2025/08/19/us/arizona-stabbing-high-school.html)
+	 - A fight between two students at Maryvale High School in Phoenix on Tuesday left one fatally stabbed and the other with non-life-threatening injuries and in custody, officials said.
+
+- [What’s Next for the Ukraine Peace Talks?](https://www.nytimes.com/2025/08/19/us/ukraine-peace-talks-trump-putin.html)
+	 - President Trump says President Vladimir V. Putin of Russia has agreed to meet with President Volodymyr Zelensky of Ukraine, but Mr. Putin has not confirmed.
+
+- [Abrego Garcia’s Lawyers Accuse Trump Administration of Vindictive Prosecution](https://www.nytimes.com/2025/08/19/us/politics/kilmar-abrego-garcia-trump-prosecution.html)
+	 - It was the second time that Mr. Abrego Garcia’s lawyers have sought to hold the Trump administration accountable over its handling of his expulsion to El Salvador and its aftermath.
+
+- [Attacker Stabs Colorado Park Ranger and Flees](https://www.nytimes.com/2025/08/19/us/colorado-park-ranger-stabbed-manhunt.html)
+	 - A manhunt was underway for the attacker as the ranger was airlifted to a hospital with serious but non-life-threatening injuries after the episode at Staunton State Park, the authorities said.
+
+- [Manhunt Underway After Texas Jail Mistakenly Releases Inmate](https://www.nytimes.com/2025/08/19/us/texas-manhunt-mistaken-release.html)
+	 - The release of a man who had been serving a five-year sentence for assault is the second time the jail has released someone prematurely this year.
+
+- [Trump Revokes Security Clearances of 37 Former and Current Officials](https://www.nytimes.com/2025/08/19/us/politics/trump-security-clearances.html)
+	 - The move is the latest effort by the Trump administration to shift the public’s attention to the 2016 election.
+
+- [Texas Rep. Nicole Collier Slept on the House Floor in Protest](https://www.nytimes.com/2025/08/19/us/politics/texas-redistricting-nicole-collier.html)
+	 - Nicole Collier, a state representative, slept in the Capitol rather than agree to police surveillance imposed by Republicans after a Democratic walkout. “I am resisting,” she said.
+
+- [Trump Wants Universities to Show Him the Money, or No Deal](https://www.nytimes.com/2025/08/19/us/politics/trump-universities-financial-penalties.html)
+	 - President Trump has personally stipulated that hefty financial penalties be part of agreements his administration is negotiating with the elite universities. Critics call it extortion.
+
+- [Richard Lee, Activist Who Founded a Pot ‘University,’ Dies at 62](https://www.nytimes.com/2025/08/19/us/richard-lee-dead.html)
+	 - After he was paralyzed in an accident, his use of marijuana for medical purposes led him to become one of the nation’s most influential cannabis activists.
+
+- [National Guard Troops in Washington Stick to Tourist Areas](https://www.nytimes.com/2025/08/19/us/politics/tourists-national-guard-washington.html)
+	 - The number of troops in the city is expected to grow. But Army officials appear to be trying to keep them on the sidelines of President Trump’s mission.
+
+- [‘I Want to Try and Get to Heaven’: Trump Gets Reflective on ‘Fox & Friends’](https://www.nytimes.com/2025/08/19/us/politics/trump-heaven.html)
+	 - President Trump cast his effort to broker peace in Ukraine in existential terms.
+
+- [Pirro Orders Office to Maximize Criminal Charges on Street Arrests](https://www.nytimes.com/2025/08/19/us/politics/pirro-dc-crime-charges-arrests.html)
+	 - The instruction amounts to a declaration that the understaffed U.S. attorney’s office will seek to ramp up criminal charges arising from the president’s takeover of law enforcement in the capital.
+
+- [Amid Threats From Trump, Adam Schiff Forms Legal Defense Fund](https://www.nytimes.com/2025/08/19/us/politics/trump-schiff-jan-6-threats.html)
+	 - President Trump suggested this month that his Justice Department should investigate Mr. Schiff, who served on the Jan. 6 committee.
+
+- [He Tried to Endorse From the Pulpit. He Wound Up Without a Church.](https://www.nytimes.com/2025/08/19/us/politics/church-endorsements-irs-kenosha.html)
+	 - The I.R.S. says churches can now support candidates during services, but many denominations still forbid it. A Wisconsin pastor learned the hard way.
+
+- [In Battle Over D.C. Police, Federal Prosecutors Open Inquiry Into Crime Data](https://www.nytimes.com/2025/08/19/us/politics/dc-police-crime-data-investigation.html)
+	 - The same U.S. attorney’s office that praised a drop in crime in the capital in April has begun an investigation into the Police Department resisting President Trump’s takeover.
+
+- [How Europe Learned to Speak So Trump Would Listen](https://www.nytimes.com/2025/08/19/world/europe/trump-putin-summit-europe.html)
+	 - The leaders of Germany, France, Britain and other supporters of Ukraine have come together in exceptional ways to help sway the U.S. president.
+
+- [Hong Kong Government Fixates on ‘Soft Resistance’](https://www.nytimes.com/2025/08/20/world/asia/hong-kong-soft-resistance.html)
+	 - With pro-democracy movements long squashed, the government is targeting any hint of subtler expressions of discontent. Even establishment figures say it may be too much.
+
+- [Why Does Xi Keep Purging Loyalists? Look to Stalin and Mao for the Answer.](https://www.nytimes.com/2025/08/20/business/xi-jinping-china.html)
+	 - China’s “bedside eavesdroppers,” the online posse parsing rumors for power shifts, have a lot to work with as Xi Jinping pushes aside his own political appointees.
+
+- [Why Georgia, Once on Democracy’s Vanguard, Is Drifting Toward Russia](https://www.nytimes.com/2025/08/20/magazine/georgia-russia-autocracy-dictatorship.html)
+	 - Two decades after the Rose Revolution, the former Soviet satellite is turning away from the West and back toward Russia. What happened?
+
+- [Facing Trump’s Threats, Mexico and Canada Draw Closer. Will It Last?](https://www.nytimes.com/2025/08/20/world/americas/canada-mexico-tariffs-trump.html)
+	 - Mexico and Canada have long viewed each other with indifference or even distrust. They’re now talking about teaming up.
+
+- [Unregulated Sexual Stimulants Flood West Africa](https://www.nytimes.com/2025/08/20/world/africa/fake-viagra-smuggling.html)
+	 - Unregulated sexual stimulants are flooding West Africa, posing major health risks that officials are scrambling to address.
+
+- [Ireland’s Last Leprechaun Whisperer Pitches TV Show](https://www.nytimes.com/2025/08/20/world/europe/leprechaun-ireland-carlingford-kevin-woods.html)
+	 - Kevin Woods, who says he engages in weekly conversations with 18-inch-tall creatures, has built a tidy business with books, merchandise, guided tours and maybe soon, an animated series.
+
+- [Once a Source of Life and Renewal, Monsoon Brings Death to Pakistan](https://www.nytimes.com/2025/08/19/world/asia/pakistan-monsoon-devastation.html)
+	 - With villages swept away and Pakistan’s largest city assailed by monsoon floods, climate change has brought a catastrophic new normal to the country.
+
+- [A ‘Dexter’ Obsessed Man Highlights a Gap in British Law](https://www.nytimes.com/2025/08/19/world/europe/jacob-power-dexter-murder-plans-uk-laws.html)
+	 - Inspired by the TV serial killer, Jacob Power wrote out detailed murder plans and dug graves. Still, prosecutors could not charge him with attempted murder.
+
+- [African Union Endorses Call to Abandoned the Mercator Map](https://www.nytimes.com/2025/08/19/world/africa/africa-map-mercator.html)
+	 - A campaign is underway to replaced the world’s most popular map, which the effort’s supporters say promotes a false view of the continent and its size.
+
+- [Inside Trump’s Effort on Russia and Ukraine](https://www.nytimes.com/video/world/europe/100000010349018/inside-trumps-effort-on-russia-and-ukraine.html)
+	 - President Trump has repeatedly bent other leaders to his will, simply by refusing to budge. But there is one person who refuses to budge even more than President Trump, and that is Vladimir Putin of Russia. Maggie Haberman, a White House correspondent for The New York Times, takes us inside how Trump has been engaging with Russia and Ukraine.
+
+- [Wednesday Briefing: An Uncertain Path to Peace in Ukraine](https://www.nytimes.com/2025/08/20/briefing/ukraine-russia-trump-gaza-netanyahu-indonesia-rainforest.html)
+	 - Also, Paris adapts for extreme heat.
+
+- [Israel Says It Killed a Hamas Militant Involved in Yarden Bibas Kidnapping](https://www.nytimes.com/2025/08/19/world/middleeast/hamas-israel-bibas-kidnapping.html)
+	 - Mr. Bibas, his wife and their two small children were abducted and taken to Gaza. Only he survived.
+
+- [Will Putin Meet With Zelensky to End the Ukraine War?](https://www.nytimes.com/2025/08/19/world/europe/putin-zelensky-meeting.html)
+	 - The Kremlin is keeping its options open, but analysts said the Russian leader would probably only meet with his Ukrainian counterpart to accept a capitulation.
+
+- [Trump Says He’s Ended 6 (or 7) Wars. Here’s Some Context.](https://www.nytimes.com/2025/08/19/world/europe/trump-six-wars-fact-check.html)
+	 - President Trump has cast himself as a global peacemaker. His interventions have calmed some conflicts, while in others his role is less clear.
+
+- [No Tariff Exemption for European Wine and Spirits, at Least for Now](https://www.nytimes.com/2025/08/19/world/europe/tariff-exemption-european-wine-spirits.html)
+	 - As the text of a trade agreement comes together, European Union negotiators haven’t persuaded the Americans to cut alcohol tariffs to zero.
+
+- [How Zelensky Made Progress With Trump](https://www.nytimes.com/video/world/europe/100000010348280/how-zelensky-made-progress-with-trump.html)
+	 - President Volodymyr Zelensky of Ukraine had a remarkably different White House visit on Monday than the ambush he walked into six months ago. Michael Schwirtz, the global intelligence correspondent for The New York Times, explains how President Zelensky courted President Trump and managed to put the ball back in Vladimir V. Putin’s court.
+
+- [Mexico’s President Denies New D.E.A. Partnership Against Cartels](https://www.nytimes.com/2025/08/19/world/americas/mexico-dea-cartels-sheinbaum.html)
+	 - The D.E.A. announced “a major new initiative” with Mexico to fight cartels. President Claudia Sheinbaum of Mexico said that was news to her.
+
+- [How Do You Move a Hundred-Year-Old Church? On Wheels, Very Slowly.](https://www.nytimes.com/2025/08/19/world/europe/sweden-church-kiruna-move.html)
+	 - Mining in Kiruna, Sweden, has weakened the ground below a beloved church. It’s being rolled three miles to its new home.
+
+- [What to Know About Deforested Wood and the R.V. Industry](https://www.nytimes.com/2025/08/19/world/asia/rvs-deforestation-what-know.html)
+	 - There is no viable alternative to a tropical hardwood that grows in Southeast Asia, according to the American R.V. industry.
+
+- [Relief in Ukraine as Zelensky Avoids Disaster in Washington](https://www.nytimes.com/2025/08/19/world/europe/ukraine-russia-putin-zelensky-trump-talks.html)
+	 - Ukrainian analysts watching their president’s return to the White House were braced for a “nightmare.” They took cautious encouragement from what they saw instead.
+
+- [Securing Postwar Ukraine, Even With Trump’s Pledge to Help, Is Complex](https://www.nytimes.com/2025/08/19/world/europe/ukraine-security-guarantees-trump.html)
+	 - Russia seems unlikely to agree to Western troops in Ukraine as part of any deal to end the war.
+
+- [After Defying Back-to-Work Orders, Air Canada Employees Reach Tentative Deal](https://www.nytimes.com/2025/08/19/world/canada/air-canada-strike-flight-attendants-union-deal.html)
+	 - The airline planned to restart operations after a strike that disrupted half a million travelers. The agreement would reshape how flight attendants are paid.
+
+- [Cases of Mosquito-Borne Chikungunya Virus Are Surging Globally: What to Know](https://www.nytimes.com/2025/08/19/health/chikungunya-virus-mosquitoes-what-to-know.html)
+	 - Chikungunya, which can disable victims for years, is spreading rapidly, including in China and other places that have not seen it before.
+
+- [A Pakistani Village Devastated by Flooding: ‘Like Death Visited Every Home’](https://www.nytimes.com/2025/08/18/world/asia/pakistan-floods-village.html)
+	 - At least 660 people have died in rain-related incidents across Pakistan since monsoon season began in late June, and 935 more have been injured.
+
+- [Hamas Accepts New Gaza Cease-Fire Proposal, Officials Say](https://www.nytimes.com/2025/08/18/world/middleeast/hamas-israel-gaza-ceasefire.html)
+	 - It was unclear whether Prime Minister Benjamin Netanyahu of Israel was on board with the terms, which came as Qatar and Egypt were intensifying mediation efforts.
+
+- [A Letter to America’s Discarded Public Servants](https://www.theatlantic.com/magazine/archive/2025/10/trump-retribution-public-servants/683914/?utm_source=feed)
+	 - You all deserved better.
+
+- [Trump Keeps Defending Russia](https://www.theatlantic.com/ideas/archive/2025/08/trump-fox-news-russia-ukraine/683924/?utm_source=feed)
+	 - The president sees the Ukraine war through Kremlin-tinted glasses.
+
+- [Trump’s Half-Baked Approach to Negotiation](https://www.theatlantic.com/newsletters/archive/2025/08/trump-peace-negotiation-putin-zelensky/683927/?utm_source=feed)
+	 - The president hasn’t shown much interest in dealing with the messy details of diplomacy.
+
+- [August 19, 2025](https://heathercoxrichardson.substack.com/p/august-19-2025)
+	 - Yesterday, the 51 Democratic Texas state representatives who left the state for Illinois, New York, and Massachusetts on August 3 to prevent Republican lawmakers from redistricting Texas to give five Democratic congressional seats to Republicans went back home.
+## Culture
+- [Poopcase](https://www.metafilter.com/210027/Poopcase)
+	 - Indian Express : Russian President Vladimir Putin's bodyguards collect his poop when he travels abroad and carry it back to Russia. LBC : Ex-BBC journalist Farida Rustamova backed up their claims, saying a source told her that this has been practised since Putin first assumed power in 1999. Dailybeast : ...the poop briefcase travels abroad with the Russian delegation to ensure that their leader's feces do not fall into the wrong hands. Human waste carries genetic and lifestyle information that c...
+
+- [Smithsonian library tampered with](https://www.metafilter.com/210026/Smithsonian-library-tampered-with)
+	 - Metafilter user Mahadevan claims Trump is messing with the Smithsonion and some urgent action can save their data. I'm on holiday so made a post on his behalf.
+
+- [The History of Deporation in America](https://www.metafilter.com/210025/The-History-of-Deporation-in-America)
+	 - A two-hour lecture ( transcript ) by Historiansplaining on the American practice of deportation, from colonial banishment of heretics, through the political upheaval over Alien & Sedition Acts, to the age of Chinese Exclusion, which paved the way for the federal government to exercise virtually unlimited & absolute power over aliens, whom they placed outside the protection of the Constitution. Parts 1 and 2 for reference: Part 1: Banishment By Another Name ( transcript ) Part 2: Expelling the Tw...
+
+- [A culture that only knows what it hates](https://www.metafilter.com/210024/A-culture-that-only-knows-what-it-hates)
+	 - Hitler was for the second half of the 20th century and on into the next, what Jesus had been for previous generations: the centre of the moral wheel, around which our ethical instincts turned. Of course, whereas Jesus shaped our moral instincts through positive example, Hitler shaped them by defining what we were against. from Villain of the Peace , Giles Fraser's review of The Age of Hitler and How We Will Survive It by Alec Ryrie [Literary Review; ungated ]
+
+- [I was able to entirely change this doctor's mind](https://www.metafilter.com/210023/I-was-able-to-entirely-change-this-doctors-mind)
+	 - Dr. Cat Hicks, dealing with Long COVID, in 2022, wrote a lyrical piece about scary unexplained chest pain , then in 2023, wrote Talking to doctors about evidence and post covid symptoms : doctors are bad communicators and frequently bad at evidence reasoning, even ones who might actually know anything about covid. So I usually go into a medical conversation prepared for that. It helps me to decide two goals before every medical conversation... Includes a downloadable card with a script you c...
+
+- [Cassirer is so cruelly forgotten?](https://www.metafilter.com/210022/Cassirer-is-so-cruelly-forgotten)
+	 - This was the backdrop to Cassirer and Heidegger's meeting on the mountain at Davos [previously 2 ]. Over the previous decade that backdrop had inspired both thinkers to create their most significant works... rather than attempt to directly answer Kant's question  What is a human being?  
+[g] Cassirer & Heidegger concentrated on the tacit question that lay behind it, and it is there that their originality is to be found Humans are beings who must ask themselves questions that they are unable to...
+
+- [Soap](https://www.metafilter.com/210021/Soap)
+	 - 'Search For Tomorrow.' 1953. Don Knotts and Mary Stuart. [slyt. 14:24] In this 1953 episode Joann (Mary Stuart) asks if Wilber (Don Knotts) will ever wake up from his coma and be normal again. Interesting special effects in the nightmare dream sequence. This is of course a live show. Wilber's face was filmed before the show, tossing and turning. When airing the show live they ran the film, and superimposed the live Don Knott scenes during the broadcast to get the dream effect, since he co...
+
+- [A-Mays-ing](https://www.metafilter.com/210020/A-Mays-ing)
+	 - Díaz led off the inning by smoking a 105 mph drive out to right-center field, but [Jung Hoo] Lee quickly raced into Triples Alley and went into a slide to try to secure the ball. The ball ended up popping out of his glove, but Lee somehow managed to keep it trapped between his legs and hang on for the out . The wind was pretty heavy, and the ball was reaching out a lot, so I went for the slide, Lee said via interpreter Justin Han.  I did catch it , but I felt like it was going under my body, ...
+## Ai
+- [What counts as plagiarism? AI-generated papers pose new risks](https://www.nature.com/articles/d41586-025-02616-5)
+	 - Nature, Published online: 20 August 2025; doi:10.1038/d41586-025-02616-5 Researchers argue over whether ‘novel’ AI-generated works use others’ ideas without credit.
+
+- [How citizen science can help to solve the global freshwater crisis](https://www.nature.com/articles/d41586-025-02614-7)
+	 - Nature, Published online: 20 August 2025; doi:10.1038/d41586-025-02614-7 Encouraging people to test their local rivers and lakes with simple kits could spark a shift in how we manage water.
+## Local
+- [Two Structure Fires Break Out in Superior Within 24 Hours; Three Homes Affected, One Injured](https://www.longmontleader.com/colorado-news/two-structure-fires-break-out-in-superior-within-24-hours-three-homes-affected-one-injured-11098630)
+	 - Last week, two unrelated structure fires occurred within 24 hours and 1.5 miles of each other in Superior. Three homes were damaged, and one person sustained minor injuries.
+
+- [Felony Summons Issued in Response to August 18 Structure Fire on Lookout Road in Boulder County](https://www.longmontleader.com/colorado-news/felony-summons-issued-in-response-to-august-18-structure-fire-on-lookout-road-in-boulder-county-11097480)
+	 - A structure fire that occurred yesterday afternoon in the 11,000 block of Lookout Road in unincorporated Boulder County led to a property owner being served a felony summons for 4th degree arson.
+
+- [Sharp-Witted Female Deputy Follows a Trail of Secrets, Scandal and Self-Discovery in Cozy Mystery, The Last Hurrah](https://www.longmontleader.com/colorado-news/sharp-witted-female-deputy-follows-a-trail-of-secrets-scandal-and-self-discovery-in-cozy-mystery-the-last-hurrah-11097285)
+	 - Press release
+
+- [There are other spots for sunset pictures at Twin Peaks](https://www.reddit.com/r/Longmont/comments/1mv1pib/there_are_other_spots_for_sunset_pictures_at_twin/)
+	 - Just kidding u/AdAutomatic7417 submitted by /u/TheHitmonkey [link] [comments]
+
+- [Video of someone climbing one of the Great Western smoke stacks](https://www.reddit.com/r/Longmont/comments/1muxadw/video_of_someone_climbing_one_of_the_great/)
+	 - submitted by /u/1Davide [link] [comments]
+
+- [Looking for a trusted clock repair service](https://www.reddit.com/r/Longmont/comments/1mv2pmq/looking_for_a_trusted_clock_repair_service/)
+	 - Wanting to know if there is anyone in the Longmont/Boulder area that repair antique grandfather clocks? I have a family heirloom that is over 120 years old and has stopped. Due to its age I would prefer if the service could be done onsite. submitted by /u/Chaos_Goblin_7007 [link] [comments]
+
+- [Any other Longmont ladies having babies this fall?](https://www.reddit.com/r/Longmont/comments/1mv1dig/any_other_longmont_ladies_having_babies_this_fall/)
+	 - Looking to start a gang of surly postpartum moms. We can get coffee, laugh/cry about all the poop and barf, and try to stay sane together. submitted by /u/tiggyroux [link] [comments]
+#Calendar
+{Mine: {2025-08-25: [{kind: calendar#event, etag: \3506844852381054\, id: nvsn18p65re5njha0eeo8qm1k0_20250825T160000Z, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=bnZzbjE4cDY1cmU1bmpoYTBlZW84cW0xazBfMjAyNTA4MjVUMTYwMDAwWiBjaHJpc3RvcGhlci5wLmJvbm5lbGxAbQ, created: 2025-07-07T21:13:57.000Z, updated: 2025-08-11T14:20:15.065Z, summary: Reauthenticate Google Calendar MCP, description: Run: cd google-calendar-mcp && npm run auth
+
+Weekly maintenance to refresh Google Calendar MCP tokens (expires every 7 days in test mode), creator: {email: christopher.p.bonnell@gmail.com, self: true}, organizer: {email: christopher.p.bonnell@gmail.com, self: true}, start: {dateTime: 2025-08-25T10:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-25T10:15:00-06:00, timeZone: America/Denver}, recurringEventId: nvsn18p65re5njha0eeo8qm1k0, originalStartTime: {dateTime: 2025-08-25T10:00:00-06:00, timeZone: America/Denver}, iCalUID: nvsn18p65re5njha0eeo8qm1k0@google.com, sequence: 0, reminders: {useDefault: false, overrides: [{method: popup, minutes: 10}]}, eventType: default}]}, Family: {2025-08-20: [{kind: calendar#event, etag: \3511130495426622\, id: 4u1cqobcmph2n95ih0s53edaec_20250820T200000Z, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=NHUxY3FvYmNtcGgybjk1aWgwczUzZWRhZWNfMjAyNTA4MjBUMjAwMDAwWiBzaGFyYW1kYXZpc0Bt, created: 2025-08-18T17:48:53.000Z, updated: 2025-08-19T01:00:47.713Z, summary: Shara @ cover Conifer , creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-20T14:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-20T15:15:00-06:00, timeZone: America/Denver}, recurringEventId: 4u1cqobcmph2n95ih0s53edaec, originalStartTime: {dateTime: 2025-08-20T14:00:00-06:00, timeZone: America/Denver}, iCalUID: 4u1cqobcmph2n95ih0s53edaec@google.com, sequence: 0, reminders: {useDefault: true}, eventType: default}, {kind: calendar#event, etag: \3511103540934302\, id: cgq3ioj26cp66b9ochgj2b9k6lh66bb2c8r36b9m6cp6ccb16oo66pj6c4_20250820T210000Z, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=Y2dxM2lvajI2Y3A2NmI5b2NoZ2oyYjlrNmxoNjZiYjJjOHIzNmI5bTZjcDZjY2IxNm9vNjZwajZjNF8yMDI1MDgyMFQyMTAwMDBaIHNoYXJhbWRhdmlzQG0, created: 2025-08-18T21:16:10.000Z, updated: 2025-08-18T21:16:10.467Z, summary: Shara @ 1055 Loop, creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-20T15:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-20T16:00:00-06:00, timeZone: America/Denver}, recurringEventId: cgq3ioj26cp66b9ochgj2b9k6lh66bb2c8r36b9m6cp6ccb16oo66pj6c4, originalStartTime: {dateTime: 2025-08-20T15:00:00-06:00, timeZone: America/Denver}, iCalUID: cgq3ioj26cp66b9ochgj2b9k6lh66bb2c8r36b9m6cp6ccb16oo66pj6c4@google.com, sequence: 0, reminders: {useDefault: true}, eventType: default}, {kind: calendar#event, etag: \3506676270806238\, id: 6ke6rb9rhkr9ae174440058ddl_20250820T220000Z, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=NmtlNnJiOXJoa3I5YWUxNzQ0NDAwNThkZGxfMjAyNTA4MjBUMjIwMDAwWiBzaGFyYW1kYXZpc0Bt, created: 2025-03-22T18:58:47.000Z, updated: 2025-07-24T06:22:15.403Z, summary: Aspen Moon CSA pick up, description: 5/21-10/15\u00a0<br><span><br></span><br><span>11 weeks (every other week) 5/21-10/15 </span><span></span><br><b><br></b>, creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-20T16:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-20T17:00:00-06:00, timeZone: America/Denver}, recurringEventId: 6ke6rb9rhkr9ae174440058ddl, originalStartTime: {dateTime: 2025-08-20T16:00:00-06:00, timeZone: America/Denver}, iCalUID: 6ke6rb9rhkr9ae174440058ddl@google.com, sequence: 2, reminders: {useDefault: true}, eventType: default}], 2025-08-21: [{kind: calendar#event, etag: \3511130495426622\, id: 4u1cqobcmph2n95ih0s53edaec_20250821T200000Z, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=NHUxY3FvYmNtcGgybjk1aWgwczUzZWRhZWNfMjAyNTA4MjFUMjAwMDAwWiBzaGFyYW1kYXZpc0Bt, created: 2025-08-18T17:48:53.000Z, updated: 2025-08-19T01:00:47.713Z, summary: Shara @ cover Conifer , creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-21T14:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-21T15:15:00-06:00, timeZone: America/Denver}, recurringEventId: 4u1cqobcmph2n95ih0s53edaec, originalStartTime: {dateTime: 2025-08-21T14:00:00-06:00, timeZone: America/Denver}, iCalUID: 4u1cqobcmph2n95ih0s53edaec@google.com, sequence: 0, reminders: {useDefault: true}, eventType: default}, {kind: calendar#event, etag: \3511103540934302\, id: cgq3ioj26cp66b9ochgj2b9k6lh66bb2c8r36b9m6cp6ccb16oo66pj6c4_20250821T210000Z, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=Y2dxM2lvajI2Y3A2NmI5b2NoZ2oyYjlrNmxoNjZiYjJjOHIzNmI5bTZjcDZjY2IxNm9vNjZwajZjNF8yMDI1MDgyMVQyMTAwMDBaIHNoYXJhbWRhdmlzQG0, created: 2025-08-18T21:16:10.000Z, updated: 2025-08-18T21:16:10.467Z, summary: Shara @ 1055 Loop, creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-21T15:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-21T16:00:00-06:00, timeZone: America/Denver}, recurringEventId: cgq3ioj26cp66b9ochgj2b9k6lh66bb2c8r36b9m6cp6ccb16oo66pj6c4, originalStartTime: {dateTime: 2025-08-21T15:00:00-06:00, timeZone: America/Denver}, iCalUID: cgq3ioj26cp66b9ochgj2b9k6lh66bb2c8r36b9m6cp6ccb16oo66pj6c4@google.com, sequence: 0, reminders: {useDefault: true}, eventType: default}], 2025-08-22: [{kind: calendar#event, etag: \3506410308517214\, id: m540p3u4aps2e7apm557nd9q1a_20250822T160000Z, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=bTU0MHAzdTRhcHMyZTdhcG01NTduZDlxMWFfMjAyNTA4MjJUMTYwMDAwWiBzaGFyYW1kYXZpc0Bt, created: 2024-04-11T20:22:39.000Z, updated: 2025-07-22T17:25:54.258Z, summary: Call for Rowan's meds refill Safeway, location: 303-682-0598, creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-22T10:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-22T10:30:00-06:00, timeZone: America/Denver}, recurringEventId: m540p3u4aps2e7apm557nd9q1a_R20250222T170000, originalStartTime: {dateTime: 2025-08-22T10:00:00-06:00, timeZone: America/Denver}, iCalUID: m540p3u4aps2e7apm557nd9q1a_R20250222T170000@google.com, sequence: 6, reminders: {useDefault: true}, eventType: default}], 2025-08-23: [{kind: calendar#event, etag: \3511078742649662\, id: 2f3c2bukvnv63pa1lp7l74tn85, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=MmYzYzJidWt2bnY2M3BhMWxwN2w3NHRuODUgc2hhcmFtZGF2aXNAbQ, created: 2025-04-30T03:41:40.000Z, updated: 2025-08-18T17:49:31.324Z, summary: Cal Wood Camping, creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {date: 2025-08-23}, end: {date: 2025-08-25}, transparency: transparent, iCalUID: 2f3c2bukvnv63pa1lp7l74tn85@google.com, sequence: 0, reminders: {useDefault: false}, eventType: default}, {kind: calendar#event, etag: \3508318561761662\, id: cco64oj56cr3ib9h6opj6b9kc9h30b9occq34bb26gom2cpmcor3gpb274_20250823T150000Z, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=Y2NvNjRvajU2Y3IzaWI5aDZvcGo2YjlrYzloMzBiOW9jY3EzNGJiMjZnb20yY3BtY29yM2dwYjI3NF8yMDI1MDgyM1QxNTAwMDBaIHNoYXJhbWRhdmlzQG0, created: 2025-04-20T16:11:55.000Z, updated: 2025-08-02T18:28:00.880Z, summary: Baby tree slow deep water 1x week, description: https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.thetreefarm.com/pdf/planting-instructions.pdf&ved=2ahUKEwjj1-fF_-aMAxWOIDQIHc7uBssQFnoECCAQAQ&usg=AOvVaw2JQkEXVcZTQaeMcbcs2K-N, creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-23T09:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-23T09:30:00-06:00, timeZone: America/Denver}, recurringEventId: cco64oj56cr3ib9h6opj6b9kc9h30b9occq34bb26gom2cpmcor3gpb274, originalStartTime: {dateTime: 2025-08-23T09:00:00-06:00, timeZone: America/Denver}, iCalUID: cco64oj56cr3ib9h6opj6b9kc9h30b9occq34bb26gom2cpmcor3gpb274@google.com, sequence: 0, attendees: [{email: christopher.p.bonnell@gmail.com, responseStatus: needsAction}, {email: sharamdavis@gmail.com, organizer: true, self: true, responseStatus: accepted}], reminders: {useDefault: true}, eventType: default}, {kind: calendar#event, etag: \3511079097937406\, id: 4fchdhnl975hce1qg2acrr2ts0, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=NGZjaGRobmw5NzVoY2UxcWcyYWNycjJ0czAgc2hhcmFtZGF2aXNAbQ, created: 2025-08-18T17:50:29.000Z, updated: 2025-08-18T17:52:28.968Z, summary: 11:00 CalWood, description: <b>Schedule<br></b><br><b>DAY 1 - Saturday<br></b>11:00 AM Arrival &amp; Lunch by pond<br>11:30 AM Welcome and introductions<br>12:15 PM Activity: Fishing (all fishing material are provided by Cal-Wood)<br>All children must be accompanied by an adult.<br>2:00 PM Drive to Cal-Wood\u2019s Aspen Glen campground (on-site)<br>2:15 PM Campground orientation and community agreements<br>2:30 PM Move into tents, pass out gear, and free time<br>4:00 PM Activity: Hike to Aspen Peak<br>6:15 PM Dinner &amp; free time<br>8:00 PM Campfire and S\u2019mores<br>9:30 PM - 7:00 AM Quiet hours<br><br><b>Day 2 - Sunday<br></b>8:00 AM Breakfast<br>9:30 AM Tent Clean up and return borrowed<br>10:30 AM Activity: Archery (Ages 6 &amp; up, children must be accompanied<br>by an adult)<br>12:30 PM Lunch<br>1:30 PM Surveys<br>2:00 PM Departure<br><br><b>CAMPSITE<br></b><br>Families will be camping at\u00a0\u201cAspen Glen\u201d campground\u00a0located deep into the Cal-Wood\u00a0forest.<br>Each family will have a large tent\u00a0available for use.<br>The campsite has portable\u00a0restrooms, clean drinkable water, picnic tables, campfire pit, and all\u00a0of our cooking materials.<br><br><b>FOOD\u00a0<br></b>Food will be provided by Cal-Wood, dinner Saturday evening (hot dog dinner with sides) &amp;<br>s\u2019mores, and breakfast (pancake bfast with sides) &amp; lunch (sandwiches with sides) on Sunday.<br><br>All families need to bring a lunch for the first day (Saturday) and are encouraged to bring<br>additional snacks and drinks that they enjoy!<br><br>We will prepare the meals together at the camp!<br>In efforts for Cal-Wood to promote sustainability and be more eco friendly, we do ask that each\u00a0family brings their own plate, bowl, cup, coffee cup and utensils to use during meal times. It is\u00a0important that we practice using less plastic to keep our planet healthy and happy!<br><br>If you have any type of dietary restriction, please let us know in the registration form so we<br>can accommodate the menu according to your needs., creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-23T11:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-23T12:00:00-06:00, timeZone: America/Denver}, iCalUID: 4fchdhnl975hce1qg2acrr2ts0@google.com, sequence: 0, reminders: {useDefault: true}, eventType: default}], 2025-08-24: [{kind: calendar#event, etag: \2913435215176000\, id: 5ah88qoslc1b1m9hlm8pkrn8g8_20250824, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=NWFoODhxb3NsYzFiMW05aGxtOHBrcm44ZzhfMjAyNTA4MjQgc2hhcmFtZGF2aXNAbQ, created: 2016-02-29T03:46:47.000Z, updated: 2016-02-29T03:46:47.588Z, summary: TWINS BIRTHDAY, creator: {email: sharamdavis@gmail.com, displayName: Shara Davis, self: true}, organizer: {email: sharamdavis@gmail.com, displayName: Shara Davis, self: true}, start: {date: 2025-08-24}, end: {date: 2025-08-25}, recurringEventId: 5ah88qoslc1b1m9hlm8pkrn8g8, originalStartTime: {date: 2025-08-24}, transparency: transparent, iCalUID: 5ah88qoslc1b1m9hlm8pkrn8g8@google.com, sequence: 0, reminders: {useDefault: false}, eventType: default}, {kind: calendar#event, etag: \3511079129291710\, id: 24ca9qre9o139gfmoqpaibbe04, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=MjRjYTlxcmU5bzEzOWdmbW9xcGFpYmJlMDQgc2hhcmFtZGF2aXNAbQ, created: 2025-08-18T17:52:44.000Z, updated: 2025-08-18T17:52:44.645Z, summary: Return from CalWood, creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-24T15:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-24T15:30:00-06:00, timeZone: America/Denver}, iCalUID: 24ca9qre9o139gfmoqpaibbe04@google.com, sequence: 0, reminders: {useDefault: true}, eventType: default}, {kind: calendar#event, etag: \3511079172644062\, id: 75mi01c481jp5egfqiec827stg, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=NzVtaTAxYzQ4MWpwNWVnZnFpZWM4MjdzdGcgc2hhcmFtZGF2aXNAbQ, created: 2025-08-18T17:53:06.000Z, updated: 2025-08-18T17:53:06.322Z, summary: Birthday - presents and sushi dinner, creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-24T17:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-24T19:00:00-06:00, timeZone: America/Denver}, iCalUID: 75mi01c481jp5egfqiec827stg@google.com, sequence: 0, reminders: {useDefault: true}, eventType: default}], 2025-08-25: [{kind: calendar#event, etag: \3511074004055102\, id: 6tj3iopl6hij8bb5cdi3eb9kcoqm4b9pc8r64b9jcdj3echocpgj2c3168, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=NnRqM2lvcGw2aGlqOGJiNWNkaTNlYjlrY29xbTRiOXBjOHI2NGI5amNkajNlY2hvY3BnajJjMzE2OCBzaGFyYW1kYXZpc0Bt, created: 2025-08-14T15:40:17.000Z, updated: 2025-08-18T17:10:02.027Z, summary: Shara @ massage, creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-25T10:15:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-25T11:15:00-06:00, timeZone: America/Denver}, iCalUID: 6tj3iopl6hij8bb5cdi3eb9kcoqm4b9pc8r64b9jcdj3echocpgj2c3168@google.com, sequence: 2, reminders: {useDefault: true}, eventType: default}], 2025-08-26: [{kind: calendar#event, etag: \3349745655900000\, id: coq34o9m6lgjeb9h6sqjib9kclgm8b9p6coj6bb66tim8pb275h6achl6o_20250826, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=Y29xMzRvOW02bGdqZWI5aDZzcWppYjlrY2xnbThiOXA2Y29qNmJiNjZ0aW04cGIyNzVoNmFjaGw2b18yMDI1MDgyNiBzaGFyYW1kYXZpc0Bt, created: 2019-12-09T17:42:17.000Z, updated: 2023-01-28T02:27:07.950Z, summary: Compost, creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {date: 2025-08-26}, end: {date: 2025-08-27}, recurringEventId: coq34o9m6lgjeb9h6sqjib9kclgm8b9p6coj6bb66tim8pb275h6achl6o, originalStartTime: {date: 2025-08-26}, transparency: transparent, iCalUID: coq34o9m6lgjeb9h6sqjib9kclgm8b9p6coj6bb66tim8pb275h6achl6o@google.com, sequence: 2, attendees: [{email: sharamdavis@gmail.com, organizer: true, self: true, responseStatus: accepted}, {email: christopherpbonnell@gmail.com, displayName: Chris Bonnell, responseStatus: needsAction}], reminders: {useDefault: false}, eventType: default}, {kind: calendar#event, etag: \3484278120499358\, id: 3b5mjrvksnp2kh7h5pcc1vkkvr_20250826T130000Z, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=M2I1bWpydmtzbnAya2g3aDVwY2MxdmtrdnJfMjAyNTA4MjZUMTMwMDAwWiBzaGFyYW1kYXZpc0Bt, created: 2025-03-16T15:31:00.000Z, updated: 2025-03-16T15:31:00.249Z, summary: Longmont Dairy , creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-26T07:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-26T07:30:00-06:00, timeZone: America/Denver}, recurringEventId: 3b5mjrvksnp2kh7h5pcc1vkkvr, originalStartTime: {dateTime: 2025-08-26T07:00:00-06:00, timeZone: America/Denver}, iCalUID: 3b5mjrvksnp2kh7h5pcc1vkkvr@google.com, sequence: 0, reminders: {useDefault: true}, eventType: default}, {kind: calendar#event, etag: \3511130495426622\, id: 4u1cqobcmph2n95ih0s53edaec_20250826T200000Z, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=NHUxY3FvYmNtcGgybjk1aWgwczUzZWRhZWNfMjAyNTA4MjZUMjAwMDAwWiBzaGFyYW1kYXZpc0Bt, created: 2025-08-18T17:48:53.000Z, updated: 2025-08-19T01:00:47.713Z, summary: Shara @ cover Conifer , creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-26T14:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-26T15:15:00-06:00, timeZone: America/Denver}, recurringEventId: 4u1cqobcmph2n95ih0s53edaec, originalStartTime: {dateTime: 2025-08-26T14:00:00-06:00, timeZone: America/Denver}, iCalUID: 4u1cqobcmph2n95ih0s53edaec@google.com, sequence: 0, reminders: {useDefault: true}, eventType: default}, {kind: calendar#event, etag: \3511103540934302\, id: cgq3ioj26cp66b9ochgj2b9k6lh66bb2c8r36b9m6cp6ccb16oo66pj6c4_20250826T210000Z, status: confirmed, htmlLink: https://www.google.com/calendar/event?eid=Y2dxM2lvajI2Y3A2NmI5b2NoZ2oyYjlrNmxoNjZiYjJjOHIzNmI5bTZjcDZjY2IxNm9vNjZwajZjNF8yMDI1MDgyNlQyMTAwMDBaIHNoYXJhbWRhdmlzQG0, created: 2025-08-18T21:16:10.000Z, updated: 2025-08-18T21:16:10.467Z, summary: Shara @ 1055 Loop, creator: {email: sharamdavis@gmail.com, self: true}, organizer: {email: sharamdavis@gmail.com, self: true}, start: {dateTime: 2025-08-26T15:00:00-06:00, timeZone: America/Denver}, end: {dateTime: 2025-08-26T16:00:00-06:00, timeZone: America/Denver}, recurringEventId: cgq3ioj26cp66b9ochgj2b9k6lh66bb2c8r36b9m6cp6ccb16oo66pj6c4, originalStartTime: {dateTime: 2025-08-26T15:00:00-06:00, timeZone: America/Denver}, iCalUID: cgq3ioj26cp66b9ochgj2b9k6lh66bb2c8r36b9m6cp6ccb16oo66pj6c4@google.com, sequence: 0, reminders: {useDefault: true}, eventType: default}]}}
+# Open Tasks
+<br>
+- [ ] Split out the claude prompt into 4 smaller prompts by task.
+<br>
+- [ ] Add another task to playwright scrape https://www.swpc.noaa.gov/communities/space-weather-enthusiasts-dashboard and tell me if anything interesting is happening.
+<br>
+- [ ] Maybe weather too, if one of several locations has bad weather?
+<br>
+- [ ] Also stock stuff would be nice.
+<br>
+- [ ] Can I scrape perplexity??
+<br>
+- [ ] wau error sources deep dive for Jordi.
+<br>
+- [ ] find out what values need to be propagated. Minimal working data.
+<br>
+- [ ] For next week, think about the following:
+<br>
+- [ ] strategy doc re ltae?
+<br>
+- [ ] If we want to make a team. How's the temperature for the team?
+<br>
+- [ ] A 4th thought? What's my scope? Long term experiments.
+<br>
+# Recent Journal Entries
+<br>
+- I need to check that the job has a path to partner.
+<br>
+
+<br>
+	- That needs to be a thing.
+<br>
+
+<br>
+	- Questions today?
+<br>
+
+<br>
+		- need to ask about how many ppl in org. 3 units, 10k total, 2k smallest.
+<br>
+
+<br>
+		- what is the cultural issue? it's faster than ms people like typicaly.
+<br>
+
+<br>
+		- what will the job likely consist of? A little more hectic, a little more myo impact. 
+<br>
+
+<br>
+		- When do the meetings start and end? same as now.
+<br>
+
+<br>
+		- fire drill frequency/intensity? sometimes, not always
+<br>
+
+<br>
+		- recent github copilot add? 6mos How are they doing? Is there resentment/friction/??  No that's not the problem. Are they accustomed to experimenting at all? getting there
+<br>
+
+<br>
+- [[The Ozymandias Site]]
+<br>
+
+<br>
+- [ ] Split out the claude prompt into 4 smaller prompts by task.
+<br>
+
+<br>
+	- [ ] Add another task to playwright scrape https://www.swpc.noaa.gov/communities/space-weather-enthusiasts-dashboard and tell me if anything interesting is happening.
+<br>
+
+<br>
+	- [ ] Maybe weather too, if one of several locations has bad weather?
+<br>
+
+<br>
+	- [ ] Also stock stuff would be nice. 
+<br>
+
+<br>
+	- [ ] Can I scrape perplexity??
+<br>
+
+<br>
+- [ ] wau error sources deep dive for Jordi. 
+<br>
+
+<br>
+- [ ] 
+<br>
+-  The bot works! I needed to state-save from a different browser and then it was beautiful. Worked for several hours before I got tagged. I think this is how it's actually done. Hoping to step out of this workstream now. 
+<br>
+
+<br>
+- it's... jittery. It's all jittery. That's fine too.
+<br>
+
+<br>
+- the 0.6 b predictions were unstable? some trues and falses. Lots of instances. Like it doesn't understand. 
+<br>
+
+<br>
+	- Just doing them with claude instead. Why not?
+<br>
+
+<br>
+	- Can do this -> training data.
+<br>
+
+<br>
+	- started today at maybe 1-2?
+<br>
+
+<br>
+- Drawers bug me but they're so useful. I love the design and wind up foot-gunning with it all too frequently.
+<br>
+
+<br>
+- Ben A meeting:
+<br>
+
+<br>
+	- turned off 2nd monitor. Interesting for a test, at least.
+<br>
+
+<br>
+	- He's a few late. 
+<br>
+
+<br>
+	- good talk. Very candid. Very clear that he's not with ExP anymore.
+<br>
+
+<br>
+- Yeah, hearing JR talk, it's clear to me that LTAE is doomed. There's a revenue crunch, and a drive to increase ad load. He feels defeated. There's no shame in being a rat, and leaving the ship as soon as it starts to sink.
+<br>
+
+<br>
+	- I don't have to be proud of it. It's okay to not be.
+<br>
+
+<br>
+- Need to embrace the ipad more, but without the controller.
+<br>
+
+<br>
+- I see what it is. I see an aspect of it. I was able to experiment, experiments were king, but waning. I got to run one of the biggest A/B shops in the world. But, they're not going to be valuable anymore, because political power is being reconsolidated away. 
+<br>
+
+<br>
+	- I will go then, away from experimentation, and do analytics and forecasting. 
+<br>
+
+<br>
+	- It is okay to leave, swords to plowshares, and all that. 
+<br>
+
+<br>
+	- Wow this feels like a kind of accepting death. Taking increasingly obscure roles, doing a nice little job, and just living my life. There's space for more for sure, and the jobs are only what I make of them so that's going to be great.
+<br>
+
+<br>
+- 
+<br>
+- R birthday party today. 2hrs arcade then lunch then likely shifting focus towards school stuff.
+<br>
+
+<br>
+- I feel I've built the bot enough. I get the ideas now and I'm a menace there. 
+<br>
+
+<br>
+- cakes came together nicely
+<br>
+
+<br>
+- [x] library cart assembly 
+<br>
+
+<br>
+	- [x] 2nd cart??
+<br>
+
+<br>
+- finished the bot. It works now. 
+<br>
+
+<br>
+	- with and without client telemetry.
+<br>
+
+<br>
+	- `cl_clearance` cookie lifespan may be low low. 
+<br>
+
+<br>
+		- NOT present...
+<br>
+
+<br>
+		- still working after several hours and changing a token expiry date to way further out...
+<br>
+
+<br>
+	- still this thing vomits up its prompt...
+<br>
+
+<br>
+	- [ ] find out what values need to be propagated. Minimal working data. 
+<br>
+
+<br>
+	- at 1.5sec/message assuming token expires in 30min it's worth about $15. Wonder also multiple ips???
+<br>
+
+<br>
+	- 
+<br>
+- playwright ideas
+<br>
+
+<br>
+	- websocket snooping https://playwright.dev/docs/api/class-websocketroute
+<br>
+
+<br>
+	- go back to all websocket 
+<br>
+
+<br>
+	- https://playwright.dev/docs/network abort collections. 
+<br>
+
+<br>
+- [x] how to store fondant designs for transfer. 
+<br>
+
+<br>
+- Got the bot into an incredible state. I learned so much! Now I can make web scrapers and do all kinds of mischief.
+<br>
+
+<br>
+- get [https://pypi.org/project/semantic-text-splitter/](https://pypi.org/project/semantic-text-splitter/) into the pipeline somewhere.
+<br>
+- [x] switch obsidian to fs crawler and grep. 
+<br>
+
+<br>
+	- [x] best effort: check if it's running. 
+<br>
+
+<br>
+- [x] make Google MCP only for login and tokens. Do rest through API. But why?
+<br>
+
+<br>
+- doing this tedious part has not been a waste. I'm learning a lot about management. 
+<br>
+
+<br>
+- [x] crash course process mining? 
+<br>
+
+<br>
+- [s mining?
+<br>
+
+<br>
+- Feeling stress. Worrying about:
+<br>
+
+<br>
+	- Kids summer almost over
+<br>
+
+<br>
+		- School supplies?
+<br>
+
+<br>
+		- Lunches?
+<br>
+
+<br>
+		- Workbooks?
+<br>
+
+<br>
+	- Birthdays.
+<br>
+
+<br>
+		- Got presents
+<br>
+
+<br>
+		- Will help at the parties.
+<br>
+
+<br>
+	- Shara
+<br>
+
+<br>
+		- Lots of work and bad news lately. 
+<br>
+
+<br>
+		- Clearly struggling with her mom.
+<br>
+
+<br>
+		- Seems very tired.
+<br>
+
+<br>
+	- Work
+<br>
+
+<br>
+		- Am I okay trying to trust georg, and growing in this way? Am I okay pushing here? He seems willing to work with me.
+<br>
+
+<br>
+		- Am I interested in copilot? Everything's always on fire.
+<br>
+
+<br>
+	- Change.
+<br>
+
+<br>
+		- Things are clearly changing. 
+<br>
+
+<br>
+		- Upheaval alone is enough to unsettle the heart.
+<br>
+
+<br>
+	- Death
+<br>
+
+<br>
+		- Just... haunted recently.
+<br>
+
+<br>
+		- Lots of thoughts about Grammy, Will. 
+<br>
+
+<br>
+		- That's okay. I do miss them both.
+<br>
+
+<br>
+		- I will go one day as well, but that's not my problem as soon as it happens.
+<br>
+- We want to cluster news articles intelligently. 
+<br>
+
+<br>
+- What if we made an assumption about news carriers.
+<br>
+
+<br>
+	- A carrier will not simultaneously run 2 stories on the same topic.
+<br>
+
+<br>
+		- Therefore each story is its own topic
+<br>
+
+<br>
+		- Therefore there are no inside-publisher clusters.
+<br>
+
+<br>
+		- But you can cluster across the divide. Figure out which one is closest and if it is indeed close. The expectation should be 1-1-1 across clusters. It's easier to assume that they have the same biases and be proven wrong than the alternative.
+<br>
+
+<br>
+		- [x] Modify the rss feed output to include source info.
+<br>
+
+<br>
+		- [x] make a clusterer on this topic. (matmul only, max axis=0, i think.) (already used it once with axis=0. Unclear if it works or not)
+<br>
+
+<br>
+		- [x] Make the whole document again, big style. Feed it to claude and get the summary it would make, then make whatever nonsense one on your own as necessary.
+<br>
+
+<br>
+		- [x] italics it not `<it> blocks </it>` but `<i>italics</i>`
+<br>
+
+<br>
+		- perhaps a better flow would have been to establish things with prompts then ask claude itself to translate them to code that does things in this way. 
+<br>
+
+<br>
+- I want, yearn for things now. I want that job. I want to work on AI, I want to be a part of it all. I don't know why, precisely. I don't know what's an interview and what doesn't count. Maybe I am being and can be the person I want to be, who would push all those things with at least that much intention.
+<br>
+
+<br>
+- Maybe I should give up and move to the west coast. Maybe I will move there in my 50s and lament that I would have found it fun all along. I will have wanted to. The man who imagines the city as a youth but only visits as an old man. desire is only a memory.
+<br>
+
+<br>
+	- I need to read invisible cities again.
+<br>
+
+<br>
+- THE BOT WORKS AGAIN! It just needed the copilot app user agent string `CopilotNative/1.25082.74.0-prod WindowsPicassoSdk/1.25082.74.0 (Windows 11 10.0.26100.0; .Net 9.0.3; X64)` 
+<br>
+
+<br>
+	- Also hitting up the start and activate endpoints to appear more legitimate.
+<br>
+
+<br>
+	- Still can't quite get the clarity version running but that user agent string is important.
+<br>
+
+<br>
+- [ ] For next week, think about the following:
+<br>
+
+<br>
+	- [ ] strategy doc re ltae? 
+<br>
+
+<br>
+		- What would it contain? 
+<br>
+
+<br>
+			- specifying the goal of the effort.
+<br>
+
+<br>
+			- What have we tried in the past
+<br>
+
+<br>
+			- what have we learned in the past.
+<br>
+
+<br>
+			- What's different now? How the strategy is changing going forward
+<br>
+
+<br>
+				- Tunings, etc.
+<br>
+
+<br>
+			- How do we intend to measure?
+<br>
+
+<br>
+			- Rough timeline.
+<br>
+
+<br>
+		- Run by the team, esp RT, DB. Get ideas. 
+<br>
+
+<br>
+		- Make sure everyone is on the same page.
+<br>
+
+<br>
+		- something like a paper for the first study to justify the second, etc. 
+<br>
+
+<br>
+		- Maybe WHALE, etc. 
+<br>
+
+<br>
+	- [ ] If we want to make a team. How's the temperature for the team?
+<br>
+
+<br>
+	- [ ] A 4th thought? What's my scope? Long term experiments. 
+<br>
+
+<br>
+		- Then what? Coalesced Id??
+<br>
+
+<br>
+- Finished Sebald's _The Rings of Saturn_. It wandered so aggressively and had so much beauty to show off. It animated the history of those dilapidated places. Beautiful. 
+<br>
+
+<br>
+- 
+<br>
+- [x] water garden manual areas. 
+<br>
+
+<br>
+- Bought L the Fuji instant camera. R the circuit mess communicator diy. 
+<br>
+
+<br>
+- 
+# Research
+- [Cognitive Workspace: Active Memory Management for LLMs -- An Empirical Study of Functional Infinite Context](https://arxiv.org/abs/2508.13171)
+	 - arXiv:2508.13171v1 Announce Type: new 
+Abstract: Large Language Models (LLMs) face fundamental limitations in context management despite recent advances extending context windows to millions of tokens. We propose Cognitive Workspace, a novel paradigm that transcends traditional Retrieval-Augmented Generation (RAG) by emulating human cognitive mechanisms of external memory use. Drawing from cognitive science foundations including Baddeley's working memory model, Clark's extended mind thesis, and ...
+- [Search-Time Data Contamination](https://arxiv.org/abs/2508.13180)
+	 - arXiv:2508.13180v1 Announce Type: new 
+Abstract: Data contamination refers to the leakage of evaluation data into model training data, resulting in overfitting to supposedly held-out test sets and compromising test validity. We identify an analogous issue, search-time contamination (STC), in evaluating search-based LLM agents which use tools to gather information from online sources when answering user queries. STC occurs when the retrieval step surfaces a source containing the test question (or...
+- [QuickMerge++: Fast Token Merging with Autoregressive Prior](https://arxiv.org/abs/2508.13204)
+	 - arXiv:2508.13204v1 Announce Type: new 
+Abstract: As generative models scale to larger inputs across language, vision, and video domains, the cost of token-level computation has become a key bottleneck. While prior work suggests that only a subset of tokens significantly influence downstream predictions, most token selection methods are static, modality-specific, or incompatible with autoregressive generation. In this paper, we propose QuickMerge, a lightweight token merging framework designed fo...
+- [SPANER: Shared Prompt Aligner for Multimodal Semantic Representation](https://arxiv.org/abs/2508.13387)
+	 - arXiv:2508.13387v1 Announce Type: new 
+Abstract: Recent advances in multimodal Parameter-Efficient Fine-Tuning (PEFT) have significantly improved performance on downstream tasks such as few-shot retrieval. However, most existing approaches focus on task-specific gains while neglecting the structure of the multimodal embedding space. As a result, modality-specific representations often remain isolated, limiting cross-modal generalisation. In this work, we introduce Shared Prompt AligNER (SPANER),...
+- [Breaking the SFT Plateau: Multimodal Structured Reinforcement Learning for Chart-to-Code Generation](https://arxiv.org/abs/2508.13587)
+	 - arXiv:2508.13587v1 Announce Type: new 
+Abstract: While reinforcement learning (RL) has proven highly effective for general reasoning in vision-language models, its application to tasks requiring in-depth understanding of information-rich images and generation of structured outputs remains underexplored. Chart-to-code generation exemplifies this challenge, demanding complex reasoning over visual charts to generate structured code. Supervised fine-tuning (SFT) alone is often insufficient, highligh...
+- [Revisiting RAG Ensemble: A Theoretical and Mechanistic Analysis of Multi-RAG System Collaboration](https://arxiv.org/abs/2508.13828)
+	 - arXiv:2508.13828v1 Announce Type: new 
+Abstract: Retrieval-Augmented Generation (RAG) technology has been widely applied in recent years. However, despite the emergence of various RAG frameworks, a single RAG framework still cannot adapt well to a broad range of downstream tasks. Therefore, how to leverage the advantages of multiple RAG systems has become an area worth exploring. To address this issue, we have conducted a comprehensive and systematic investigation into ensemble methods based on ...
+- [Contextual Attention-Based Multimodal Fusion of LLM and CNN for Sentiment Analysis](https://arxiv.org/abs/2508.13196)
+	 - arXiv:2508.13196v1 Announce Type: new 
+Abstract: This paper introduces a novel approach for multimodal sentiment analysis on social media, particularly in the context of natural disasters, where understanding public sentiment is crucial for effective crisis management. Unlike conventional methods that process text and image modalities separately, our approach seamlessly integrates Convolutional Neural Network (CNN) based image analysis with Large Language Model (LLM) based text processing, lever...
+- [Hierarchical Conformal Classification](https://arxiv.org/abs/2508.13288)
+	 - arXiv:2508.13288v1 Announce Type: new 
+Abstract: Conformal prediction (CP) is a powerful framework for quantifying uncertainty in machine learning models, offering reliable predictions with finite-sample coverage guarantees. When applied to classification, CP produces a prediction set of possible labels that is guaranteed to contain the true label with high probability, regardless of the underlying classifier. However, standard CP treats classes as flat and unstructured, ignoring domain knowledg...
+- [Decoding Communications with Partial Information](https://arxiv.org/abs/2508.13326)
+	 - arXiv:2508.13326v1 Announce Type: new 
+Abstract: Machine language acquisition is often presented as a problem of imitation learning: there exists a community of language users from which a learner observes speech acts and attempts to decode the mappings between utterances and situations. However, an interesting consideration that is typically unaddressed is partial observability, i.e. the learner is assumed to see all relevant information. This paper explores relaxing this assumption, thereby po...
+- [X-MoE: Enabling Scalable Training for Emerging Mixture-of-Experts Architectures on HPC Platforms](https://arxiv.org/abs/2508.13337)
+	 - arXiv:2508.13337v1 Announce Type: new 
+Abstract: Emerging expert-specialized Mixture-of-Experts (MoE) architectures, such as DeepSeek-MoE, deliver strong model quality through fine-grained expert segmentation and large top-k routing. However, their scalability is limited by substantial activation memory overhead and costly all-to-all communication. Furthermore, current MoE training systems - primarily optimized for NVIDIA GPUs - perform suboptimally on non-NVIDIA platforms, leaving significant c...
+- [Dimension lower bounds for linear approaches to function approximation](https://arxiv.org/abs/2508.13346)
+	 - arXiv:2508.13346v1 Announce Type: new 
+Abstract: This short note presents a linear algebraic approach to proving dimension lower bounds for linear methods that solve $L^2$ function approximation problems. The basic argument has appeared in the literature before (e.g., Barron, 1993) for establishing lower bounds on Kolmogorov $n$-widths. The argument is applied to give sample size lower bounds for kernel methods.
+- [Adaptive Conformal Prediction Intervals Over Trajectory Ensembles](https://arxiv.org/abs/2508.13362)
+	 - arXiv:2508.13362v1 Announce Type: new 
+Abstract: Future trajectories play an important role across domains such as autonomous driving, hurricane forecasting, and epidemic modeling, where practitioners commonly generate ensemble paths by sampling probabilistic models or leveraging multiple autoregressive predictors. While these trajectories reflect inherent uncertainty, they are typically uncalibrated. We propose a unified framework based on conformal prediction that transforms sampled trajectori...
+- [Decentralized Contextual Bandits with Network Adaptivity](https://arxiv.org/abs/2508.13411)
+	 - arXiv:2508.13411v1 Announce Type: new 
+Abstract: We consider contextual linear bandits over networks, a class of sequential decision-making problems where learning occurs simultaneously across multiple locations and the reward distributions share structural similarities while also exhibiting local differences. While classical contextual bandits assume either fully centralized data or entirely isolated learners, much remains unexplored in networked environments when information is partially share...
+- [MAVIS: Multi-Objective Alignment via Value-Guided Inference-Time Search](https://arxiv.org/abs/2508.13415)
+	 - arXiv:2508.13415v1 Announce Type: new 
+Abstract: Large Language Models (LLMs) are increasingly deployed across diverse applications that demand balancing multiple, often conflicting, objectives -- such as helpfulness, harmlessness, or humor. Aligning outputs to user-specific preferences in such multi-objective settings typically requires fine-tuning models for each objective or preference configuration, which is computationally expensive and inflexible. We introduce MAVIS -- Multi-Objective Alig...
+- [SVDformer: Direction-Aware Spectral Graph Embedding Learning via SVD and Transformer](https://arxiv.org/abs/2508.13435)
+	 - arXiv:2508.13435v1 Announce Type: new 
+Abstract: Directed graphs are widely used to model asymmetric relationships in real-world systems. However, existing directed graph neural networks often struggle to jointly capture directional semantics and global structural patterns due to their isotropic aggregation mechanisms and localized filtering mechanisms. To address this limitation, this paper proposes SVDformer, a novel framework that synergizes SVD and Transformer architecture for direction-awar...
+- [Bounding Causal Effects and Counterfactuals](https://arxiv.org/abs/2508.13607)
+	 - arXiv:2508.13607v1 Announce Type: new 
+Abstract: Causal inference often hinges on strong assumptions - such as no unmeasured confounding or perfect compliance - that are rarely satisfied in practice. Partial identification offers a principled alternative: instead of relying on unverifiable assumptions to estimate causal effects precisely, it derives bounds that reflect the uncertainty inherent in the data. Despite its theoretical appeal, partial identification remains underutilized in applied wo...
+- [Text2Weight: Bridging Natural Language and Neural Network Weight Spaces](https://arxiv.org/abs/2508.13633)
+	 - arXiv:2508.13633v1 Announce Type: new 
+Abstract: How far are we really from automatically generating neural networks? While neural network weight generation shows promise, current approaches struggle with generalization to unseen tasks and practical application exploration. To address this, we propose T2W, a diffusion transformer framework that generates task-specific weights conditioned on natural language descriptions. T2W hierarchically processes network parameters into uniform blocks, integr...
+- [Explainable Learning Rate Regimes for Stochastic Optimization](https://arxiv.org/abs/2508.13639)
+	 - arXiv:2508.13639v1 Announce Type: new 
+Abstract: Modern machine learning is trained by stochastic gradient descent (SGD), whose performance critically depends on how the learning rate (LR) is adjusted and decreased over time. Yet existing LR regimes may be intricate, or need to tune one or more additional hyper-parameters manually whose bottlenecks include huge computational expenditure, time and power in practice. This work, in a natural and direct manner, clarifies how LR should be updated aut...
+- [GRAFT: Gradient-Aware Fast MaxVol Technique for Dynamic Data Sampling](https://arxiv.org/abs/2508.13653)
+	 - arXiv:2508.13653v1 Announce Type: new 
+Abstract: Training modern neural networks on large datasets is computationally and environmentally costly. We introduce GRAFT, a scalable in-training subset selection method that (i) extracts a low-rank feature representation for each batch, (ii) applies a Fast MaxVol sampler to select a small, diverse subset that spans the batch's dominant subspace, and (iii) dynamically adjusts the subset size using a gradient-approximation criterion. By operating in low-...
+- [MACTAS: Self-Attention-Based Module for Inter-Agent Communication in Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2508.13661)
+	 - arXiv:2508.13661v1 Announce Type: new 
+Abstract: Communication is essential for the collective execution of complex tasks by human agents, motivating interest in communication mechanisms for multi-agent reinforcement learning (MARL). However, existing communication protocols in MARL are often complex and non-differentiable. In this work, we introduce a self-attention-based communication module that exchanges information between the agents in MARL. Our proposed approach is fully differentiable, a...
+- [DREAMS: Preserving both Local and Global Structure in Dimensionality Reduction](https://arxiv.org/abs/2508.13747)
+	 - arXiv:2508.13747v1 Announce Type: new 
+Abstract: Dimensionality reduction techniques are widely used for visualizing high-dimensional data in two dimensions. Existing methods are typically designed to preserve either local (e.g. $t$-SNE, UMAP) or global (e.g. MDS, PCA) structure of the data, but none of the established methods can represent both aspects well. In this paper, we present DREAMS (Dimensionality Reduction Enhanced Across Multiple Scales), a method that combines the local structure pr...
+- [Fisher-Orthogonal Projection Methods for Natural Gradient Descent with Large Batches](https://arxiv.org/abs/2508.13898)
+	 - arXiv:2508.13898v1 Announce Type: new 
+Abstract: Modern GPUs are equipped with large amounts of high-bandwidth memory, enabling them to support mini-batch sizes of up to tens of thousands of training samples. However, most existing optimizers struggle to perform effectively at such a large batch size. As batch size increases, gradient noise decreases due to averaging over many samples, limiting the ability of first-order methods to escape sharp or suboptimal minima and reach the global minimum. ...
+- [Convergent Reinforcement Learning Algorithms for Stochastic Shortest Path Problem](https://arxiv.org/abs/2508.13963)
+	 - arXiv:2508.13963v1 Announce Type: new 
+Abstract: In this paper we propose two algorithms in the tabular setting and an algorithm for the function approximation setting for the Stochastic Shortest Path (SSP) problem. SSP problems form an important class of problems in Reinforcement Learning (RL), as other types of cost-criteria in RL can be formulated in the setting of SSP. We show asymptotic almost-sure convergence for all our algorithms. We observe superior performance of our tabular algorithms...
+- [AutoScale: Linear Scalarization Guided by Multi-Task Optimization Metrics](https://arxiv.org/abs/2508.13979)
+	 - arXiv:2508.13979v1 Announce Type: new 
+Abstract: Recent multi-task learning studies suggest that linear scalarization, when using well-chosen fixed task weights, can achieve comparable to or even better performance than complex multi-task optimization (MTO) methods. It remains unclear why certain weights yield optimal performance and how to determine these weights without relying on exhaustive hyperparameter search. This paper establishes a direct connection between linear scalarization and MTO ...
+- [Learning from Preferences and Mixed Demonstrations in General Settings](https://arxiv.org/abs/2508.14027)
+	 - arXiv:2508.14027v1 Announce Type: new 
+Abstract: Reinforcement learning is a general method for learning in sequential settings, but it can often be difficult to specify a good reward function when the task is complex. In these cases, preference feedback or expert demonstrations can be used instead. However, existing approaches utilising both together are often ad-hoc, rely on domain-specific properties, or won't scale. We develop a new framing for learning from human data, \emph{reward-rational...
+- [Preference Models assume Proportional Hazards of Utilities](https://arxiv.org/abs/2508.13189)
+	 - arXiv:2508.13189v1 Announce Type: new 
+Abstract: Approaches for estimating preferences from human annotated data typically involves inducing a distribution over a ranked list of choices such as the Plackett-Luce model. Indeed, modern AI alignment tools such as Reward Modelling and Direct Preference Optimization are based on the statistical assumptions posed by the Plackett-Luce model. In this paper, I will connect the Plackett-Luce model to another classical and well known statistical model, the...
+- [Online Conformal Selection with Accept-to-Reject Changes](https://arxiv.org/abs/2508.13838)
+	 - arXiv:2508.13838v1 Announce Type: new 
+Abstract: Selecting a subset of promising candidates from a large pool is crucial across various scientific and real-world applications. Conformal selection offers a distribution-free and model-agnostic framework for candidate selection with uncertainty quantification. While effective in offline settings, its application to online scenarios, where data arrives sequentially, poses challenges. Notably, conformal selection permits the deselection of previously...
+- [Generalisation and benign over-fitting for linear regression onto random functional covariates](https://arxiv.org/abs/2508.13895)
+	 - arXiv:2508.13895v1 Announce Type: new 
+Abstract: We study theoretical predictive performance of ridge and ridge-less least-squares regression when covariate vectors arise from evaluating $p$ random, means-square continuous functions over a latent metric space at $n$ random and unobserved locations, subject to additive noise. This leads us away from the standard assumption of i.i.d. data to a setting in which the $n$ covariate vectors are exchangeable but not independent in general. Under an assu...
+sending 
+Sent 4  / 18298 input (tkns)
+
+Fetched 55 articles
+little_news: news 55
+little_news: news 55
+Fetched 7 articles
+little_news: culture 7
+little_news: culture 7
+Fetched 0 articles
+little_news: ai 0
+little_news: ai 0
+Fetched 11 articles
+little_news: local 11
+little_news: local 11
+calendar
+Fetched 52 articles
+little_news: news 52
+little_news: news 52
+Fetched 13 articles
+little_news: culture 13
+little_news: culture 13
+Fetched 2 articles
+little_news: ai 2
+little_news: ai 2
+Fetched 5 articles
+little_news: local 5
+little_news: local 5
+calendar
+Fetched 56 articles
+little_news: news 56
+little_news: news 56
+Fetched 12 articles
+little_news: culture 12
+little_news: culture 12
+Fetched 0 articles
+little_news: ai 0
+little_news: ai 0
+Fetched 5 articles
+little_news: local 5
+little_news: local 5
+calendar
+obsidian
+Fetched 0 articles
+little_news: research 0
+little_news: research 0
+Research: 0  /  0
+Error generating news output: No output from Claude
+Fetched 18 articles
+little_news: news 18
+little_news: news 18
+Fetched 11 articles
+little_news: culture 11
+little_news: culture 11
+Fetched 0 articles
+little_news: ai 0
+little_news: ai 0
+Fetched 3 articles
+little_news: local 3
+little_news: local 3
+calendar
+obsidian
+Fetched 0 articles
+little_news: research 0
+little_news: research 0
+Fetched 24 articles
+little_news: news 24
+little_news: news 24
+Fetched 9 articles
+little_news: culture 9
+little_news: culture 9
+Fetched 2 articles
+little_news: ai 2
+little_news: ai 2
+Fetched 3 articles
+little_news: local 3
+little_news: local 3
+calendar
+Attempting to access calendars...
+Fetched 84 articles
+little_news: research 84
+little_news: research 84
+Fetched 43 articles
+little_news: news 43
+little_news: news 23
+Fetched 8 articles
+little_news: culture 8
+little_news: culture 8
+Fetched 10 articles
+little_news: ai 10
+little_news: ai 10
+Fetched 3 articles
+little_news: local 3
+little_news: local 3
+calendar
+Attempting to access calendars...
+Fetched 218 articles
+little_news: research 218
+little_news: research 218
