@@ -54,6 +54,7 @@ class Journal(object):
                     tasks.extend(task_temp)
 
         self.entries += ["# Open Tasks"] + tasks + ["# Recent Journal Entries"] + recent
+        return "\n".join(self.entries)
         
 
     def output(self):
