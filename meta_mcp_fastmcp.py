@@ -13,6 +13,15 @@ from modules import journal, news, research, weather, spaceweather
 # Create FastMCP server
 mcp = FastMCP("utilities")
 
+@mcp.resource("outbox://status")
+def get_outbox_status() -> str:
+    """Current status of the utilities meta-mcp service"""
+    return json.dumps({
+        "status": "active",
+        "timestamp": datetime.now().isoformat(),
+        "service": "utilities meta-mcp"
+    })
+
 @mcp.tool()
 def outbox_add_document(content: str, subject: str = None) -> str:
     """Add content to the accumulated outbox buffer"""
@@ -22,56 +31,56 @@ def outbox_add_document(content: str, subject: str = None) -> str:
     return json.dumps(result, indent=2)
 
 @mcp.tool()
-def outbox_flush(empty:dict) -> str:
+def outbox_flush() -> str:
     """Send all accumulated buffer content and clear the buffer"""
     result = outbox.send_all()
     return json.dumps(result, indent=2)
 
-@mcp.resource("utilities://personal")
-def get_personal_info() -> str:
+@mcp.tool()
+def personal() -> str:
     """Get upcoming events from the calendar, and recent journal entries"""
     result = journal.Journal().pull_data()
     return json.dumps(result, indent=2)
 
-@mcp.resource("utilities://news")
-def get_news() -> str:
+@mcp.tool()
+def news() -> str:
     """Get today's news"""
     result = news.News().pull_data()
     return json.dumps(result, indent=2)
 
-@mcp.resource("utilities://research")
-def get_research() -> str:
+@mcp.tool()
+def research() -> str:
     """Get today's research preprints"""
     result = research.Research().pull_data()
     return json.dumps(result, indent=2)
 
-@mcp.resource("utilities://weather")
-def get_weather() -> str:
+@mcp.tool()
+def weather() -> str:
     """Get upcoming local weather"""
     result = weather.Weather().pull_data()
     return json.dumps(result, indent=2)
 
-@mcp.resource("utilities://space_weather")
-def get_space_weather() -> str:
+@mcp.tool()
+def space_weather() -> str:
     """Get upcoming space weather data"""
     result = spaceweather.SpaceWeather().pull_data()
     return json.dumps(result, indent=2)
 
-@mcp.prompt(title="Daily_Workflow")
+@mcp.prompt()
 def daily_workflow() -> str:
     """Generate a comprehensive daily summary with news, research, and personal updates"""
     return """
 You will be making a daily summary document divided by subtasks. 
-The information you need will be provided by the utilities mcp server..
+The information you need will be provided by the mcp server at `mcp__utilities`.
 Once you have finished all the subtasks, send the finalized document via `mcp__utilities__outbox_flush`
 
 ## Subtask: Generate news intelligence brief from RSS sources.
 
 You will be given several news sources in several sections. Your job is to synthesize these into a coherent narrative, focusing on major stories, cultural developments, AI/tech news, and local Longmont updates.
 
-Get the news documents via news resource of utilities mcp server.
-Get weather via weather resource of the utilities mcp server
-Get space weather via space_weather resource of the utilities mcp server
+Get the news documents via `mcp__utilities__news`
+Get weather via `mcp__utilities__weather`
+Get space weather via `mcp__utilities__space_weather`
 ### Content Guidelines:
 - Filter out anything to do with Trump, Israel sports, music, performances
 - Synthesize articles into coherent narrative sections
@@ -104,14 +113,14 @@ Get space weather via space_weather resource of the utilities mcp server
 [Space weather info]
 ```
 
-Please deliver the finished markdown document via `mcp__utilities__outbox_add_document` 
+Please deliver the finished markdown document via `mcp__utilities__outbox_add_document`
 
 ## Subtask: Personal Summary
 
 Add a personal status update by gathering information from multiple sources.
 
 You will be given calendar events, recent Obsidian materials, and open todos. Your job is to synthesize this into a coherent personal status update.
-Get these via personal resource of the utilities mcp server. The output you will generate from these must include original url links from the source material if at all possible.
+Get these via `mcp__utilities__personal`. The output you will generate from these must include original url links from the source material if at all possible.
 
 ### Output Requirements:
 - Review materials and integrate into a factual status briefing
@@ -139,7 +148,7 @@ Progressive analysis of AI/ML papers from the last day.
 You will be given a list of research preprint abstracts. Your job is to filter these based on quality and relevance, rank them, 
 and return the best 5.
 ### Paper Collection Strategy:
-1. Use research resource of the utilities mcp server to collect today's paper preprints.
+1. Use `mcp__utilities__research` to collect today's paper preprints.
 2. Iterate through these keeping the best 5.
 3. **Build progressively**: Update your recommendations as you discover better papers later on.
 4. Use the preferences below to filter and prioritize.
@@ -176,7 +185,6 @@ and return the best 5.
 - driving
 - protein
 - privacy
-
 
 ### Output Requirements:
   **PRESERVE existing markdown links from source data** - do not create new titles that lose the URLs

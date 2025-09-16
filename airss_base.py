@@ -20,8 +20,8 @@ def log(*inp):
 
 def embed(text, pq = 'p',norm=True):
     payload = {
-        "model": "nomic-embed-text",
-        "prompt": ("search_document: " if pq=='p' else "search_query: ") + text,
+        "model": "embeddinggemma",
+        "prompt": text, #("search_document: " if pq=='p' else "search_query: ") + text,
     }
     try:
         response = requests.post("http://localhost:11434/api/embeddings", json=payload)
