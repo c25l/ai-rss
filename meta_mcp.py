@@ -8,7 +8,7 @@ import json
 from datetime import datetime
 from mcp.server.fastmcp import FastMCP
 import outbox
-from modules import journal, news, research, weather, spaceweather
+from modules import journal, news, research, weather, spaceweather, personal_summary
 
 # Create FastMCP server
 mcp = FastMCP("utilities")
@@ -30,7 +30,7 @@ def outbox_flush(empty:dict) -> str:
 @mcp.resource("utilities://personal")
 def get_personal_info() -> str:
     """Get upcoming events from the calendar, and recent journal entries"""
-    result = journal.Journal().pull_data()
+    result = personal_summary.PersonalSummary().pull_data()
     return json.dumps(result, indent=2)
 
 @mcp.resource("utilities://news")
@@ -98,10 +98,10 @@ Get space weather via space_weather resource of the utilities mcp server
 [Local news and community updates with links]
 
 ### Weather
-[Local weather info]
+[Local weather info (this can be raw html)]
 
 ### Space Weather
-[Space weather info]
+[Space weather info (this can be raw html)]
 ```
 
 Please deliver the finished markdown document via `mcp__utilities__outbox_add_document` 
@@ -147,37 +147,36 @@ and return the best 5.
 
 ### Quality Filtering (Apply Rigorous Standards):
 **REJECT papers with these red flags:**
-- Big claims without big evidence
-- Vague mathematical formalism
-- Missing baselines/comparisons
-- Buzzword bingo (mixing unrelated trending fields)
-- Prominent AI tool acknowledgments
+- Performance claims without rigorous measurement methodology
+- System designs without scalability analysis
+- Missing resource utilization metrics or cost analysis
+- Theoretical models disconnected from operational constraints
+- Benchmarks on toy problems rather than production scale
 
 **Accept only papers that:**
-- Make testable, precisely stated claims
-- Have logical mathematical connections
-- Use proper experimental methodology
-- Prioritize substance over jargon
+- Provide quantitative performance analysis with statistical rigor
+- Address real bottlenecks in distributed systems
+- Include failure mode analysis and reliability considerations
+- Connect algorithmic choices to hardware/infrastructure implications
 
 **Research Preferences:**
-- machine learning and computational linguistics
-- large language models
-- embeddings
-- transformers
-- statistical methodology. 
+- distributed training and inference systems
+- GPU memory management and optimization
+- model serving and deployment infrastructure
+- workload characterization and resource allocation
+- performance modeling for ML systems
 
 **Particular interest in**:
-- the theoretical foundations of AI systems
-- representation learning
-- computer science with statistical applications.
+- system-level optimizations for transformer inference
+- distributed computing patterns for large model training
+- hardware-software co-design for ML workloads
+- operational aspects of ML infrastructure at scale
 
 **Not interested in**:
-- AGI
-- driving
-- protein
-- privacy
-
-
+- pure algorithmic improvements without system implications
+- single-GPU optimizations
+- theoretical complexity without practical validation
+- AGI, robotics, biology applications
 ### Output Requirements:
   **PRESERVE existing markdown links from source data** - do not create new titles that lose the URLs
 return a markdown formatted string with the following sections:
