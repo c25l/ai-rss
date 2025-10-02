@@ -22,11 +22,12 @@ def feedbiz(feed: str,whitelist=None, blacklist=None) -> Sequence[str]:
         } for article in articles
     ]
     print("little_news:",feed, len(little_news))
-    little_news = [f"- [{item['title']}]({item['url']})\n\t - {item['summary']}" for item in little_news if item['summary']]
+    smash_news = [[f"- [{item['title']}]({item['url']})\n\t - {item['summary']}",item] for item in little_news if item['summary']]
     if whitelist:
-        little_news = [xx for xx in little_news if any(word.lower() in xx.lower() for word in whitelist)]
+        smash_news = [xx for xx in smash_news if any(word.lower() in xx[0].lower() for word in whitelist)]
     if blacklist:
-        little_news = [xx for xx in little_news if not any(word.lower() in xx.lower() for word in blacklist)]
-    print("little_news:",feed, len(little_news))
+        print(blacklist)
+        smash_news = [xx for xx in smash_news if not any(word.lower() in xx[0].lower() for word in blacklist)]
+    print("little_news:",feed, len(smash_news))
 
-    return little_news
+    return [f"- [{xx[1].get('title','')}]({xx[1].get('url','')})" for xx in smash_news]

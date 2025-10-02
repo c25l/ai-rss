@@ -21,11 +21,11 @@ class Research:
         outputs = []
         total = sum([len(xx) for xx in self.articles])
         if total < 25000:
-            return "## Research articles" + "\n\n".join(self.articles)
+            return "## Research articles\n\n" + "\n\n".join(self.articles)
         
         shuffle(self.articles)
         running_total = 22
-        outputs.append("## Research articles")
+        outputs.append("## Research articles\ns")
         for xx in self.articles:
             running_total += len(xx)+2
             if running_total>=25000:
