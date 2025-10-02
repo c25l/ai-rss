@@ -12,24 +12,23 @@ class Journal(object):
         return "Journal Entries"
 
 
-    def pull_data(self):
+    def pull_data(self, rawmode=False):
         ## =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         ## calendar
         ## =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         try:
             print("calendar")
-            document = []
+            document = {}
             cals = calendar_manually.upcoming()
-            document.append("#Calendar")
-            document.append(cals)           
+            document["#Calendar"] = cals
             self.entries = document
         except Exception as e:
             print("calendar bad", e)
-            self.entries.append("Calendar system failure.")
+            self.entries["State"] = "Calendar system failure."
         ## =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         ## obsidian
         ## =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=            
-        document = []
+        document = {}
         obsdir ="/Users/chris/Obsidian/Geppetto/"
         
         docs = os.listdir(obsdir+"Journal/Day")
@@ -53,8 +52,11 @@ class Journal(object):
                     task_temp = [xx.strip() for xx in content if xx.strip().startswith("- [ ] ")]
                     tasks.extend(task_temp)
 
-        self.entries += ["# Open Tasks"] + tasks + ["# Recent Journal Entries"] + recent
-        return "\n".join(self.entries)
+        self.entries["# Open Tasks"] = tasks
+        self.entries["# Recent Journal Entries"] = recent
+        if rawmode:
+            return self.entries
+        return "\n".join([f"{x},\n{y}" for x,y in self.entries.items()])
         
 
     def output(self):

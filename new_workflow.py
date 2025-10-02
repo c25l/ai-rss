@@ -12,12 +12,17 @@ def main():
     rsch = research.Research().pull_data()
     nws = news.News().pull_data()
     pers = personal_summary.PersonalSummary().pull_data()
-    jrl = journal.Journal().pull_data()
-    out = [str(wtr),str(swr)]
-
-    for xx in [nws, pers, jrl,rsch]:
-        out.append("\n\n---\n\n")
-        out.append(wordcloud.PersonalWordCloud().create_wordcloud_svg(str(xx)))
+    jrl = journal.Journal().pull_data(rawmode=True)
+    out = [str(wtr),str(swr),"",""]
+    out.append(nws)
+    print(nws)
+    out.append("")
+    out.append(pers)
+    print(pers)
+    for xx in [jrl]:
+        out.append("")
+        out.append(wordcloud.PersonalWordCloud().create_summary_stats(str(xx)))
+    out.append(rsch)
 
     ## so we're going to try embeddinggemma to pull these things into their groups here, and then group them together.
     ## this is a divide-and-conquer first grouping, so we will go fast. 

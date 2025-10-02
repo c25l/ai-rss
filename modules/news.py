@@ -9,5 +9,5 @@ class News(object):
         return "News Articles"
     
     def pull_data(self):
-        self.articles = {xx:feedbiz.feedbiz(xx,blacklist=["Trump"]) for xx in ["news","culture","ai","local"]}
-        return "\n---\n".join([f"## {xx} \n {'\n'.join(self.articles[xx])}" for xx in self.articles])
+        self.articles = {xx:feedbiz.feedbiz(xx,blacklist=["Trump","Israel","Musk","Gaza","Broncos"]) for xx in ["news","culture","ai","local"]}
+        return "\n\n".join([f"## {xx} \n\n {'\n\n'.join(self.articles[xx])}" for xx in self.articles])
