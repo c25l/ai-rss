@@ -5,13 +5,15 @@ def feedbiz(feed: str,whitelist=None, blacklist=None) -> Sequence[str]:
     Fetches news feed and returns a list of news items.
     """
 
-    feed_configs = {"news":["https://rss.nytimes.com/services/xml/rss/nyt/US.xml", "https://rss.nytimes.com/services/xml/rss/nyt/World.xml", "https://www.theatlantic.com/feed/all/", "https://heathercoxrichardson.substack.com/feed"],
-                "culture":["https://rss.metafilter.com/metafilter.rss", "https://acoup.blog/feed/"],
-                "ai":["https://www.microsoft.com/en-us/research/feed/", "https://www.nature.com/nature.rss", "https://tldr.tech/api/rss/ai"],
-                "local":["https://www.longmontleader.com/rss/", "https://www.reddit.com/r/Longmont.rss"],
-                    "research":["https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR"]}# old ones: "https://export.arxiv.org/rss/cs.Ai+cs.Lg+stat.ML"]}
-
-    articles = feeds.Feeds.fetch_articles(feed_configs.get(feed, feed_configs["news"]), days=1)
+    # feed_configs = {"news":["https://rss.nytimes.com/services/xml/rss/nyt/US.xml", "https://rss.nytimes.com/services/xml/rss/nyt/World.xml", "https://www.theatlantic.com/feed/all/", "https://heathercoxrichardson.substack.com/feed"],
+    #             "culture":["https://rss.metafilter.com/metafilter.rss", "https://acoup.blog/feed/"],
+    #             "ai":["https://www.microsoft.com/en-us/research/feed/", "https://www.nature.com/nature.rss", "https://tldr.tech/api/rss/ai","https://blog.google/technology/ai/rss/"],
+    #             "local":["https://www.longmontleader.com/rss/", "https://www.reddit.com/r/Longmont.rss"],
+    #                 "research":["https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR"]}# old ones: "https://export.arxiv.org/rss/cs.Ai+cs.Lg+stat.ML"]}
+    feed_configs = {"research":["https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR"],
+                    "main":["https://rss.nytimes.com/services/xml/rss/nyt/US.xml", "https://rss.nytimes.com/services/xml/rss/nyt/World.xml", "https://www.theatlantic.com/feed/all/", "https://heathercoxrichardson.substack.com/feed", "https://rss.metafilter.com/metafilter.rss", "https://acoup.blog/feed/","https://www.microsoft.com/en-us/research/feed/", "https://www.nature.com/nature.rss", "https://tldr.tech/api/rss/ai","https://blog.google/technology/ai/rss/", "https://www.longmontleader.com/rss/", "https://www.reddit.com/r/Longmont.rss"]
+                    }
+    articles = feeds.Feeds.fetch_articles(feed_configs.get(feed, feed_configs["main"]), days=1)
     print(f"Fetched {len(articles)} articles")
 
     little_news = [

@@ -1,5 +1,7 @@
 import requests
 import json
+from bs4 import BeautifulSoup
+
 class Weather(object):
     def __init__(self):
         pass
@@ -46,84 +48,16 @@ class Weather(object):
 </svg>"""
     
     def pull_data(self):
-        url="https://api.weather.gov/gridpoints/BOU/60,81/forecast"
+        url="https://forecast.weather.gov/MapClick.php?lat=40.165729&lon=-105.101194"
         resp = requests.get(url)
+        # url="https://api.weather.gov/gridpoints/BOU/60,81/forecast"
+        # resp = requests.get(url)
         if resp.status_code == 200:
-            data = json.loads(resp.text)
-            periods = data.get("properties", {}).get("periods", [])[:6]
-
-            if not periods:
-                return "No weather data available"
-
-            # Group periods by day (combine day/night pairs)
-            daily_forecasts = {}
-            temps = []
-
-            for period in periods:
-                temp = period.get('temperature')
-                if temp:
-                    temps.append(temp)
-
-                name = period.get('name', '')
-                is_day = period.get('isDaytime', True)
-
-                # Extract day name from period name
-                day_name = name.replace(' Night', '').replace('This ', '').replace('Tonight', 'Today')
-
-                if day_name not in daily_forecasts:
-                    daily_forecasts[day_name] = {'day': None, 'night': None}
-
-                period_data = {
-                    'temp': temp,
-                    'icon': self._get_weather_icon(period.get('shortForecast', '')),
-                    'forecast': period.get('shortForecast', '')
-                }
-
-                if is_day:
-                    daily_forecasts[day_name]['day'] = period_data
-                else:
-                    daily_forecasts[day_name]['night'] = period_data
-
-            html_parts = ["<div style='font-family:sans-serif;'>"]
-
-            # Create combined day/night boxes - limit to 3 days
-            count = 0
-            for day_name, forecast in daily_forecasts.items():
-                if count >= 3:
-                    break
-
-                day_data = forecast.get('day')
-                night_data = forecast.get('night')
-
-                # Use day icon if available, otherwise night icon
-                icon = day_data['icon'] if day_data else (night_data['icon'] if night_data else '🌤️')
-
-                # Format temperature range
-                temps_for_day = []
-                if day_data and day_data['temp']:
-                    temps_for_day.append(day_data['temp'])
-                if night_data and night_data['temp']:
-                    temps_for_day.append(night_data['temp'])
-
-                if temps_for_day:
-                    high_temp = max(temps_for_day)
-                    low_temp = min(temps_for_day)
-                    temp_str = f"{high_temp}°/{low_temp}°F" if high_temp != low_temp else f"{high_temp}°F"
-                else:
-                    temp_str = "N/A"
-
-                html_parts.append(f"""
-<div style='display:inline-block;margin:5px;padding:8px;border:1px solid #ddd;border-radius:4px;text-align:center;min-width:100px;'>
-<div style='font-size:32px;'>{icon}</div>
-<div style='font-size:16px;font-weight:bold;'>{day_name}</div>
-<div style='font-size:18px;color:#333;'>{temp_str}</div>
-</div>""")
-                count += 1
-
-            html_parts.append("</div>")
-            return "".join(html_parts)
-        else:
-            return "error fetching weather"
+            soup = BeautifulSoup(resp.text, "html.parser")
+            forecast = soup.find(id="detailed-forecast")
+            return str(forecast)
+        return "failed"
+           
 
 if __name__=="__main__":
     rr = Weather()

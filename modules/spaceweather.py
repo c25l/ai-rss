@@ -1,5 +1,7 @@
 import requests
 import re
+import base64
+
 class SpaceWeather(object):
     def __init__(self):
         pass
@@ -65,7 +67,28 @@ class SpaceWeather(object):
             return "Severe Storm"
     
     def pull_data(self):
-        url="https://services.swpc.noaa.gov/text/3-day-forecast.txt"
+        # Download and embed the space weather overview image
+        img_url = "https://services.swpc.noaa.gov/images/swx-overview-small.gif"
+        txt_url = "https://services.swpc.noaa.gov/text/3-day-forecast.txt"
+        try:
+            txt_resp = requests.get(txt_url, timeout=10)
+            if txt_resp.status_code != 200:
+                return "error fetching space weather"
+            text = txt_resp.text
+            return text
+            img_resp = requests.get(img_url, timeout=10)
+            if img_resp.status_code == 200:
+                img_base64 = base64.b64encode(img_resp.content).decode('utf-8')
+                img_tag = f"<img src='data:image/gif;base64,{img_base64}' alt='Space Weather Overview'/>"
+            else:
+                img_tag = "<p>Could not load space weather image</p>"
+        except Exception as e:
+            img_tag = f"<p>Error loading image: {e}</p>"
+
+        html_parts = ["<div style='font-family:sans-serif;'>"]
+        html_parts.append(f"<div>{img_tag}</div>")
+        return "\n".join(html_parts+["</div>"])
+            
         resp = requests.get(url)
         if resp.status_code == 200:
             text = resp.text
@@ -75,7 +98,8 @@ class SpaceWeather(object):
             solar_flux = self._parse_solar_flux(text)
             
             html_parts = ["<div style='font-family:sans-serif;'>"]
-            
+            html_parts.append("<div><src='https://services.swpc.noaa.gov/images/swx-overview-small.gif' alt='Space Weather Overview'/></div>")
+            return "\n".append(html_parts+["</div>"])
             # Current conditions summary
             if kp_values:
                 current_kp = kp_values[0] if kp_values else 0

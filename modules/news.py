@@ -1,4 +1,3 @@
-from claude import Claude as Generator
 import feedbiz
 class News(object):
     def __init__(self):
@@ -10,4 +9,8 @@ class News(object):
     
     def pull_data(self):
         self.articles = {xx:feedbiz.feedbiz(xx,blacklist=["Trump","Israel","Musk","Gaza","Broncos"]) for xx in ["news","culture","ai","local"]}
-        return "\n\n".join([f"## {xx} \n\n {'\n\n'.join(self.articles[xx])}" for xx in self.articles])
+        # Consolidate all stories into a single section
+        all_stories = []
+        for category in self.articles:
+            all_stories.extend(self.articles[category])
+        return f"## Stories\n\n{chr(10).join(all_stories)}"
