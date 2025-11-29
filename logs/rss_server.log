@@ -10760,3 +10760,5 @@ task: <Task finished name='Task-1' coro=<main() done, defined at /Users/chris/so
 2025-09-16 15:00:49,919 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
 2025-09-16 15:00:49,920 - mcp.server.lowlevel.server - INFO - Processing request of type ListPromptsRequest
 2025-09-16 15:00:49,920 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
+2025-11-29 13:37:01,216 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-11-29 13:37:01,216 - mcp.server.lowlevel.server - INFO - Processing request of type ListResourcesRequest
