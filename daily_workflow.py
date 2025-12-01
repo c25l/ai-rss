@@ -5,7 +5,7 @@ import feeds
 import datetime
 import requests
 from bs4 import BeautifulSoup
-from modules import journal, research, weather, spaceweather, emailer
+from modules import journal, weather, spaceweather, emailer
 from datamodel import Article
 def main():
     articles = []
