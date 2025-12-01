@@ -1,4 +1,4 @@
-#!/usr/bin/env /Users/chris/source/airss/venv/bin/python3
+#!/usr/bin/env python3
 import env_loader  # Load environment variables first
 import claude
 import feeds
@@ -6,8 +6,6 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 from modules import journal, research, weather, spaceweather, emailer
-from cluster_news import cluster
-import ollama
 from datamodel import Article
 def main():
     articles = []
@@ -62,9 +60,9 @@ There must be inline markdown links `[article title](url)` to the original sourc
 
 # Begin news:
 """
-    #print("\n\n".join(articles))
-    #out2 = claude.Claude().generate(preprompt+news_prompt+ "\n\n".join(articles))
-    out2 = cluster(articles)
+    # Format articles for Claude
+    articles_text = "\n\n".join([article.out_rich() for article in articles])
+    out2 = claude.Claude().generate(preprompt + news_prompt + articles_text)
     print(out2)
     content_sections.append(f"# 📰 Daily News Intelligence Brief\n\n{out2}")
 #- Please deliver the finished markdown document via `utilities mcp outbox_add_document` 
