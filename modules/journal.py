@@ -30,15 +30,22 @@ class Journal(object):
         ## =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         document = {}
         obsdir = os.getenv("OBSIDIAN_DIR", "/Users/chris/Obsidian/Geppetto/")
-        
-        docs = os.listdir(obsdir+"Journal/Day")
+        journal_dir = obsdir + "Journal/Day"
+
+        # Check if journal directory exists
+        if not os.path.exists(journal_dir):
+            print(f"Journal directory not found: {journal_dir}")
+            self.entries = []
+            return self.entries
+
+        docs = os.listdir(journal_dir)
         docs.sort(reverse=True)
         docs = docs[:7]
-        recent = [] 
+        recent = []
         tasks = []
         for doc in docs[:7]:
             if doc.endswith(".md"):
-                with open(obsdir+"Journal/Day/"+doc, "r") as f:
+                with open(journal_dir+"/"+doc, "r") as f:
                     content = f.readlines()
                     content = content[3:]
                     recent.extend(content)
@@ -47,7 +54,7 @@ class Journal(object):
 
         for doc in docs[7:]:
             if doc.endswith(".md"):
-                with open(obsdir+"Journal/Day/"+doc, "r") as f:
+                with open(journal_dir+"/"+doc, "r") as f:
                     content = f.readlines()
                     task_temp = [xx.strip() for xx in content if xx.strip().startswith("- [ ] ")]
                     tasks.extend(task_temp)
