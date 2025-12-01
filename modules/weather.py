@@ -1,62 +1,78 @@
 import requests
 import json
 from bs4 import BeautifulSoup
+import re
 
 class Weather(object):
     def __init__(self):
         pass
-    
-    def _get_weather_icon(self, condition):
-        """Convert weather condition to Unicode icon"""
-        condition = condition.lower()
-        if 'sunny' in condition or 'clear' in condition:
+
+    def _get_weather_emoji(self, description):
+        """Map weather descriptions to emojis"""
+        description = description.lower()
+        if 'sunny' in description or 'clear' in description:
             return '☀️'
-        elif 'partly cloudy' in condition or 'partly sunny' in condition:
+        elif 'partly cloudy' in description or 'mostly sunny' in description:
             return '⛅'
-        elif 'cloudy' in condition or 'overcast' in condition:
+        elif 'mostly cloudy' in description or 'cloudy' in description:
             return '☁️'
-        elif 'rain' in condition or 'shower' in condition:
+        elif 'rain' in description or 'shower' in description:
             return '🌧️'
-        elif 'storm' in condition or 'thunder' in condition:
-            return '⛈️'
-        elif 'snow' in condition:
+        elif 'snow' in description:
             return '❄️'
-        elif 'fog' in condition or 'mist' in condition:
+        elif 'storm' in description or 'thunder' in description:
+            return '⛈️'
+        elif 'fog' in description:
             return '🌫️'
+        elif 'wind' in description:
+            return '💨'
         else:
             return '🌤️'
-    
-    def _create_sparkline(self, values, width=100, height=20):
-        """Create SVG sparkline from temperature values"""
-        if not values:
-            return ""
-        
-        min_val = min(values)
-        max_val = max(values)
-        range_val = max_val - min_val if max_val != min_val else 1
-        
-        points = []
-        for i, val in enumerate(values):
-            x = (i / (len(values) - 1)) * width if len(values) > 1 else width/2
-            y = height - ((val - min_val) / range_val) * height
-            points.append(f"{x:.1f},{y:.1f}")
-        
-        return f"""<svg width="{width}" height="{height}" style="display:inline-block;vertical-align:middle;">
-<polyline fill="none" stroke="#2563eb" stroke-width="2" points="{' '.join(points)}"/>
-<text x="2" y="12" font-size="10" fill="#666">{min_val}°</text>
-<text x="{width-20}" y="12" font-size="10" fill="#666">{max_val}°</text>
-</svg>"""
-    
+
     def pull_data(self):
         url="https://forecast.weather.gov/MapClick.php?lat=40.165729&lon=-105.101194"
         resp = requests.get(url)
-        # url="https://api.weather.gov/gridpoints/BOU/60,81/forecast"
-        # resp = requests.get(url)
         if resp.status_code == 200:
             soup = BeautifulSoup(resp.text, "html.parser")
             forecast = soup.find(id="detailed-forecast")
             return str(forecast)
         return "failed"
+
+    def format_forecast(self, max_periods=6):
+        """Parse and format weather forecast deterministically"""
+        html = self.pull_data()
+        if html == "failed":
+            return "❌ Unable to fetch weather data"
+
+        soup = BeautifulSoup(html, "html.parser")
+        periods = soup.find_all("div", class_="row-forecast")
+
+        if not periods:
+            return "❌ No forecast data available"
+
+        output = []
+        for i, period in enumerate(periods[:max_periods]):
+            label = period.find("div", class_="forecast-label")
+            text = period.find("div", class_="forecast-text")
+
+            if label and text:
+                name = label.get_text(strip=True)
+                desc = text.get_text(strip=True)
+
+                # Extract key weather condition (first sentence)
+                condition = desc.split('.')[0].strip()
+
+                # Extract temperature if present
+                temp_match = re.search(r'\b(high|low)\s+(?:near\s+)?(\d+)', desc, re.IGNORECASE)
+                temp_text = f"{temp_match.group(2)}°F" if temp_match else ""
+
+                emoji = self._get_weather_emoji(desc)
+                if temp_text:
+                    output.append(f"{emoji} **{name}**: {temp_text} - {condition}")
+                else:
+                    output.append(f"{emoji} **{name}**: {condition}")
+
+        return "\n".join(output) if output else "❌ No forecast periods found"
            
 
 if __name__=="__main__":
