@@ -1,5 +1,5 @@
 import os
-import calendar_manually
+# import calendar_manually  # Commented out - macOS specific, not used
 import asyncio
 from claude import Claude as Generator
 class Journal(object):
