@@ -1,134 +1,0 @@
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/attr_value.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/tensor.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/resource_handle.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/tensor_shape.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/types.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/full_type.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/function.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/node_def.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/op_def.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/graph.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/graph_debug_info.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/versions.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/protobuf/config.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at xla/tsl/protobuf/coordination_config.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/cost_graph.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/step_stats.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/allocation_description.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/framework/tensor_description.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/protobuf/cluster.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/google/protobuf/runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 is exactly one major version older than the runtime version 6.31.1 at tensorflow/core/protobuf/debug.proto. Please update the gencode to avoid compatibility violations in the next runtime release.
-  warnings.warn(
-/opt/homebrew/Caskroom/miniforge/base/lib/python3.12/site-packages/keras/src/layers/core/dense.py:92: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.
-  super().__init__(activity_regularizer=activity_regularizer, **kwargs)
-=== Research Article MLP Analysis ===
-
-Loaded 1105 articles
-Acceptance rate: 22.44%
-Vectorizing 1105 articles with nomic-embed-text...
-  Progress: 0/1105
-  Progress: 50/1105
-  Progress: 100/1105
-  Progress: 150/1105
-  Progress: 200/1105
-  Progress: 250/1105
-  Progress: 300/1105
-  Progress: 350/1105
-  Progress: 400/1105
-  Progress: 450/1105
-  Progress: 500/1105
-  Progress: 550/1105
-  Progress: 600/1105
-  Progress: 650/1105
-  Progress: 700/1105
-  Progress: 750/1105
-  Progress: 800/1105
-  Progress: 850/1105
-  Progress: 900/1105
-  Progress: 950/1105
-  Progress: 1000/1105
-  Progress: 1050/1105
-  Progress: 1100/1105
-Vectorization complete!
-  Shape: (1105, 768)
-  Failed embeddings (using zeros): 0
-Training set: 884 samples
-Test set: 221 samples
-Class weights - Positive class weight: 3.46
-
-Training MLP...
-Epoch 1/100
-[1m 1/23[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m10s[0m 457ms/step - accuracy: 0.5312 - loss: 1.2170[1m23/23[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m1s[0m 4ms/step - accuracy: 0.5771 - loss: 1.0727 - val_accuracy: 0.6893 - val_loss: 0.5468
-Epoch 2/100
-[1m 1/23[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 6ms/step - accuracy: 0.6562 - loss: 0.8746[1m23/23[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 2ms/step - accuracy: 0.7030 - loss: 0.8312 - val_accuracy: 0.7458 - val_loss: 0.4888
-Epoch 3/100
-[1m 1/23[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 6ms/step - accuracy: 0.9375 - loss: 0.5860[1m23/23[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 2ms/step - accuracy: 0.7482 - loss: 0.7379 - val_accuracy: 0.7119 - val_loss: 0.5195
-Epoch 4/100
-[1m 1/23[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 6ms/step - accuracy: 0.8125 - loss: 0.7852[1m23/23[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 2ms/step - accuracy: 0.7638 - loss: 0.7634 - val_accuracy: 0.6780 - val_loss: 0.5518
-Epoch 5/100
-[1m 1/23[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 6ms/step - accuracy: 0.9688 - loss: 0.2743[1m23/23[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 2ms/step - accuracy: 0.7977 - loss: 0.6645 - val_accuracy: 0.5989 - val_loss: 0.6952
-Epoch 6/100
-[1m 1/23[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 6ms/step - accuracy: 0.7812 - loss: 0.4409[1m23/23[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 2ms/step - accuracy: 0.7949 - loss: 0.6448 - val_accuracy: 0.6328 - val_loss: 0.6300
-Epoch 7/100
-[1m 1/23[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 6ms/step - accuracy: 0.7812 - loss: 0.4767[1m23/23[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 2ms/step - accuracy: 0.8062 - loss: 0.5748 - val_accuracy: 0.6271 - val_loss: 0.6463
-Epoch 8/100
-[1m 1/23[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 6ms/step - accuracy: 0.7812 - loss: 0.8144[1m23/23[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 2ms/step - accuracy: 0.8034 - loss: 0.5491 - val_accuracy: 0.7006 - val_loss: 0.5583
-Epoch 9/100
-[1m 1/23[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 6ms/step - accuracy: 0.8125 - loss: 0.5684[1m23/23[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 2ms/step - accuracy: 0.8232 - loss: 0.5370 - val_accuracy: 0.6441 - val_loss: 0.6537
-Epoch 10/100
-[1m 1/23[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 6ms/step - accuracy: 0.7500 - loss: 0.5660[1m23/23[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 2ms/step - accuracy: 0.8204 - loss: 0.5191 - val_accuracy: 0.7514 - val_loss: 0.5635
-Epoch 11/100
-[1m 1/23[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 6ms/step - accuracy: 0.8750 - loss: 0.6515[1m23/23[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 1ms/step - accuracy: 0.8416 - loss: 0.4740 - val_accuracy: 0.6610 - val_loss: 0.6642
-Epoch 12/100
-[1m 1/23[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 6ms/step - accuracy: 0.8125 - loss: 0.3958[1m23/23[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 1ms/step - accuracy: 0.8472 - loss: 0.4733 - val_accuracy: 0.7006 - val_loss: 0.5696
-
-=== EVALUATION ===
-[1m 1/28[0m [37m━━━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 14ms/step[1m28/28[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 740us/step
-[1m1/7[0m [32m━━[0m[37m━━━━━━━━━━━━━━━━━━[0m [1m0s[0m 4ms/step[1m7/7[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 903us/step
-Training Accuracy: 0.827
-Test Accuracy: 0.756
-Test AUC-ROC: 0.814
-
-Test Set Classification Report:
-              precision    recall  f1-score   support
-
-      Reject       0.88      0.80      0.83       171
-      Accept       0.47      0.62      0.53        50
-
-    accuracy                           0.76       221
-   macro avg       0.67      0.71      0.68       221
-weighted avg       0.79      0.76      0.77       221
-
-
-Sample Predictions (Probability of Acceptance):
-Traceback (most recent call last):
-  File "/Users/chris/source/airss/tmp/research_mlp.py", line 238, in <module>
-    main()
-  File "/Users/chris/source/airss/tmp/research_mlp.py", line 235, in main
-    mlp.run_full_analysis()
-  File "/Users/chris/source/airss/tmp/research_mlp.py", line 227, in run_full_analysis
-    history, eval_data = self.train_model()
-                         ^^^^^^^^^^^^^^^^^^
-  File "/Users/chris/source/airss/tmp/research_mlp.py", line 181, in train_model
-    actual = 'Accept' if y_test.iloc[i] else 'Reject'
-                         ^^^^^^^^^^^
-AttributeError: 'numpy.ndarray' object has no attribute 'iloc'

@@ -67,79 +67,86 @@ class SpaceWeather(object):
             return "Severe Storm"
     
     def pull_data(self):
-        # Download and embed the space weather overview image
-        img_url = "https://services.swpc.noaa.gov/images/swx-overview-small.gif"
+        """Fetch raw space weather forecast text"""
         txt_url = "https://services.swpc.noaa.gov/text/3-day-forecast.txt"
         try:
             txt_resp = requests.get(txt_url, timeout=10)
             if txt_resp.status_code != 200:
                 return "error fetching space weather"
-            text = txt_resp.text
-            return text
-            img_resp = requests.get(img_url, timeout=10)
-            if img_resp.status_code == 200:
-                img_base64 = base64.b64encode(img_resp.content).decode('utf-8')
-                img_tag = f"<img src='data:image/gif;base64,{img_base64}' alt='Space Weather Overview'/>"
-            else:
-                img_tag = "<p>Could not load space weather image</p>"
+            return txt_resp.text
         except Exception as e:
-            img_tag = f"<p>Error loading image: {e}</p>"
+            return f"error fetching space weather: {e}"
 
-        html_parts = ["<div style='font-family:sans-serif;'>"]
-        html_parts.append(f"<div>{img_tag}</div>")
-        return "\n".join(html_parts+["</div>"])
-            
-        resp = requests.get(url)
-        if resp.status_code == 200:
-            text = resp.text
-            
-            # Parse numerical data
-            kp_values = self._parse_kp_index(text)
-            solar_flux = self._parse_solar_flux(text)
-            
-            html_parts = ["<div style='font-family:sans-serif;'>"]
-            html_parts.append("<div><src='https://services.swpc.noaa.gov/images/swx-overview-small.gif' alt='Space Weather Overview'/></div>")
-            return "\n".append(html_parts+["</div>"])
-            # Current conditions summary
-            if kp_values:
-                current_kp = kp_values[0] if kp_values else 0
-                activity = self._get_activity_level(int(current_kp))
-                color = self._get_kp_color(int(current_kp))
-                
-                html_parts.append(f"""
-<div style='display:inline-block;margin:10px;padding:12px;border:2px solid {color};border-radius:8px;text-align:center;background-color:{color}20;'>
-<div style='font-size:24px;font-weight:bold;color:{color};'>Kp {current_kp:.1f}</div>
-<div style='font-size:18px;color:#666;'>{activity}</div>
-</div>""")
-            
-            # Solar flux info
-            if solar_flux:
-                avg_flux = sum(solar_flux) // len(solar_flux)
-                html_parts.append(f"""
-<div style='display:inline-block;margin:10px;padding:12px;border:1px solid #ddd;border-radius:8px;text-align:center;'>
-<div style='font-size:20px;font-weight:bold;'>☀️ Solar Flux</div>
-<div style='font-size:22px;color:#f59e0b;'>{avg_flux} sfu</div>
-</div>""")
-            
-            # # Kp forecast chart
-            # if kp_values:
-            #     chart = self._create_kp_chart(kp_values[:8])  # Show up to 8 periods
-            #     html_parts.append(f"<div style='margin:15px 0;'><strong>3-Day Kp Forecast:</strong><br/>{chart}</div>")
-            
-            # # Activity indicators
-            # html_parts.append("<div style='margin:10px 0;font-size:14px;'>")
-            # html_parts.append("<strong>Activity Levels:</strong> ")
-            # html_parts.append("<span style='color:#22c55e;'>●</span> Quiet (0-2) ")
-            # html_parts.append("<span style='color:#eab308;'>●</span> Unsettled (3-4) ")
-            # html_parts.append("<span style='color:#f97316;'>●</span> Active (5-6) ")
-            # html_parts.append("<span style='color:#ef4444;'>●</span> Storm (7-8) ")
-            # html_parts.append("<span style='color:#7c2d12;'>●</span> Severe (9)")
-            # html_parts.append("</div>")
-            
-            html_parts.append("</div>")
-            return "".join(html_parts)
+    def _parse_geomag_activity(self, text):
+        """Extract geomagnetic activity levels from forecast"""
+        # Look for lines like "Geomagnetic Activity Summary:" followed by date and activity level
+        activity_pattern = re.compile(r'(\w{3}\s+\d{2})\s+(\w+(?:\s+to\s+\w+)?)', re.MULTILINE)
+        matches = activity_pattern.findall(text)
+        return matches[:3]  # Return first 3 days
+
+    def _get_activity_emoji(self, activity):
+        """Map activity level to emoji"""
+        activity = activity.lower()
+        if 'quiet' in activity or 'inactive' in activity:
+            return '🟢'
+        elif 'unsettled' in activity:
+            return '🟡'
+        elif 'active' in activity:
+            return '🟠'
+        elif 'minor' in activity or 'storm' in activity:
+            return '🔴'
+        elif 'moderate' in activity or 'strong' in activity or 'severe' in activity:
+            return '🔴🔴'
         else:
-            return "error fetching space weather"
+            return '⚪'
+
+    def format_forecast(self):
+        """Parse and format space weather forecast deterministically"""
+        text = self.pull_data()
+        if text.startswith("error"):
+            return f"❌ {text}"
+
+        output = []
+
+        # Parse Solar Activity
+        solar_flux_match = re.search(r'Solar flux\s+(\d+)\s+to\s+(\d+)', text, re.IGNORECASE)
+        if solar_flux_match:
+            flux_low, flux_high = solar_flux_match.groups()
+            output.append(f"☀️ **Solar Flux**: {flux_low}-{flux_high} sfu")
+
+        # Parse Geomagnetic Activity
+        geomag_section = re.search(r'Geomagnetic Activity.*?(?=No space|\Z)', text, re.DOTALL | re.IGNORECASE)
+        if geomag_section:
+            geomag_text = geomag_section.group()
+            # Look for activity levels
+            if 'quiet' in geomag_text.lower():
+                output.append(f"🟢 **Geomagnetic**: Quiet")
+            elif 'unsettled' in geomag_text.lower():
+                output.append(f"🟡 **Geomagnetic**: Unsettled")
+            elif 'active' in geomag_text.lower():
+                output.append(f"🟠 **Geomagnetic**: Active")
+            elif 'storm' in geomag_text.lower():
+                output.append(f"🔴 **Geomagnetic**: Storm conditions")
+            else:
+                output.append(f"⚪ **Geomagnetic**: Normal")
+
+        # Parse Solar Radiation
+        radiation_match = re.search(r'Solar Radiation.*?(\w+)', text, re.IGNORECASE)
+        if radiation_match and 'none' not in radiation_match.group().lower():
+            output.append(f"☢️ **Solar Radiation**: Elevated")
+
+        # Parse Radio Blackouts
+        radio_match = re.search(r'Radio Blackout.*?(\w+)', text, re.IGNORECASE)
+        if radio_match and 'none' not in radio_match.group().lower():
+            output.append(f"📡 **Radio Blackout**: Possible")
+
+        # Look for notable events in the summary
+        if 'flare' in text.lower():
+            output.append(f"⚡ **Notable**: Solar flare activity detected")
+        if 'cme' in text.lower() or 'coronal mass ejection' in text.lower():
+            output.append(f"💥 **Notable**: CME detected")
+
+        return "\n".join(output) if output else "⚪ All quiet - no significant space weather activity"
 
 if __name__=="__main__":
     rr = SpaceWeather()
