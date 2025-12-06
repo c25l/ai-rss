@@ -3,7 +3,7 @@ class Claude(object):
     def generate(self, prompt):
         try:
             result = subprocess.run(
-                ["claude", "--tools", "\"\"","-p", prompt],
+                ["/home/chris/.local/bin/claude", "--tools", "\"\"","-p", prompt],
                 capture_output=True, text=True
             )
             return result.stdout.strip()

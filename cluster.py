@@ -5,32 +5,39 @@ Article clustering using embeddings and similarity measures
 Uses qwen3-embedding:4b for high-quality multilingual embeddings
 
 """
-import requests
+import os
 import numpy as np
 from typing import List, Tuple, Optional
 from datamodel import Article, Group
 from sklearn.cluster import DBSCAN
 from sklearn.metrics.pairwise import cosine_similarity
-from ollama import Ollama
+from openai import AzureOpenAI
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 
 class ArticleClusterer:
-    def __init__(self, embedding_model: str = "Qwen3-Embedding-4B-GGUF", generative_model: str = "qwen/qwen3-vl-4b"):
+    def __init__(self, embedding_model: str = "text-embedding-ada-002"):
         """
         Initialize the article clusterer
 
         Args:
-            embedding_model: LM Studio model to use for embeddings (default: Qwen3-Embedding-4B-GGUF)
-            generative_model: LM Studio model to use for text generation (default: qwen/qwen3-vl-4b)
+            embedding_model: Azure OpenAI model to use for embeddings (default: text-embedding-ada-002)
         """
         self.embedding_model = embedding_model
-        self.generative_model = generative_model
-        self.lmstudio_url = "http://localhost:1234/v1/embeddings"
-        self.ollama = Ollama()
+
+        # Initialize Azure OpenAI client
+        self.azure_client = AzureOpenAI(
+            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+            api_version="2024-02-01",
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+        )
 
     def get_embedding(self, text: str, max_length: int = 8000) -> Optional[np.ndarray]:
         """
-        Get embedding vector for text using LM Studio
+        Get embedding vector for text using Azure OpenAI
 
         Args:
             text: Text to embed
@@ -43,20 +50,16 @@ class ArticleClusterer:
             # Truncate text to max_length
             truncated_text = text[:max_length]
 
-            # LM Studio uses OpenAI-compatible embeddings API
-            response = requests.post(
-                self.lmstudio_url,
-                json={"model": self.embedding_model, "input": truncated_text},
-                timeout=30
+            # Use Azure OpenAI embeddings API
+            response = self.azure_client.embeddings.create(
+                model=self.embedding_model,
+                input=truncated_text
             )
 
-            if response.status_code == 200:
-                result = response.json()
-                # OpenAI-compatible response format
-                if "data" in result and len(result["data"]) > 0:
-                    embedding = result["data"][0].get("embedding", [])
-                    if embedding:
-                        return np.array(embedding)
+            if response.data and len(response.data) > 0:
+                embedding = response.data[0].embedding
+                if embedding:
+                    return np.array(embedding)
 
             print(f"�  Warning: Failed to get embedding (status: {response.status_code})")
             return None
@@ -228,34 +231,18 @@ class ArticleClusterer:
 
     def generate_cluster_title(self, group: Group) -> str:
         """
-        Generate a concise title for a cluster using LLM
+        Use the first article's title as the cluster title
 
         Args:
             group: Group object containing clustered articles
 
         Returns:
-            Generated title string
+            First article's title, or "Empty Group" if no articles
         """
         if not group.articles:
             return "Empty Group"
 
-        # Build context from article titles
-        titles = [a.title for a in group.articles[:10]]  # Limit to first 10
-        titles_text = "\n".join([f"- {t}" for t in titles])
-
-        prompt = f"""Given these related article headlines, generate a short (5-7 word) topic title that captures what they're all about: 
-        Please return ONLY the title, and no other text. 
-
-{titles_text}
-
-Topic title:"""
-
-        try:
-            title = self.ollama.ollama(prompt, model=self.generative_model, max_tokens=50, temp=0.3)
-            return title.strip().strip('"').strip().split("\n")[0]
-        except Exception as e:
-            print(f"Failed to generate title: {e}")
-            return group.articles[0].title[:50]
+        return group.articles[0].title
 
     def generate_cluster_summary(self, group: Group, max_articles: int = 10) -> str:
         """
@@ -284,12 +271,9 @@ Topic title:"""
 
 Summary:"""
 
-        try:
-            summary = self.ollama.ollama(prompt, model=self.generative_model, max_tokens=200, temp=0.3)
-            return summary.strip()
-        except Exception as e:
-            print(f"Failed to generate summary: {e}")
-            return f"Group of {len(group.articles)} articles about {group.text}"
+        # TODO: Replace with Azure OpenAI or another LLM service
+        # For now, just return a simple summary
+        return f"Group of {len(group.articles)} articles about {group.text}"
 
     def summarize_clusters(self, groups: List[Group], generate_titles: bool = True) -> List[Group]:
         """

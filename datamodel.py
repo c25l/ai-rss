@@ -22,7 +22,7 @@ class Article:
     
     def out_rich(self, d=0):
         """Rich output format for AI processing with source and summary"""
-        return f"- [{self.title}]({self.url}) ({self.source})\n  {self.summary}"
+        return f"- Article Title: {self.title}\n Article Url: {self.url}\n Article Source: {self.source}\n Publication date: {self.published_at}\nArticle Summary: {self.summary}\n\n"
 
     def json(self):
         return {

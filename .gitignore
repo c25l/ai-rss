@@ -15,3 +15,6 @@ chaff/*
 tmp/*
 logs/*
 node_modules/*
+.env
+token.*
+credentials.*
