@@ -19,12 +19,24 @@ class JournalCalendar:
         Returns: formatted string with events
         """
         try:
-            yesterday = datetime.now() - timedelta(days=1)
-            future = datetime.now() + timedelta(days=14)
+            from datetime import timezone
+            # Get current time in local timezone, then convert to UTC
+            now_local = datetime.now()
+            yesterday_local = now_local - timedelta(days=1)
+            future_local = now_local + timedelta(days=14)
+
+            # Create timezone-aware datetimes at local midnight, then convert to UTC
+            # This ensures we get the correct calendar day boundaries
+            import time
+            utc_offset = -time.timezone if time.daylight == 0 else -time.altzone
+            local_tz = timezone(timedelta(seconds=utc_offset))
+
+            yesterday_start = yesterday_local.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=local_tz)
+            future_end = future_local.replace(hour=23, minute=59, second=59, microsecond=999999, tzinfo=local_tz)
 
             events = self.calendar.search_events(
-                start_date=yesterday.replace(hour=0, minute=0, second=0),
-                end_date=future.replace(hour=23, minute=59, second=59),
+                start_date=yesterday_start,
+                end_date=future_end,
                 limit=100
             )
 

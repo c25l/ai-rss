@@ -79,7 +79,10 @@ def main(edition=None):
     journal_calendar_data = journal_calendar.JournalCalendar().format_output()
 
     if edition == "morning":
-        journal_calendar_prompt = """
+        today_date = datetime.datetime.now().strftime("%A, %B %d, %Y")
+        journal_calendar_prompt = f"""
+Today is {today_date}.
+
 Analyze this personal data and provide a concise Journal+Calendar brief with these three subsections:
 
 IMPORTANT CONTEXT ABOUT CALENDARS:
@@ -108,7 +111,10 @@ Please be concise and actionable. Do not add fluff or unnecessary commentary.
 """
     else:
         # Evening: Focus on completed tasks and reflection
-        journal_calendar_prompt = """
+        today_date = datetime.datetime.now().strftime("%A, %B %d, %Y")
+        journal_calendar_prompt = f"""
+Today is {today_date}.
+
 Analyze this personal data and provide a concise Evening Journal+Calendar brief with these three subsections:
 
 IMPORTANT CONTEXT ABOUT CALENDARS:
@@ -141,26 +147,44 @@ Please be concise and reflective. Focus on the day's accomplishments and tomorro
 # Subtask 3: News Intelligence Brief (edition-dependent)
     if edition == "morning":
         news_prompt="""
-Your job is to generate a news briefing from pre-clustered articles.
-The articles below have been clustered by similarity - articles in the same cluster cover related topics.
-There must be inline markdown links `[article title](url)` to the original sources for these articles.
+Your job is to generate a news briefing from pre-clustered and pre-categorized articles.
 
-- News Intelligence Brief
-    - Review each cluster and synthesize the main story
-    - At most 7 total stories (clusters can be combined if covering the same broader theme)
-    - Please make these stories of interest if there are articles to substantiate them:
-        - Epstein files
-        - AI model developments
-        - AI hardware developments
-        - AI datacenter developments
-        - Local Longmont news
-        - Astronomy / Space news
-- For each story, indicate if it's:
-    - A continuing story (if there are articles from multiple days in the cluster)
-    - A new story (if articles are all from today)
-- Note any major topics from previous days that are no longer in the news
+IMPORTANT: The articles below have been AUTOMATICALLY CATEGORIZED into these groups:
+1. CONTINUING STORIES - Stories with ongoing coverage from previous days (only today's new articles are shown)
+2. NEW STORIES - Stories appearing for the first time today
+3. SINGLE ARTICLES - Standalone articles not part of a larger story
+4. DORMANT STORIES - Stories that had coverage before but none today (disappeared from the news)
 
-# Begin clustered news:
+Your task:
+- Select the TOP 3 most significant CONTINUING STORIES
+- Select the TOP 3 most significant NEW STORIES
+- Select the TOP 3 most significant SINGLE ARTICLES
+- Note 2 DORMANT STORIES that fell out of the news (if available)
+- For each story, provide ONE best representative headline/link as a markdown link `[headline](url)`
+- Write a 1-2 sentence summary synthesizing the key points
+
+Prioritize these topics if present:
+- Epstein files
+- AI model developments (models, training, inference)
+- AI hardware developments
+- AI datacenter developments
+- Local Longmont news
+- Astronomy / Space news
+
+Output format:
+## Continuing Coverage (Top 3)
+[Story headline with link] - Brief synthesis
+
+## New Today (Top 3)
+[Story headline with link] - Brief synthesis
+
+## Worth Noting (Top 3 Standalone Articles)
+[Article headline with link] - Brief summary
+
+## No Longer in the News (Up to 2)
+[Story that disappeared] - What it was about
+
+# Begin pre-categorized clustered news:
 """
         print("Fetching and clustering news articles...")
         out2 = claude.Claude().generate(preprompt+news_prompt+ news.News().pull_data())
@@ -168,15 +192,21 @@ There must be inline markdown links `[article title](url)` to the original sourc
     else:
         # Evening: Brief headlines only
         news_prompt="""
-Your job is to generate a brief evening news summary from pre-clustered articles.
-The articles below have been clustered by similarity - each cluster represents a story.
-There must be inline markdown links `[article title](url)` to the original sources for these articles.
-- Present at most 5 top headlines from today (selecting the most significant clusters)
-- Focus on the most significant stories
-- One sentence per headline
+Your job is to generate a brief evening news summary from pre-categorized articles.
+
+The articles have been AUTOMATICALLY CATEGORIZED into:
+- CONTINUING STORIES (ongoing coverage)
+- NEW STORIES (first appearance today)
+- SINGLE ARTICLES (standalone)
+- DORMANT STORIES (disappeared from news)
+
+Your task:
+- Select the TOP 5 most significant stories across all categories
+- For each, provide ONE headline as a markdown link `[headline](url)` and one sentence summary
+- Indicate whether each is CONTINUING or NEW
 - Topics of interest: Epstein files, AI developments, AI hardware, AI datacenters, Local Longmont news, Astronomy/Space news
 
-# Begin clustered news:
+# Begin pre-categorized clustered news:
 """
         print("Fetching and clustering news articles...")
         out2 = claude.Claude().generate(preprompt+news_prompt+ news.News().pull_data())
@@ -229,16 +259,17 @@ Please make sure to include inline markdown links `[article title](url)` to the 
 2. Ensure consistent formatting throughout (use <br/> for line breaks in HTML sections)
 3. Improve flow and readability
 4. Keep all important information and links
-5. Ensure section headers are clear and well-organized
+5. Streamline headers - flatten hierarchy where appropriate, remove redundant headers/subheaders
 6. Fix any awkward phrasing
+
+The reader knows what to expect in this briefing format. Don't be afraid to simplify the structure - if a header and subheader say essentially the same thing, consolidate them. Aim for a clean, flat hierarchy.
 
 Do NOT:
 - Remove any data or facts
 - Remove any markdown links
 - Add new information not present in the original
-- Change the overall structure or number of sections
 
-Return the polished briefing maintaining all original sections and their order.
+Return the polished briefing with streamlined headers and improved flow.
 
 ---
 
