@@ -10,75 +10,141 @@ class Calendar:
         self.creds = get_google_credentials()
         self.service = build('calendar', 'v3', credentials=self.creds)
 
-    def get_upcoming_events(self, days: int = 7, limit: int = 20):
-        """Fetch upcoming events for next N days."""
+    def list_calendars(self):
+        """List all available calendars (including shared ones)."""
+        try:
+            calendar_list = self.service.calendarList().list().execute()
+            calendars = []
+            for calendar in calendar_list.get('items', []):
+                calendars.append({
+                    'id': calendar['id'],
+                    'summary': calendar.get('summary', 'No Name'),
+                    'description': calendar.get('description', ''),
+                    'primary': calendar.get('primary', False),
+                    'accessRole': calendar.get('accessRole', 'unknown')
+                })
+            return calendars
+        except HttpError as error:
+            print(f'An error occurred: {error}')
+            return []
+
+    def get_upcoming_events(self, days: int = 7, limit: int = 20, calendar_ids: list = None):
+        """Fetch upcoming events for next N days from specified calendars or all calendars."""
         try:
             # Calculate time range
-            now = datetime.utcnow()
-            time_min = now.isoformat() + 'Z'
-            time_max = (now + timedelta(days=days)).isoformat() + 'Z'
+            from datetime import timezone
+            now = datetime.now(timezone.utc)
+            time_min = now.isoformat()
+            time_max = (now + timedelta(days=days)).isoformat()
 
-            # Fetch events
-            events_result = self.service.events().list(
-                calendarId='primary',
-                timeMin=time_min,
-                timeMax=time_max,
-                maxResults=limit,
-                singleEvents=True,
-                orderBy='startTime'
-            ).execute()
+            # If no calendar_ids specified, get all calendars
+            if calendar_ids is None:
+                calendars = self.list_calendars()
+                calendar_ids = [cal['id'] for cal in calendars]
+            else:
+                calendars = self.list_calendars()
 
-            events = events_result.get('items', [])
+            # Create calendar ID to name mapping
+            cal_names = {cal['id']: cal['summary'] for cal in calendars}
 
-            # Parse events into consistent format
-            parsed_events = []
-            for event in events:
-                parsed = self._parse_event(event)
-                if parsed:
-                    parsed_events.append(parsed)
+            all_events = []
 
-            return parsed_events
+            # Fetch events from each calendar
+            for cal_id in calendar_ids:
+                try:
+                    events_result = self.service.events().list(
+                        calendarId=cal_id,
+                        timeMin=time_min,
+                        timeMax=time_max,
+                        maxResults=limit,
+                        singleEvents=True,
+                        orderBy='startTime'
+                    ).execute()
+
+                    events = events_result.get('items', [])
+
+                    # Parse events into consistent format
+                    for event in events:
+                        parsed = self._parse_event(event, cal_id, cal_names.get(cal_id, cal_id))
+                        if parsed:
+                            all_events.append(parsed)
+                except HttpError as e:
+                    print(f'Error fetching events from calendar {cal_id}: {e}')
+                    continue
+
+            # Sort all events by start time
+            all_events.sort(key=lambda x: x['start'])
+
+            # Limit total results
+            return all_events[:limit]
 
         except HttpError as error:
             print(f'An error occurred: {error}')
             return []
 
     def search_events(self, start_date: datetime = None, end_date: datetime = None,
-                     title_contains: str = None, limit: int = 50):
-        """Search events by date range or title."""
+                     title_contains: str = None, limit: int = 50, calendar_ids: list = None):
+        """Search events by date range or title across all calendars."""
         try:
+            from datetime import timezone
             # Default to last 30 days to next 90 days if not specified
             if start_date is None:
-                start_date = datetime.now() - timedelta(days=30)
+                start_date = datetime.now(timezone.utc) - timedelta(days=30)
             if end_date is None:
-                end_date = datetime.now() + timedelta(days=90)
+                end_date = datetime.now(timezone.utc) + timedelta(days=90)
 
-            time_min = start_date.isoformat() + 'Z'
-            time_max = end_date.isoformat() + 'Z'
+            # Ensure timezone-aware and format with Z suffix
+            if start_date.tzinfo is None:
+                start_date = start_date.replace(tzinfo=timezone.utc)
+            if end_date.tzinfo is None:
+                end_date = end_date.replace(tzinfo=timezone.utc)
 
-            # Fetch events
-            events_result = self.service.events().list(
-                calendarId='primary',
-                timeMin=time_min,
-                timeMax=time_max,
-                maxResults=limit,
-                singleEvents=True,
-                orderBy='startTime',
-                q=title_contains if title_contains else None
-            ).execute()
+            time_min = start_date.isoformat().replace('+00:00', 'Z')
+            time_max = end_date.isoformat().replace('+00:00', 'Z')
 
-            events = events_result.get('items', [])
+            # If no calendar_ids specified, get all calendars
+            if calendar_ids is None:
+                calendars = self.list_calendars()
+                calendar_ids = [cal['id'] for cal in calendars]
+            else:
+                calendars = self.list_calendars()
 
-            # Parse events
-            parsed_events = []
-            for event in events:
-                parsed = self._parse_event(event)
-                if parsed:
-                    # Additional title filtering if needed
-                    if title_contains is None or title_contains.lower() in parsed['title'].lower():
-                        parsed_events.append(parsed)
+            # Create calendar ID to name mapping
+            cal_names = {cal['id']: cal['summary'] for cal in calendars}
 
-            return parsed_events
+            all_events = []
+
+            # Fetch events from each calendar
+            for cal_id in calendar_ids:
+                try:
+                    events_result = self.service.events().list(
+                        calendarId=cal_id,
+                        timeMin=time_min,
+                        timeMax=time_max,
+                        maxResults=limit,
+                        singleEvents=True,
+                        orderBy='startTime',
+                        q=title_contains if title_contains else None
+                    ).execute()
+
+                    events = events_result.get('items', [])
+
+                    # Parse events
+                    for event in events:
+                        parsed = self._parse_event(event, cal_id, cal_names.get(cal_id, cal_id))
+                        if parsed:
+                            # Additional title filtering if needed
+                            if title_contains is None or title_contains.lower() in parsed['title'].lower():
+                                all_events.append(parsed)
+                except HttpError as e:
+                    print(f'Error searching events in calendar {cal_id}: {e}')
+                    continue
+
+            # Sort all events by start time
+            all_events.sort(key=lambda x: x['start'])
+
+            # Limit total results
+            return all_events[:limit]
 
         except HttpError as error:
             print(f'An error occurred: {error}')
@@ -181,9 +247,10 @@ class Calendar:
             print(f'An error occurred: {error}')
             return None
 
-    def _parse_event(self, event):
+    def _parse_event(self, event, calendar_id=None, calendar_name=None):
         """Parse Google Calendar event into consistent format."""
         try:
+            from datetime import timezone
             title = event.get('summary', 'No Title')
 
             # Handle both date and dateTime
@@ -194,15 +261,15 @@ class Calendar:
                 start = datetime.fromisoformat(start_data['dateTime'].replace('Z', '+00:00'))
                 end = datetime.fromisoformat(end_data['dateTime'].replace('Z', '+00:00'))
             else:
-                # All-day event
-                start = datetime.fromisoformat(start_data['date'])
-                end = datetime.fromisoformat(end_data['date'])
+                # All-day event - make it timezone-aware
+                start = datetime.fromisoformat(start_data['date']).replace(tzinfo=timezone.utc)
+                end = datetime.fromisoformat(end_data['date']).replace(tzinfo=timezone.utc)
 
             description = event.get('description', '')
             location = event.get('location', '')
             event_id = event.get('id', '')
 
-            return {
+            parsed = {
                 "title": title,
                 "start": start,
                 "end": end,
@@ -210,6 +277,13 @@ class Calendar:
                 "location": location,
                 "_event_id": event_id
             }
+
+            if calendar_id:
+                parsed["_calendar_id"] = calendar_id
+            if calendar_name:
+                parsed["calendar_name"] = calendar_name
+
+            return parsed
         except Exception as e:
             print(f"Error parsing event: {e}")
             return None
@@ -220,11 +294,21 @@ if __name__ == "__main__":
     print("Initializing Google Calendar...")
     cal = Calendar()
 
-    print("\nTesting upcoming events...")
-    upcoming = cal.get_upcoming_events(days=14, limit=5)
+    print("\n=== Available Calendars ===")
+    calendars = cal.list_calendars()
+    for i, calendar in enumerate(calendars):
+        primary_marker = " [PRIMARY]" if calendar['primary'] else ""
+        print(f"{i+1}. {calendar['summary']}{primary_marker}")
+        print(f"   ID: {calendar['id']}")
+        print(f"   Access: {calendar['accessRole']}")
+
+    print("\n=== Upcoming Events (All Calendars) ===")
+    upcoming = cal.get_upcoming_events(days=14, limit=10)
     for i, event in enumerate(upcoming):
+        cal_name = event.get('calendar_name', 'unknown')
         print(f"\n{i+1}. {event['title']}")
         print(f"   Start: {event['start']}")
         print(f"   End: {event['end']}")
         if event['location']:
             print(f"   Location: {event['location']}")
+        print(f"   Calendar: {cal_name}")

@@ -64,7 +64,8 @@ class JournalCalendar:
                 output.append("### Yesterday's Events")
                 for event in past_events:
                     start_str = event['start'].strftime('%I:%M %p')
-                    output.append(f"- **{event['title']}** at {start_str}")
+                    cal_name = event.get('calendar_name', 'Unknown')
+                    output.append(f"- **{event['title']}** at {start_str} ({cal_name})")
                     if event['location']:
                         output.append(f"  Location: {event['location']}")
                     if event['description']:
@@ -75,7 +76,8 @@ class JournalCalendar:
                 output.append("### Today's Events")
                 for event in today_events:
                     start_str = event['start'].strftime('%I:%M %p')
-                    output.append(f"- **{event['title']}** at {start_str}")
+                    cal_name = event.get('calendar_name', 'Unknown')
+                    output.append(f"- **{event['title']}** at {start_str} ({cal_name})")
                     if event['location']:
                         output.append(f"  Location: {event['location']}")
                     if event['description']:
@@ -87,7 +89,8 @@ class JournalCalendar:
                 for event in future_events:
                     date_str = event['start'].strftime('%a, %b %d')
                     time_str = event['start'].strftime('%I:%M %p')
-                    output.append(f"- **{date_str}** - {event['title']} at {time_str}")
+                    cal_name = event.get('calendar_name', 'Unknown')
+                    output.append(f"- **{date_str}** - {event['title']} at {time_str} ({cal_name})")
                     if event['location']:
                         output.append(f"  Location: {event['location']}")
                     if event['description']:

@@ -82,9 +82,16 @@ def main(edition=None):
         journal_calendar_prompt = """
 Analyze this personal data and provide a concise Journal+Calendar brief with these three subsections:
 
+IMPORTANT CONTEXT ABOUT CALENDARS:
+- "Personal" calendar = MY events (things I need to do)
+- All other calendars (<other>@gmail.com, School, HOME, etc.) = OTHER PEOPLE's movements and family logistics
+- Consider how others' schedules might affect my day or require coordination
+
 ## Calendar Review
-- Note any events that seem significant or unusual (non-routine)
-- Highlight today's events and any important upcoming events
+- Note MY events (from Personal calendar) that are significant or unusual
+- Highlight family/household logistics from other calendars that I should be aware of
+- Flag any potential conflicts or coordination needs between my schedule and others'
+- Focus on today's events and important upcoming events
 
 ## Journal Themes
 - Identify 2-3 main themes or patterns from recent journal entries
@@ -104,9 +111,15 @@ Please be concise and actionable. Do not add fluff or unnecessary commentary.
         journal_calendar_prompt = """
 Analyze this personal data and provide a concise Evening Journal+Calendar brief with these three subsections:
 
+IMPORTANT CONTEXT ABOUT CALENDARS:
+- "Personal" calendar = MY events (things I did/need to do)
+- All other calendars  (<other>@gmail.com, School, HOME, etc.) = OTHER PEOPLE's movements and family logistics
+- Consider how others' schedules affected or will affect my activities
+
 ## Calendar Review
-- Note yesterday's completed events and any follow-up needed
-- Preview tomorrow's key events
+- Note MY completed events from yesterday (Personal calendar) and any follow-up needed
+- Preview tomorrow's key events for both me and family logistics
+- Flag any coordination needs for tomorrow
 
 ## Journal Themes
 - Identify key themes or insights from today's activities

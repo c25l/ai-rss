@@ -251,9 +251,22 @@ def send_matching_drafts() -> str:
 # ============================================================================
 
 @mcp.tool()
+def list_calendars() -> str:
+    """
+    List all available Google Calendars (including shared calendars).
+
+    Returns:
+        JSON string with calendar list including ID, name, and access role
+    """
+    cal = Calendar()
+    calendars = cal.list_calendars()
+    return json.dumps(calendars, indent=2)
+
+
+@mcp.tool()
 def get_upcoming_events(days: int = 7, limit: int = 20) -> str:
     """
-    Get upcoming calendar events.
+    Get upcoming calendar events from all calendars (including shared family calendars).
 
     Args:
         days: Number of days ahead to look (default 7)
@@ -272,7 +285,8 @@ def get_upcoming_events(days: int = 7, limit: int = 20) -> str:
             "start": event["start"].isoformat(),
             "end": event["end"].isoformat(),
             "description": event["description"],
-            "location": event["location"]
+            "location": event["location"],
+            "calendar": event.get("calendar_name", "Unknown")
         })
 
     return json.dumps(clean_events, indent=2)
@@ -317,7 +331,8 @@ def search_calendar_events(
             "start": event["start"].isoformat(),
             "end": event["end"].isoformat(),
             "description": event["description"],
-            "location": event["location"]
+            "location": event["location"],
+            "calendar": event.get("calendar_name", "Unknown")
         })
 
     return json.dumps(clean_events, indent=2)
