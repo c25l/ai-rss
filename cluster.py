@@ -2,42 +2,45 @@
 # -*- coding: utf-8 -*-
 """
 Article clustering using embeddings and similarity measures
-Uses qwen3-embedding:4b for high-quality multilingual embeddings
+Uses Ollama with qwen3-embedding for embeddings
 
 """
 import os
 import numpy as np
 from typing import List, Tuple, Optional
 from datamodel import Article, Group
+from datetime import datetime
 from sklearn.cluster import DBSCAN
 from sklearn.metrics.pairwise import cosine_similarity
-from openai import AzureOpenAI
+from ollama import Ollama
 from dotenv import load_dotenv
+from cache import Cache
 
 # Load environment variables
 load_dotenv()
 
 
 class ArticleClusterer:
-    def __init__(self, embedding_model: str = "text-embedding-ada-002"):
+    def __init__(self, embedding_model: str = None):
         """
         Initialize the article clusterer
 
         Args:
-            embedding_model: Azure OpenAI model to use for embeddings (default: text-embedding-ada-002)
+            embedding_model: Ollama model to use for embeddings (default: uses OLLAMA_EMBEDDING_MODEL from .env)
         """
-        self.embedding_model = embedding_model
+        # Initialize Ollama client
+        self.ollama = Ollama()
 
-        # Initialize Azure OpenAI client
-        self.azure_client = AzureOpenAI(
-            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
-            api_version="2024-02-01",
-            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
-        )
+        # Override embedding model if specified
+        if embedding_model:
+            self.ollama.embedding_model = embedding_model
+
+        # Initialize cache for embeddings
+        self.cache = Cache()
 
     def get_embedding(self, text: str, max_length: int = 8000) -> Optional[np.ndarray]:
         """
-        Get embedding vector for text using Azure OpenAI
+        Get embedding vector for text using Ollama
 
         Args:
             text: Text to embed
@@ -49,23 +52,18 @@ class ArticleClusterer:
         try:
             # Truncate text to max_length
             truncated_text = text[:max_length]
+            
+            # Use Ollama embeddings API
+            embedding = self.ollama.get_embedding(truncated_text)
 
-            # Use Azure OpenAI embeddings API
-            response = self.azure_client.embeddings.create(
-                model=self.embedding_model,
-                input=truncated_text
-            )
+            if embedding and len(embedding) > 0:
+                return np.array(embedding)
 
-            if response.data and len(response.data) > 0:
-                embedding = response.data[0].embedding
-                if embedding:
-                    return np.array(embedding)
-
-            print(f"�  Warning: Failed to get embedding (status: {response.status_code})")
+            print(f"  Warning: Failed to get embedding from Ollama")
             return None
 
         except Exception as e:
-            print(f"�  Warning: LM Studio connection error: {e}")
+            print(f"  Warning: Ollama connection error: {e}")
             return None
 
     def embed_article(self, article: Article) -> Optional[np.ndarray]:
@@ -81,7 +79,7 @@ class ArticleClusterer:
         # Combine title and summary for richer representation with context
         from datetime import datetime
         date_str = article.published_at if hasattr(article, 'published_at') and article.published_at else datetime.now().strftime("%Y-%m-%d")
-        text = f"News article: {article.title}\n\nURL: {article.url}\n\nDate: {date_str}\n\nSummary: {article.summary}"
+        text = f"News article from {date_str}: {article.title}\n\nURL: {article.url}\n\nSummary: {article.summary}"
         embedding = self.get_embedding(text)
 
         if embedding is not None:
@@ -91,21 +89,44 @@ class ArticleClusterer:
 
     def embed_articles(self, articles: List[Article]) -> List[Article]:
         """
-        Generate embeddings for multiple articles
+        Generate embeddings for multiple articles.
+        Uses cache to avoid re-embedding articles from previous days (7-day rolling window).
 
-        Args:
+       Args:
             articles: List of Article objects
 
         Returns:
             List of articles with embeddings (filters out failed embeddings)
         """
+        # Load cached articles from last 7 days
+        cached_articles = self.cache.get_cached_articles(days=7)
+
         embedded_articles = []
+        new_articles = []  # Articles that need to be cached
+        cache_hits = 0
+        cache_misses = 0
 
         for i, article in enumerate(articles):
-            embedding = self.embed_article(article)
-
-            if embedding is not None:
+            # Check cache first
+            if article.url and article.url in cached_articles:
+                # Cache hit - restore embedding from cache
+                cached_data = cached_articles[article.url]
+                article.vector = np.array(cached_data['vector'])
                 embedded_articles.append(article)
+                cache_hits += 1
+            else:
+                # Cache miss - need to embed
+                embedding = self.embed_article(article)
+                if embedding is not None:
+                    embedded_articles.append(article)
+                    new_articles.append(article)
+                    cache_misses += 1
+
+        # Cache newly embedded articles
+        if new_articles:
+            self.cache.set_article_embeddings(new_articles)
+
+        print(f"  Embedding cache: {cache_hits} hits, {cache_misses} misses ({cache_hits}/{len(articles)} = {100*cache_hits/len(articles) if articles else 0:.1f}% cache hit rate)")
 
         return embedded_articles
 
@@ -169,7 +190,7 @@ class ArticleClusterer:
     def cluster_articles_threshold(
         self,
         articles: List[Article],
-        similarity_threshold: float = 0.75
+        similarity_threshold: float = 0.66
     ) -> List[Group]:
         """
         Cluster articles using simple similarity threshold

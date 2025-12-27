@@ -10,6 +10,10 @@ import re
 from bs4 import BeautifulSoup
 
 
+# Simple color scheme - no longer needed, kept for backward compatibility
+# Colors are now hardcoded in the simple HTML template
+
+
 class Emailer:
     def __init__(self):
         self.from_email = os.environ.get('FROM_EMAIL')
@@ -19,19 +23,162 @@ class Emailer:
         if not all([self.from_email, self.to_email, self.password]):
             raise ValueError("Missing required environment variables: FROM_EMAIL, TO_EMAIL, GOOGLE_APP_PW")
 
+    def _create_simple_html(self, content: str, subject: str) -> str:
+        """Convert markdown content to clean, minimally-styled HTML."""
+        # Convert markdown to HTML first
+        html_content = markdown(content)
+
+        # Parse HTML to add simple, clean styling
+        soup = BeautifulSoup(html_content, 'html.parser')
+
+        # Style h1 headers - simple and clean
+        for h1 in soup.find_all('h1'):
+            h1['style'] = (
+                "color: #2c3e50;"
+                "font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;"
+                "font-size: 24px;"
+                "font-weight: 600;"
+                "margin: 24px 0 12px 0;"
+                "padding-bottom: 8px;"
+                "border-bottom: 2px solid #3498db;"
+            )
+
+        # Style h2 headers
+        for h2 in soup.find_all('h2'):
+            h2['style'] = (
+                "color: #34495e;"
+                "font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;"
+                "font-size: 20px;"
+                "font-weight: 600;"
+                "margin: 20px 0 10px 0;"
+            )
+
+        # Style h3 headers
+        for h3 in soup.find_all('h3'):
+            h3['style'] = (
+                "color: #546e7a;"
+                "font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;"
+                "font-size: 16px;"
+                "font-weight: 600;"
+                "margin: 16px 0 8px 0;"
+            )
+
+        # Style links
+        for link in soup.find_all('a'):
+            link['style'] = (
+                "color: #3498db;"
+                "text-decoration: none;"
+            )
+
+        # Style paragraphs
+        for p in soup.find_all('p'):
+            p['style'] = (
+                "color: #2c3e50;"
+                "font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;"
+                "font-size: 14px;"
+                "line-height: 1.6;"
+                "margin: 8px 0;"
+            )
+
+        # Style lists
+        for ul in soup.find_all('ul'):
+            ul['style'] = (
+                "color: #2c3e50;"
+                "font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;"
+                "font-size: 14px;"
+                "line-height: 1.7;"
+                "margin: 8px 0;"
+            )
+
+        # Style strong/bold text
+        for strong in soup.find_all('strong'):
+            strong['style'] = (
+                "color: #2c3e50;"
+                "font-weight: 600;"
+            )
+
+        # Style horizontal rules
+        for hr in soup.find_all('hr'):
+            hr['style'] = (
+                "border: none;"
+                "border-top: 1px solid #dfe6e9;"
+                "margin: 24px 0;"
+            )
+
+        styled_content = str(soup)
+
+        # Create simple, clean email template
+        simple_html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        ">
+            <div style="
+                max-width: 700px;
+                margin: 0 auto;
+                background-color: #ffffff;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            ">
+                <!-- Header -->
+                <div style="
+                    background-color: #3498db;
+                    color: #ffffff;
+                    padding: 20px 24px;
+                    font-size: 22px;
+                    font-weight: 600;
+                ">
+                    {subject}
+                </div>
+
+                <!-- Content -->
+                <div style="
+                    padding: 24px;
+                    color: #2c3e50;
+                ">
+                    {styled_content}
+                </div>
+
+                <!-- Footer -->
+                <div style="
+                    background-color: #ecf0f1;
+                    padding: 12px 24px;
+                    font-size: 11px;
+                    color: #7f8c8d;
+                    text-align: right;
+                ">
+                    {datetime.now().strftime('%Y-%m-%d')}
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+
+        return simple_html
+
     def send_email(self, content: str, subject: str = None, to_addr: str = None) -> None:
-        """Send an email with markdown content."""
+        """Send an email with markdown content in simple, clean styling."""
         if to_addr is None:
             to_addr = self.to_email
 
         if subject is None:
             subject = f"H3LPeR {datetime.now().strftime('%Y-%m-%d')}"
 
+        # Create simple, clean HTML
+        styled_html = self._create_simple_html(content, subject)
+
         msg = EmailMessage()
         msg["From"] = self.from_email
         msg["To"] = to_addr
         msg["Subject"] = subject
-        msg.set_content(markdown(content), subtype="html")
+        msg.set_content(styled_html, subtype="html")
 
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
             server.starttls()

@@ -38,6 +38,45 @@ class Weather(object):
             return str(forecast)
         return "failed"
 
+    def get_alerts(self, lat=40.165729, lon=-105.101194):
+        """Fetch active NWS alerts for the location"""
+        try:
+            # NWS API requires a user agent
+            headers = {
+                'User-Agent': '(Weather Script, contact@example.com)'
+            }
+            url = f"https://api.weather.gov/alerts/active?point={lat},{lon}"
+            resp = requests.get(url, headers=headers, timeout=10)
+
+            if resp.status_code == 200:
+                data = resp.json()
+                features = data.get('features', [])
+
+                alerts = []
+                for feature in features:
+                    props = feature.get('properties', {})
+                    event = props.get('event', 'Unknown Alert')
+                    headline = props.get('headline', '')
+                    severity = props.get('severity', '')
+
+                    # Get emoji based on severity
+                    if severity == 'Extreme':
+                        emoji = '🚨'
+                    elif severity == 'Severe':
+                        emoji = '⚠️'
+                    elif severity == 'Moderate':
+                        emoji = '⚡'
+                    else:
+                        emoji = 'ℹ️'
+
+                    alerts.append(f"{emoji} **{event}**: {headline}")
+
+                return alerts
+            return []
+        except Exception as e:
+            print(f"Error fetching NWS alerts: {e}")
+            return []
+
     def format_forecast(self, max_periods=6):
         """Parse and format weather forecast deterministically"""
         html = self.pull_data()
@@ -51,6 +90,14 @@ class Weather(object):
             return "❌ No forecast data available"
 
         output = []
+
+        # Add alerts at the top if any exist
+        alerts = self.get_alerts()
+        if alerts:
+            output.append("### 🚨 Active Alerts")
+            output.extend(alerts)
+            output.append("")  # Blank line separator
+
         for i, period in enumerate(periods[:max_periods]):
             label = period.find("div", class_="forecast-label")
             text = period.find("div", class_="forecast-text")

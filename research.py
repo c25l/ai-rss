@@ -1,11 +1,11 @@
 import feeds
-from claude import Claude
+from ollama import Ollama
 
 class Research:
     articles = []
     def __init__(self):
         self.articles = []
-        self.claude = Claude()
+        self.ollama = Ollama()
 
     def section_title(self):
         return "Arxiv Review"
@@ -43,7 +43,7 @@ Articles to review:
 Respond with ONLY a JSON array of the 5 indices you selected (e.g., [3, 7, 12, 1, 18]).
 No explanation, just the JSON array."""
 
-        response = self.claude.generate(prompt)
+        response = self.ollama.generate(prompt)
 
         # Parse the response to get indices
         try:
@@ -76,7 +76,7 @@ No explanation, just the JSON array."""
             Reduced list of articles
         """
         current = articles[:]
-
+        print(f"Reducing from {len(articles)} to {target} in batches of {batch_size}")
         while len(current) > target:
             # Split into batches of batch_size
             batches = [current[i:i+batch_size] for i in range(0, len(current), batch_size)]

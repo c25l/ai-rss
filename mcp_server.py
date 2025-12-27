@@ -26,7 +26,7 @@ from stocks import Stocks
 from astronomy import Astronomy
 
 # Initialize FastMCP server
-mcp = FastMCP("airss", dependencies=["feedparser", "requests", "bs4", "caldav", "icalendar", "markdown", "python-dotenv"])
+mcp = FastMCP("airss")
 
 # ============================================================================
 # WEATHER & SPACE WEATHER
@@ -652,19 +652,59 @@ def delete_task(title: str, tasklist_id: str = '@default') -> str:
 # ============================================================================
 
 @mcp.tool()
-def get_journal_entries() -> str:
+def get_journal_entries(days: int = 7) -> str:
     """
     Get recent journal entries and open tasks from Obsidian.
+
+    Args:
+        days: Number of days to retrieve (default 7)
 
     Returns:
         Formatted journal content
     """
     try:
         journal = Journal()
-        journal.pull_data()
+        journal.pull_data(days=days)
         return journal.output()
     except Exception as e:
         return f"Error accessing journal: {str(e)}"
+
+
+@mcp.tool()
+def search_journal_entries(search_term: str, days: int = 30) -> str:
+    """
+    Search Obsidian journal entries for a specific term.
+
+    Args:
+        search_term: Text to search for (case-insensitive)
+        days: Number of days to search back (default 30)
+
+    Returns:
+        JSON string with matching journal entries
+    """
+    try:
+        journal = Journal()
+        results = journal.search_entries(search_term, days=days)
+
+        if not results:
+            return json.dumps({"message": f"No entries found containing '{search_term}'"}, indent=2)
+
+        # Format results
+        formatted_results = {
+            "search_term": search_term,
+            "matches_found": len(results),
+            "entries": []
+        }
+
+        for result in results:
+            formatted_results["entries"].append({
+                "date": result["date"],
+                "content": result["content"][:500] + "..." if len(result["content"]) > 500 else result["content"]
+            })
+
+        return json.dumps(formatted_results, indent=2)
+    except Exception as e:
+        return f"Error searching journal: {str(e)}"
 
 
 @mcp.tool()

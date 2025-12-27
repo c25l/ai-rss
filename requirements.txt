@@ -1,0 +1,42 @@
+# Azure Functions
+azure-functions
+
+# Google APIs
+google-api-python-client>=2.0.0
+google-auth>=2.0.0
+google-auth-httplib2>=0.2.0
+google-auth-oauthlib>=1.0.0
+
+# Azure Storage for Google OAuth token persistence
+azure-storage-blob>=12.0.0
+
+# AI APIs
+openai>=1.0.0
+
+# Web scraping and parsing
+requests>=2.32.0
+beautifulsoup4>=4.0.0
+feedparser>=6.0.0
+icalendar>=6.0.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=2.0.0
+scikit-learn>=1.0.0
+python-dateutil>=2.8.0
+
+# Astronomy calculations
+ephem>=4.1.0
+
+# Email and markdown
+markdown>=3.0.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# Web application (for archive viewer)
+flask>=3.0.0
+bcrypt>=4.0.0
+
+# MCP Server
+fastmcp>=0.1.0

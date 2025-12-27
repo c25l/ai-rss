@@ -4,6 +4,7 @@ from gcal import Calendar
 from gtasks import Tasks
 from emailer import Emailer
 import re
+import os
 
 
 class JournalCalendar:
@@ -11,6 +12,15 @@ class JournalCalendar:
         self.calendar = Calendar()
         self.tasks = Tasks()
         self.emailer = Emailer()
+
+        # Initialize Sonarr calendar if configured
+        self.sonarr_calendar = None
+        if os.getenv('SONARR_API_KEY'):
+            try:
+                from sonarr_calendar import SonarrCalendar
+                self.sonarr_calendar = SonarrCalendar()
+            except Exception as e:
+                print(f"Warning: Could not initialize Sonarr calendar: {e}")
 
     def pull_calendar_data(self):
         """
@@ -34,19 +44,38 @@ class JournalCalendar:
             yesterday_start = yesterday_local.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=local_tz)
             future_end = future_local.replace(hour=23, minute=59, second=59, microsecond=999999, tzinfo=local_tz)
 
+            # Fetch Google Calendar events
             events = self.calendar.search_events(
                 start_date=yesterday_start,
                 end_date=future_end,
                 limit=100
             )
 
+            # Fetch Sonarr calendar events if configured
+            if self.sonarr_calendar:
+                try:
+                    sonarr_events = self.sonarr_calendar.get_calendar_events(
+                        start_date=yesterday_start,
+                        end_date=future_end,
+                        limit=100
+                    )
+                    # Merge Sonarr events with Google Calendar events
+                    events.extend(sonarr_events)
+                except Exception as e:
+                    print(f"Warning: Could not fetch Sonarr events: {e}")
+
             if not events:
                 return "No calendar events found."
 
-            # Filter out daily recurring events
+            # Filter out daily recurring events and procedural events
             # Daily recurring events typically have 'DAILY' in recurrence rules
+            # Also filter out procedural events like 'calendar check' and 'meds'
+            procedural_events = {'calendar check', 'meds'}
             filtered_events = []
             for event in events:
+                # Skip procedural events (case-insensitive)
+                if event['title'].lower() in procedural_events:
+                    continue
                 # We don't have direct access to recurrence rules in our parsed format
                 # But we can use a heuristic: if the event title appears multiple times
                 # in a short span, it's likely daily recurring
@@ -180,6 +209,20 @@ class JournalCalendar:
         """
         try:
             all_tasks = self.tasks.get_all_tasks(show_completed=False)
+
+            if not all_tasks:
+                return "No open tasks found."
+
+            # Filter out procedural tasks (calendar check, meds, etc.)
+            procedural_tasks = {'calendar check', 'meds'}
+            filtered_tasks = []
+            for task in all_tasks:
+                # Skip procedural tasks (case-insensitive)
+                if task['title'].lower() not in procedural_tasks:
+                    filtered_tasks.append(task)
+
+            # Use filtered tasks for the rest of the processing
+            all_tasks = filtered_tasks
 
             if not all_tasks:
                 return "No open tasks found."

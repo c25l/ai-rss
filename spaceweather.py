@@ -1,7 +1,6 @@
 import requests
 import re
 import json
-import claude
 
 class SpaceWeather(object):
     def __init__(self):
@@ -140,7 +139,7 @@ class SpaceWeather(object):
         return data
 
     def format_forecast(self):
-        """Parse and format space weather forecast with LLM analysis"""
+        """Parse and format space weather forecast without LLM"""
         # Get 3-day forecast text (includes peak Kp)
         forecast_text = self.pull_data()
         if forecast_text.startswith("error"):
@@ -149,44 +148,66 @@ class SpaceWeather(object):
         # Get current data from JSON APIs
         current_data = self._fetch_current_data()
 
-        # Prepare data for Claude
-        data_summary = f"""
-# Space Weather Data
+        # Parse Kp index from forecast
+        kp_values = self._parse_kp_index(forecast_text)
 
-## 3-Day Forecast (includes 24h peak Kp):
-{forecast_text}
+        # Determine current and peak Kp
+        current_kp = kp_values[0] if kp_values else 0
+        peak_kp = max(kp_values) if kp_values else 0
 
-## Current Real-Time Values:
-- X-ray Class (current): {current_data.get('xray_current', 'N/A')}
-- X-ray Class (24h peak): {current_data.get('xray_max_24h', 'N/A')} at {current_data.get('xray_max_time', 'N/A')}
-- Solar Flux (10.7cm): {current_data.get('solar_flux', 'N/A')} sfu
-- Solar Wind Bt: {current_data.get('solar_wind_bt', 'N/A')} nT
-- Solar Wind Bz: {current_data.get('solar_wind_bz', 'N/A')} nT
-"""
+        # Get activity levels
+        current_activity = self._get_activity_level(current_kp)
+        peak_activity = self._get_activity_level(peak_kp)
 
-        # Use Claude to create concise summary
-        prompt = """Summarize this space weather data concisely. Format as follows:
+        # Get emoji for current activity
+        kp_emoji = self._get_activity_emoji(current_activity)
 
-For each metric, show: [Emoji] **Metric Name**: Current value (24h peak: X)
+        # Format X-ray data
+        xray_current = current_data.get('xray_current', 'N/A')
+        xray_peak = current_data.get('xray_max_24h', 'N/A')
 
-Include:
-- Kp index (geomagnetic activity)
-- X-ray flux class
-- Solar flux
-- Notable events or alerts
+        # Determine X-ray emoji (simplified)
+        if xray_peak != 'N/A' and isinstance(xray_peak, str):
+            if xray_peak.startswith('X'):
+                xray_emoji = '🔴'
+            elif xray_peak.startswith('M'):
+                xray_emoji = '🟠'
+            elif xray_peak.startswith('C'):
+                xray_emoji = '🟡'
+            else:
+                xray_emoji = '🟢'
+        else:
+            xray_emoji = '⚪'
 
-Use <br/> tags for line breaks between each line. Be very concise - max 5 lines total.
-Do not include headers or explanations, just the formatted lines.
+        # Format solar flux
+        solar_flux = current_data.get('solar_flux', 'N/A')
 
-Data:
-""" + data_summary
+        # Format solar wind
+        wind_bt = current_data.get('solar_wind_bt', 'N/A')
+        wind_bz = current_data.get('solar_wind_bz', 'N/A')
 
-        result = claude.Claude().generate(prompt)
+        # Build formatted output
+        lines = []
 
-        # Ensure it ends with proper formatting
-        if result and not result.endswith('<br/>'):
-            return result.strip()
-        return result if result else "⚪ All quiet - no significant space weather activity"
+        # Kp Index
+        if kp_values:
+            lines.append(f"{kp_emoji} **Kp Index**: {current_kp:.1f} (24h peak: {peak_kp:.1f} - {peak_activity})")
+        else:
+            lines.append(f"⚪ **Kp Index**: N/A")
+
+        # X-ray
+        if xray_current != 'N/A' or xray_peak != 'N/A':
+            lines.append(f"{xray_emoji} **X-ray**: {xray_current} (24h peak: {xray_peak})")
+
+        # Solar flux
+        if solar_flux != 'N/A':
+            lines.append(f"🌟 **Solar Flux**: {solar_flux} sfu")
+
+        # Solar wind
+        if wind_bt != 'N/A' and wind_bz != 'N/A':
+            lines.append(f"🌪️ **Solar Wind**: Bt {wind_bt} nT, Bz {wind_bz} nT")
+
+        return "<br/>".join(lines) if lines else "⚪ All quiet - no significant space weather activity"
 
 if __name__=="__main__":
     rr = SpaceWeather()
