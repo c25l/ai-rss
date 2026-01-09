@@ -1,11 +1,11 @@
 import feeds
-from ollama import Ollama
+from claude import Claude
 
 class Research:
     articles = []
     def __init__(self):
         self.articles = []
-        self.ollama = Ollama()
+        self.claude = Claude()
 
     def section_title(self):
         return "Arxiv Review"
@@ -43,7 +43,7 @@ Articles to review:
 Respond with ONLY a JSON array of the 5 indices you selected (e.g., [3, 7, 12, 1, 18]).
 No explanation, just the JSON array."""
 
-        response = self.ollama.generate(prompt)
+        response = self.claude.generate(prompt)
 
         # Parse the response to get indices
         try:

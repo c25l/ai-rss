@@ -39,4 +39,7 @@ flask>=3.0.0
 bcrypt>=4.0.0
 
 # MCP Server
-fastmcp>=0.1.0
+fastmcp
+
+requests
+dotenv

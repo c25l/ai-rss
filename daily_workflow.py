@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-import ollama
+#!/usr/bin/env python
+import claude
 import datetime
 import requests
 import dotenv
@@ -10,28 +10,18 @@ import spaceweather
 import emailer
 import news
 import tech_news
-import journal_calendar
 import stocks
 import astronomy
 from datamodel import Article
 import os
+import sys
 import google_auth
-import cross_reference
-import archive
 
 def main():
-    dotenv.load_dotenv("/Media/source/airss/.env")
-    os.chdir("/Media/source/airss/")
+    dotenv.load_dotenv("/home/chris/source/airss/.env")
+    os.chdir("/home/chris/source/airss/")
     articles = []
     content_sections = []
-
-    # Step 1: Refresh Google OAuth tokens if needed
-    print("Checking Google OAuth tokens...")
-    try:
-        google_auth.get_google_credentials()
-        print("✓ Google credentials refreshed")
-    except Exception as e:
-        print(f"Warning: Could not refresh Google credentials: {e}")
 
 
     preprompt="""
@@ -65,9 +55,9 @@ def main():
 
         # Rank each category
         print("Ranking news clusters...")
-        top_continuing = news_obj.rank_clusters(categorized['continuing'], 'continuing', top_k=3)
-        top_new = news_obj.rank_clusters(categorized['new'], 'new', top_k=5)
-        top_dormant = news_obj.rank_clusters(categorized['dormant'], 'dormant', top_k=2)
+        top_continuing = news_obj.rank_clusters(categorized['continuing'], 'continuing', top_k=5)
+        top_new = news_obj.rank_clusters(categorized['new'], 'new', top_k=7)
+        top_dormant = news_obj.rank_clusters(categorized['dormant'], 'dormant', top_k=3)
 
         # Format output ourselves (no AI summarization)
         news_output = []
@@ -77,20 +67,20 @@ def main():
             for group in top_continuing:
                 rep_article = group.articles[0] if group.articles else None
                 if rep_article:
-                    news_output.append(f"**[{rep_article.title}]({rep_article.url})** ({len(group.articles)} new articles today, {group.total_count} total)<br/>")
+                    news_output.append(f"- **[{rep_article.title}]({rep_article.url})** ({len(group.articles)} new articles today, {group.total_count} total)")
 
         if top_new:
             news_output.append("\n## New Today")
             for group in top_new:
                 rep_article = group.articles[0] if group.articles else None
                 if rep_article:
-                    news_output.append(f"**[{rep_article.title}]({rep_article.url})** ({len(group.articles)} articles)<br/>")
+                    news_output.append(f"- **[{rep_article.title}]({rep_article.url})** ({len(group.articles)} articles)")
 
         if top_dormant:
             news_output.append("\n## No Longer in the News")
             for group in top_dormant:
                 title = getattr(group, 'representative_title', 'Unknown')
-                news_output.append(f"**{title}** ({group.total_count} articles from previous days)<br/>")
+                news_output.append(f"- **{title}** ({group.total_count} articles from previous days)")
 
         content_sections.append(f"# Daily News Intelligence Brief\n\n" + "\n".join(news_output))
         print("✓ News Intelligence Brief generated")
@@ -102,7 +92,7 @@ def main():
     try:
         print("Fetching and ranking tech news articles...")
         tech_obj = tech_news.TechNews()
-        tech_output = tech_obj.pull_data(days=1, top_k=5, use_ranking=True)
+        tech_output = tech_obj.pull_data(days=1, top_k=7, use_ranking=True)
 
         content_sections.append(f"# Tech News\n\n{tech_output}")
         print("✓ Tech News generated")
@@ -132,34 +122,27 @@ Please make sure to include inline markdown links `[article title](url)` to the 
     if len(rsch.strip().split("\n"))<3:
         rsch="No new research articles found."
     else:
-        out4 = ollama.Ollama().generate(preprompt+research_prompt+rsch)
+        out4 = claude.Claude().generate(preprompt+research_prompt+rsch)
         content_sections.append(f"# Research Preprints\n\n{out4}")
 
     # Combine all sections
     final_content = "\n\n---\n\n".join(content_sections)
 
-    # Prepare subject for archive and email
-    today = datetime.datetime.now().strftime("%Y-%m-%d")
-    subject = f"H3LPeR - {today}"
-
-    # Archive the briefing
+    # Send email with daily report
     try:
-        archiver = archive.Archiver()
-        archiver.save_briefing(
-            content_markdown=final_content,
+        email_sender = emailer.Emailer()
+        today = datetime.datetime.now().strftime("%Y-%m-%d")
+        subject = f"H3LPeR {today}"
+
+        email_sender.send_email(
+            content=final_content,
             subject=subject,
-            metadata={"article_count": len(articles) if articles else 0}
+            to_addr=None  # Uses TO_EMAIL from .env
         )
-        print(f"✓ Briefing archived and available in webapp")
+        print(f"✓ H3LPeR report emailed successfully to {email_sender.to_email}")
     except Exception as e:
-        print(f"Warning: Could not archive briefing: {e}")
-
-    # Send email with simplified styling
-    try:
-        emailer.Emailer().send_email(final_content, subject=subject)
-        print("✓ Email sent")
-    except Exception as e:
-        print(f"Warning: Could not send email: {e}")
+        print(f"ERROR: Failed to send H3LPeR email: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

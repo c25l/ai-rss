@@ -7,7 +7,7 @@ from pathlib import Path
 class Journal(object):
     def __init__(self):
         self.entries = []
-        self.obsidian_dir = "/home/chris/Downloads/obsidian/config/ChoicesScaffold/"
+        self.obsidian_dir = "/home/chris/Downloads/obsidian/config/ChoicesScaffold"
         self.journal_dir = os.path.join(self.obsidian_dir, "Journal/Day")
 
     def section_title(self):
@@ -141,3 +141,6 @@ class Journal(object):
         if not self.entries:
             return "No journal entries found."
         return "\n".join(self.entries)
+if __name__=="__main__":
+    x=Journal()
+    print(x.pull_data())

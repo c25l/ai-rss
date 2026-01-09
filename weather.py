@@ -95,7 +95,8 @@ class Weather(object):
         alerts = self.get_alerts()
         if alerts:
             output.append("### 🚨 Active Alerts")
-            output.extend(alerts)
+            for alert in alerts:
+                output.append(f"- {alert}")
             output.append("")  # Blank line separator
 
         for i, period in enumerate(periods[:max_periods]):
@@ -115,11 +116,11 @@ class Weather(object):
 
                 emoji = self._get_weather_emoji(desc)
                 if temp_text:
-                    output.append(f"{emoji} **{name}**: {temp_text} - {condition}")
+                    output.append(f"- {emoji} **{name}**: {temp_text} - {condition}")
                 else:
-                    output.append(f"{emoji} **{name}**: {condition}")
+                    output.append(f"- {emoji} **{name}**: {condition}")
 
-        return "<br/>\n".join(output) if output else "❌ No forecast periods found"
+        return "\n".join(output) if output else "❌ No forecast periods found"
            
 
 if __name__=="__main__":

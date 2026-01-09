@@ -100,13 +100,13 @@ class Stocks:
         output = []
         for symbol in symbols:
             if symbol in quotes:
-                output.append(self.format_quote(quotes[symbol]))
+                output.append(f"- {self.format_quote(quotes[symbol])}")
 
         # Add timestamp
         now = datetime.now().strftime('%I:%M %p %Z')
         output.append(f"\n*Market data as of {now}*")
 
-        return "<br/>\n".join(output)
+        return "\n".join(output)
 
 
 if __name__ == "__main__":

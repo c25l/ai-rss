@@ -4,17 +4,17 @@ from bs4 import BeautifulSoup
 import requests
 from datamodel import Article
 from cluster import ArticleClusterer
-from ollama import Ollama
+from claude import Claude
 
 class News:
     def __init__(self, use_clustering=True):
         self.use_clustering = use_clustering
         self.clusterer = ArticleClusterer() if use_clustering else None
-        self.ollama = Ollama()
+        self.claude = Claude()
 
     def rank_clusters(self, clusters, category_name, top_k=5):
         """
-        Rank clusters by importance using Ollama.
+        Rank clusters by importance using Claude.
 
         Args:
             clusters: List of Group objects to rank
@@ -63,8 +63,8 @@ Focus on: major news impact, public interest, and relevance. Please suppress art
 Respond with ONLY a JSON array of the top {{top_k}} indices (e.g., [3, 7, 12, 1, 18]).
 No explanation, just the JSON array."""
 
-        # Rank using Ollama
-        selected_indices = self.ollama.rank_items(
+        # Rank using Claude
+        selected_indices = self.claude.rank_items(
             items=items_str,
             prompt_template=prompt_template,
             top_k=top_k
@@ -112,10 +112,7 @@ No explanation, just the JSON array."""
             print(f"Successfully embedded {len(embedded_articles)} articles")
 
             print("Clustering articles...")
-            groups = self.clusterer.cluster_articles_threshold(
-                embedded_articles,
-                similarity_threshold=0.5
-            )
+            groups = self.clusterer.cluster_articles_threshold(embedded_articles)
             print(f"Created {len(groups)} article clusters")
 
             # Categorize groups by date (new/continuing/dormant)

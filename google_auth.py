@@ -93,8 +93,8 @@ def get_google_credentials():
     Returns:
         Credentials object that can be used with any Google API service
     """
-    credentials_file = os.environ.get('GOOGLE_CREDENTIALS_PATH', '/Media/source/airss/credentials.json')
-    token_file = os.environ.get('GOOGLE_TOKEN_PATH', '/Media/source/airss/token.pickle')
+    credentials_file = os.environ.get('GOOGLE_CREDENTIALS_PATH', '/home/chris/source/airss/credentials.json')
+    token_file = os.environ.get('GOOGLE_TOKEN_PATH', '/home/chris/source/airss/token.pickle')
     use_blob = os.environ.get('AZURE_STORAGE_CONNECTION_STRING') is not None
 
     creds = None

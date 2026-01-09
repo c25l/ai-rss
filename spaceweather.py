@@ -191,23 +191,23 @@ class SpaceWeather(object):
 
         # Kp Index
         if kp_values:
-            lines.append(f"{kp_emoji} **Kp Index**: {current_kp:.1f} (24h peak: {peak_kp:.1f} - {peak_activity})")
+            lines.append(f"- {kp_emoji} **Kp Index**: {current_kp:.1f} (24h peak: {peak_kp:.1f} - {peak_activity})")
         else:
-            lines.append(f"⚪ **Kp Index**: N/A")
+            lines.append(f"- ⚪ **Kp Index**: N/A")
 
         # X-ray
         if xray_current != 'N/A' or xray_peak != 'N/A':
-            lines.append(f"{xray_emoji} **X-ray**: {xray_current} (24h peak: {xray_peak})")
+            lines.append(f"- {xray_emoji} **X-ray**: {xray_current} (24h peak: {xray_peak})")
 
         # Solar flux
         if solar_flux != 'N/A':
-            lines.append(f"🌟 **Solar Flux**: {solar_flux} sfu")
+            lines.append(f"- 🌟 **Solar Flux**: {solar_flux} sfu")
 
         # Solar wind
         if wind_bt != 'N/A' and wind_bz != 'N/A':
-            lines.append(f"🌪️ **Solar Wind**: Bt {wind_bt} nT, Bz {wind_bz} nT")
+            lines.append(f"- 🌪️ **Solar Wind**: Bt {wind_bt} nT, Bz {wind_bz} nT")
 
-        return "<br/>".join(lines) if lines else "⚪ All quiet - no significant space weather activity"
+        return "\n".join(lines) if lines else "⚪ All quiet - no significant space weather activity"
 
 if __name__=="__main__":
     rr = SpaceWeather()

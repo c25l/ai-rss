@@ -180,14 +180,14 @@ class Emailer:
         msg["Subject"] = subject
         msg.set_content(styled_html, subtype="html")
 
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        with smtplib.SMTP("smtp.mail.me.com", 587) as server:
             server.starttls()
             server.login(self.from_email, self.password)
             server.send_message(msg)
 
     def _connect_imap(self):
-        """Connect to Gmail IMAP server."""
-        mail = imaplib.IMAP4_SSL("imap.gmail.com")
+        """Connect to iCloud IMAP server."""
+        mail = imaplib.IMAP4_SSL("imap.mail.me.com")
         mail.login(self.from_email, self.password)
         return mail
 

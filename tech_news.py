@@ -3,15 +3,15 @@ import datetime
 from bs4 import BeautifulSoup
 import requests
 from datamodel import Article
-from ollama import Ollama
+from claude import Claude
 
 class TechNews:
     def __init__(self):
-        self.ollama = Ollama()
+        self.claude = Claude()
 
     def rank_articles(self, articles, top_k=5):
         """
-        Rank tech articles by importance using Ollama.
+        Rank tech articles by importance using Claude.
 
         Args:
             articles: List of Article objects to rank
@@ -40,8 +40,8 @@ Focus on: AI/ML developments, hardware/chips, datacenter tech, software releases
 Respond with ONLY a JSON array of the top {top_k} indices (e.g., [3, 7, 12, 1, 18]).
 No explanation, just the JSON array."""
 
-        # Rank using Ollama
-        selected_indices = self.ollama.rank_items(
+        # Rank using Claude
+        selected_indices = self.claude.rank_items(
             items=items_str,
             prompt_template=prompt_template,
             top_k=top_k
@@ -122,6 +122,6 @@ No explanation, just the JSON array."""
         # Format output
         output = []
         for art in articles:
-            output.append(f"**[{art.title}]({art.url})**<br/>")
+            output.append(f"- **[{art.title}]({art.url})**")
 
         return "\n".join(output)
