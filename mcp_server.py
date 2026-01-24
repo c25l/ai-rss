@@ -11,7 +11,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
-env_path = '/home/chris/source/airss/.env'
+env_path = '/Media/source/H3lPeR/.env'
 print(load_dotenv(dotenv_path=env_path))
 
 # Import all modules
@@ -24,6 +24,7 @@ from journal import Journal
 from research import Research
 from stocks import Stocks
 from astronomy import Astronomy
+from notifier import Notifier
 
 # Initialize FastMCP server
 mcp = FastMCP("airss")
@@ -720,6 +721,29 @@ def get_research_articles() -> str:
         return research.pull_data()
     except Exception as e:
         return f"Error fetching research articles: {str(e)}"
+
+
+# ============================================================================
+# NOTIFICATIONS
+# ============================================================================
+
+@mcp.tool()
+def send_notification(message: str) -> str:
+    """
+    Send a plain text notification via ntfy.sh to alert the user.
+
+    Args:
+        message: The notification text to send
+
+    Returns:
+        Success or failure message
+    """
+    try:
+        notifier = Notifier()
+        success = notifier.send(message)
+        return "Notification sent successfully" if success else "Failed to send notification"
+    except Exception as e:
+        return f"Error sending notification: {str(e)}"
 
 
 # ============================================================================

@@ -91,7 +91,7 @@ No explanation, just the JSON array."""
             pass  # Skip if tldr.tech is unavailable
 
         try:
-            text = BeautifulSoup(requests.get(f"https://tldr.tech/{now:%Y-%m-%d}").text, "html.parser")
+            text = BeautifulSoup(requests.get(f"https://tldr.tech/tech/{now:%Y-%m-%d}").text, "html.parser")
             text = text.find_all("article")
             print(len(text), "articles from tldr")
             articles.extend([Article(title=str(xx), summary="", published_at=now, source="tldr.tech") for xx in text])

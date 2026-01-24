@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 import weather
 import research
 import spaceweather
-import emailer
 import news
 import tech_news
 import stocks
@@ -18,8 +17,8 @@ import sys
 import google_auth
 
 def main():
-    dotenv.load_dotenv("/home/chris/source/airss/.env")
-    os.chdir("/home/chris/source/airss/")
+    dotenv.load_dotenv("/home/chris/source/H3lPeR/.env")
+    os.chdir("/home/chris/source/H3lPeR/")
     articles = []
     content_sections = []
 
@@ -128,20 +127,19 @@ Please make sure to include inline markdown links `[article title](url)` to the 
     # Combine all sections
     final_content = "\n\n---\n\n".join(content_sections)
 
-    # Send email with daily report
+    # Save to markdown file
     try:
-        email_sender = emailer.Emailer()
         today = datetime.datetime.now().strftime("%Y-%m-%d")
-        subject = f"H3LPeR {today}"
+        output_dir = "/home/chris/Downloads/obsidian/config/Choices+Scaffold/Generated/H3LPeR"
+        os.makedirs(output_dir, exist_ok=True)
+        output_path = os.path.join(output_dir, f"H3lPeR-{today}.md")
 
-        email_sender.send_email(
-            content=final_content,
-            subject=subject,
-            to_addr=None  # Uses TO_EMAIL from .env
-        )
-        print(f"✓ H3LPeR report emailed successfully to {email_sender.to_email}")
+        with open(output_path, 'w', encoding='utf-8') as f:
+            f.write(final_content)
+
+        print(f"✓ H3LPeR report saved to {output_path}")
     except Exception as e:
-        print(f"ERROR: Failed to send H3LPeR email: {e}")
+        print(f"ERROR: Failed to save H3LPeR report: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
