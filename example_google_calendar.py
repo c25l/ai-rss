@@ -93,7 +93,17 @@ def main():
         for date, events in sorted(events_by_date.items()):
             print(f"📅 {date}:")
             for event in events:
-                start_time = event['start'].split('T')[1][:5] if 'T' in event['start'] else 'All day'
+                # Safely extract time from datetime string
+                start_str = event['start']
+                if 'T' in start_str:
+                    # Extract time component with validation
+                    try:
+                        time_part = start_str.split('T')[1]
+                        start_time = time_part[:5]  # HH:MM
+                    except (IndexError, ValueError):
+                        start_time = 'Time N/A'
+                else:
+                    start_time = 'All day'
                 print(f"   {start_time} - {event['summary']}")
             print()
     

@@ -148,7 +148,8 @@ class GoogleCalendarAuth:
                 return []
         
         try:
-            now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+            # Use timezone-aware datetime (Python 3.12 compatible)
+            now = datetime.datetime.now(datetime.timezone.utc).isoformat().replace('+00:00', 'Z')
             
             events_result = self.service.events().list(
                 calendarId=calendar_id,
@@ -184,11 +185,12 @@ class GoogleCalendarAuth:
             calendar_ids = ['primary']
         
         try:
-            now = datetime.datetime.utcnow()
+            # Use timezone-aware datetime (Python 3.12 compatible)
+            now = datetime.datetime.now(datetime.timezone.utc)
             end_date = now + datetime.timedelta(days=days)
             
-            time_min = now.isoformat() + 'Z'
-            time_max = end_date.isoformat() + 'Z'
+            time_min = now.isoformat().replace('+00:00', 'Z')
+            time_max = end_date.isoformat().replace('+00:00', 'Z')
             
             events_by_date = {}
             
@@ -206,11 +208,17 @@ class GoogleCalendarAuth:
                     
                     for event in events:
                         start = event['start'].get('dateTime', event['start'].get('date'))
-                        # Parse the date
-                        if 'T' in start:
-                            event_date = datetime.datetime.fromisoformat(start.replace('Z', '+00:00'))
-                        else:
-                            event_date = datetime.datetime.fromisoformat(start)
+                        # Parse the date with proper timezone handling
+                        try:
+                            if 'T' in start:
+                                # DateTime format - handle timezone properly
+                                event_date = datetime.datetime.fromisoformat(start.replace('Z', '+00:00'))
+                            else:
+                                # Date-only format
+                                event_date = datetime.datetime.fromisoformat(start)
+                        except (ValueError, AttributeError) as e:
+                            print(f"Warning: Could not parse date '{start}': {e}")
+                            continue
                         
                         date_key = event_date.date().isoformat()
                         
