@@ -20,3 +20,8 @@ node_modules/*
 # Google Calendar OAuth credentials
 credentials.json
 token.json
+
+# Exception: Include Google Calendar documentation
+!GOOGLE_CALENDAR_SETUP.md
+!GOOGLE_AUTH_README.md
+!CLAUDE.md
