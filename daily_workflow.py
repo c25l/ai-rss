@@ -15,6 +15,7 @@ from datamodel import Article
 import os
 import sys
 import google_auth
+from emailer import Emailer
 
 def main():
     dotenv.load_dotenv("/home/chris/source/H3lPeR/.env")
@@ -127,19 +128,17 @@ Please make sure to include inline markdown links `[article title](url)` to the 
     # Combine all sections
     final_content = "\n\n---\n\n".join(content_sections)
 
-    # Save to markdown file
+    # Send email
     try:
         today = datetime.datetime.now().strftime("%Y-%m-%d")
-        output_dir = "/home/chris/Downloads/obsidian/config/Choices+Scaffold/Generated/H3LPeR"
-        os.makedirs(output_dir, exist_ok=True)
-        output_path = os.path.join(output_dir, f"H3lPeR-{today}.md")
-
-        with open(output_path, 'w', encoding='utf-8') as f:
-            f.write(final_content)
-
-        print(f"✓ H3LPeR report saved to {output_path}")
+        subject = f"H3LPeR Daily Briefing - {today}"
+        
+        emailer = Emailer()
+        emailer.send_email(final_content, subject=subject)
+        
+        print(f"✓ H3LPeR report emailed successfully")
     except Exception as e:
-        print(f"ERROR: Failed to save H3LPeR report: {e}")
+        print(f"ERROR: Failed to send H3LPeR email: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
