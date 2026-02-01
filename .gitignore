@@ -16,3 +16,7 @@ tmp/*
 logs/*
 node_modules/*
 .env
+
+# Google Calendar OAuth credentials
+credentials.json
+token.json
