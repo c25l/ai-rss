@@ -54,7 +54,7 @@ Select the TOP {top_k} papers most relevant to:
 - Performance optimization and systems research
 
 Articles to review:
-{''.join([f'{a}' for a in article_list])}
+{''.join(article_list)}
 
 Respond with ONLY a JSON array of the {top_k} indices (e.g., [3, 7, 12, 1, 18]).
 No explanation, just the JSON array."""
@@ -128,7 +128,7 @@ Select the TOP {top_k} papers with the highest NOVELTY and POTENTIAL IMPACT:
 Ignore incremental improvements. Prioritize bold, innovative ideas.
 
 Articles to review:
-{''.join([f'{a}' for a in article_list])}
+{''.join(article_list)}
 
 Respond with ONLY a JSON array of the {top_k} indices (e.g., [3, 7, 12, 1, 18]).
 No explanation, just the JSON array."""
@@ -256,13 +256,10 @@ class Research:
                 output.append(f"- **[{article.title}]({article.url})**")
             output.append("")
         
-        # Store combined unique articles
-        all_urls = relevance_urls | novelty_urls
-        self.articles = [a for a in relevance_picks + novelty_picks if a.url in all_urls]
-        # Deduplicate while preserving order
+        # Store combined unique articles (deduplicate while preserving order)
         seen = set()
         unique_articles = []
-        for a in self.articles:
+        for a in relevance_picks + novelty_picks:
             if a.url not in seen:
                 seen.add(a.url)
                 unique_articles.append(a)

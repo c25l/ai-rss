@@ -37,9 +37,9 @@ def main():
     try:
         print("Fetching astronomical visibility data...")
         astro = astronomy.Astronomy()
-        astro_info = astro.format_output(include_visualizations=False)  # Text summary
+        astro_info = astro.format_output(include_visualizations=False)  # Get text data first
         
-        # Generate visualizations separately for HTML embedding
+        # Generate SVG visualizations separately (for HTML embedding in email)
         print("Generating astronomy visualizations...")
         try:
             from orrery import Orrery

@@ -67,7 +67,7 @@ class StarChart:
         # Set to 10 PM tonight
         obs_time = now.replace(hour=22, minute=0, second=0, microsecond=0)
         if now.hour >= 22:
-            obs_time = obs_time  # Already past 10 PM, use now
+            obs_time = now  # Already past 10 PM, use current time
         return obs_time
 
     def _ra_dec_to_alt_az(self, ra_hours, dec_deg, obs_time):
