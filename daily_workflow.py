@@ -40,26 +40,32 @@ def main():
         astro_info = astro.format_output(include_visualizations=False)  # Get text data first
         
         # Generate PNG visualizations for email embedding
-        print("Generating astronomy visualizations as PNG...")
+        # Use png_generator.py which uses Pillow directly (no Cairo/system dependencies needed)
+        print("Generating astronomy visualizations as PNG (Pillow-based)...")
+        astro_visuals = ""
         try:
-            from orrery import Orrery
-            from starchart import StarChart
+            from png_generator import OrreryPNG, StarChartPNG
             
-            # Use generate_email_image() for PNG output (email-friendly)
-            orrery_img = Orrery().generate_email_image()
-            starchart_img = StarChart().generate_email_image()
-            
-            astro_visuals = ""
+            # Generate orrery
+            orrery_img = OrreryPNG().generate_email_image()
             if orrery_img:
+                print("  ✓ Orrery PNG generated")
                 astro_visuals += f"\n\n### Solar System Overview\n{orrery_img}"
-            if starchart_img:
-                astro_visuals += f"\n\n### Tonight's Star Chart\n{starchart_img}"
+            else:
+                print("  ✗ Orrery PNG failed")
             
-            # Note: If PNG conversion fails, we skip the visualizations entirely
-            # SVG doesn't work in email clients like Gmail
+            # Generate star chart
+            starchart_img = StarChartPNG(location_name="Longmont, CO").generate_email_image()
+            if starchart_img:
+                print("  ✓ Star chart PNG generated")
+                astro_visuals += f"\n\n### Tonight's Star Chart\n{starchart_img}"
+            else:
+                print("  ✗ Star chart PNG failed")
+                
         except Exception as viz_e:
             print(f"  Warning: Could not generate visualizations: {viz_e}")
-            astro_visuals = ""
+            import traceback
+            traceback.print_exc()
         
         astro_info = astro_info + astro_visuals
     except Exception as e:
