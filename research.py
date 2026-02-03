@@ -231,29 +231,29 @@ class Research:
         
         # Agreement section - papers both rankers selected
         if common_urls:
-            output.append("### 🤝 Both Rankers Agree On:")
+            output.append("### 🤝 Both Rankers Agree On:\n")
             common_articles = [a for a in relevance_picks if a.url in common_urls]
             for article in common_articles:
-                output.append(f"- **[{article.title}]({article.url})**")
-                output.append(f"  - {article.summary[:150]}...")
+                output.append(f"- **[{article.title}]({article.url})**<br>")
+                output.append(f"  - {article.summary[:150]}...<br>\n")
             output.append("")
         
         # Relevance-only picks
         relevance_only = [a for a in relevance_picks if a.url not in common_urls]
         if relevance_only:
-            output.append(f"### {self.relevance_ranker.name} Also Picks:")
-            output.append(f"*{self.relevance_ranker.description}*")
+            output.append(f"### {self.relevance_ranker.name} Also Picks:\n")
+            output.append(f"*{self.relevance_ranker.description}*\n")
             for article in relevance_only:
-                output.append(f"- **[{article.title}]({article.url})**")
+                output.append(f"- **[{article.title}]({article.url})**<br>\n")
             output.append("")
         
         # Novelty-only picks
         novelty_only = [a for a in novelty_picks if a.url not in common_urls]
         if novelty_only:
-            output.append(f"### {self.novelty_ranker.name} Also Picks:")
-            output.append(f"*{self.novelty_ranker.description}*")
+            output.append(f"### {self.novelty_ranker.name} Also Picks:\n")
+            output.append(f"*{self.novelty_ranker.description}*\n")
             for article in novelty_only:
-                output.append(f"- **[{article.title}]({article.url})**")
+                output.append(f"- **[{article.title}]({article.url})**<br>\n")
             output.append("")
         
         # Store combined unique articles (deduplicate while preserving order)

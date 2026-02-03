@@ -25,8 +25,33 @@ class Emailer:
 
     def _create_simple_html(self, content: str, subject: str) -> str:
         """Convert markdown content to clean, minimally-styled HTML."""
-        # Convert markdown to HTML first
-        html_content = markdown(content)
+        # Extract and preserve SVG blocks before markdown conversion
+        svg_placeholders = {}
+        svg_pattern = re.compile(r'(<svg[^>]*>.*?</svg>)', re.DOTALL | re.IGNORECASE)
+        
+        def replace_svg(match):
+            placeholder = f"__SVG_PLACEHOLDER_{len(svg_placeholders)}__"
+            svg_placeholders[placeholder] = match.group(1)
+            return placeholder
+        
+        content_with_placeholders = svg_pattern.sub(replace_svg, content)
+        
+        # Also preserve div-wrapped SVGs
+        div_svg_pattern = re.compile(r'(<div[^>]*>.*?<svg[^>]*>.*?</svg>.*?</div>)', re.DOTALL | re.IGNORECASE)
+        
+        def replace_div_svg(match):
+            placeholder = f"__DIVSVG_PLACEHOLDER_{len(svg_placeholders)}__"
+            svg_placeholders[placeholder] = match.group(1)
+            return placeholder
+        
+        content_with_placeholders = div_svg_pattern.sub(replace_div_svg, content_with_placeholders)
+        
+        # Convert markdown to HTML
+        html_content = markdown(content_with_placeholders)
+        
+        # Restore SVG blocks
+        for placeholder, svg in svg_placeholders.items():
+            html_content = html_content.replace(placeholder, svg)
 
         # Parse HTML to add simple, clean styling
         soup = BeautifulSoup(html_content, 'html.parser')
