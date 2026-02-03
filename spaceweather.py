@@ -8,10 +8,8 @@ class SpaceWeather(object):
     
     def _parse_kp_index(self, text):
         """Extract Kp index values from forecast text"""
-        # Look for decimal Kp values in the breakdown table
         kp_matches = re.findall(r'(\d+\.?\d*)\s+(?=\d+\.?\d*\s+\d+\.?\d*\s*$)', text, re.MULTILINE)
         if not kp_matches:
-            # Fallback to looking for "Kp X" pattern
             kp_matches = re.findall(r'Kp\s*(\d+\.?\d*)', text)
         return [float(k) for k in kp_matches] if kp_matches else []
     
@@ -19,27 +17,7 @@ class SpaceWeather(object):
         """Extract solar flux values"""
         flux_matches = re.findall(r'10\.7\s*cm\s*Radio\s*Flux[:\s]*(\d+)', text, re.IGNORECASE)
         return [int(f) for f in flux_matches] if flux_matches else []
-    
-    def _create_kp_chart(self, kp_values, width=200, height=40):
-        """Create SVG chart for Kp index"""
-        if not kp_values:
-            return ""
-        
-        bar_width = width / len(kp_values)
-        bars = []
-        
-        for i, kp in enumerate(kp_values):
-            x = i * bar_width
-            bar_height = (kp / 9) * height  # Kp scale 0-9
-            color = self._get_kp_color(int(kp))
-            bars.append(f'<rect x="{x}" y="{height-bar_height}" width="{bar_width-2}" height="{bar_height}" fill="{color}"/>')
-            bars.append(f'<text x="{x + bar_width/2}" y="{height + 12}" text-anchor="middle" font-size="10">{kp:.1f}</text>')
-        
-        return f"""<svg width="{width}" height="{height + 15}" style="display:inline-block;">
-{chr(10).join(bars)}
-<text x="0" y="-5" font-size="10" fill="#666">Kp Index</text>
-</svg>"""
-    
+
     def _get_kp_color(self, kp):
         """Get color based on Kp index severity"""
         if kp <= 2:
@@ -79,10 +57,9 @@ class SpaceWeather(object):
 
     def _parse_geomag_activity(self, text):
         """Extract geomagnetic activity levels from forecast"""
-        # Look for lines like "Geomagnetic Activity Summary:" followed by date and activity level
         activity_pattern = re.compile(r'(\w{3}\s+\d{2})\s+(\w+(?:\s+to\s+\w+)?)', re.MULTILINE)
         matches = activity_pattern.findall(text)
-        return matches[:3]  # Return first 3 days
+        return matches[:3]
 
     def _get_activity_emoji(self, activity):
         """Map activity level to emoji"""
@@ -105,7 +82,6 @@ class SpaceWeather(object):
         data = {}
 
         try:
-            # X-ray flux (current and recent max)
             xray_resp = requests.get('https://services.swpc.noaa.gov/json/goes/primary/xray-flares-latest.json', timeout=10)
             if xray_resp.status_code == 200:
                 xray_data = xray_resp.json()
@@ -118,7 +94,6 @@ class SpaceWeather(object):
             pass
 
         try:
-            # Solar flux (10.7cm)
             flux_resp = requests.get('https://services.swpc.noaa.gov/products/summary/10cm-flux.json', timeout=10)
             if flux_resp.status_code == 200:
                 flux_data = flux_resp.json()
@@ -127,7 +102,6 @@ class SpaceWeather(object):
             pass
 
         try:
-            # Solar wind
             wind_resp = requests.get('https://services.swpc.noaa.gov/products/summary/solar-wind-mag-field.json', timeout=10)
             if wind_resp.status_code == 200:
                 wind_data = wind_resp.json()
@@ -138,35 +112,180 @@ class SpaceWeather(object):
 
         return data
 
-    def format_forecast(self):
-        """Parse and format space weather forecast without LLM"""
-        # Get 3-day forecast text (includes peak Kp)
+    def _fetch_kp_history(self):
+        """Fetch recent Kp index history for charting"""
+        try:
+            # Get planetary K-index (3-hour intervals)
+            kp_resp = requests.get('https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json', timeout=10)
+            if kp_resp.status_code == 200:
+                kp_data = kp_resp.json()
+                # Skip header row (index 0), get last 8 entries (24 hours of 3-hour periods)
+                if len(kp_data) > 1:
+                    recent = kp_data[-8:]  # Last 8 3-hour periods
+                    return [(entry[0], float(entry[1])) for entry in recent if len(entry) > 1]
+        except:
+            pass
+        return []
+
+    def generate_kp_chart_svg(self, width=400, height=100):
+        """Generate SVG bar chart for Kp index history"""
+        kp_history = self._fetch_kp_history()
+        if not kp_history:
+            return ""
+
+        margin_left = 30
+        margin_right = 10
+        margin_top = 25
+        margin_bottom = 30
+        chart_width = width - margin_left - margin_right
+        chart_height = height - margin_top - margin_bottom
+
+        bar_width = chart_width / len(kp_history) - 4
+        max_kp = 9  # Kp scale is 0-9
+
+        svg_parts = []
+        svg_parts.append(f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" style="background-color: #1a1a2e;">''')
+
+        # Title
+        svg_parts.append(f'''  <text x="{width/2}" y="15" text-anchor="middle" fill="#CCCCCC" font-size="11" font-family="Arial">Kp Index (24h)</text>''')
+
+        # Y-axis labels and grid
+        for kp_val in [0, 3, 5, 7, 9]:
+            y = margin_top + chart_height - (kp_val / max_kp * chart_height)
+            svg_parts.append(f'''  <text x="{margin_left - 5}" y="{y + 3}" text-anchor="end" fill="#888" font-size="8" font-family="Arial">{kp_val}</text>''')
+            svg_parts.append(f'''  <line x1="{margin_left}" y1="{y}" x2="{width - margin_right}" y2="{y}" stroke="#333" stroke-width="0.5" stroke-dasharray="3,3"/>''')
+
+        # Storm threshold line at Kp=5
+        storm_y = margin_top + chart_height - (5 / max_kp * chart_height)
+        svg_parts.append(f'''  <line x1="{margin_left}" y1="{storm_y}" x2="{width - margin_right}" y2="{storm_y}" stroke="#f97316" stroke-width="1" stroke-dasharray="5,3" opacity="0.7"/>''')
+        svg_parts.append(f'''  <text x="{width - margin_right - 2}" y="{storm_y - 3}" text-anchor="end" fill="#f97316" font-size="7" font-family="Arial">Storm</text>''')
+
+        # Draw bars
+        for i, (timestamp, kp_val) in enumerate(kp_history):
+            x = margin_left + i * (bar_width + 4) + 2
+            bar_height = (kp_val / max_kp) * chart_height
+            y = margin_top + chart_height - bar_height
+            color = self._get_kp_color(kp_val)
+
+            svg_parts.append(f'''  <rect x="{x}" y="{y}" width="{bar_width}" height="{bar_height}" fill="{color}" rx="2"/>''')
+
+            # Time label (shortened)
+            try:
+                time_str = timestamp.split()[1][:5] if ' ' in timestamp else timestamp[-5:]
+            except:
+                time_str = ""
+            svg_parts.append(f'''  <text x="{x + bar_width/2}" y="{height - 8}" text-anchor="middle" fill="#666" font-size="6" font-family="Arial">{time_str}</text>''')
+
+            # Kp value on top of bar
+            svg_parts.append(f'''  <text x="{x + bar_width/2}" y="{y - 3}" text-anchor="middle" fill="#AAA" font-size="7" font-family="Arial">{kp_val:.0f}</text>''')
+
+        # Legend
+        legend_y = margin_top + 3
+        colors = [('#22c55e', 'Quiet'), ('#eab308', 'Unsettled'), ('#f97316', 'Active'), ('#ef4444', 'Storm')]
+        legend_x = margin_left
+        for color, label in colors:
+            svg_parts.append(f'''  <rect x="{legend_x}" y="{legend_y}" width="8" height="6" fill="{color}" rx="1"/>''')
+            svg_parts.append(f'''  <text x="{legend_x + 10}" y="{legend_y + 5}" fill="#888" font-size="6" font-family="Arial">{label}</text>''')
+            legend_x += 45
+
+        svg_parts.append('</svg>')
+        return '\n'.join(svg_parts)
+
+    def generate_solar_activity_svg(self, width=400, height=80):
+        """Generate SVG showing current solar activity indicators"""
+        current_data = self._fetch_current_data()
+        
+        svg_parts = []
+        svg_parts.append(f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" style="background-color: #1a1a2e;">''')
+
+        # Title
+        svg_parts.append(f'''  <text x="{width/2}" y="15" text-anchor="middle" fill="#CCCCCC" font-size="11" font-family="Arial">Solar Activity Status</text>''')
+
+        # Three indicator boxes
+        box_width = (width - 40) / 3
+        box_height = 45
+        box_y = 25
+
+        indicators = [
+            ('X-ray', current_data.get('xray_current', 'N/A'), self._get_xray_color(current_data.get('xray_current', 'N/A'))),
+            ('Solar Flux', f"{current_data.get('solar_flux', 'N/A')} sfu", self._get_flux_color(current_data.get('solar_flux', 'N/A'))),
+            ('Solar Wind', f"Bt {current_data.get('solar_wind_bt', 'N/A')} nT", self._get_wind_color(current_data.get('solar_wind_bt', 'N/A'))),
+        ]
+
+        for i, (label, value, color) in enumerate(indicators):
+            x = 10 + i * (box_width + 10)
+            # Box background
+            svg_parts.append(f'''  <rect x="{x}" y="{box_y}" width="{box_width}" height="{box_height}" fill="#252540" rx="5" stroke="{color}" stroke-width="2"/>''')
+            # Label
+            svg_parts.append(f'''  <text x="{x + box_width/2}" y="{box_y + 15}" text-anchor="middle" fill="#888" font-size="9" font-family="Arial">{label}</text>''')
+            # Value
+            svg_parts.append(f'''  <text x="{x + box_width/2}" y="{box_y + 35}" text-anchor="middle" fill="{color}" font-size="12" font-family="Arial" font-weight="bold">{value}</text>''')
+
+        svg_parts.append('</svg>')
+        return '\n'.join(svg_parts)
+
+    def _get_xray_color(self, xray_class):
+        """Get color based on X-ray class"""
+        if not xray_class or xray_class == 'N/A':
+            return '#888'
+        if xray_class.startswith('X'):
+            return '#ef4444'
+        elif xray_class.startswith('M'):
+            return '#f97316'
+        elif xray_class.startswith('C'):
+            return '#eab308'
+        else:
+            return '#22c55e'
+
+    def _get_flux_color(self, flux):
+        """Get color based on solar flux value"""
+        try:
+            flux_val = float(flux)
+            if flux_val >= 150:
+                return '#ef4444'
+            elif flux_val >= 120:
+                return '#f97316'
+            elif flux_val >= 100:
+                return '#eab308'
+            else:
+                return '#22c55e'
+        except:
+            return '#888'
+
+    def _get_wind_color(self, bt):
+        """Get color based on solar wind Bt"""
+        try:
+            bt_val = float(bt)
+            if bt_val >= 20:
+                return '#ef4444'
+            elif bt_val >= 10:
+                return '#f97316'
+            elif bt_val >= 5:
+                return '#eab308'
+            else:
+                return '#22c55e'
+        except:
+            return '#888'
+
+    def format_forecast(self, include_charts=True):
+        """Parse and format space weather forecast with optional charts"""
         forecast_text = self.pull_data()
         if forecast_text.startswith("error"):
             return f"❌ {forecast_text}"
 
-        # Get current data from JSON APIs
         current_data = self._fetch_current_data()
-
-        # Parse Kp index from forecast
         kp_values = self._parse_kp_index(forecast_text)
 
-        # Determine current and peak Kp
         current_kp = kp_values[0] if kp_values else 0
         peak_kp = max(kp_values) if kp_values else 0
 
-        # Get activity levels
         current_activity = self._get_activity_level(current_kp)
         peak_activity = self._get_activity_level(peak_kp)
-
-        # Get emoji for current activity
         kp_emoji = self._get_activity_emoji(current_activity)
 
-        # Format X-ray data
         xray_current = current_data.get('xray_current', 'N/A')
         xray_peak = current_data.get('xray_max_24h', 'N/A')
 
-        # Determine X-ray emoji (simplified)
         if xray_peak != 'N/A' and isinstance(xray_peak, str):
             if xray_peak.startswith('X'):
                 xray_emoji = '🔴'
@@ -179,31 +298,40 @@ class SpaceWeather(object):
         else:
             xray_emoji = '⚪'
 
-        # Format solar flux
         solar_flux = current_data.get('solar_flux', 'N/A')
-
-        # Format solar wind
         wind_bt = current_data.get('solar_wind_bt', 'N/A')
         wind_bz = current_data.get('solar_wind_bz', 'N/A')
 
-        # Build formatted output
         lines = []
 
-        # Kp Index
+        # Add charts if requested
+        if include_charts:
+            kp_chart = self.generate_kp_chart_svg()
+            if kp_chart:
+                lines.append('<div style="text-align: center;">')
+                lines.append(kp_chart)
+                lines.append('</div>')
+                lines.append("")
+
+            solar_chart = self.generate_solar_activity_svg()
+            if solar_chart:
+                lines.append('<div style="text-align: center;">')
+                lines.append(solar_chart)
+                lines.append('</div>')
+                lines.append("")
+
+        # Text summary
         if kp_values:
             lines.append(f"- {kp_emoji} **Kp Index**: {current_kp:.1f} (24h peak: {peak_kp:.1f} - {peak_activity})")
         else:
             lines.append(f"- ⚪ **Kp Index**: N/A")
 
-        # X-ray
         if xray_current != 'N/A' or xray_peak != 'N/A':
             lines.append(f"- {xray_emoji} **X-ray**: {xray_current} (24h peak: {xray_peak})")
 
-        # Solar flux
         if solar_flux != 'N/A':
             lines.append(f"- 🌟 **Solar Flux**: {solar_flux} sfu")
 
-        # Solar wind
         if wind_bt != 'N/A' and wind_bz != 'N/A':
             lines.append(f"- 🌪️ **Solar Wind**: Bt {wind_bt} nT, Bz {wind_bz} nT")
 
@@ -211,4 +339,4 @@ class SpaceWeather(object):
 
 if __name__=="__main__":
     rr = SpaceWeather()
-    print(rr.pull_data())
+    print(rr.format_forecast())

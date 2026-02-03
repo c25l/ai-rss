@@ -2,6 +2,7 @@
 """
 Orrery module - Generate SVG visualization of the solar system
 Shows current planetary positions as viewed from above the solar system.
+Includes all planets, minor objects, and pointers to deep sky objects.
 """
 import ephem
 import math
@@ -11,24 +12,40 @@ from datetime import datetime
 class Orrery:
     """Generate an SVG orrery showing current planetary positions"""
 
-    # Approximate orbital periods in days (for animation, not needed for static)
-    # Semi-major axes in AU
+    # All planets with colors and orbital slot (using constant spacing)
     PLANETS = {
-        'Mercury': {'color': '#B5A642', 'orbit_au': 0.387, 'body': ephem.Mercury},
-        'Venus': {'color': '#E6E6FA', 'orbit_au': 0.723, 'body': ephem.Venus},
-        'Earth': {'color': '#4169E1', 'orbit_au': 1.0, 'body': None},  # We're viewing from Earth's perspective
-        'Mars': {'color': '#CD5C5C', 'orbit_au': 1.524, 'body': ephem.Mars},
-        'Jupiter': {'color': '#DAA520', 'orbit_au': 5.203, 'body': ephem.Jupiter},
-        'Saturn': {'color': '#F4C430', 'orbit_au': 9.537, 'body': ephem.Saturn},
+        'Mercury': {'color': '#B5A642', 'slot': 1, 'body': ephem.Mercury, 'size': 3},
+        'Venus': {'color': '#E6E6FA', 'slot': 2, 'body': ephem.Venus, 'size': 5},
+        'Earth': {'color': '#4169E1', 'slot': 3, 'body': None, 'size': 5},
+        'Mars': {'color': '#CD5C5C', 'slot': 4, 'body': ephem.Mars, 'size': 4},
+        'Jupiter': {'color': '#DAA520', 'slot': 6, 'body': ephem.Jupiter, 'size': 10},
+        'Saturn': {'color': '#F4C430', 'slot': 7, 'body': ephem.Saturn, 'size': 9},
+        'Uranus': {'color': '#87CEEB', 'slot': 8, 'body': ephem.Uranus, 'size': 7},
+        'Neptune': {'color': '#4169E1', 'slot': 9, 'body': ephem.Neptune, 'size': 7},
     }
 
-    def __init__(self, width=400, height=400):
+    # Minor objects (asteroid belt slot 5, outer objects slot 10)
+    MINOR_OBJECTS = {
+        'Ceres': {'color': '#8B8989', 'slot': 5, 'size': 2},  # Asteroid belt
+        'Pluto': {'color': '#DEB887', 'slot': 10, 'size': 2},
+    }
+
+    # Deep sky pointers (RA in hours, Dec in degrees for J2000)
+    DEEP_SKY = {
+        'Galactic Center': {'ra': 17.76, 'dec': -29.0, 'color': '#FFD700', 'symbol': '*'},
+        'Alpha Centauri': {'ra': 14.66, 'dec': -60.83, 'color': '#FFFFFF', 'symbol': '+'},
+        'Andromeda (M31)': {'ra': 0.71, 'dec': 41.27, 'color': '#C0C0FF', 'symbol': 'o'},
+    }
+
+    def __init__(self, width=500, height=500):
         self.width = width
         self.height = height
         self.cx = width / 2
         self.cy = height / 2
-        # Scale factor: map 10 AU to fit within radius
-        self.scale = min(width, height) / 2 * 0.85 / 10  # 10 AU = 85% of half-width
+        # Max radius for outermost orbit (slot 10)
+        self.max_radius = min(width, height) / 2 * 0.75
+        # Spacing per slot
+        self.slot_spacing = self.max_radius / 11  # 11 slots (0=sun, 1-10=orbits)
 
     def _get_heliocentric_position(self, body_func):
         """
@@ -36,48 +53,63 @@ class Orrery:
         Returns (longitude_degrees, distance_au)
         """
         if body_func is None:
-            return (0, 1.0)  # Earth at 0° reference
+            return (0, 1.0)
 
         body = body_func()
         body.compute(ephem.now())
 
-        # Get heliocentric longitude (sun-centered, ecliptic coordinates)
-        hlon = float(body.hlon) * 180 / math.pi  # Convert to degrees
-        # Get heliocentric distance
-        sun_dist = float(body.sun_distance)  # in AU
+        hlon = float(body.hlon) * 180 / math.pi
+        sun_dist = float(body.sun_distance)
 
         return (hlon, sun_dist)
 
     def _get_earth_position(self):
-        """Get Earth's heliocentric longitude by computing Sun's apparent position"""
+        """Get Earth's heliocentric longitude"""
         sun = ephem.Sun()
         sun.compute(ephem.now())
-        # Earth is opposite the Sun's apparent position
         earth_hlon = (float(sun.hlon) * 180 / math.pi + 180) % 360
         return (earth_hlon, 1.0)
 
-    def _polar_to_cartesian(self, angle_deg, distance_au):
-        """Convert polar (angle, distance) to SVG cartesian coordinates"""
-        angle_rad = math.radians(angle_deg - 90)  # Rotate so 0° is at top
-        # Apply logarithmic scaling for outer planets to fit better
-        # Inner planets (< 2 AU): linear scale
-        # Outer planets (> 2 AU): compressed scale
-        if distance_au <= 2:
-            scaled_dist = distance_au * self.scale * 15  # Boost inner planets
-        else:
-            # Logarithmic compression for outer planets
-            scaled_dist = (2 * 15 + math.log(distance_au / 2 + 1) * 40) * self.scale
+    def _get_minor_object_position(self, name):
+        """Get approximate position for minor objects using ephem database"""
+        try:
+            if name == 'Ceres':
+                # Ceres orbital elements in ephem XEphem format:
+                # name,type,inclination,long_asc_node,arg_perihelion,semi_major_axis,
+                # eccentricity,mean_anomaly,mean_daily_motion,epoch,equinox,H_mag,G_slope
+                body = ephem.readdb("Ceres,e,10.59,80.33,73.60,2.77,0.214,0.0758,352.23,01/01/2020,2000,H 3.34,0.12")
+            elif name == 'Pluto':
+                body = ephem.Pluto()
+            else:
+                return (0, 0)
+            
+            body.compute(ephem.now())
+            hlon = float(body.hlon) * 180 / math.pi
+            return (hlon, float(body.sun_distance))
+        except:
+            # Fallback: return a fixed position
+            return (45 if name == 'Ceres' else 270, 2.77 if name == 'Ceres' else 39.5)
 
-        x = self.cx + scaled_dist * math.cos(angle_rad)
-        y = self.cy + scaled_dist * math.sin(angle_rad)
+    def _slot_to_radius(self, slot):
+        """Convert orbit slot to SVG radius"""
+        return slot * self.slot_spacing
+
+    def _polar_to_cartesian(self, angle_deg, radius):
+        """Convert polar (angle, radius) to SVG cartesian coordinates"""
+        angle_rad = math.radians(angle_deg - 90)  # 0° at top
+        x = self.cx + radius * math.cos(angle_rad)
+        y = self.cy + radius * math.sin(angle_rad)
         return (x, y)
 
-    def _orbit_radius(self, distance_au):
-        """Get orbit circle radius for a given AU distance"""
-        if distance_au <= 2:
-            return distance_au * self.scale * 15
-        else:
-            return (2 * 15 + math.log(distance_au / 2 + 1) * 40) * self.scale
+    def _ra_dec_to_angle(self, ra_hours, dec_deg):
+        """
+        Convert RA/Dec to an angle for the orrery edge pointer.
+        This is approximate - we convert RA to ecliptic longitude.
+        """
+        # Simplified conversion: RA hours to degrees (15° per hour)
+        # This gives the approximate direction in the sky
+        angle = ra_hours * 15
+        return angle
 
     def generate_svg(self):
         """Generate SVG orrery visualization"""
@@ -91,36 +123,40 @@ class Orrery:
       <stop offset="50%" stop-color="#FFA500"/>
       <stop offset="100%" stop-color="#FF4500" stop-opacity="0"/>
     </radialGradient>
+    <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <polygon points="0 0, 6 3, 0 6" fill="#888"/>
+    </marker>
   </defs>''')
 
         # Title
         now = datetime.now()
-        svg_parts.append(f'''  <text x="{self.cx}" y="20" text-anchor="middle" fill="#CCCCCC" font-size="14" font-family="Arial">Solar System - {now.strftime('%B %d, %Y')}</text>''')
+        svg_parts.append(f'''  <text x="{self.cx}" y="18" text-anchor="middle" fill="#CCCCCC" font-size="12" font-family="Arial">Solar System - {now.strftime('%B %d, %Y')}</text>''')
 
-        # Draw orbit circles (dashed)
-        for name, data in self.PLANETS.items():
-            radius = self._orbit_radius(data['orbit_au'])
-            svg_parts.append(f'''  <circle cx="{self.cx}" cy="{self.cy}" r="{radius:.1f}" fill="none" stroke="#333355" stroke-width="0.5" stroke-dasharray="3,3"/>''')
+        # Draw orbit circles (constant spacing)
+        for slot in range(1, 11):
+            radius = self._slot_to_radius(slot)
+            opacity = 0.4 if slot <= 4 else 0.3  # Inner planets slightly more visible
+            svg_parts.append(f'''  <circle cx="{self.cx}" cy="{self.cy}" r="{radius:.1f}" fill="none" stroke="#333355" stroke-width="0.5" stroke-dasharray="3,3" opacity="{opacity}"/>''')
+
+        # Draw asteroid belt region (between Mars slot 4 and Jupiter slot 6)
+        belt_inner = self._slot_to_radius(4.5)
+        belt_outer = self._slot_to_radius(5.5)
+        svg_parts.append(f'''  <circle cx="{self.cx}" cy="{self.cy}" r="{(belt_inner + belt_outer)/2:.1f}" fill="none" stroke="#555566" stroke-width="{belt_outer - belt_inner:.1f}" stroke-dasharray="1,3" opacity="0.3"/>''')
 
         # Draw Sun at center
-        svg_parts.append(f'''  <circle cx="{self.cx}" cy="{self.cy}" r="15" fill="url(#sunGlow)"/>
-  <circle cx="{self.cx}" cy="{self.cy}" r="8" fill="#FFD700"/>''')
-
-        # Get Earth position first (for reference)
-        earth_hlon, _ = self._get_earth_position()
+        svg_parts.append(f'''  <circle cx="{self.cx}" cy="{self.cy}" r="12" fill="url(#sunGlow)"/>
+  <circle cx="{self.cx}" cy="{self.cy}" r="6" fill="#FFD700"/>''')
 
         # Draw planets
         for name, data in self.PLANETS.items():
             if name == 'Earth':
-                hlon, dist = self._get_earth_position()
+                hlon, _ = self._get_earth_position()
             else:
-                hlon, dist = self._get_heliocentric_position(data['body'])
+                hlon, _ = self._get_heliocentric_position(data['body'])
 
-            x, y = self._polar_to_cartesian(hlon, data['orbit_au'])
-
-            # Planet size based on actual relative size (simplified)
-            sizes = {'Mercury': 3, 'Venus': 5, 'Earth': 5, 'Mars': 4, 'Jupiter': 10, 'Saturn': 9}
-            size = sizes.get(name, 5)
+            radius = self._slot_to_radius(data['slot'])
+            x, y = self._polar_to_cartesian(hlon, radius)
+            size = data['size']
 
             # Draw planet
             svg_parts.append(f'''  <circle cx="{x:.1f}" cy="{y:.1f}" r="{size}" fill="{data['color']}"/>''')
@@ -129,12 +165,54 @@ class Orrery:
             if name == 'Saturn':
                 svg_parts.append(f'''  <ellipse cx="{x:.1f}" cy="{y:.1f}" rx="{size * 1.8}" ry="{size * 0.4}" fill="none" stroke="{data['color']}" stroke-width="1.5" opacity="0.7"/>''')
 
-            # Label
-            label_offset = size + 8
-            svg_parts.append(f'''  <text x="{x:.1f}" y="{y + label_offset:.1f}" text-anchor="middle" fill="#AAAAAA" font-size="9" font-family="Arial">{name}</text>''')
+            # Add Uranus's tilted rings
+            if name == 'Uranus':
+                svg_parts.append(f'''  <ellipse cx="{x:.1f}" cy="{y:.1f}" rx="{size * 0.4}" ry="{size * 1.4}" fill="none" stroke="{data['color']}" stroke-width="0.8" opacity="0.5"/>''')
 
-        # Add legend
-        svg_parts.append(f'''  <text x="10" y="{self.height - 10}" fill="#666666" font-size="8" font-family="Arial">View from above ecliptic plane</text>''')
+            # Label (smaller font for outer planets)
+            font_size = 8 if data['slot'] >= 6 else 9
+            label_offset = size + 6
+            svg_parts.append(f'''  <text x="{x:.1f}" y="{y + label_offset:.1f}" text-anchor="middle" fill="#AAAAAA" font-size="{font_size}" font-family="Arial">{name}</text>''')
+
+        # Draw minor objects
+        for name, data in self.MINOR_OBJECTS.items():
+            hlon, _ = self._get_minor_object_position(name)
+            radius = self._slot_to_radius(data['slot'])
+            x, y = self._polar_to_cartesian(hlon, radius)
+            size = data['size']
+
+            # Draw as smaller circle
+            svg_parts.append(f'''  <circle cx="{x:.1f}" cy="{y:.1f}" r="{size}" fill="{data['color']}" opacity="0.8"/>''')
+            # Smaller label
+            svg_parts.append(f'''  <text x="{x:.1f}" y="{y + size + 5:.1f}" text-anchor="middle" fill="#888888" font-size="7" font-family="Arial">{name}</text>''')
+
+        # Draw deep sky pointers at edge
+        edge_radius = self.max_radius + 15
+        pointer_length = 25
+        for name, data in self.DEEP_SKY.items():
+            angle = self._ra_dec_to_angle(data['ra'], data['dec'])
+            
+            # Arrow start and end points
+            start_r = edge_radius
+            end_r = edge_radius + pointer_length
+            x1, y1 = self._polar_to_cartesian(angle, start_r)
+            x2, y2 = self._polar_to_cartesian(angle, end_r)
+            
+            # Draw arrow line
+            svg_parts.append(f'''  <line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{data['color']}" stroke-width="1.5" marker-end="url(#arrowhead)" opacity="0.8"/>''')
+            
+            # Symbol and label at arrow tip
+            lx, ly = self._polar_to_cartesian(angle, end_r + 8)
+            svg_parts.append(f'''  <text x="{lx:.1f}" y="{ly:.1f}" text-anchor="middle" fill="{data['color']}" font-size="10">{data['symbol']}</text>''')
+            
+            # Name label (shortened for space)
+            short_name = name.split('(')[0].strip()[:12]
+            nlx, nly = self._polar_to_cartesian(angle, end_r + 18)
+            svg_parts.append(f'''  <text x="{nlx:.1f}" y="{nly:.1f}" text-anchor="middle" fill="#888888" font-size="6" font-family="Arial">{short_name}</text>''')
+
+        # Legend
+        svg_parts.append(f'''  <text x="10" y="{self.height - 20}" fill="#666666" font-size="7" font-family="Arial">● Planets  ○ Minor Objects  → Deep Sky</text>''')
+        svg_parts.append(f'''  <text x="10" y="{self.height - 10}" fill="#666666" font-size="7" font-family="Arial">View from above ecliptic plane</text>''')
 
         svg_parts.append('</svg>')
 
