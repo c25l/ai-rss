@@ -314,37 +314,18 @@ class SpaceWeather(object):
                     png_img = svg_to_email_image(kp_chart, alt_text="Kp Index Chart")
                     if png_img:
                         lines.append(png_img)
-                    else:
-                        lines.append('<div style="text-align: center;">')
-                        lines.append(kp_chart)
-                        lines.append('</div>')
-                    lines.append("")
+                        lines.append("")
+                    # If PNG conversion fails, skip chart (SVG doesn't work in email)
 
                 solar_chart = self.generate_solar_activity_svg()
                 if solar_chart:
                     png_img = svg_to_email_image(solar_chart, alt_text="Solar Activity Status")
                     if png_img:
                         lines.append(png_img)
-                    else:
-                        lines.append('<div style="text-align: center;">')
-                        lines.append(solar_chart)
-                        lines.append('</div>')
-                    lines.append("")
+                        lines.append("")
+                    # If PNG conversion fails, skip chart (SVG doesn't work in email)
             except ImportError:
-                # Fallback to SVG if svg_to_image not available
-                kp_chart = self.generate_kp_chart_svg()
-                if kp_chart:
-                    lines.append('<div style="text-align: center;">')
-                    lines.append(kp_chart)
-                    lines.append('</div>')
-                    lines.append("")
-
-                solar_chart = self.generate_solar_activity_svg()
-                if solar_chart:
-                    lines.append('<div style="text-align: center;">')
-                    lines.append(solar_chart)
-                    lines.append('</div>')
-                    lines.append("")
+                pass  # Skip charts if svg_to_image not available
 
         # Text summary
         if kp_values:

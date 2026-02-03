@@ -54,13 +54,9 @@ def main():
                 astro_visuals += f"\n\n### Solar System Overview\n{orrery_img}"
             if starchart_img:
                 astro_visuals += f"\n\n### Tonight's Star Chart\n{starchart_img}"
-                
-            if not astro_visuals:
-                # Fallback to SVG if PNG conversion failed
-                print("  PNG conversion unavailable, using SVG fallback")
-                orrery_svg = Orrery().generate_markdown()
-                starchart_svg = StarChart().generate_markdown()
-                astro_visuals = f"\n\n### Solar System Overview\n{orrery_svg}\n\n### Tonight's Star Chart\n{starchart_svg}"
+            
+            # Note: If PNG conversion fails, we skip the visualizations entirely
+            # SVG doesn't work in email clients like Gmail
         except Exception as viz_e:
             print(f"  Warning: Could not generate visualizations: {viz_e}")
             astro_visuals = ""
