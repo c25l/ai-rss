@@ -2,16 +2,66 @@
 """
 SVG to Image converter for email embedding.
 Converts SVG content to base64-encoded PNG images that work in email clients.
+
+Supports two conversion backends:
+1. cairosvg (preferred, better quality but requires Cairo system library)
+2. svglib + reportlab (pure Python fallback, no system dependencies)
 """
 import base64
 import io
+import sys
 
+# Track which conversion backend is available
+CAIROSVG_AVAILABLE = False
+SVGLIB_AVAILABLE = False
+
+# Try cairosvg first (better quality)
 try:
     import cairosvg
     CAIROSVG_AVAILABLE = True
 except ImportError:
-    CAIROSVG_AVAILABLE = False
-    print("Warning: cairosvg not available. SVG to PNG conversion disabled.")
+    pass
+except Exception as e:
+    print(f"Warning: cairosvg import failed: {e}", file=sys.stderr)
+
+# Try svglib + reportlab as fallback (pure Python)
+try:
+    from svglib.svglib import svg2rlg
+    from reportlab.graphics import renderPM
+    SVGLIB_AVAILABLE = True
+except ImportError:
+    pass
+except Exception as e:
+    print(f"Warning: svglib import failed: {e}", file=sys.stderr)
+
+if not CAIROSVG_AVAILABLE and not SVGLIB_AVAILABLE:
+    print("Warning: No SVG to PNG converter available. Install cairosvg or svglib+reportlab.", file=sys.stderr)
+
+
+def _convert_with_cairosvg(svg_content: str, scale: float = 2.0) -> bytes:
+    """Convert SVG to PNG bytes using cairosvg"""
+    return cairosvg.svg2png(
+        bytestring=svg_content.encode('utf-8'),
+        scale=scale
+    )
+
+
+def _convert_with_svglib(svg_content: str, scale: float = 2.0) -> bytes:
+    """Convert SVG to PNG bytes using svglib + reportlab"""
+    # Parse SVG
+    drawing = svg2rlg(io.StringIO(svg_content))
+    if drawing is None:
+        raise ValueError("svglib failed to parse SVG")
+    
+    # Scale the drawing
+    drawing.scale(scale, scale)
+    drawing.width *= scale
+    drawing.height *= scale
+    
+    # Render to PNG bytes
+    png_buffer = io.BytesIO()
+    renderPM.drawToFile(drawing, png_buffer, fmt='PNG')
+    return png_buffer.getvalue()
 
 
 def svg_to_base64_png(svg_content: str, scale: float = 2.0) -> str:
@@ -25,24 +75,34 @@ def svg_to_base64_png(svg_content: str, scale: float = 2.0) -> str:
     Returns:
         Base64-encoded PNG data URI string for embedding in HTML
     """
-    if not CAIROSVG_AVAILABLE:
+    png_bytes = None
+    errors = []
+    
+    # Try cairosvg first (better quality)
+    if CAIROSVG_AVAILABLE:
+        try:
+            png_bytes = _convert_with_cairosvg(svg_content, scale)
+        except Exception as e:
+            errors.append(f"cairosvg: {e}")
+    
+    # Fallback to svglib
+    if png_bytes is None and SVGLIB_AVAILABLE:
+        try:
+            png_bytes = _convert_with_svglib(svg_content, scale)
+        except Exception as e:
+            errors.append(f"svglib: {e}")
+    
+    # If all methods failed
+    if png_bytes is None:
+        if errors:
+            print(f"SVG to PNG conversion failed: {'; '.join(errors)}", file=sys.stderr)
+        else:
+            print("SVG to PNG conversion failed: No converter available", file=sys.stderr)
         return ""
     
-    try:
-        # Convert SVG to PNG bytes
-        png_bytes = cairosvg.svg2png(
-            bytestring=svg_content.encode('utf-8'),
-            scale=scale
-        )
-        
-        # Encode to base64
-        base64_png = base64.b64encode(png_bytes).decode('utf-8')
-        
-        # Return as data URI
-        return f"data:image/png;base64,{base64_png}"
-    except Exception as e:
-        print(f"Error converting SVG to PNG: {e}")
-        return ""
+    # Encode to base64
+    base64_png = base64.b64encode(png_bytes).decode('utf-8')
+    return f"data:image/png;base64,{base64_png}"
 
 
 def svg_to_img_tag(svg_content: str, alt_text: str = "Visualization", 
@@ -90,7 +150,20 @@ def svg_to_email_image(svg_content: str, alt_text: str = "Visualization",
     return img_tag
 
 
+def get_converter_status() -> dict:
+    """Return status of available converters for debugging"""
+    return {
+        'cairosvg': CAIROSVG_AVAILABLE,
+        'svglib': SVGLIB_AVAILABLE,
+        'any_available': CAIROSVG_AVAILABLE or SVGLIB_AVAILABLE
+    }
+
+
 if __name__ == "__main__":
+    # Show converter status
+    status = get_converter_status()
+    print(f"Converter status: {status}")
+    
     # Test with a simple SVG
     test_svg = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style="background-color: #1a1a2e;">
         <circle cx="50" cy="50" r="40" fill="#FFD700"/>

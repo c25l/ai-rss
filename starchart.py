@@ -259,11 +259,27 @@ class StarChart:
     def generate_email_image(self):
         """Generate email-friendly PNG image from SVG"""
         try:
-            from svg_to_image import svg_to_email_image
+            from svg_to_image import svg_to_email_image, get_converter_status
+            
+            # Check if converter is available
+            status = get_converter_status()
+            if not status['any_available']:
+                print("ERROR: No SVG to PNG converter available. Install cairosvg: pip install cairosvg")
+                print("  On Ubuntu/Debian, also run: sudo apt-get install libcairo2-dev")
+                return ""
+            
             svg = self.generate_svg()
-            return svg_to_email_image(svg, alt_text="Tonight's Star Chart")
+            result = svg_to_email_image(svg, alt_text="Tonight's Star Chart")
+            if not result:
+                print("ERROR: SVG to PNG conversion returned empty result for star chart")
+            return result
+        except ImportError as e:
+            print(f"ERROR: Could not import svg_to_image: {e}")
+            return ""
         except Exception as e:
-            print(f"Warning: Could not generate star chart PNG: {e}")
+            print(f"ERROR: Could not generate star chart PNG: {e}")
+            import traceback
+            traceback.print_exc()
             return ""
 
 

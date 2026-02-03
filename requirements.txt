@@ -32,8 +32,12 @@ ephem>=4.1.0
 markdown>=3.0.0
 
 # SVG to PNG conversion for email images
+# Primary: cairosvg (better quality, requires Cairo system library)
 cairosvg>=2.5.0
 pillow>=10.3.0
+# Fallback: svglib + reportlab (pure Python, no system dependencies)
+svglib>=1.5.0
+reportlab>=4.0.0
 
 # Environment variables
 python-dotenv>=1.0.0
