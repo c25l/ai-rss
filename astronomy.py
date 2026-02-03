@@ -237,8 +237,12 @@ class Astronomy:
         }
         return data
 
-    def format_output(self):
-        """Format astronomical data into readable text"""
+    def format_output(self, include_visualizations=False):
+        """Format astronomical data into readable text
+        
+        Args:
+            include_visualizations: If True, include orrery and star chart SVGs
+        """
         data = self.pull_data()
 
         output = []
@@ -260,9 +264,35 @@ class Astronomy:
         else:
             output.append(f"\n- **Planets:** None visible tonight")
 
+        # Add visualizations if requested
+        if include_visualizations:
+            try:
+                from orrery import Orrery
+                from starchart import StarChart
+                
+                output.append("\n### Solar System Overview")
+                orrery = Orrery()
+                output.append(orrery.generate_markdown())
+                
+                output.append("\n### Tonight's Star Chart")
+                starchart = StarChart(lat=self.lat, lon=self.lon)
+                output.append(starchart.generate_markdown())
+            except Exception as e:
+                output.append(f"\n*Visualization generation error: {e}*")
+
         return '\n'.join(output)
+
+    def get_orrery_svg(self):
+        """Generate orrery SVG visualization"""
+        from orrery import Orrery
+        return Orrery().generate_svg()
+
+    def get_starchart_svg(self):
+        """Generate star chart SVG visualization"""
+        from starchart import StarChart
+        return StarChart(lat=self.lat, lon=self.lon).generate_svg()
 
 
 if __name__ == "__main__":
     astro = Astronomy()
-    print(astro.format_output())
+    print(astro.format_output(include_visualizations=True))

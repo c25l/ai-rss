@@ -33,11 +33,27 @@ def main():
     weather_forecast = weather.Weather().format_forecast()
     spaceweather_forecast = spaceweather.SpaceWeather().format_forecast()
 
-    # Get astronomical viewing data
+    # Get astronomical viewing data with visualizations
     try:
         print("Fetching astronomical visibility data...")
         astro = astronomy.Astronomy()
-        astro_info = astro.format_output()
+        astro_info = astro.format_output(include_visualizations=False)  # Text summary
+        
+        # Generate visualizations separately for HTML embedding
+        print("Generating astronomy visualizations...")
+        try:
+            from orrery import Orrery
+            from starchart import StarChart
+            
+            orrery_svg = Orrery().generate_markdown()
+            starchart_svg = StarChart().generate_markdown()
+            
+            astro_visuals = f"\n\n### Solar System Overview\n{orrery_svg}\n\n### Tonight's Star Chart\n{starchart_svg}"
+        except Exception as viz_e:
+            print(f"  Warning: Could not generate visualizations: {viz_e}")
+            astro_visuals = ""
+        
+        astro_info = astro_info + astro_visuals
     except Exception as e:
         print(f"Warning: Could not fetch astronomical data: {e}")
         astro_info = "Error fetching tonight's sky data"
@@ -107,8 +123,23 @@ def main():
     except Exception as e:
         print(f"Warning: Could not fetch stock data: {e}")
 
-# Research Preprints
-    research_prompt = """
+# Research Preprints with Dual Ranker Comparison
+    try:
+        print("Fetching and ranking research preprints with dual ranker comparison...")
+        rsch_obj = research.Research(use_dual_ranker=True)
+        rsch_output = rsch_obj.pull_data(compare_rankers=True)
+        
+        if not rsch_output or len(rsch_output.strip().split("\n")) < 3:
+            rsch_output = "No new research articles found."
+        
+        content_sections.append(f"# Research Preprints\n\n{rsch_output}")
+        print("✓ Research Preprints generated with dual ranker comparison")
+    except Exception as e:
+        print(f"Warning: Could not generate Research Preprints: {e}")
+        # Fallback to legacy single-ranker mode
+        try:
+            print("  Falling back to single ranker mode...")
+            research_prompt = """
 I want at most 5 preprints about:
     - training or inference of ai models at scale.
     - especially including design of infrastructure and new hardware
@@ -118,12 +149,14 @@ Please make sure to include inline markdown links `[article title](url)` to the 
 # Begin research articles:
 
 """
-    rsch = research.Research().pull_data()
-    if len(rsch.strip().split("\n"))<3:
-        rsch="No new research articles found."
-    else:
-        out4 = claude.Claude().generate(preprompt+research_prompt+rsch)
-        content_sections.append(f"# Research Preprints\n\n{out4}")
+            rsch = research.Research(use_dual_ranker=False).pull_data()
+            if len(rsch.strip().split("\n")) < 3:
+                rsch = "No new research articles found."
+            else:
+                out4 = claude.Claude().generate(preprompt + research_prompt + rsch)
+                content_sections.append(f"# Research Preprints\n\n{out4}")
+        except Exception as fallback_e:
+            content_sections.append(f"# Research Preprints\n\nError generating research summary: {fallback_e}")
 
     # Combine all sections
     final_content = "\n\n---\n\n".join(content_sections)
