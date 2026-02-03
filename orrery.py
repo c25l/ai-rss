@@ -226,6 +226,16 @@ class Orrery:
 {svg}
 </div>'''
 
+    def generate_email_image(self):
+        """Generate email-friendly PNG image from SVG"""
+        try:
+            from svg_to_image import svg_to_email_image
+            svg = self.generate_svg()
+            return svg_to_email_image(svg, alt_text="Solar System Orrery")
+        except Exception as e:
+            print(f"Warning: Could not generate orrery PNG: {e}")
+            return ""
+
 
 if __name__ == "__main__":
     orrery = Orrery()

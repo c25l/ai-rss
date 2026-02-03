@@ -229,9 +229,22 @@ class Weather(object):
         if include_graph:
             graph_svg = self.generate_temperature_svg()
             if graph_svg:
-                output.append('<div style="text-align: center;">')
-                output.append(graph_svg)
-                output.append('</div>')
+                # Try to convert to PNG for email compatibility
+                try:
+                    from svg_to_image import svg_to_email_image
+                    png_img = svg_to_email_image(graph_svg, alt_text="Temperature Forecast")
+                    if png_img:
+                        output.append(png_img)
+                    else:
+                        # Fallback to SVG
+                        output.append('<div style="text-align: center;">')
+                        output.append(graph_svg)
+                        output.append('</div>')
+                except ImportError:
+                    # Fallback to SVG
+                    output.append('<div style="text-align: center;">')
+                    output.append(graph_svg)
+                    output.append('</div>')
                 output.append("")
 
         for i, period in enumerate(periods[:max_periods]):

@@ -39,16 +39,28 @@ def main():
         astro = astronomy.Astronomy()
         astro_info = astro.format_output(include_visualizations=False)  # Get text data first
         
-        # Generate SVG visualizations separately (for HTML embedding in email)
-        print("Generating astronomy visualizations...")
+        # Generate PNG visualizations for email embedding
+        print("Generating astronomy visualizations as PNG...")
         try:
             from orrery import Orrery
             from starchart import StarChart
             
-            orrery_svg = Orrery().generate_markdown()
-            starchart_svg = StarChart().generate_markdown()
+            # Use generate_email_image() for PNG output (email-friendly)
+            orrery_img = Orrery().generate_email_image()
+            starchart_img = StarChart().generate_email_image()
             
-            astro_visuals = f"\n\n### Solar System Overview\n{orrery_svg}\n\n### Tonight's Star Chart\n{starchart_svg}"
+            astro_visuals = ""
+            if orrery_img:
+                astro_visuals += f"\n\n### Solar System Overview\n{orrery_img}"
+            if starchart_img:
+                astro_visuals += f"\n\n### Tonight's Star Chart\n{starchart_img}"
+                
+            if not astro_visuals:
+                # Fallback to SVG if PNG conversion failed
+                print("  PNG conversion unavailable, using SVG fallback")
+                orrery_svg = Orrery().generate_markdown()
+                starchart_svg = StarChart().generate_markdown()
+                astro_visuals = f"\n\n### Solar System Overview\n{orrery_svg}\n\n### Tonight's Star Chart\n{starchart_svg}"
         except Exception as viz_e:
             print(f"  Warning: Could not generate visualizations: {viz_e}")
             astro_visuals = ""
