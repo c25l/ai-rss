@@ -25,33 +25,64 @@ class Emailer:
 
     def _create_simple_html(self, content: str, subject: str) -> str:
         """Convert markdown content to clean, minimally-styled HTML."""
-        # Extract and preserve SVG blocks before markdown conversion
-        svg_placeholders = {}
-        svg_pattern = re.compile(r'(<svg[^>]*>.*?</svg>)', re.DOTALL | re.IGNORECASE)
+        # Extract and preserve HTML blocks before markdown conversion
+        # Process wrapped elements first, then standalone elements to avoid partial matches
+        # Use <!-- --> comment-style placeholders to avoid markdown interpretation
+        html_placeholders = {}
+        placeholder_counter = [0]  # Use list to allow mutation in closures
         
-        def replace_svg(match):
-            placeholder = f"__SVG_PLACEHOLDER_{len(svg_placeholders)}__"
-            svg_placeholders[placeholder] = match.group(1)
+        def get_placeholder(prefix):
+            # Use HTML comment format to avoid markdown interpretation
+            placeholder = f"<!--PLACEHOLDER_{prefix}_{placeholder_counter[0]}-->"
+            placeholder_counter[0] += 1
             return placeholder
         
-        content_with_placeholders = svg_pattern.sub(replace_svg, content)
+        # 1. First preserve div-wrapped images (do this BEFORE standalone images)
+        div_img_pattern = re.compile(r'(<div[^>]*>[\s]*<img[^>]*src="data:image/[^"]*"[^>]*>[\s]*</div>)', re.DOTALL | re.IGNORECASE)
         
-        # Also preserve div-wrapped SVGs
+        def replace_div_img(match):
+            placeholder = get_placeholder("DIVIMG")
+            html_placeholders[placeholder] = match.group(1)
+            return placeholder
+        
+        content_with_placeholders = div_img_pattern.sub(replace_div_img, content)
+        
+        # 2. Then preserve standalone base64 image tags
+        img_pattern = re.compile(r'(<img[^>]*src="data:image/[^"]*"[^>]*>)', re.DOTALL | re.IGNORECASE)
+        
+        def replace_img(match):
+            placeholder = get_placeholder("IMG")
+            html_placeholders[placeholder] = match.group(1)
+            return placeholder
+        
+        content_with_placeholders = img_pattern.sub(replace_img, content_with_placeholders)
+        
+        # 3. Preserve div-wrapped SVGs (before standalone SVGs)
         div_svg_pattern = re.compile(r'(<div[^>]*>.*?<svg[^>]*>.*?</svg>.*?</div>)', re.DOTALL | re.IGNORECASE)
         
         def replace_div_svg(match):
-            placeholder = f"__DIVSVG_PLACEHOLDER_{len(svg_placeholders)}__"
-            svg_placeholders[placeholder] = match.group(1)
+            placeholder = get_placeholder("DIVSVG")
+            html_placeholders[placeholder] = match.group(1)
             return placeholder
         
         content_with_placeholders = div_svg_pattern.sub(replace_div_svg, content_with_placeholders)
         
+        # 4. Preserve standalone SVG blocks
+        svg_pattern = re.compile(r'(<svg[^>]*>.*?</svg>)', re.DOTALL | re.IGNORECASE)
+        
+        def replace_svg(match):
+            placeholder = get_placeholder("SVG")
+            html_placeholders[placeholder] = match.group(1)
+            return placeholder
+        
+        content_with_placeholders = svg_pattern.sub(replace_svg, content_with_placeholders)
+        
         # Convert markdown to HTML
         html_content = markdown(content_with_placeholders)
         
-        # Restore SVG blocks
-        for placeholder, svg in svg_placeholders.items():
-            html_content = html_content.replace(placeholder, svg)
+        # Restore all HTML blocks
+        for placeholder, html_block in html_placeholders.items():
+            html_content = html_content.replace(placeholder, html_block)
 
         # Parse HTML to add simple, clean styling
         soup = BeautifulSoup(html_content, 'html.parser')
