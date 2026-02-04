@@ -48,7 +48,7 @@ def main():
 # News Intelligence Brief
     try:
         print("Fetching and clustering news articles...")
-        news_obj = news.News()
+        news_obj = news.News(use_clustering=True, use_tfidf=True)
         categorized = news_obj.pull_data(return_structured=True)
 
         # Rank each category
