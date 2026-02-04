@@ -5,7 +5,12 @@
 Strategy: "topic-tag then group"
 1) Batch articles and ask the LLM to assign each article a small set of topic tags.
 2) Merge tags across batches (synonyms / near-duplicates).
-3) Group articles by merged tag.
+3) Group articles by merged tag OR use Louvain community detection for refinement.
+
+Optional Louvain refinement:
+- Constructs a graph where articles are nodes and edges connect articles with shared tags
+- Uses Louvain algorithm to detect communities based on tag overlap
+- Results in more nuanced clustering that accounts for multi-tag relationships
 
 This is designed to work with the Copilot CLI wrapper (see copilot.py).
 """
@@ -19,6 +24,13 @@ from typing import Dict, List, Optional, Tuple
 
 from datamodel import Article, Group
 from copilot import Copilot
+
+try:
+    import networkx as nx
+    from networkx.algorithms import community
+    HAS_NETWORKX = True
+except ImportError:
+    HAS_NETWORKX = False
 
 
 def _sanitize_json_blob(blob: str) -> str:
@@ -103,9 +115,10 @@ class ArticleClusterer:
     into a smaller set of higher-level stories.
     """
 
-    def __init__(self, llm: Optional[Copilot] = None, macro_target: int = 10):
+    def __init__(self, llm: Optional[Copilot] = None, macro_target: int = 10, use_louvain: bool = False):
         self.llm = llm or Copilot()
         self.macro_target = macro_target
+        self.use_louvain = use_louvain and HAS_NETWORKX
 
     def embed_article(self, article: Article):  # kept for API compatibility
         return None
@@ -279,6 +292,100 @@ Clusters:
         out.sort(key=lambda g: len(g.articles), reverse=True)
         return out
 
+    def _louvain_refine_clusters(
+        self,
+        articles: List[Article],
+        tag_by_index: Dict[int, List[str]],
+        mapping: Dict[str, str]
+    ) -> List[Group]:
+        """Use Louvain community detection to refine clusters based on tag overlap.
+        
+        Constructs a graph where:
+        - Nodes are articles
+        - Edges connect articles with shared canonical tags
+        - Edge weights are proportional to number of shared tags
+        
+        Args:
+            articles: List of articles to cluster
+            tag_by_index: Mapping from article index to assigned tags
+            mapping: Mapping from original tags to canonical tags
+            
+        Returns:
+            List of Group objects with articles clustered by community detection
+        """
+        if not HAS_NETWORKX:
+            # Fallback to simple tag-based grouping
+            buckets: Dict[str, List[Article]] = defaultdict(list)
+            for i, article in enumerate(articles):
+                tags = tag_by_index.get(i, ["misc"])
+                canon_tag = mapping.get(_normalize_tag(tags[0]), tags[0])
+                buckets[canon_tag].append(article)
+            groups = [Group(text=tag, articles=arts) for tag, arts in buckets.items()]
+            groups.sort(key=lambda g: len(g.articles), reverse=True)
+            return groups
+        
+        # Build graph
+        G = nx.Graph()
+        
+        # Add all articles as nodes
+        for i in range(len(articles)):
+            G.add_node(i)
+        
+        # Get canonical tags for each article
+        article_canon_tags: Dict[int, set] = {}
+        for i, article in enumerate(articles):
+            tags = tag_by_index.get(i, ["misc"])
+            canon_tags = set()
+            for t in tags:
+                tt = _normalize_tag(t)
+                ct = mapping.get(tt, tt)
+                canon_tags.add(ct)
+            article_canon_tags[i] = canon_tags
+        
+        # Add edges between articles with shared tags
+        for i in range(len(articles)):
+            for j in range(i + 1, len(articles)):
+                tags_i = article_canon_tags.get(i, set())
+                tags_j = article_canon_tags.get(j, set())
+                
+                # Calculate overlap
+                shared = tags_i & tags_j
+                if shared:
+                    # Weight by number of shared tags
+                    weight = len(shared)
+                    G.add_edge(i, j, weight=weight)
+        
+        # Run Louvain community detection
+        communities = community.louvain_communities(G, weight='weight', resolution=1.0)
+        
+        # Build groups from communities
+        groups = []
+        for comm in communities:
+            if not comm:
+                continue
+                
+            # Get articles in this community
+            comm_articles = [articles[i] for i in comm]
+            
+            # Determine best representative tag for the community
+            # Count tag frequencies across all articles in community
+            tag_counts: Dict[str, int] = defaultdict(int)
+            for i in comm:
+                for tag in article_canon_tags.get(i, set()):
+                    tag_counts[tag] += 1
+            
+            # Use most common tag as group name
+            if tag_counts:
+                best_tag = max(tag_counts.items(), key=lambda x: (x[1], x[0]))[0]
+            else:
+                best_tag = "misc"
+            
+            groups.append(Group(text=best_tag, articles=comm_articles))
+        
+        # Sort by size
+        groups.sort(key=lambda g: len(g.articles), reverse=True)
+        return groups
+
     def find_similar_articles(
         self,
         article: Article,
@@ -310,36 +417,21 @@ Clusters:
         all_tags = [t for tags in tag_by_index.values() for t in tags]
         mapping = self._merge_tag_vocab(all_tags)
 
-        # Count canonical tag frequencies across all tags
-        canon_counts: Dict[str, int] = {}
-        for t in all_tags:
-            tt = _normalize_tag(t)
-            ct = mapping.get(tt, tt)
-            canon_counts[ct] = canon_counts.get(ct, 0) + 1
-
-        # 3) Group by canonical tag chosen by global frequency (not per-article specificity)
-        buckets: Dict[str, List[Article]] = defaultdict(list)
-        for i, article in enumerate(articles):
-            tags = tag_by_index.get(i, ["misc"])
-            canon_tags = []
-            for t in tags:
+        # 3) Group articles
+        if self.use_louvain:
+            # Use Louvain community detection for grouping
+            groups = self._louvain_refine_clusters(articles, tag_by_index, mapping)
+        else:
+            # Use simple tag-based grouping (original approach)
+            # Count canonical tag frequencies across all tags
+            canon_counts: Dict[str, int] = {}
+            for t in all_tags:
                 tt = _normalize_tag(t)
-                canon_tags.append(mapping.get(tt, tt))
+                ct = mapping.get(tt, tt)
+                canon_counts[ct] = canon_counts.get(ct, 0) + 1
 
-            # Pick the most common canonical tag for this article; tie-break by earliest
-            best = None
-            best_score = -1
-            for ct in canon_tags:
-                score = canon_counts.get(ct, 0)
-                if score > best_score:
-                    best = ct
-                    best_score = score
-            buckets[best or "misc"].append(article)
-
-        # If we collapsed too much, re-split using the 2nd tag when available.
-        # (Prevents a single vague canonical tag from absorbing everything.)
-        if buckets and (max(len(v) for v in buckets.values()) / len(articles)) > 0.35:
-            refined: Dict[str, List[Article]] = defaultdict(list)
+            # Group by canonical tag chosen by global frequency (not per-article specificity)
+            buckets: Dict[str, List[Article]] = defaultdict(list)
             for i, article in enumerate(articles):
                 tags = tag_by_index.get(i, ["misc"])
                 canon_tags = []
@@ -347,21 +439,43 @@ Clusters:
                     tt = _normalize_tag(t)
                     canon_tags.append(mapping.get(tt, tt))
 
-                canon_primary = canon_tags[0] if canon_tags else "misc"
-                canon_secondary = canon_tags[1] if len(canon_tags) > 1 else ""
+                # Pick the most common canonical tag for this article; tie-break by earliest
+                best = None
+                best_score = -1
+                for ct in canon_tags:
+                    score = canon_counts.get(ct, 0)
+                    if score > best_score:
+                        best = ct
+                        best_score = score
+                buckets[best or "misc"].append(article)
 
-                key = canon_primary
-                if canon_secondary and canon_secondary != canon_primary:
-                    key = f"{canon_primary} / {canon_secondary}"
-                refined[key].append(article)
-            buckets = refined
+            # If we collapsed too much, re-split using the 2nd tag when available.
+            # (Prevents a single vague canonical tag from absorbing everything.)
+            if buckets and (max(len(v) for v in buckets.values()) / len(articles)) > 0.35:
+                refined: Dict[str, List[Article]] = defaultdict(list)
+                for i, article in enumerate(articles):
+                    tags = tag_by_index.get(i, ["misc"])
+                    canon_tags = []
+                    for t in tags:
+                        tt = _normalize_tag(t)
+                        canon_tags.append(mapping.get(tt, tt))
 
-        # 4) Build Groups, largest first
-        groups = [Group(text=tag, articles=arts) for tag, arts in buckets.items()]
-        groups.sort(key=lambda g: len(g.articles), reverse=True)
+                    canon_primary = canon_tags[0] if canon_tags else "misc"
+                    canon_secondary = canon_tags[1] if len(canon_tags) > 1 else ""
 
-        # 5) Macro-merge pass (optional)
-        groups = self._macro_merge_clusters(groups)
+                    key = canon_primary
+                    if canon_secondary and canon_secondary != canon_primary:
+                        key = f"{canon_primary} / {canon_secondary}"
+                    refined[key].append(article)
+                buckets = refined
+
+            # Build Groups, largest first
+            groups = [Group(text=tag, articles=arts) for tag, arts in buckets.items()]
+            groups.sort(key=lambda g: len(g.articles), reverse=True)
+
+        # 4) Macro-merge pass (optional, skip if using Louvain which already does refinement)
+        if not self.use_louvain:
+            groups = self._macro_merge_clusters(groups)
         return groups
 
     def generate_cluster_title(self, group: Group) -> str:

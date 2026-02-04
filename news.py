@@ -7,9 +7,9 @@ from cluster import ArticleClusterer
 from copilot import Copilot
 
 class News:
-    def __init__(self, use_clustering=True):
+    def __init__(self, use_clustering=True, use_louvain=False):
         self.use_clustering = use_clustering
-        self.clusterer = ArticleClusterer() if use_clustering else None
+        self.clusterer = ArticleClusterer(use_louvain=use_louvain) if use_clustering else None
         self.claude = Copilot()
 
     def rank_clusters(self, clusters, category_name, top_k=5):
