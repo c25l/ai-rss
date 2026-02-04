@@ -3,11 +3,11 @@ import datetime
 from bs4 import BeautifulSoup
 import requests
 from datamodel import Article
-from copilot import Copilot
+from claude import Claude
 
 class TechNews:
     def __init__(self):
-        self.claude = Copilot()
+        self.claude = Claude()
 
     def rank_articles(self, articles, top_k=5):
         """

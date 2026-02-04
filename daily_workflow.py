@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import claude
 import datetime
 import requests
 import dotenv
@@ -121,8 +122,7 @@ Please make sure to include inline markdown links `[article title](url)` to the 
     if len(rsch.strip().split("\n"))<3:
         rsch="No new research articles found."
     else:
-        from copilot import Copilot
-        out4 = Copilot().generate(preprompt+research_prompt+rsch)
+        out4 = claude.Claude().generate(preprompt+research_prompt+rsch)
         content_sections.append(f"# Research Preprints\n\n{out4}")
 
     # Combine all sections

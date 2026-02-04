@@ -4,13 +4,13 @@ from bs4 import BeautifulSoup
 import requests
 from datamodel import Article
 from cluster import ArticleClusterer
-from copilot import Copilot
+from claude import Claude
 
 class News:
     def __init__(self, use_clustering=True):
         self.use_clustering = use_clustering
         self.clusterer = ArticleClusterer() if use_clustering else None
-        self.claude = Copilot()
+        self.claude = Claude()
 
     def rank_clusters(self, clusters, category_name, top_k=5):
         """
@@ -107,8 +107,9 @@ No explanation, just the JSON array."""
         
         # If clustering is enabled, cluster the articles
         if return_clustered and self.clusterer:
-            print(f"Preparing {len(articles)} articles for clustering...")
+            print(f"Generating embeddings for {len(articles)} articles...")
             embedded_articles = self.clusterer.embed_articles(articles)
+            print(f"Successfully embedded {len(embedded_articles)} articles")
 
             print("Clustering articles...")
             groups = self.clusterer.cluster_articles_threshold(embedded_articles)

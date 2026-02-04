@@ -1,7 +1,7 @@
 import os
 # import calendar_manually  # Commented out - macOS specific, not used
 import asyncio
-# LLM generator removed; Copilot wrapper available if needed.
+from claude import Claude as Generator
 class Journal(object):
     def __init__(self):
         self.entries = []
