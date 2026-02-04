@@ -171,7 +171,7 @@ class Research:
     
     def __init__(self, use_dual_ranker=True):
         self.articles = []
-        self.claude = Copilot()
+        self.claude = Claude()
         self.use_dual_ranker = use_dual_ranker
         
         # Initialize both rankers
