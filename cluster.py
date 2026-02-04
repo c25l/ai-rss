@@ -3,9 +3,19 @@
 """Article clustering using an LLM (no embeddings).
 
 Strategy: "topic-tag then group"
-1) Batch articles and ask the LLM to assign each article a small set of topic tags.
-2) Merge tags across batches (synonyms / near-duplicates).
-3) Group articles by merged tag OR use Louvain community detection for refinement.
+
+Two tagging approaches:
+
+1) LLM Batch Tagging (original, more expensive):
+   - Batch articles and ask the LLM to assign each article topic tags
+   - Merge tags across batches (synonyms / near-duplicates)
+   - Group articles by merged tag OR use Louvain community detection
+
+2) TF-IDF + LLM Refinement (recommended, much cheaper):
+   - Extract keywords from all articles using TF-IDF
+   - Use LLM ONCE to refine keywords into clean topic tags
+   - Assign articles to tags based on keyword overlap
+   - Significantly reduces LLM API costs while maintaining quality
 
 Optional Louvain refinement:
 - Constructs a graph where articles are nodes and edges connect articles with shared tags
@@ -31,6 +41,14 @@ try:
     HAS_NETWORKX = True
 except ImportError:
     HAS_NETWORKX = False
+
+try:
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.metrics.pairwise import cosine_similarity
+    import numpy as np
+    HAS_SKLEARN = True
+except ImportError:
+    HAS_SKLEARN = False
 
 
 def _sanitize_json_blob(blob: str) -> str:
@@ -113,12 +131,15 @@ class ArticleClusterer:
 
     Optionally performs a macro-merge pass to consolidate many small topic clusters
     into a smaller set of higher-level stories.
+    
+    Can use TF-IDF for initial tagging (much cheaper) with LLM refinement of the overall vocabulary.
     """
 
-    def __init__(self, llm: Optional[Copilot] = None, macro_target: int = 10, use_louvain: bool = False):
+    def __init__(self, llm: Optional[Copilot] = None, macro_target: int = 10, use_louvain: bool = False, use_tfidf: bool = False):
         self.llm = llm or Copilot()
         self.macro_target = macro_target
         self.use_louvain = use_louvain and HAS_NETWORKX
+        self.use_tfidf = use_tfidf and HAS_SKLEARN
 
     def embed_article(self, article: Article):  # kept for API compatibility
         return None
@@ -185,6 +206,114 @@ Articles:
             out.setdefault(idx, ["misc"])
 
         return out
+
+    def _tfidf_tag_all(self, articles: List[Article]) -> Dict[int, List[str]]:
+        """Use TF-IDF to extract keywords, then LLM to refine into topic tags (much cheaper).
+        
+        This approach:
+        1. Extracts top keywords/phrases from all articles using TF-IDF
+        2. Uses LLM ONCE to refine keywords into clean topic tags
+        3. Assigns articles to tags based on keyword overlap
+        
+        Much more cost-effective than calling LLM for every batch of articles.
+        """
+        if not HAS_SKLEARN:
+            # Fallback to batch tagging
+            batch_size = 20
+            tag_by_index: Dict[int, List[str]] = {}
+            for start in range(0, len(articles), batch_size):
+                batch = articles[start : start + batch_size]
+                tag_by_index.update(self._tag_batch(batch, start))
+            return tag_by_index
+        
+        # Combine title and summary for each article
+        texts = []
+        for article in articles:
+            title = (article.title or "").strip()
+            summary = (article.summary or "").strip()
+            texts.append(f"{title}. {summary}")
+        
+        # Extract TF-IDF keywords (use bigrams and trigrams for better phrases)
+        vectorizer = TfidfVectorizer(
+            max_features=150,  # Top 150 keywords across all articles
+            ngram_range=(1, 3),  # unigrams, bigrams, and trigrams
+            stop_words='english',
+            min_df=1,  # Must appear in at least 1 document
+            max_df=0.7  # Ignore terms that appear in >70% of documents
+        )
+        
+        tfidf_matrix = vectorizer.fit_transform(texts)
+        feature_names = vectorizer.get_feature_names_out()
+        
+        # Get top keywords per article
+        article_keywords: Dict[int, List[str]] = {}
+        for i in range(len(articles)):
+            # Get TF-IDF scores for this article
+            article_vector = tfidf_matrix[i].toarray()[0]
+            
+            # Get indices of top 5 keywords
+            top_indices = article_vector.argsort()[-5:][::-1]
+            
+            # Filter to only those with non-zero scores
+            keywords = [feature_names[idx] for idx in top_indices if article_vector[idx] > 0]
+            article_keywords[i] = keywords[:3]  # Keep top 3
+        
+        # Collect all unique keywords
+        all_keywords = set()
+        for keywords in article_keywords.values():
+            all_keywords.update(keywords)
+        
+        if not all_keywords:
+            return {i: ["misc"] for i in range(len(articles))}
+        
+        # Use LLM ONCE to refine keywords into clean topic tags
+        keywords_list = sorted(list(all_keywords))[:100]  # Cap for token safety
+        keywords_str = ", ".join(f'"{kw}"' for kw in keywords_list)
+        
+        prompt = f"""You are refining TF-IDF keywords into clean, canonical TOPIC TAGS for news clustering.
+
+Given these keywords extracted from news articles, create a mapping to ~20-40 clean topic tags.
+
+Rules for topic tags:
+- lowercase, 2-5 words max
+- merge synonyms and near-duplicates
+- be specific but not overly narrow
+- stable phrasing (e.g., "ai regulation" not "regulating ai")
+- avoid overly generic tags like "news" or "update"
+- MUST be valid JSON strings: no literal newlines
+
+Return ONLY MINIFIED JSON of this form (no extra text):
+{{"map": {{"keyword": "topic_tag"}}}}
+
+Keywords:
+{keywords_str}
+"""
+        
+        resp = self.llm.generate(prompt)
+        data = _extract_json(resp)
+        
+        # Build keyword -> topic tag mapping
+        keyword_to_tag: Dict[str, str] = {}
+        if isinstance(data, dict) and "map" in data and isinstance(data["map"], dict):
+            for k, v in data["map"].items():
+                kk = str(k).strip().lower()
+                vv = _normalize_tag(str(v)) if str(v).strip() else kk
+                keyword_to_tag[kk] = vv
+        else:
+            # Fallback: use keywords as tags
+            keyword_to_tag = {kw: _normalize_tag(kw) for kw in all_keywords}
+        
+        # Map each article's keywords to topic tags
+        tag_by_index: Dict[int, List[str]] = {}
+        for i, keywords in article_keywords.items():
+            tags = []
+            for kw in keywords:
+                tag = keyword_to_tag.get(kw.lower(), _normalize_tag(kw))
+                if tag and tag not in tags:
+                    tags.append(tag)
+            tag_by_index[i] = tags[:3] if tags else ["misc"]
+        
+        return tag_by_index
 
     def _merge_tag_vocab(self, tags: List[str]) -> Dict[str, str]:
         """Ask the LLM to merge near-duplicate tags into canonical ones."""
@@ -406,16 +535,23 @@ Clusters:
         if not articles:
             return []
 
-        # 1) Tag in batches
-        batch_size = 20
-        tag_by_index: Dict[int, List[str]] = {}
-        for start in range(0, len(articles), batch_size):
-            batch = articles[start : start + batch_size]
-            tag_by_index.update(self._tag_batch(batch, start))
-
-        # 2) Merge tag vocab
-        all_tags = [t for tags in tag_by_index.values() for t in tags]
-        mapping = self._merge_tag_vocab(all_tags)
+        # 1) Tag articles
+        if self.use_tfidf:
+            # Use TF-IDF + single LLM call to refine (much cheaper)
+            tag_by_index = self._tfidf_tag_all(articles)
+            # Skip merge step - already refined by LLM
+            mapping = {t: t for tags in tag_by_index.values() for t in tags}
+        else:
+            # Use LLM batch tagging (original, more expensive approach)
+            batch_size = 20
+            tag_by_index: Dict[int, List[str]] = {}
+            for start in range(0, len(articles), batch_size):
+                batch = articles[start : start + batch_size]
+                tag_by_index.update(self._tag_batch(batch, start))
+            
+            # 2) Merge tag vocab
+            all_tags = [t for tags in tag_by_index.values() for t in tags]
+            mapping = self._merge_tag_vocab(all_tags)
 
         # 3) Group articles
         if self.use_louvain:
