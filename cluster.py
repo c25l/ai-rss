@@ -135,11 +135,21 @@ class ArticleClusterer:
     Can use TF-IDF for initial tagging (much cheaper) with LLM refinement of the overall vocabulary.
     """
 
-    def __init__(self, llm: Optional[Copilot] = None, macro_target: int = 10, use_louvain: bool = False, use_tfidf: bool = False):
+    def __init__(
+        self, 
+        llm: Optional[Copilot] = None, 
+        macro_target: int = 10, 
+        use_louvain: bool = False, 
+        use_tfidf: bool = False,
+        tfidf_max_features: int = 150,
+        tfidf_min_df: int = 2
+    ):
         self.llm = llm or Copilot()
         self.macro_target = macro_target
         self.use_louvain = use_louvain and HAS_NETWORKX
         self.use_tfidf = use_tfidf and HAS_SKLEARN
+        self.tfidf_max_features = tfidf_max_features
+        self.tfidf_min_df = tfidf_min_df
 
     def embed_article(self, article: Article):  # kept for API compatibility
         return None
@@ -235,10 +245,10 @@ Articles:
         
         # Extract TF-IDF keywords (use bigrams and trigrams for better phrases)
         vectorizer = TfidfVectorizer(
-            max_features=150,  # Top 150 keywords across all articles
+            max_features=self.tfidf_max_features,
             ngram_range=(1, 3),  # unigrams, bigrams, and trigrams
             stop_words='english',
-            min_df=1,  # Must appear in at least 1 document
+            min_df=self.tfidf_min_df,
             max_df=0.7  # Ignore terms that appear in >70% of documents
         )
         
@@ -267,12 +277,16 @@ Articles:
             return {i: ["misc"] for i in range(len(articles))}
         
         # Use LLM ONCE to refine keywords into clean topic tags
-        keywords_list = sorted(list(all_keywords))[:100]  # Cap for token safety
+        max_keywords_for_llm = min(100, len(all_keywords))
+        keywords_list = sorted(list(all_keywords))[:max_keywords_for_llm]
         keywords_str = ", ".join(f'"{kw}"' for kw in keywords_list)
+        
+        # Target number of tags based on macro_target
+        target_tags = max(self.macro_target * 2, 20)
         
         prompt = f"""You are refining TF-IDF keywords into clean, canonical TOPIC TAGS for news clustering.
 
-Given these keywords extracted from news articles, create a mapping to ~20-40 clean topic tags.
+Given these keywords extracted from news articles, create a mapping to ~{target_tags} clean topic tags.
 
 Rules for topic tags:
 - lowercase, 2-5 words max
@@ -539,8 +553,9 @@ Clusters:
         if self.use_tfidf:
             # Use TF-IDF + single LLM call to refine (much cheaper)
             tag_by_index = self._tfidf_tag_all(articles)
-            # Skip merge step - already refined by LLM
-            mapping = {t: t for tags in tag_by_index.values() for t in tags}
+            # Skip merge step - already refined by LLM (create identity mapping)
+            all_tags = {t for tags in tag_by_index.values() for t in tags}
+            mapping = {t: t for t in all_tags}
         else:
             # Use LLM batch tagging (original, more expensive approach)
             batch_size = 20
