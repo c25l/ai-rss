@@ -1,30 +1,43 @@
 import feeds
-from claude import Claude
+from copilot import Copilot
+import json
+import re
 
-class Research:
-    articles = []
-    def __init__(self):
-        self.articles = []
-        self.claude = Claude()
 
-    def section_title(self):
-        return "Arxiv Review"
+class ResearchRanker:
+    """
+    Base class for research paper ranking strategies.
+    Each ranker implements a different approach to selecting top papers.
+    """
+    
+    def __init__(self, name, description, claude=None):
+        self.name = name
+        self.description = description
+        self.claude = claude or Copilot()
+    
+    def rank(self, articles, target=5):
+        """Rank and select top articles. Override in subclasses."""
+        raise NotImplementedError
 
-    def _rank_and_select_top5(self, articles, batch_size=20):
-        """
-        Use Claude to rank articles in a batch and select the top 5 most relevant/important.
 
-        Args:
-            articles: List of Article objects to rank
-            batch_size: Number of articles in this batch
-
-        Returns:
-            List of top 5 articles selected by Claude
-        """
-        if len(articles) <= 5:
+class RelevanceRanker(ResearchRanker):
+    """
+    Ranks papers based on relevance to specific technical domains.
+    Focuses on: distributed systems, performance, AI infrastructure, hardware.
+    """
+    
+    def __init__(self, claude=None):
+        super().__init__(
+            name="🎯 Relevance Ranker",
+            description="Prioritizes papers relevant to infrastructure, distributed systems, and AI hardware",
+            claude=claude
+        )
+    
+    def _rank_batch(self, articles, top_k=5):
+        """Rank a batch of articles by relevance"""
+        if len(articles) <= top_k:
             return articles
-
-        # Format articles for Claude to review
+        
         article_list = []
         for i, article in enumerate(articles):
             article_list.append(
@@ -32,85 +45,265 @@ class Research:
                 f"Summary: {article.summary[:200]}...\n"
                 f"URL: {article.url}"
             )
-
+        
         prompt = f"""You are reviewing {len(articles)} research articles from arXiv.
-Please analyze these articles and select the TOP 5 most interesting, relevant, or impactful papers.
-Focus on: novelty, potential impact, clarity of contribution, and relevance to distributed systems, performance, and computer architecture.
+Select the TOP {top_k} papers most relevant to:
+- Distributed systems and large-scale computing
+- AI/ML infrastructure and training at scale
+- Computer architecture and hardware design
+- Performance optimization and systems research
 
 Articles to review:
-{''.join([f'\n{a}\n' for a in article_list])}
+{''.join(article_list)}
 
-Respond with ONLY a JSON array of the 5 indices you selected (e.g., [3, 7, 12, 1, 18]).
+Respond with ONLY a JSON array of the {top_k} indices (e.g., [3, 7, 12, 1, 18]).
 No explanation, just the JSON array."""
-
+        
         response = self.claude.generate(prompt)
-
-        # Parse the response to get indices
+        
         try:
-            import json
-            import re
-            # Extract JSON array from response
             match = re.search(r'\[[\d,\s]+\]', response)
             if match:
                 selected_indices = json.loads(match.group())
-                # Return selected articles
-                return [articles[i] for i in selected_indices if i < len(articles)]
+                return [articles[i] for i in selected_indices if i < len(articles)][:top_k]
         except Exception as e:
-            print(f"Error parsing Claude response: {e}")
-            # Fallback to first 5
-            return articles[:5]
-
-        # Fallback to first 5
-        return articles[:5]
-
-    def _reduce_articles(self, articles, target=5, batch_size=20):
-        """
-        Recursively reduce articles by selecting top 5 from groups of 20 until only target remain.
-
-        Args:
-            articles: List of articles to reduce
-            target: Target number of articles (default: 5)
-            batch_size: Size of batches to process (default: 20)
-
-        Returns:
-            Reduced list of articles
-        """
+            print(f"RelevanceRanker parse error: {e}")
+        
+        return articles[:top_k]
+    
+    def rank(self, articles, target=5, batch_size=20):
+        """Reduce articles through batched relevance ranking"""
         current = articles[:]
-        print(f"Reducing from {len(articles)} to {target} in batches of {batch_size}")
+        
         while len(current) > target:
-            # Split into batches of batch_size
             batches = [current[i:i+batch_size] for i in range(0, len(current), batch_size)]
-
-            # Select top 5 from each batch using Claude
             reduced = []
             for batch in batches:
-                top5 = self._rank_and_select_top5(batch, batch_size=len(batch))
-                reduced.extend(top5)
-
-            # If we didn't reduce (e.g., all batches had ≤5 items), break to avoid infinite loop
+                top = self._rank_batch(batch, top_k=min(5, len(batch)))
+                reduced.extend(top)
+            
             if len(reduced) >= len(current):
                 break
-
             current = reduced
-
-        # Final selection if we still have more than target
+        
         if len(current) > target:
-            current = self._rank_and_select_top5(current, batch_size=len(current))
-
+            current = self._rank_batch(current, top_k=target)
+        
         return current[:target]
 
-    def pull_data(self):
-        self.articles = feeds.Feeds.get_articles("https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR")
-        # Apply clever reduction: top 5 from groups of 20, recursively until only 5 remain
-        self.articles = self._reduce_articles(self.articles, target=5, batch_size=20)
 
-        # Format articles for output
-        formatted = "\n\n".join([xx.out_rich() for xx in self.articles])
-        return formatted
+class NoveltyImpactRanker(ResearchRanker):
+    """
+    Ranks papers based on novelty and potential real-world impact.
+    Focuses on: breakthrough ideas, practical applications, industry relevance.
+    """
     
+    def __init__(self, claude=None):
+        super().__init__(
+            name="💡 Novelty & Impact Ranker",
+            description="Prioritizes breakthrough ideas with potential real-world impact",
+            claude=claude
+        )
+    
+    def _rank_batch(self, articles, top_k=5):
+        """Rank a batch of articles by novelty and impact"""
+        if len(articles) <= top_k:
+            return articles
+        
+        article_list = []
+        for i, article in enumerate(articles):
+            article_list.append(
+                f"[{i}] {article.title}\n"
+                f"Summary: {article.summary[:200]}...\n"
+                f"URL: {article.url}"
+            )
+        
+        prompt = f"""You are reviewing {len(articles)} research articles from arXiv.
+Select the TOP {top_k} papers with the highest NOVELTY and POTENTIAL IMPACT:
+- Breakthrough methodologies or surprising results
+- Papers that could change how we think about a problem
+- Practical applications with real-world potential
+- Research that bridges theory and industry
+
+Ignore incremental improvements. Prioritize bold, innovative ideas.
+
+Articles to review:
+{''.join(article_list)}
+
+Respond with ONLY a JSON array of the {top_k} indices (e.g., [3, 7, 12, 1, 18]).
+No explanation, just the JSON array."""
+        
+        response = self.claude.generate(prompt)
+        
+        try:
+            match = re.search(r'\[[\d,\s]+\]', response)
+            if match:
+                selected_indices = json.loads(match.group())
+                return [articles[i] for i in selected_indices if i < len(articles)][:top_k]
+        except Exception as e:
+            print(f"NoveltyImpactRanker parse error: {e}")
+        
+        return articles[:top_k]
+    
+    def rank(self, articles, target=5, batch_size=20):
+        """Reduce articles through batched novelty/impact ranking"""
+        current = articles[:]
+        
+        while len(current) > target:
+            batches = [current[i:i+batch_size] for i in range(0, len(current), batch_size)]
+            reduced = []
+            for batch in batches:
+                top = self._rank_batch(batch, top_k=min(5, len(batch)))
+                reduced.extend(top)
+            
+            if len(reduced) >= len(current):
+                break
+            current = reduced
+        
+        if len(current) > target:
+            current = self._rank_batch(current, top_k=target)
+        
+        return current[:target]
+
+
+class Research:
+    """Research paper aggregator with dual-ranker comparison"""
+    
+    def __init__(self, use_dual_ranker=True):
+        self.articles = []
+        self.claude = Copilot()
+        self.use_dual_ranker = use_dual_ranker
+        
+        # Initialize both rankers
+        self.relevance_ranker = RelevanceRanker(claude=self.claude)
+        self.novelty_ranker = NoveltyImpactRanker(claude=self.claude)
+
+    def section_title(self):
+        return "Arxiv Review"
+
+    def _rank_and_select_top5(self, articles, batch_size=20):
+        """Legacy method - use RelevanceRanker for backward compatibility"""
+        return self.relevance_ranker._rank_batch(articles, top_k=5)
+
+    def _reduce_articles(self, articles, target=5, batch_size=20):
+        """Legacy method - use RelevanceRanker for backward compatibility"""
+        return self.relevance_ranker.rank(articles, target=target, batch_size=batch_size)
+
+    def pull_data(self, compare_rankers=None):
+        """
+        Pull and rank research articles.
+        
+        Args:
+            compare_rankers: If True, use dual ranking comparison. 
+                           If None, uses self.use_dual_ranker default.
+        
+        Returns:
+            Formatted string of ranked articles, optionally with ranker comparison
+        """
+        if compare_rankers is None:
+            compare_rankers = self.use_dual_ranker
+            
+        # Use a wider window than 24h so we still get content on quieter days.
+        self.articles = feeds.Feeds.get_articles(
+            "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR",
+            days=3,
+        )
+        
+        if not compare_rankers:
+            # Single ranker mode (backward compatible)
+            self.articles = self._reduce_articles(self.articles, target=5, batch_size=20)
+            formatted = "\n\n".join([xx.out_rich() for xx in self.articles])
+            return formatted
+        
+        # Dual ranker comparison mode
+        print(f"Running dual ranker comparison on {len(self.articles)} articles...")
+        
+        # Run both rankers
+        print(f"  Running {self.relevance_ranker.name}...")
+        relevance_picks = self.relevance_ranker.rank(self.articles[:], target=5)
+        
+        print(f"  Running {self.novelty_ranker.name}...")
+        novelty_picks = self.novelty_ranker.rank(self.articles[:], target=5)
+        
+        # Find common picks (agreement between rankers)
+        relevance_urls = {a.url for a in relevance_picks}
+        novelty_urls = {a.url for a in novelty_picks}
+        common_urls = relevance_urls & novelty_urls
+        
+        # Format output with comparison
+        output = []
+        
+        # Agreement section - papers both rankers selected
+        if common_urls:
+            output.append("### 🤝 Both Rankers Agree On:\n")
+            common_articles = [a for a in relevance_picks if a.url in common_urls]
+            for article in common_articles:
+                output.append(f"- **[{article.title}]({article.url})**<br>")
+                output.append(f"  - {article.summary[:150]}...<br>\n")
+            output.append("")
+        
+        # Relevance-only picks
+        relevance_only = [a for a in relevance_picks if a.url not in common_urls]
+        if relevance_only:
+            output.append(f"### {self.relevance_ranker.name} Also Picks:\n")
+            output.append(f"*{self.relevance_ranker.description}*\n")
+            for article in relevance_only:
+                output.append(f"- **[{article.title}]({article.url})**<br>\n")
+            output.append("")
+        
+        # Novelty-only picks
+        novelty_only = [a for a in novelty_picks if a.url not in common_urls]
+        if novelty_only:
+            output.append(f"### {self.novelty_ranker.name} Also Picks:\n")
+            output.append(f"*{self.novelty_ranker.description}*\n")
+            for article in novelty_only:
+                output.append(f"- **[{article.title}]({article.url})**<br>\n")
+            output.append("")
+        
+        # Store combined unique articles (deduplicate while preserving order)
+        seen = set()
+        unique_articles = []
+        for a in relevance_picks + novelty_picks:
+            if a.url not in seen:
+                seen.add(a.url)
+                unique_articles.append(a)
+        self.articles = unique_articles
+        
+        return "\n".join(output)
+    
+    def pull_data_raw(self):
+        """Pull raw article data for external processing"""
+        self.articles = feeds.Feeds.get_articles(
+            "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR",
+            days=3,
+        )
+        return self.articles
+
+    def get_ranker_comparison_summary(self):
+        """Get a summary comparing the two rankers' selections"""
+        if not self.articles:
+            self.pull_data(compare_rankers=True)
+        
+        relevance_picks = self.relevance_ranker.rank(self.articles[:], target=5)
+        novelty_picks = self.novelty_ranker.rank(self.articles[:], target=5)
+        
+        relevance_urls = {a.url for a in relevance_picks}
+        novelty_urls = {a.url for a in novelty_picks}
+        
+        agreement = len(relevance_urls & novelty_urls)
+        
+        return {
+            'relevance_count': len(relevance_picks),
+            'novelty_count': len(novelty_picks),
+            'agreement_count': agreement,
+            'agreement_pct': agreement / 5 * 100 if len(relevance_picks) else 0
+        }
+
+
 if __name__ == "__main__":
-    print("loading object")
-    xx = Research()
-    print("pulling data")
-    print(xx.pull_data())
+    print("Loading Research module with dual rankers...")
+    xx = Research(use_dual_ranker=True)
+    print("\n=== Pulling and ranking data ===\n")
+    result = xx.pull_data(compare_rankers=True)
+    print(result)
 
