@@ -4,13 +4,13 @@ from bs4 import BeautifulSoup
 import requests
 from datamodel import Article
 from cluster import ArticleClusterer
-from copilot import Copilot
+from claude import Claude
 
 class News:
     def __init__(self, use_clustering=True):
         self.use_clustering = use_clustering
         self.clusterer = ArticleClusterer() if use_clustering else None
-        self.claude = Copilot()
+        self.claude = Claude()
 
     def rank_clusters(self, clusters, category_name, top_k=5):
         """
