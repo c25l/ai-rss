@@ -18,7 +18,7 @@ from collections import defaultdict
 from typing import Dict, List, Optional, Tuple
 
 from datamodel import Article, Group
-from claude import Claude
+from copilot import Copilot
 
 
 def _sanitize_json_blob(blob: str) -> str:
@@ -103,8 +103,8 @@ class ArticleClusterer:
     into a smaller set of higher-level stories.
     """
 
-    def __init__(self, llm: Optional[Claude] = None, macro_target: int = 10):
-        self.llm = llm or Claude()
+    def __init__(self, llm: Optional[Copilot] = None, macro_target: int = 10):
+        self.llm = llm or Copilot()
         self.macro_target = macro_target
 
     def embed_article(self, article: Article):  # kept for API compatibility

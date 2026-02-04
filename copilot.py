@@ -14,6 +14,7 @@ import random
 import re
 import subprocess
 import time
+import tempfile
 
 
 class Copilot:
@@ -31,32 +32,36 @@ class Copilot:
             return False
 
     def _generate_via_cli(self, prompt: str, timeout_s: int = 120) -> str:
-        cmd = [
-            self.cli_command,
-            "-p",
-            prompt,
-            "-s",
-            "--no-color",
-            "--stream",
-            "off",
-            "--log-level",
-            "error",
-            "--no-ask-user",
-            "--no-custom-instructions",
-            "--disable-builtin-mcps",
-        ]
-        if self.model:
-            cmd.extend(["--model", self.model])
+        # Avoid any CLI parsing/quoting issues by passing the prompt via @file.
+        with tempfile.NamedTemporaryFile("w", delete=True, encoding="utf-8") as f:
+            f.write(prompt)
+            f.flush()
+            cmd = [
+                self.cli_command,
+                "-p",
+                f"@{f.name}",
+                "-s",
+                "--no-color",
+                "--stream",
+                "off",
+                "--log-level",
+                "error",
+                "--no-ask-user",
+                "--no-custom-instructions",
+                "--disable-builtin-mcps",
+            ]
+            if self.model:
+                cmd.extend(["--model", self.model])
 
-        proc = subprocess.run(
-            cmd,
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            timeout=timeout_s,
-        )
-        return self._clean_output(proc.stdout)
+            proc = subprocess.run(
+                cmd,
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                timeout=timeout_s,
+            )
+            return self._clean_output(proc.stdout)
 
     @staticmethod
     def _clean_output(text: str) -> str:
