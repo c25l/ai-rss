@@ -374,7 +374,7 @@ Clusters:
                 for tag in article_canon_tags.get(i, set()):
                     tag_counts[tag] += 1
             
-            # Use most common tag as group name
+            # Use most common tag as group name (tie-break alphabetically for determinism)
             if tag_counts:
                 best_tag = max(tag_counts.items(), key=lambda x: (x[1], x[0]))[0]
             else:
@@ -473,7 +473,7 @@ Clusters:
             groups = [Group(text=tag, articles=arts) for tag, arts in buckets.items()]
             groups.sort(key=lambda g: len(g.articles), reverse=True)
 
-        # 4) Macro-merge pass (optional, skip if using Louvain which already does refinement)
+        # Macro-merge pass (optional, skip if using Louvain which already does refinement)
         if not self.use_louvain:
             groups = self._macro_merge_clusters(groups)
         return groups
