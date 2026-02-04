@@ -229,16 +229,12 @@ Articles:
         """
         if not HAS_SKLEARN:
             # Fallback to batch tagging
-            print("WARNING: scikit-learn not installed. Falling back to expensive LLM batch tagging.")
-            print("Install scikit-learn to enable TF-IDF cost savings: pip install scikit-learn")
             batch_size = 20
             tag_by_index: Dict[int, List[str]] = {}
             for start in range(0, len(articles), batch_size):
                 batch = articles[start : start + batch_size]
                 tag_by_index.update(self._tag_batch(batch, start))
             return tag_by_index
-        
-        print(f"Using TF-IDF tagging for {len(articles)} articles (1 LLM call instead of {(len(articles) + 19) // 20} batch calls)")
         
         # Combine title and summary for each article
         texts = []
