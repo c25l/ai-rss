@@ -4,7 +4,6 @@ Mirrors the `Claude` class interface so callers can swap providers without
 changing call sites.
 
 Primary backend: GitHub Copilot CLI (`copilot -p ...`).
-Fallback backend: existing `Claude` Azure AI Foundry implementation.
 """
 
 from __future__ import annotations
@@ -23,7 +22,6 @@ class Copilot:
     def __init__(self, model: str | None = None, cli_command: str = "copilot"):
         self.model = model or os.getenv("COPILOT_MODEL")
         self.cli_command = cli_command
-        self._fallback = None
 
     def warmup(self):
         try:
@@ -68,12 +66,6 @@ class Copilot:
             text = text[2:]
         return text
 
-    def _get_fallback(self):
-        if self._fallback is None:
-            from claude import Claude  # local import to avoid requiring Azure creds
-
-            self._fallback = Claude()
-        return self._fallback
 
     def generate(self, prompt, max_retries=10, base_delay=1.0):
         last_err = None
@@ -87,8 +79,7 @@ class Copilot:
                 time.sleep(delay + random.uniform(0, 0.2))
                 delay = delay * 2
 
-        # Fallback keeps existing behavior if Copilot CLI is unavailable.
-        return self._get_fallback().generate(prompt, max_retries=10, base_delay=1.0)
+        raise last_err
 
     def rank_items(self, items, prompt_template, top_k=5, batch_size=10):
         item_lines = [line for line in items.split("\n") if line.strip() and line.strip().startswith("[")]

@@ -1,82 +1,27 @@
-import os
-import time
-import random
-import json
-import re
-from dotenv import load_dotenv
-from anthropic import AnthropicFoundry
+"""Compatibility shim for older call sites.
 
-load_dotenv()
+This repo used to have an Azure AI Foundry-backed Claude client.
+Azure interactions are being removed; this module now delegates to the
+GitHub Copilot CLI wrapper in copilot.py.
+"""
+
+from copilot import Copilot
 
 
 class Claude(object):
-    """
-    Azure AI Foundry client for Anthropic Claude models.
-    Uses Anthropic API format with exponential backoff for rate limiting.
-    """
-    def __init__(self):
-        self.endpoint = os.getenv("AZURE_AI_ENDPOINT", "https://chris-bonnell-1327-resource.services.ai.azure.com/anthropic/")
-        self.api_key = os.getenv("AZURE_AI_API_KEY")
-        self.model = os.getenv("AZURE_AI_DEPLOYMENT_NAME", "claude-sonnet-4-5")
+    """Backwards-compatible interface used by news/tech_news/daily_workflow."""
 
-        if not self.api_key:
-            raise ValueError("AZURE_AI_API_KEY must be set in .env file")
+    def __init__(self, model: str | None = None, cli_command: str = "copilot"):
+        self._client = Copilot(model=model, cli_command=cli_command)
 
     def warmup(self):
-        """
-        Warm up the model by sending a simple prompt to trigger loading.
-        Call this at the start of a workflow to ensure the model is loaded.
-        """
-        print(f"Warming up Claude model: {self.model}")
-        try:
-            client = AnthropicFoundry(
-                api_key=self.api_key,
-                base_url=self.endpoint
-            )
-            client.messages.create(
-                model=self.model,
-                max_tokens=5,
-                messages=[{"role": "user", "content": "test"}]
-            )
-            print("✓ Model loaded and ready")
-            return True
-        except Exception as e:
-            print(f"✗ Model warmup failed: {e}")
-            return False
+        return self._client.warmup()
 
     def generate(self, prompt, max_retries=10, base_delay=1.0):
-        """
-        Generate a response from Claude for the given prompt.
+        return self._client.generate(prompt, max_retries=max_retries, base_delay=base_delay)
 
-        Args:
-            prompt: The prompt text to send to Claude
-            max_retries: Maximum number of retries on failure
-            base_delay: Base delay for exponential backoff
-
-        Returns:
-            String response from Claude
-        """
-        client = AnthropicFoundry(
-            api_key=self.api_key,
-            base_url=self.endpoint
-        )
-        try:
-            message = client.messages.create(
-                model=self.model,
-                messages=[
-                    {"role": "user", "content": f"{prompt}"}
-                ],
-                max_tokens=4096,
-                temperature=0.7,
-            )
-            return "\n\n".join([xx.text for xx in message.content])
-        except Exception as e:
-            if max_retries <= 0:
-                raise
-            delay = base_delay * 2 + random.uniform(0, 0.2)
-            print(f"Exception: {e}, \n waiting {delay} then retrying")
-            time.sleep(delay)
-            return self.generate(prompt, max_retries=max_retries-1, base_delay=delay)
+    def rank_items(self, items, prompt_template, top_k=5, batch_size=10):
+        return self._client.rank_items(items, prompt_template, top_k=top_k, batch_size=batch_size)
 
     def rank_items(self, items, prompt_template, top_k=5, batch_size=10):
         """
