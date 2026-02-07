@@ -1,5 +1,5 @@
 import feeds
-from copilot import Copilot
+from claude import Claude
 import json
 import re
 
@@ -13,7 +13,7 @@ class ResearchRanker:
     def __init__(self, name, description, claude=None):
         self.name = name
         self.description = description
-        self.claude = claude or Copilot()
+        self.claude = claude or Claude()
     
     def rank(self, articles, target=5):
         """Rank and select top articles. Override in subclasses."""
@@ -171,7 +171,7 @@ class Research:
     
     def __init__(self, use_dual_ranker=True):
         self.articles = []
-        self.claude = Copilot()
+        self.claude = Claude()
         self.use_dual_ranker = use_dual_ranker
         
         # Initialize both rankers

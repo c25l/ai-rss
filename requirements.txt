@@ -35,5 +35,6 @@ bcrypt>=4.0.0
 # MCP Server
 fastmcp
 
-requests
-dotenv
+# Remote LLM + embeddings
+anthropic
+openai

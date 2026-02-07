@@ -1,367 +1,238 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Article clustering using an LLM (no embeddings).
-
-Strategy: "topic-tag then group"
-1) Batch articles and ask the LLM to assign each article a small set of topic tags.
-2) Merge tags across batches (synonyms / near-duplicates).
-3) Group articles by merged tag.
-
-This is designed to work with the Copilot CLI wrapper (see copilot.py).
 """
+Article clustering using embeddings and similarity measures
+Uses qwen3-embedding:4b for high-quality multilingual embeddings
 
-from __future__ import annotations
-
-import json
-import re
-from collections import defaultdict
-from typing import Dict, List, Optional, Tuple
-
+"""
+import os
+import numpy as np
+from typing import List, Tuple, Optional
 from datamodel import Article, Group
-from copilot import Copilot
+from sklearn.cluster import DBSCAN
+from sklearn.metrics.pairwise import cosine_similarity
+from openai import AzureOpenAI
+from dotenv import load_dotenv
 
-
-def _sanitize_json_blob(blob: str) -> str:
-    """Best-effort cleanup for common LLM JSON breakage.
-
-    The most common failure we see is literal newlines inside quoted strings.
-    JSON forbids that, so we replace them with spaces while inside a string.
-    """
-    out = []
-    in_str = False
-    esc = False
-    for ch in blob:
-        if in_str:
-            if esc:
-                esc = False
-                out.append(ch)
-                continue
-            if ch == "\\":
-                esc = True
-                out.append(ch)
-                continue
-            if ch == '"':
-                in_str = False
-                out.append(ch)
-                continue
-            if ch in "\r\n\t":
-                out.append(" ")
-                continue
-            out.append(ch)
-            continue
-
-        if ch == '"':
-            in_str = True
-        out.append(ch)
-
-    return "".join(out)
-
-
-def _extract_json(text: str) -> Optional[object]:
-    """Extract the first JSON object/array from model output."""
-    # Prefer fenced blocks if present
-    fence = re.search(r"```json\s*(.*?)\s*```", text, flags=re.DOTALL | re.IGNORECASE)
-    if fence:
-        blob = fence.group(1)
-        blob = _sanitize_json_blob(blob)
-        try:
-            return json.loads(blob)
-        except Exception:
-            pass
-
-    # Fall back to first {...} or [...]
-    match = re.search(r"(\{.*\}|\[.*\])", text, flags=re.DOTALL)
-    if not match:
-        return None
-
-    blob = _sanitize_json_blob(match.group(1))
-    try:
-        return json.loads(blob)
-    except Exception:
-        return None
-
-
-def _normalize_tag(tag: str) -> str:
-    tag = (tag or "").strip().lower()
-    tag = re.sub(r"\s+", " ", tag)
-    tag = tag.replace("/", " ")
-    tag = re.sub(r"\s+", " ", tag).strip()
-    return tag[:120] or "misc"
-
-
-def _safe_slug(tag: str) -> str:
-    tag = _normalize_tag(tag)
-    tag = re.sub(r"[^a-z0-9\-\s]", "", tag)
-    tag = re.sub(r"\s+", "-", tag).strip("-")
-    return tag[:80] or "misc"
+# Load environment variables
+load_dotenv()
 
 
 class ArticleClusterer:
-    """Cluster articles by LLM-assigned topic tags.
+    def __init__(self, embedding_model: str = "text-embedding-ada-002"):
+        """
+        Initialize the article clusterer
 
-    Optionally performs a macro-merge pass to consolidate many small topic clusters
-    into a smaller set of higher-level stories.
-    """
+        Args:
+            embedding_model: Azure OpenAI model to use for embeddings (default: text-embedding-ada-002)
+        """
+        self.embedding_model = embedding_model
 
-    def __init__(self, llm: Optional[Copilot] = None, macro_target: int = 10):
-        self.llm = llm or Copilot()
-        self.macro_target = macro_target
-
-    def embed_article(self, article: Article):  # kept for API compatibility
-        return None
-
-    def embed_articles(self, articles: List[Article]) -> List[Article]:  # compatibility
-        return articles
-
-    def _format_article_for_tagging(self, idx: int, article: Article) -> str:
-        title = (article.title or "").strip()
-        summary = (article.summary or "").strip()
-        source = (article.source or "").strip()
-        url = (article.url or "").strip()
-        # Keep this compact to reduce tokens, but include enough disambiguation.
-        return (
-            f"[{idx}] Title: {title}\n"
-            f"Source: {source}\n"
-            f"URL: {url}\n"
-            f"Summary: {summary[:400]}\n"
+        # Initialize Azure OpenAI client
+        self.azure_client = AzureOpenAI(
+            api_key=os.getenv("AZURE_OPENAI_API_KEY"),
+            api_version="2024-02-01",
+            azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
         )
 
-    def _tag_batch(self, batch: List[Article], start_index: int) -> Dict[int, List[str]]:
-        items = "\n".join(
-            self._format_article_for_tagging(start_index + i, a) for i, a in enumerate(batch)
-        )
+    def get_embedding(self, text: str, max_length: int = 8000) -> Optional[np.ndarray]:
+        """
+        Get embedding vector for text using Azure OpenAI
 
-        prompt = f"""You are clustering news articles into STORY TOPICS.
+        Args:
+            text: Text to embed
+            max_length: Maximum text length to send (default: 8000)
 
-For each article, assign 1-3 short topic tags.
-Tags must be:
-- lowercase
-- 2-5 words max
-- not publisher names
-- stable across similar stories (prefer canonical phrasing)
-- MUST be valid JSON strings: do not include literal newlines; keep tags on one line
+        Returns:
+            numpy array of embedding vector, or None if failed
+        """
+        try:
+            # Truncate text to max_length
+            truncated_text = text[:max_length]
 
-Return ONLY MINIFIED JSON of this form (no extra text):
-{{"tags": {{"<index>": ["tag one", "tag two"]}}}}
+            # Use Azure OpenAI embeddings API
+            response = self.azure_client.embeddings.create(
+                model=self.embedding_model,
+                input=truncated_text
+            )
 
-Articles:
-{items}
-"""
+            if response.data and len(response.data) > 0:
+                embedding = response.data[0].embedding
+                if embedding:
+                    return np.array(embedding)
 
-        resp = self.llm.generate(prompt)
-        data = _extract_json(resp)
-        if not isinstance(data, dict) or "tags" not in data or not isinstance(data["tags"], dict):
-            # Hard fallback: everything in one bucket
-            return {start_index + i: ["misc"] for i in range(len(batch))}
+            print(f"�  Warning: Failed to get embedding (status: {response.status_code})")
+            return None
 
-        out: Dict[int, List[str]] = {}
-        for k, v in data["tags"].items():
-            try:
-                idx = int(k)
-            except Exception:
-                continue
-            if not isinstance(v, list):
-                continue
-            tags = [_normalize_tag(str(t)) for t in v if str(t).strip()]
-            tags = [t for t in tags if t]
-            out[idx] = tags[:3] if tags else ["misc"]
+        except Exception as e:
+            print(f"�  Warning: LM Studio connection error: {e}")
+            return None
 
-        # Ensure every article has tags
-        for i in range(len(batch)):
-            idx = start_index + i
-            out.setdefault(idx, ["misc"])
+    def embed_article(self, article: Article) -> Optional[np.ndarray]:
+        """
+        Generate embedding for an article using title + summary
 
-        return out
+        Args:
+            article: Article object to embed
 
-    def _merge_tag_vocab(self, tags: List[str]) -> Dict[str, str]:
-        """Ask the LLM to merge near-duplicate tags into canonical ones."""
-        counts: Dict[str, int] = {}
-        for t in tags:
-            tt = (t or "").strip().lower()
-            if not tt:
-                continue
-            counts[tt] = counts.get(tt, 0) + 1
+        Returns:
+            numpy array of embedding vector, or None if failed
+        """
+        # Combine title and summary for richer representation with context
+        from datetime import datetime
+        date_str = article.published_at if hasattr(article, 'published_at') and article.published_at else datetime.now().strftime("%Y-%m-%d")
+        text = f"News article: {article.title}\n\nURL: {article.url}\n\nDate: {date_str}\n\nSummary: {article.summary}"
+        embedding = self.get_embedding(text)
 
-        # Prefer tags that recur; cap to keep prompt bounded.
-        uniq = sorted(counts.keys(), key=lambda t: (-counts[t], t))
-        uniq = uniq[:250]
-        if not uniq:
-            return {}
+        if embedding is not None:
+            article.vector = embedding
 
-        items = "\n".join(f"- {t} ({counts.get(t,1)}x)" for t in uniq)
+        return embedding
 
-        prompt = f"""You are normalizing topic tags for clustering.
+    def embed_articles(self, articles: List[Article]) -> List[Article]:
+        """
+        Generate embeddings for multiple articles
 
-Given this list of tags, merge synonyms / near-duplicates into a smaller set of canonical tags.
-Rules:
-- canonical tags should be lowercase, 2-5 words
-- avoid overly broad tags like "politics" unless necessary
-- keep at most ~40 canonical tags
-- MUST be valid JSON strings: do not include literal newlines inside strings
+        Args:
+            articles: List of Article objects
 
-Return ONLY MINIFIED JSON of this form (no extra text):
-{{"map": {{"original tag": "canonical tag"}}}}
+        Returns:
+            List of articles with embeddings (filters out failed embeddings)
+        """
+        embedded_articles = []
 
-Tags:
-{items}
-"""
+        for i, article in enumerate(articles):
+            embedding = self.embed_article(article)
 
-        resp = self.llm.generate(prompt)
-        data = _extract_json(resp)
-        if not isinstance(data, dict) or "map" not in data or not isinstance(data["map"], dict):
-            return {t: t for t in uniq}
+            if embedding is not None:
+                embedded_articles.append(article)
 
-        mapping: Dict[str, str] = {}
-        for k, v in data["map"].items():
-            kk = _normalize_tag(str(k))
-            vv = _normalize_tag(str(v)) if str(v).strip() else kk
-            mapping[kk] = vv
+        return embedded_articles
 
-        # Fill any missing
-        for t in uniq:
-            mapping.setdefault(t, t)
+    def cosine_similarity_matrix(self, articles: List[Article]) -> np.ndarray:
+        """
+        Calculate pairwise cosine similarity between articles
 
-        return mapping
+        Args:
+            articles: List of Article objects with embeddings
 
-    def _macro_merge_clusters(self, groups: List[Group]) -> List[Group]:
-        """Merge many small groups into ~macro_target higher-level stories."""
-        if not groups:
-            return []
-        if len(groups) <= self.macro_target:
-            return groups
-
-        # Summarize each group with a few representative headlines.
-        lines = []
-        for i, g in enumerate(groups):
-            reps = [a.title for a in (g.articles or [])[:3] if a.title]
-            rep_str = "; ".join(reps)[:220]
-            lines.append(f"[{i}] {g.text} :: {len(g.articles)} articles :: {rep_str}")
-
-        items = "\n".join(lines[:120])  # cap for token safety
-
-        prompt = f"""You are merging news STORY CLUSTERS into higher-level MACRO STORIES.
-
-Goal: merge these clusters into about {self.macro_target} macro stories.
-Rules:
-- Each input cluster must map to exactly one macro story.
-- Macro story titles should be short, specific, and stable (lowercase, 2-6 words).
-- Avoid generic buckets like "world news".
-- Return ONLY MINIFIED JSON, no extra text.
-
-JSON schema:
-{{"map": {{"<cluster_index>": "<macro_title>"}}}}
-
-Clusters:
-{items}
-"""
-
-        resp = self.llm.generate(prompt)
-        data = _extract_json(resp)
-        if not isinstance(data, dict) or "map" not in data or not isinstance(data["map"], dict):
-            return groups
-
-        mapping: Dict[int, str] = {}
-        for k, v in data["map"].items():
-            try:
-                idx = int(str(k).strip())
-            except Exception:
-                continue
-            title = _normalize_tag(str(v))
-            if title:
-                mapping[idx] = title
-
-        merged: Dict[str, List[Article]] = defaultdict(list)
-        for i, g in enumerate(groups):
-            macro = mapping.get(i, _normalize_tag(g.text))
-            merged[macro].extend(g.articles)
-
-        out = [Group(text=title, articles=arts) for title, arts in merged.items()]
-        out.sort(key=lambda g: len(g.articles), reverse=True)
-        return out
+        Returns:
+            2D numpy array of similarity scores
+        """
+        vectors = np.array([article.vector for article in articles])
+        return cosine_similarity(vectors)
 
     def find_similar_articles(
         self,
         article: Article,
         candidates: List[Article],
-        threshold: float = 0.0,
-        top_k: int = 10,
+        threshold: float = 0.7,
+        top_k: int = 10
     ) -> List[Tuple[Article, float]]:
-        """Not supported for LLM clustering; kept for compatibility."""
-        return []
+        """
+        Find articles similar to a given article
+
+        Args:
+            article: Reference article
+            candidates: List of candidate articles to compare against
+            threshold: Minimum similarity score (0-1)
+            top_k: Maximum number of results to return
+
+        Returns:
+            List of (article, similarity_score) tuples, sorted by similarity
+        """
+        if article.vector is None:
+            self.embed_article(article)
+
+        if article.vector is None:
+            return []
+
+        similarities = []
+        for candidate in candidates:
+            if candidate.vector is None:
+                continue
+
+            # Calculate cosine similarity
+            sim = cosine_similarity(
+                article.vector.reshape(1, -1),
+                candidate.vector.reshape(1, -1)
+            )[0][0]
+
+            if sim >= threshold:
+                similarities.append((candidate, float(sim)))
+
+        # Sort by similarity (descending) and return top_k
+        similarities.sort(key=lambda x: x[1], reverse=True)
+        return similarities[:top_k]
+
 
     def cluster_articles_threshold(
         self,
         articles: List[Article],
-        similarity_threshold: float = 0.0,
+        similarity_threshold: float | None = None
     ) -> List[Group]:
-        """Cluster using LLM topic tags; similarity_threshold is ignored."""
+        """
+        Cluster articles using simple similarity threshold
+        Greedy algorithm: each article joins the first cluster above threshold,
+        or creates a new cluster
+
+        Args:
+            articles: List of Article objects with embeddings
+            similarity_threshold: Minimum similarity to join a cluster
+
+        Returns:
+            List of Group objects containing clustered articles
+        """
+        if similarity_threshold is None:
+            try:
+                similarity_threshold = float(os.getenv("EMBEDDING_SIMILARITY_THRESHOLD", "0.75"))
+            except ValueError:
+                similarity_threshold = 0.75
 
         if not articles:
             return []
 
-        # 1) Tag in batches
-        batch_size = 20
-        tag_by_index: Dict[int, List[str]] = {}
-        for start in range(0, len(articles), batch_size):
-            batch = articles[start : start + batch_size]
-            tag_by_index.update(self._tag_batch(batch, start))
+        # Ensure all articles have embeddings
+        articles = [a for a in articles if a.vector is not None]
 
-        # 2) Merge tag vocab
-        all_tags = [t for tags in tag_by_index.values() for t in tags]
-        mapping = self._merge_tag_vocab(all_tags)
+        if not articles:
+            print("No articles with embeddings to cluster")
+            return []
 
-        # Count canonical tag frequencies across all tags
-        canon_counts: Dict[str, int] = {}
-        for t in all_tags:
-            tt = _normalize_tag(t)
-            ct = mapping.get(tt, tt)
-            canon_counts[ct] = canon_counts.get(ct, 0) + 1
+        groups = []
 
-        # 3) Group by canonical tag chosen by global frequency (not per-article specificity)
-        buckets: Dict[str, List[Article]] = defaultdict(list)
-        for i, article in enumerate(articles):
-            tags = tag_by_index.get(i, ["misc"])
-            canon_tags = []
-            for t in tags:
-                tt = _normalize_tag(t)
-                canon_tags.append(mapping.get(tt, tt))
+        for article in articles:
+            # Try to find a group this article belongs to
+            best_group = None
+            best_similarity = 0
 
-            # Pick the most common canonical tag for this article; tie-break by earliest
-            best = None
-            best_score = -1
-            for ct in canon_tags:
-                score = canon_counts.get(ct, 0)
-                if score > best_score:
-                    best = ct
-                    best_score = score
-            buckets[best or "misc"].append(article)
+            for group in groups:
+                # Calculate average similarity to articles in this group
+                similarities = []
+                for group_article in group.articles:
+                    sim = cosine_similarity(
+                        article.vector.reshape(1, -1),
+                        group_article.vector.reshape(1, -1)
+                    )[0][0]
+                    similarities.append(sim)
 
-        # If we collapsed too much, re-split using the 2nd tag when available.
-        # (Prevents a single vague canonical tag from absorbing everything.)
-        if buckets and (max(len(v) for v in buckets.values()) / len(articles)) > 0.35:
-            refined: Dict[str, List[Article]] = defaultdict(list)
-            for i, article in enumerate(articles):
-                tags = tag_by_index.get(i, ["misc"])
-                canon_tags = []
-                for t in tags:
-                    tt = _normalize_tag(t)
-                    canon_tags.append(mapping.get(tt, tt))
+                avg_similarity = np.mean(similarities)
 
-                canon_primary = canon_tags[0] if canon_tags else "misc"
-                canon_secondary = canon_tags[1] if len(canon_tags) > 1 else ""
+                if avg_similarity >= similarity_threshold and avg_similarity > best_similarity:
+                    best_group = group
+                    best_similarity = avg_similarity
 
-                key = canon_primary
-                if canon_secondary and canon_secondary != canon_primary:
-                    key = f"{canon_primary} / {canon_secondary}"
-                refined[key].append(article)
-            buckets = refined
+            if best_group:
+                # Add to existing group
+                best_group.articles.append(article)
+            else:
+                # Create new group
+                group = Group(
+                    text=article.title[:100],  # Use article title as group name
+                    articles=[article]
+                )
+                groups.append(group)
 
-        # 4) Build Groups, largest first
-        groups = [Group(text=tag, articles=arts) for tag, arts in buckets.items()]
-        groups.sort(key=lambda g: len(g.articles), reverse=True)
-
-        # 5) Macro-merge pass (optional)
-        groups = self._macro_merge_clusters(groups)
         return groups
 
     def generate_cluster_title(self, group: Group) -> str:
