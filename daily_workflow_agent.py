@@ -66,7 +66,7 @@ def main():
     # Send email
     try:
         today = datetime.datetime.now().strftime("%Y-%m-%d")
-        subject = f"Agent-Driven H3lPeR Briefing - {today}"
+        subject = f"Agent-Driven H3LPeR Briefing - {today}"
         
         # Add header explaining the new approach
         header = """# Agent-Driven Daily Briefing
