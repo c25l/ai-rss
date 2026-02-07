@@ -69,18 +69,9 @@ def main():
         today = datetime.datetime.now().strftime("%Y-%m-%d")
         subject = f"Agent-Driven H3LPeR Briefing - {today}"
         
-        # Add header explaining the new approach
-        header = """# Agent-Driven Daily Briefing
-
-*This briefing was autonomously structured by an AI agent with full editorial freedom.*
-
----
-
-"""
-        final_content = header + briefing_content
-        
+        # Send briefing directly without preamble
         emailer = Emailer()
-        emailer.send_email(final_content, subject=subject)
+        emailer.send_email(briefing_content, subject=subject)
         
         print(f"✓ Agent briefing emailed successfully")
         print(f"\n{'='*80}\n")
