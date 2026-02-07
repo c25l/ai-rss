@@ -1,0 +1,66 @@
+# H3LPeR Agent-Centric Briefing Preferences
+# Copy this to preferences.yaml and customize
+
+# Focus areas - topics you want emphasized
+focus_areas:
+  - AI and machine learning
+  - Electric grid and datacenters
+  - Math and science 
+
+# Topics to de-emphasize or exclude
+exclude_topics:
+  - Sports
+  - Celebrity news
+  - Donald Trump unless its about the epstein files
+
+# Preferred sources (will be prioritized if mentioned)
+#preferred_sources:
+#  - The Atlantic
+#  - ArXiv
+#  - TLDR Tech
+
+# Content preferences
+content_preferences:
+  # Maximum number of articles per section
+  max_articles_per_section: 7
+  
+  # Include Wikipedia context for unfamiliar topics
+  include_wikipedia_context: true
+  
+  # Use hybrid ranking for research papers (combines agent + original ranking)
+  hybrid_research_ranking: true
+  
+  # Minimum article age in hours (filter out very recent unverified news)
+  min_article_age_hours: 0
+  
+  # Geographic focus (if any)
+  geographic_focus: null  # e.g., "United States", "Europe", "Global"
+
+# Email formatting
+email_preferences:
+  # Include weather section
+  include_weather: false
+  
+  # Include astronomy/space weather section
+  include_astronomy: false
+  
+  # Include stock market summary
+  include_stocks: false
+  
+  # Email subject line format
+  subject_format: "H3LPeR Briefing - {date}"
+
+# Research section settings (when hybrid_research_ranking is true)
+research_preferences:
+  # Number of research papers to include
+  max_research_papers: 10
+  
+  # Research categories to prioritize
+  research_categories:
+    - cs.AI  # Artificial Intelligence
+    - cs.LG  # Machine Learning
+    - cs.CL  # Computation and Language
+    - cs.CV  # Computer Vision
+  
+  # Use original ranking algorithm for research
+  use_original_ranking: true
