@@ -16,7 +16,7 @@ The agent acts as an intelligent editor/analyst rather than a simple filter.
 
 import datetime
 import json
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from copilot import Copilot
 from feeds import Feeds
 from datamodel import Article
@@ -25,7 +25,11 @@ from bs4 import BeautifulSoup
 
 
 class AgentTools:
-    """Tools available to the agent for gathering and processing information."""
+    """Tools available to the agent for gathering and processing information.
+    
+    This class provides both data-fetching tools (RSS, web scraping) and 
+    API-based tools for weather, space conditions, and astronomy.
+    """
     
     @staticmethod
     def fetch_rss_feed(feed_url: str, days: int = 1) -> List[Article]:
@@ -90,6 +94,202 @@ class AgentTools:
             }
     
     @staticmethod
+    def fetch_tldr_tech(date: Optional[datetime.datetime] = None) -> List[Article]:
+        """
+        Fetch TLDR tech newsletter articles for a specific date.
+        
+        Args:
+            date: Date to fetch (defaults to today)
+            
+        Returns:
+            List of Article objects from TLDR
+        """
+        if date is None:
+            date = datetime.datetime.now()
+        
+        articles = []
+        
+        # TLDR AI newsletter
+        try:
+            url = f"https://tldr.tech/ai/{date:%Y-%m-%d}"
+            response = requests.get(url, timeout=10)
+            soup = BeautifulSoup(response.text, "html.parser")
+            article_elements = soup.find_all("article")
+            print(f"Found {len(article_elements)} articles from TLDR AI")
+            
+            for elem in article_elements:
+                articles.append(Article(
+                    title=str(elem),
+                    summary="",
+                    published_at=date,
+                    source="tldr.tech/ai",
+                    url=url
+                ))
+        except Exception as e:
+            print(f"Error fetching TLDR AI: {e}")
+        
+        # TLDR Tech newsletter
+        try:
+            url = f"https://tldr.tech/tech/{date:%Y-%m-%d}"
+            response = requests.get(url, timeout=10)
+            soup = BeautifulSoup(response.text, "html.parser")
+            article_elements = soup.find_all("article")
+            print(f"Found {len(article_elements)} articles from TLDR Tech")
+            
+            for elem in article_elements:
+                articles.append(Article(
+                    title=str(elem),
+                    summary="",
+                    published_at=date,
+                    source="tldr.tech",
+                    url=url
+                ))
+        except Exception as e:
+            print(f"Error fetching TLDR Tech: {e}")
+        
+        return articles
+    
+    @staticmethod
+    def fetch_hacker_news_daily(date: Optional[datetime.datetime] = None) -> List[Article]:
+        """
+        Fetch Hacker News Daily digest for a specific date.
+        
+        Args:
+            date: Date to fetch (defaults to yesterday)
+            
+        Returns:
+            List of Article objects from HN Daily
+        """
+        if date is None:
+            date = datetime.datetime.now() - datetime.timedelta(days=1)
+        
+        articles = []
+        
+        try:
+            url = f"https://www.daemonology.net/hn-daily/{date:%Y-%m-%d}.html"
+            response = requests.get(url, timeout=10)
+            soup = BeautifulSoup(response.text, "html.parser")
+            story_links = soup.find_all("span", class_="storylink")
+            print(f"Found {len(story_links)} articles from HN Daily")
+            
+            for elem in story_links:
+                articles.append(Article(
+                    title=str(elem),
+                    summary="",
+                    published_at=date,
+                    source="hacker news daily",
+                    url=url
+                ))
+        except Exception as e:
+            print(f"Error fetching HN Daily: {e}")
+        
+        return articles
+    
+    @staticmethod
+    def get_weather_forecast(lat: float = 40.165729, lon: float = -105.101194) -> Dict[str, Any]:
+        """
+        Get weather forecast from National Weather Service API.
+        
+        Args:
+            lat: Latitude (default: Longmont, CO)
+            lon: Longitude (default: Longmont, CO)
+            
+        Returns:
+            Dictionary with forecast data including temperature, conditions, alerts
+        """
+        try:
+            # Import here to avoid circular dependency
+            import weather
+            w = weather.Weather()
+            
+            # Get forecast data
+            forecast_html = w.pull_data()
+            
+            # Get alerts
+            alerts = w.get_alerts(lat=lat, lon=lon)
+            
+            # Parse forecast for structured data
+            soup = BeautifulSoup(forecast_html, 'html.parser')
+            periods = soup.find_all('div', class_='forecast-text')
+            
+            forecast_periods = []
+            for period in periods[:3]:  # Get next 3 periods
+                forecast_periods.append(period.get_text(strip=True))
+            
+            return {
+                'forecast_html': forecast_html,
+                'forecast_text': ' '.join(forecast_periods),
+                'alerts': alerts,
+                'location': f'lat={lat}, lon={lon}'
+            }
+        except Exception as e:
+            print(f"Error fetching weather: {e}")
+            return {
+                'error': str(e),
+                'forecast_text': 'Weather data unavailable'
+            }
+    
+    @staticmethod
+    def get_space_weather() -> Dict[str, Any]:
+        """
+        Get space weather conditions including solar activity and geomagnetic indices.
+        
+        Returns:
+            Dictionary with space weather data including Kp index, solar flux
+        """
+        try:
+            import spaceweather
+            sw = spaceweather.SpaceWeather()
+            
+            # Get space weather data
+            forecast = sw.format_forecast()
+            
+            return {
+                'forecast': forecast,
+                'source': 'NOAA Space Weather Prediction Center'
+            }
+        except Exception as e:
+            print(f"Error fetching space weather: {e}")
+            return {
+                'error': str(e),
+                'forecast': 'Space weather data unavailable'
+            }
+    
+    @staticmethod
+    def get_astronomy_viewing(lat: float = 40.1672, lon: float = -105.1019) -> Dict[str, Any]:
+        """
+        Get astronomical viewing conditions for tonight.
+        
+        Args:
+            lat: Latitude (default: Longmont, CO)
+            lon: Longitude (default: Longmont, CO)
+            
+        Returns:
+            Dictionary with astronomy data including moon phase, planet visibility, sunset times
+        """
+        try:
+            import astronomy
+            import os
+            
+            # Set location if different from default
+            os.environ['LATITUDE'] = str(lat)
+            os.environ['LONGITUDE'] = str(lon)
+            
+            astro = astronomy.Astronomy()
+            viewing_info = astro.format_output()
+            
+            return {
+                'viewing_info': viewing_info,
+                'location': f'lat={lat}, lon={lon}'
+            }
+        except Exception as e:
+            print(f"Error fetching astronomy data: {e}")
+            return {
+                'error': str(e),
+                'viewing_info': 'Astronomy data unavailable'
+            }
+    
+    @staticmethod
     def fetch_all_sources(sources: List[Dict[str, str]], days: int = 1) -> Dict[str, List[Article]]:
         """
         Fetch content from all configured sources.
@@ -125,6 +325,12 @@ class AgentTools:
                         published_at=datetime.datetime.now().isoformat()
                     )
                     all_content[source_name] = [article]
+                elif source_type == 'tldr':
+                    articles = AgentTools.fetch_tldr_tech()
+                    all_content[source_name] = articles
+                elif source_type == 'hn-daily':
+                    articles = AgentTools.fetch_hacker_news_daily()
+                    all_content[source_name] = articles
                 else:
                     print(f"Unknown source type: {source_type}")
             except Exception as e:
@@ -161,6 +367,8 @@ class AgentBriefing:
         # Tech sources
         {"name": "Microsoft Research", "url": "https://www.microsoft.com/en-us/research/feed/", "type": "rss"},
         {"name": "Google AI Blog", "url": "https://blog.google/technology/ai/rss/", "type": "rss"},
+        {"name": "TLDR Tech", "url": None, "type": "tldr"},  # Fetched via custom method
+        {"name": "Hacker News Daily", "url": None, "type": "hn-daily"},  # Fetched via custom method
         
         # Research sources
         {"name": "ArXiv CS", "url": "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR", "type": "rss"},
@@ -223,7 +431,8 @@ class AgentBriefing:
         return "\n".join(formatted_sections)
     
     def generate_briefing(self, days: int = 1, include_weather: bool = True, 
-                         include_stocks: bool = True, include_astronomy: bool = True) -> str:
+                         include_stocks: bool = True, include_astronomy: bool = True,
+                         use_enhanced_prompting: bool = True) -> str:
         """
         Generate a complete briefing using the agent's autonomous decision-making.
         
@@ -232,6 +441,7 @@ class AgentBriefing:
             include_weather: Whether to include weather/space weather/astronomy
             include_stocks: Whether to include stock market data
             include_astronomy: Whether to include astronomical viewing data
+            use_enhanced_prompting: Use multi-step reasoning with example format
             
         Returns:
             Complete formatted briefing as markdown string
@@ -247,25 +457,26 @@ class AgentBriefing:
         # Format content for agent
         formatted_content = self._format_content_for_agent(content)
         
-        # Optional: Fetch auxiliary data
-        auxiliary_data = []
+        # Fetch API-based data using tools
+        tool_data = []
         
         if include_weather:
             try:
-                import weather
-                import spaceweather
-                weather_forecast = weather.Weather().format_forecast()
-                spaceweather_forecast = spaceweather.SpaceWeather().format_forecast()
-                auxiliary_data.append(f"### WEATHER DATA\n{weather_forecast}\n\n### SPACE WEATHER\n{spaceweather_forecast}")
+                print("Fetching weather data via API...")
+                weather_data = self.tools.get_weather_forecast()
+                tool_data.append(f"### WEATHER FORECAST\n{weather_data.get('forecast_text', 'N/A')}")
+                
+                print("Fetching space weather data...")
+                space_weather_data = self.tools.get_space_weather()
+                tool_data.append(f"### SPACE WEATHER\n{space_weather_data.get('forecast', 'N/A')}")
             except Exception as e:
                 print(f"Could not fetch weather data: {e}")
         
         if include_astronomy:
             try:
-                import astronomy
-                astro = astronomy.Astronomy()
-                astro_info = astro.format_output()
-                auxiliary_data.append(f"### ASTRONOMY DATA\n{astro_info}")
+                print("Fetching astronomy viewing data...")
+                astro_data = self.tools.get_astronomy_viewing()
+                tool_data.append(f"### TONIGHT'S SKY\n{astro_data.get('viewing_info', 'N/A')}")
             except Exception as e:
                 print(f"Could not fetch astronomy data: {e}")
         
@@ -273,14 +484,107 @@ class AgentBriefing:
             try:
                 import stocks
                 stock_summary = stocks.Stocks().format_summary(['MSFT', 'NVDA', '^DJI', '^GSPC'])
-                auxiliary_data.append(f"### STOCK MARKET DATA\n{stock_summary}")
+                tool_data.append(f"### STOCK MARKET DATA\n{stock_summary}")
             except Exception as e:
                 print(f"Could not fetch stock data: {e}")
         
         # Construct the agent prompt
         today = datetime.datetime.now().strftime("%Y-%m-%d")
         
-        agent_prompt = f"""You are an intelligent briefing editor for {today}.
+        if use_enhanced_prompting:
+            # Multi-step reasoning with example format
+            agent_prompt = f"""You are an intelligent briefing editor for {today}.
+
+MISSION: Create a comprehensive daily briefing that synthesizes information across multiple domains.
+
+═══════════════════════════════════════════════════════════════
+
+AVAILABLE TOOLS & DATA:
+
+You have access to:
+1. **News articles** from {len(content)} sources ({total_articles} articles)
+2. **Weather & Space conditions** (real-time API data)
+3. **Astronomical viewing info** (tonight's sky)
+4. **Stock market data** (today's close)
+
+CONTENT BY SOURCE:
+{formatted_content}
+
+API-BASED DATA:
+{chr(10).join(tool_data) if tool_data else "No API data available"}
+
+═══════════════════════════════════════════════════════════════
+
+YOUR APPROACH (Multi-Step Reasoning):
+
+STEP 1: IDENTIFY KEY THEMES
+- Scan all sources for major stories, patterns, and connections
+- Look for recurring topics across different sources
+- Note any breaking news or significant developments
+
+STEP 2: PRIORITIZE & SYNTHESIZE
+- Rank stories by importance, impact, and relevance
+- Group related stories from different sources
+- Identify connections between seemingly unrelated topics
+- Consider how weather/space/astronomy relates to news
+
+STEP 3: STRUCTURE YOUR BRIEFING
+- Create logical sections based on discovered themes
+- Don't force content into predetermined categories
+- Let the content guide your structure
+
+STEP 4: ADD VALUE
+- Provide context and analysis, not just summaries
+- Draw non-obvious connections
+- Highlight implications and significance
+- Use weather/astronomical data strategically (not just as separate section)
+
+═══════════════════════════════════════════════════════════════
+
+EXAMPLE OUTPUT PATTERN:
+
+# Daily Briefing - {today}
+
+## [Your Most Important Theme]
+[Synthesized narrative drawing from multiple sources with inline citations]
+
+The [major story] is developing across multiple fronts. [Source A](url) reports 
+[key fact], while [Source B](url) highlights [related aspect]. This connects to 
+[broader trend] we've seen in [recent context].
+
+**Key Points:**
+- Point with [citation](url)
+- Point with [citation](url)
+- Implication: [your analysis]
+
+## [Your Second Theme]
+[Continue pattern...]
+
+## [Additional Sections As Needed]
+[Tech developments, research highlights, local news, etc.]
+
+## Conditions & Outlook
+[Integrate weather, space weather, astronomy - make it relevant]
+- Weather: [key info] [how it affects activities/events]
+- Space: [aurora possibilities, etc.]
+- Sky: [notable viewing opportunities]
+
+═══════════════════════════════════════════════════════════════
+
+GUIDELINES:
+✓ Be comprehensive but concise
+✓ Focus on significance and connections
+✓ Include inline markdown links: [Article Title](url)
+✓ Add analysis and synthesis
+✓ Create dynamic sections based on content
+✓ Make weather/astronomy relevant (not just boilerplate)
+✓ Prioritize quality over quantity
+
+Now, analyze the available content and create your briefing following this multi-step approach.
+Structure it however makes most sense for today's content."""
+        else:
+            # Original simple prompt
+            agent_prompt = f"""You are an intelligent briefing editor for {today}.
 
 You have access to content from multiple sources (news, tech, research, etc.).
 Your job is to CREATE A COMPREHENSIVE DAILY BRIEFING with COMPLETE AUTONOMY.
@@ -305,7 +609,7 @@ GUIDELINES:
 AVAILABLE CONTENT:
 {formatted_content}
 
-{"AUXILIARY DATA:\n" + "\n\n".join(auxiliary_data) if auxiliary_data else ""}
+{"API DATA:\n" + chr(10).join(tool_data) if tool_data else ""}
 
 Now, create the best possible daily briefing. Structure it however you think works best.
 Use markdown formatting. Be creative and insightful."""

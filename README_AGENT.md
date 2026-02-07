@@ -21,8 +21,8 @@ from agent_briefing import AgentBriefing
 # Create briefing system with default sources
 briefing = AgentBriefing()
 
-# Generate a briefing - agent decides everything
-result = briefing.generate_briefing(days=1)
+# Generate a briefing with enhanced multi-step reasoning
+result = briefing.generate_briefing(days=1, use_enhanced_prompting=True)
 print(result)
 ```
 
@@ -30,10 +30,10 @@ print(result)
 
 ### Full Agent Autonomy
 The agent receives:
-- **Tools**: RSS feed reader, web scraper
-- **Sources**: List of sites to monitor
-- **Auxiliary data**: Weather, stocks, astronomy (optional)
-- **Single instruction**: "Create the best briefing"
+- **Tools**: RSS feed reader, web scraper, weather APIs, space weather APIs, astronomy APIs
+- **Sources**: List of sites to monitor (including TLDR Tech, Hacker News Daily)
+- **API data**: Real-time weather, space conditions, astronomical viewing
+- **Multi-step reasoning**: Structured approach with example output format
 
 The agent then autonomously:
 - Analyzes all available content
@@ -41,6 +41,51 @@ The agent then autonomously:
 - Structures sections logically
 - Synthesizes connections
 - Writes the final briefing
+
+### API-Based Tools (NEW)
+
+The agent now has access to real-time API tools:
+
+```python
+from agent_briefing import AgentTools
+
+# Weather forecast
+weather = AgentTools.get_weather_forecast(lat=40.165729, lon=-105.101194)
+
+# Space weather conditions
+space = AgentTools.get_space_weather()
+
+# Astronomical viewing for tonight
+astronomy = AgentTools.get_astronomy_viewing(lat=40.1672, lon=-105.1019)
+
+# TLDR Tech newsletter
+tldr = AgentTools.fetch_tldr_tech()
+
+# Hacker News Daily digest
+hn = AgentTools.fetch_hacker_news_daily()
+```
+
+### Enhanced Multi-Step Reasoning (NEW)
+
+The system now supports enhanced prompting with:
+- **Structured thinking**: 4-step reasoning process (identify themes → prioritize → structure → add value)
+- **Example format**: Shows agent how to structure output
+- **Tool integration**: Guides agent on using API data effectively
+- **Connection emphasis**: Encourages synthesis across domains
+
+```python
+# Use enhanced prompting (recommended)
+result = briefing.generate_briefing(
+    days=1,
+    use_enhanced_prompting=True  # Multi-step reasoning with examples
+)
+
+# Use simple prompting
+result = briefing.generate_briefing(
+    days=1,
+    use_enhanced_prompting=False  # Original simple prompt
+)
+```
 
 ### Flexible Configuration
 
@@ -165,6 +210,11 @@ The system comes configured with diverse sources:
 
 All sources can be customized.
 
+**New in this version:**
+- **TLDR Tech & AI newsletters** - Curated daily tech news digests
+- **Hacker News Daily** - Top stories from HN in digest form
+- **API-based tools** - Real-time weather, space weather, astronomy data
+
 ## Comparison: Agent-Centric vs. Constrained-LLM
 
 ### Constrained-LLM Approach
@@ -182,18 +232,27 @@ rankings2 = llm.rank("Rank these 30 articles, return top 7 indices")
 - Lower token usage
 - Very consistent output
 
-### Agent-Centric Approach
+### Agent-Centric Approach (Enhanced)
 ```python
-# Single comprehensive prompt
-briefing = llm.generate("You're an intelligent editor. Here's all content. Create the best briefing.")
+# Single comprehensive prompt with multi-step reasoning
+briefing = llm.generate("""
+You're an intelligent editor. Follow this approach:
+1. Identify key themes
+2. Prioritize & synthesize
+3. Structure your briefing
+4. Add value
+
+Here's all content + API data. Create the best briefing.
+""")
 ```
 
 **Characteristics:**
 - Dynamic section structure
 - AI creates and synthesizes
-- Adaptive output format
+- Adaptive output format with guided structure
 - Higher token usage
 - Variable but intelligent output
+- **NEW**: Multi-step reasoning with examples
 
 ## Requirements
 
@@ -202,6 +261,7 @@ briefing = llm.generate("You're an intelligent editor. Here's all content. Creat
   - feedparser (RSS parsing)
   - beautifulsoup4 (web scraping)
   - requests (HTTP requests)
+  - ephem (astronomy calculations)
   - copilot CLI or other LLM backend
 
 ## Installation

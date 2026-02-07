@@ -47,14 +47,15 @@ def main():
     # Create agent briefing system
     briefing_system = AgentBriefing()
     
-    # Generate briefing with full agent autonomy
+    # Generate briefing with full agent autonomy and enhanced multi-step prompting
     try:
-        print("Generating agent-driven briefing...")
+        print("Generating agent-driven briefing with multi-step reasoning...")
         briefing_content = briefing_system.generate_briefing(
             days=1,
             include_weather=True,
             include_stocks=True,
-            include_astronomy=True
+            include_astronomy=True,
+            use_enhanced_prompting=True  # Use multi-step reasoning with example format
         )
         
         print("\n✓ Briefing generated successfully")
