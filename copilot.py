@@ -103,6 +103,8 @@ class Copilot:
         # Common preamble patterns from Copilot CLI
         preamble_patterns = [
             "I'm going to",
+            "I'll open",
+            "I'll scan",
             "I'll implement",
             "I'll",
             "Let me",
@@ -137,7 +139,17 @@ class Copilot:
                 # We're in content now, keep everything
                 content_lines.append(stripped if (line.strip().startswith("● ") or line.strip().startswith("• ")) else line)
         
-        return '\n'.join(content_lines).strip()
+        result = '\n'.join(content_lines).strip()
+        
+        # Final safety check: remove any remaining leading bullets
+        while result.startswith("● ") or result.startswith("• "):
+            result = result[2:].strip()
+        
+        # Fix missing markdown heading - if starts with "Daily Briefing" but no "#", add it
+        if result.startswith("Daily Briefing - ") and not result.startswith("# Daily Briefing"):
+            result = "# " + result
+        
+        return result
 
 
     def generate(self, prompt, max_retries=10, base_delay=1.0):

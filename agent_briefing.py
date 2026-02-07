@@ -598,13 +598,20 @@ CRITICAL RULES:
 ✓ Use brief bridging text ONLY to show connections (1-2 sentences max)
 ✓ Create sections based on discovered themes
 ✓ Prioritize quality sources over quantity
+✓ USE PROPER MARKDOWN FORMATTING: headings with # and ##, not plain text
+✓ Start with: # Daily Briefing - {today}
 
 ❌ DO NOT write summaries in your own words
 ❌ DO NOT add extensive commentary or analysis
 ❌ DO NOT rewrite article content
+❌ DO NOT omit the # symbol from headings
+
+OUTPUT MUST start with exactly:
+# Daily Briefing - {today}
 
 Now, curate and cite the available content following this approach.
-Focus on selection and organization, not text generation."""
+Focus on selection and organization, not text generation.
+Use proper markdown formatting with # for headings."""
         else:
             # Original simple prompt (updated for curation focus)
             agent_prompt = f"""You are an intelligent briefing CURATOR for {today}.
