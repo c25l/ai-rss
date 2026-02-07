@@ -50,8 +50,15 @@ email_preferences:
   # Include stock market summary
   include_stocks: false
   
-  # Email subject line format
+  # Send email with briefing
+  send_email: false
+
+  # Email subject line format (only used when send_email is true)
   subject_format: "H3LPeR Briefing - {date}"
+
+  # Publish static site to GitHub Pages after each briefing
+  # Requires GITHUB_PAGES_DIR env var pointing to local clone of c25l.github.io
+  publish_site: true
 
 # Dashboard stock symbols (TradingView format)
 stock_symbols:

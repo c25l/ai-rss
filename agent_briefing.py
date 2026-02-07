@@ -522,7 +522,7 @@ class AgentBriefing:
             agent: Copilot instance (creates new one if None, defaults to gpt-5.2)
         """
         self.sources = sources or self.DEFAULT_SOURCES
-        self.agent = agent or Copilot()  # Uses Copilot CLI with gpt-5.2 by default
+        self.agent = agent or Copilot()  # Uses Copilot CLI with claude-opus-4.6 by default
         self.tools = AgentTools()
         self.raw_content = {}
         self.preferences = self._load_preferences()
@@ -799,7 +799,7 @@ The document must conform to this schema:
 
 {{
   "schema_version": 1,
-  "title": "Daily Briefing - {today}",
+  "title": "{today}",
   "date": "{today}",
   "children": [
     {{
@@ -931,13 +931,16 @@ No markdown, no HTML, no commentary — just the JSON object."""
         if "date" not in doc:
             doc["date"] = today
         if "title" not in doc:
-            doc["title"] = f"Daily Briefing - {today}"
+            doc["title"] = today
         if "children" not in doc:
             doc["children"] = []
 
         # Validate against schema
         from emailer import validate_briefing_json
         validate_briefing_json(doc)
+
+        # Tag with the model that generated this briefing
+        doc["model"] = self.agent.model
 
         return doc
     

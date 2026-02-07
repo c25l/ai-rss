@@ -47,22 +47,28 @@ def _validate_node(node, path=""):
             raise ValueError(f"'article' at {path} must be an object")
 
 
+def render_briefing_content(doc):
+    """Render briefing JSON sections to HTML fragments (no page wrapper).
+
+    Returns the inner HTML suitable for embedding in any page chrome.
+    """
+    body_parts = []
+    children = doc.get("children", [])
+    for i, child in enumerate(children):
+        body_parts.append(_render_section(child))
+        if i < len(children) - 1:
+            body_parts.append(
+                '<hr style="border:none;border-top:1px solid #e0e4e8;margin:28px 0;">'
+            )
+    return "\n".join(body_parts)
+
+
 def render_briefing_html(doc, subject=None):
     """Render a validated briefing JSON document to a complete HTML email string."""
     if subject is None:
         subject = doc.get("title", "H3LPeR Briefing")
 
-    body_parts = []
-    children = doc.get("children", [])
-    for i, child in enumerate(children):
-        body_parts.append(_render_section(child))
-        # Section divider between top-level sections
-        if i < len(children) - 1:
-            body_parts.append(
-                '<hr style="border:none;border-top:1px solid #e0e4e8;margin:28px 0;">'
-            )
-
-    styled_content = "\n".join(body_parts)
+    styled_content = render_briefing_content(doc)
     return _wrap_email_chrome(styled_content, subject)
 
 
@@ -112,16 +118,11 @@ _SOURCE_COLORS = {
 
 
 def _source_badge(source_name):
-    """Render a small colored pill badge for a source name."""
+    """Render a small plain pill badge for a source name."""
     if not source_name:
         return ""
     escaped = html_mod.escape(str(source_name))
-    lower = source_name.lower()
-    color = "#7f8c8d"  # default grey
-    for keyword, c in _SOURCE_COLORS.items():
-        if keyword in lower:
-            color = c
-            break
+    color = "#7f8c8d"
     return (
         f'<span style="display:inline-block;background-color:{color};color:#fff;'
         f'font-size:10px;font-weight:600;padding:1px 7px;border-radius:9px;'

@@ -115,20 +115,38 @@ def main():
         except Exception as e:
             print(f"Warning: Could not archive briefing: {e}")
     
-    # Send email (rendered directly from JSON — no markdown conversion)
-    try:
-        today = datetime.datetime.now().strftime("%Y-%m-%d")
-        subject = subject_format.format(date=today)
-        
-        emailer = Emailer()
-        emailer.send_email_json(briefing_doc, subject=subject)
-        
-        print(f"✓ Agent briefing emailed successfully")
-        print(f"\n{'='*80}\n")
-        
-    except Exception as e:
-        print(f"\n✗ ERROR: Failed to send email: {e}")
-        sys.exit(1)
+    # Send email (if enabled in preferences)
+    send_email = email_prefs.get('send_email', False)
+    if send_email:
+        try:
+            today = datetime.datetime.now().strftime("%Y-%m-%d")
+            subject = subject_format.format(date=today)
+
+            emailer = Emailer()
+            emailer.send_email_json(briefing_doc, subject=subject)
+
+            print(f"✓ Agent briefing emailed successfully")
+
+        except Exception as e:
+            print(f"\n✗ ERROR: Failed to send email: {e}")
+            sys.exit(1)
+    else:
+        print("✓ Email sending disabled")
+    
+    # Publish to static site (opt-in via preferences or GITHUB_PAGES_DIR env var)
+    publish_enabled = email_prefs.get('publish_site', False)
+    site_dir = os.environ.get("GITHUB_PAGES_DIR")
+    if publish_enabled or site_dir:
+        try:
+            from publish_site import publish_briefing
+            if publish_briefing(site_dir=site_dir):
+                print("✓ Static site published")
+            else:
+                print("⚠ Static site publish skipped or failed")
+        except Exception as e:
+            print(f"⚠ Static site publish error: {e}")
+    
+    print(f"\n{'='*80}\n")
 
 
 if __name__ == "__main__":
