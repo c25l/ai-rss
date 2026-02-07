@@ -88,64 +88,50 @@ class Copilot:
     def _clean_output(text: str) -> str:
         """Clean Copilot CLI output to extract just the generated content.
         
-        The CLI may prefix responses with:
-        - Preamble text about what it's doing
-        - Leading bullets like "● " or "• "
-        - Multiple newlines
-        
-        This method extracts only the actual generated content.
+        Strategy: Find "Daily Briefing" and discard everything before it.
+        This is more robust than trying to match every possible preamble pattern.
         """
         text = text.strip()
         
-        # Split by lines
+        # Find the line containing "Daily Briefing" - this is where content starts
         lines = text.split('\n')
+        content_start_idx = None
         
-        # Common preamble patterns from Copilot CLI
-        preamble_patterns = [
-            "I'm going to",
-            "I'll open",
-            "I'll scan",
-            "I'll implement",
-            "I'll",
-            "Let me",
-            "I will",
-            "First,",
-        ]
-        
-        # Find where actual content starts
-        content_lines = []
-        skip_preamble = True
-        
-        for line in lines:
+        for i, line in enumerate(lines):
             stripped = line.strip()
             
-            # Remove leading bullet from the line
+            # Remove bullet prefix if present to check content
             if stripped.startswith("● ") or stripped.startswith("• "):
                 stripped = stripped[2:].strip()
             
-            # Check if this is still preamble
-            if skip_preamble:
-                is_preamble = any(stripped.startswith(pattern) for pattern in preamble_patterns)
-                
-                # If we hit a markdown heading, content has started
-                if stripped.startswith('#'):
-                    skip_preamble = False
-                    content_lines.append(stripped)
-                elif not is_preamble and stripped:  # Non-empty, non-preamble line
-                    skip_preamble = False
-                    content_lines.append(stripped)
-                # else: skip this preamble line
+            # Found "Daily Briefing" - this is where real content starts
+            if "Daily Briefing" in stripped:
+                content_start_idx = i
+                break
+        
+        # If we didn't find "Daily Briefing", return cleaned text as-is
+        if content_start_idx is None:
+            # Just remove bullets from start
+            while text.startswith("● ") or text.startswith("• "):
+                text = text[2:].strip()
+            return text
+        
+        # Extract content from "Daily Briefing" onward
+        content_lines = []
+        for i in range(content_start_idx, len(lines)):
+            line = lines[i]
+            stripped = line.strip()
+            
+            # Remove bullet prefix if present
+            if stripped.startswith("● ") or stripped.startswith("• "):
+                stripped = stripped[2:].strip()
+                content_lines.append(stripped)
             else:
-                # We're in content now, keep everything
-                content_lines.append(stripped if (line.strip().startswith("● ") or line.strip().startswith("• ")) else line)
+                content_lines.append(line.rstrip())
         
         result = '\n'.join(content_lines).strip()
         
-        # Final safety check: remove any remaining leading bullets
-        while result.startswith("● ") or result.startswith("• "):
-            result = result[2:].strip()
-        
-        # Fix missing markdown heading - if starts with "Daily Briefing" but no "#", add it
+        # Ensure the Daily Briefing line has proper markdown heading
         if result.startswith("Daily Briefing - ") and not result.startswith("# Daily Briefing"):
             result = "# " + result
         
