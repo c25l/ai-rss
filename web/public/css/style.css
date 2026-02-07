@@ -1,0 +1,119 @@
+/* H3lPeR Web — Custom styles on top of Pico CSS */
+
+/* Active nav link */
+nav a.active {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ============================================================================
+   Dashboard layout
+   ============================================================================ */
+
+.chart-container {
+  position: relative;
+  height: 300px;
+  padding: 0.25rem;
+}
+
+.chart-container.chart-compact {
+  height: 200px;
+}
+
+/* Briefing list */
+#briefing-list {
+  list-style: none;
+  padding: 0;
+}
+
+#briefing-list li {
+  margin-bottom: 0.25rem;
+}
+
+#briefing-list a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+#briefing-list a:hover {
+  background-color: var(--pico-secondary-background);
+}
+
+#briefing-list small {
+  display: block;
+  opacity: 0.7;
+}
+
+/* Briefing content area */
+#briefing-content {
+  padding: 1rem;
+}
+
+/* Error styling */
+.error {
+  color: var(--pico-del-color);
+  font-style: italic;
+}
+
+/* Widget pre blocks — wrap text */
+article pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 0.85rem;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  opacity: 0.6;
+}
+
+/* ============================================================================
+   Weather alerts
+   ============================================================================ */
+
+.weather-alerts {
+  margin-bottom: 1rem;
+}
+
+.weather-alert {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #856404;
+}
+
+[data-theme="dark"] .weather-alert {
+  background-color: #332701;
+  border-color: #664e02;
+  color: #ffc107;
+}
+
+/* ============================================================================
+   SWPC credit line
+   ============================================================================ */
+
+.swpc-credit {
+  display: block;
+  text-align: center;
+  margin-top: 0.25rem;
+  opacity: 0.6;
+  font-size: 0.7rem;
+}
+
+/* ============================================================================
+   TradingView Widget
+   ============================================================================ */
+
+.tradingview-widget-container {
+  min-height: 450px;
+}

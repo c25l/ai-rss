@@ -1,0 +1,31 @@
+<%- include('layout') %>
+
+<h1>Briefings</h1>
+<div class="grid">
+  <div>
+    <nav>
+      <ul id="briefing-list">
+        <% if (briefings.length === 0) { %>
+          <li><em>No briefings found</em></li>
+        <% } %>
+        <% briefings.forEach(b => { %>
+          <li>
+            <a href="#"
+               hx-get="/briefings/<%= b.filename %>"
+               hx-target="#briefing-content"
+               hx-swap="innerHTML"
+               hx-push-url="/briefings/<%= b.filename %>">
+              <strong><%= b.date %></strong>
+              <small><%= b.title %> · <%= b.sectionCount %> sections</small>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    </nav>
+  </div>
+  <div id="briefing-content" style="min-height: 400px;">
+    <p><em>Select a briefing from the list to view it.</em></p>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

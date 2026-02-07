@@ -53,6 +53,13 @@ email_preferences:
   # Email subject line format
   subject_format: "H3LPeR Briefing - {date}"
 
+# Dashboard stock symbols (TradingView format)
+stock_symbols:
+  - "MSFT"
+  - "NVDA"
+  - "FOREXCOM:DJI"
+  - "FOREXCOM:SPX500"
+
 # Research section settings (when hybrid_research_ranking is true)
 research_preferences:
   # Number of research papers to include

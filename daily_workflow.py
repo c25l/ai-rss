@@ -13,7 +13,6 @@ import astronomy
 from datamodel import Article
 import os
 import sys
-import google_auth
 from emailer import Emailer
 
 def main():

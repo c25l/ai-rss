@@ -1,0 +1,52 @@
+<%- include('layout') %>
+
+<h1>Dashboard</h1>
+
+<article>
+  <header>🌤️ Weather Forecast</header>
+  <div id="weather-alerts"></div>
+  <div class="chart-container">
+    <canvas id="weather-chart"></canvas>
+  </div>
+</article>
+
+<article>
+  <header>☀️ Space Weather — Kp Index (Observed + Forecast)</header>
+  <div class="chart-container chart-compact">
+    <canvas id="kp-chart"></canvas>
+  </div>
+  <small class="swpc-credit">
+    Data: <a href="https://www.swpc.noaa.gov" target="_blank">NOAA SWPC</a> · Kp ≥ 5 = geomagnetic storm
+  </small>
+</article>
+
+<article>
+  <header>📈 Markets</header>
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+    <%- JSON.stringify({
+      colorTheme: "light",
+      dateRange: "1D",
+      showChart: true,
+      locale: "en",
+      largeChartUrl: "",
+      isTransparent: true,
+      showSymbolLogo: true,
+      showFloatingTooltip: false,
+      width: "100%",
+      height: "450",
+      tabs: [{
+        title: "Watchlist",
+        symbols: stockSymbols.map(s => ({ s: s })),
+        originalTitle: "Watchlist"
+      }]
+    }) %>
+    </script>
+  </div>
+</article>
+
+<script src="/js/weather.js"></script>
+<script src="/js/spaceweather.js"></script>
+
+<%- include('partials/footer') %>

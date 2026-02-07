@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>H3lPeR</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul>
+      <li><strong>H3lPeR</strong></li>
+    </ul>
+    <ul>
+      <li><a href="/" class="<%= page === 'dashboard' ? 'active' : '' %>">Dashboard</a></li>
+      <li><a href="/briefings" class="<%= page === 'briefings' ? 'active' : '' %>">Briefings</a></li>
+      <li><a href="/settings" class="<%= page === 'settings' ? 'active' : '' %>">Settings</a></li>
+    </ul>
+  </nav>
+  <main class="container">
