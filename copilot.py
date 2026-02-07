@@ -86,11 +86,58 @@ class Copilot:
 
     @staticmethod
     def _clean_output(text: str) -> str:
-        # In some versions the CLI prefixes responses with a leading bullet like "● ".
-        text = text.strip("\n")
-        if text.startswith("● ") or text.startswith("• "):
-            text = text[2:]
-        return text
+        """Clean Copilot CLI output to extract just the generated content.
+        
+        The CLI may prefix responses with:
+        - Preamble text about what it's doing
+        - Leading bullets like "● " or "• "
+        - Multiple newlines
+        
+        This method extracts only the actual generated content.
+        """
+        text = text.strip()
+        
+        # Split by lines
+        lines = text.split('\n')
+        
+        # Common preamble patterns from Copilot CLI
+        preamble_patterns = [
+            "I'm going to",
+            "I'll implement",
+            "I'll",
+            "Let me",
+            "I will",
+            "First,",
+        ]
+        
+        # Find where actual content starts
+        content_lines = []
+        skip_preamble = True
+        
+        for line in lines:
+            stripped = line.strip()
+            
+            # Remove leading bullet from the line
+            if stripped.startswith("● ") or stripped.startswith("• "):
+                stripped = stripped[2:].strip()
+            
+            # Check if this is still preamble
+            if skip_preamble:
+                is_preamble = any(stripped.startswith(pattern) for pattern in preamble_patterns)
+                
+                # If we hit a markdown heading, content has started
+                if stripped.startswith('#'):
+                    skip_preamble = False
+                    content_lines.append(stripped)
+                elif not is_preamble and stripped:  # Non-empty, non-preamble line
+                    skip_preamble = False
+                    content_lines.append(stripped)
+                # else: skip this preamble line
+            else:
+                # We're in content now, keep everything
+                content_lines.append(stripped if (line.strip().startswith("● ") or line.strip().startswith("• ")) else line)
+        
+        return '\n'.join(content_lines).strip()
 
 
     def generate(self, prompt, max_retries=10, base_delay=1.0):
