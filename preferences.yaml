@@ -12,6 +12,9 @@ exclude_topics:
   - Sports
   - Celebrity news
   - Donald Trump unless its about the epstein files
+  - Personal posts, rants, or requests for help (e.g. Reddit self-posts, lost pets, recommendations requests)
+  - Obituaries or memorials for non-public figures
+  - Classifieds, yard sales, or event promotions
 
 # Preferred sources (will be prioritized if mentioned)
 #preferred_sources:

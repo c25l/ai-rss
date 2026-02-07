@@ -5,9 +5,330 @@ import imaplib
 import email
 from email.message import EmailMessage
 from email.header import decode_header
+import html as html_mod
+import json
 import os
 import re
 from bs4 import BeautifulSoup
+
+
+def validate_briefing_json(doc):
+    """Validate a briefing JSON document against schema_version 1.
+
+    Raises ValueError with a descriptive message on failure.
+    """
+    if not isinstance(doc, dict):
+        raise ValueError("Briefing document must be a JSON object")
+    for key in ("schema_version", "title", "date", "children"):
+        if key not in doc:
+            raise ValueError(f"Missing required top-level key: '{key}'")
+    if doc["schema_version"] != 1:
+        raise ValueError(f"Unsupported schema_version: {doc['schema_version']}")
+    if not isinstance(doc["children"], list):
+        raise ValueError("'children' must be a list")
+    for i, child in enumerate(doc["children"]):
+        _validate_node(child, path=f"children[{i}]")
+
+
+def _validate_node(node, path=""):
+    """Recursively validate a single node."""
+    if not isinstance(node, dict):
+        raise ValueError(f"Node at {path} must be an object")
+    if "title" not in node or not isinstance(node["title"], str):
+        raise ValueError(f"Node at {path} must have a string 'title'")
+    if "children" in node:
+        if not isinstance(node["children"], list):
+            raise ValueError(f"'children' at {path} must be a list")
+        for i, child in enumerate(node["children"]):
+            _validate_node(child, path=f"{path}.children[{i}]")
+    if "article" in node:
+        art = node["article"]
+        if not isinstance(art, dict):
+            raise ValueError(f"'article' at {path} must be an object")
+
+
+def render_briefing_html(doc, subject=None):
+    """Render a validated briefing JSON document to a complete HTML email string."""
+    if subject is None:
+        subject = doc.get("title", "H3LPeR Briefing")
+
+    body_parts = []
+    children = doc.get("children", [])
+    for i, child in enumerate(children):
+        body_parts.append(_render_section(child))
+        # Section divider between top-level sections
+        if i < len(children) - 1:
+            body_parts.append(
+                '<hr style="border:none;border-top:1px solid #e0e4e8;margin:28px 0;">'
+            )
+
+    styled_content = "\n".join(body_parts)
+    return _wrap_email_chrome(styled_content, subject)
+
+
+# ---------- theme emoji lookup ----------
+
+_SECTION_EMOJI = {
+    "ai": "🤖", "artificial intelligence": "🤖", "machine learning": "🤖",
+    "technology": "💻", "tech": "💻", "software": "💻", "developer": "💻",
+    "science": "🔬", "research": "🔬", "nature": "🔬",
+    "world": "🌍", "international": "🌍", "global": "🌍", "geopolit": "🌍",
+    "politic": "🏛️", "government": "🏛️", "policy": "🏛️", "legislation": "🏛️",
+    "local": "📍", "longmont": "📍", "colorado": "📍", "community": "📍",
+    "weather": "🌤️", "climate": "🌤️", "space weather": "☀️",
+    "astronomy": "🌙", "sky": "🌙", "planet": "🌙",
+    "stock": "📈", "market": "📈", "economy": "📈", "finance": "📈",
+    "energy": "⚡", "grid": "⚡", "datacenter": "⚡", "electric": "⚡",
+    "math": "📐", "mathemat": "📐",
+    "health": "🏥", "medical": "🏥",
+    "culture": "🎭", "art": "🎭", "book": "📚", "history": "📚",
+}
+
+
+def _pick_emoji(title):
+    """Return an emoji prefix for a section title, or empty string."""
+    lower = title.lower()
+    for keyword, emoji in _SECTION_EMOJI.items():
+        if keyword in lower:
+            return emoji + " "
+    return ""
+
+
+# ---------- source badge colors ----------
+
+_SOURCE_COLORS = {
+    "nyt": "#1a1a1a", "new york times": "#1a1a1a",
+    "atlantic": "#b41b22", "the atlantic": "#b41b22",
+    "nature": "#2a6496",
+    "arxiv": "#b31b1b",
+    "hacker news": "#ff6600", "hn": "#ff6600",
+    "tldr": "#6c5ce7",
+    "metafilter": "#006699",
+    "reddit": "#ff4500", "r/": "#ff4500",
+    "microsoft": "#00a4ef",
+    "google": "#4285f4",
+    "longmont": "#2d8659",
+}
+
+
+def _source_badge(source_name):
+    """Render a small colored pill badge for a source name."""
+    if not source_name:
+        return ""
+    escaped = html_mod.escape(str(source_name))
+    lower = source_name.lower()
+    color = "#7f8c8d"  # default grey
+    for keyword, c in _SOURCE_COLORS.items():
+        if keyword in lower:
+            color = c
+            break
+    return (
+        f'<span style="display:inline-block;background-color:{color};color:#fff;'
+        f'font-size:10px;font-weight:600;padding:1px 7px;border-radius:9px;'
+        f'font-family:\'Segoe UI\',\'Helvetica Neue\',Arial,sans-serif;'
+        f'vertical-align:middle;margin-right:6px;">{escaped}</span>'
+    )
+
+
+# ---------- styles ----------
+
+_FONT = "'Segoe UI','Helvetica Neue',Arial,sans-serif"
+
+_SECTION_HEADING_STYLE = (
+    f"color:#1a1a2e;font-family:{_FONT};"
+    "font-size:20px;font-weight:700;margin:24px 0 8px 0;"
+)
+_SECTION_TEXT_STYLE = (
+    f"color:#4a4a5a;font-family:{_FONT};"
+    "font-size:14px;line-height:1.5;margin:4px 0 12px 0;font-style:italic;"
+)
+_CARD_STYLE = (
+    "border:1px solid #e8ecf0;border-radius:6px;padding:12px 16px;"
+    "margin:8px 0;background-color:#fafbfc;"
+)
+_CARD_TITLE_STYLE = (
+    f"font-family:{_FONT};font-size:15px;font-weight:600;"
+    "line-height:1.4;margin:0;"
+)
+_CARD_META_STYLE = (
+    f"color:#7f8c8d;font-family:{_FONT};"
+    "font-size:11px;line-height:1.3;margin:4px 0 0 0;"
+)
+_CARD_SUMMARY_STYLE = (
+    f"color:#2c3e50;font-family:{_FONT};"
+    "font-size:13px;line-height:1.5;margin:6px 0 0 0;"
+)
+_A_STYLE = "color:#2980b9;text-decoration:none;"
+_P_STYLE = (
+    f"color:#2c3e50;font-family:{_FONT};"
+    "font-size:14px;line-height:1.6;margin:8px 0;"
+)
+
+
+def _format_date(value):
+    """Best-effort formatting of a date value to a clean short string."""
+    if not value:
+        return ""
+    s = str(value).strip()
+    from dateutil import parser as dateutil_parser
+    try:
+        dt = dateutil_parser.parse(s)
+        return dt.strftime("%b %d, %Y")
+    except (ValueError, TypeError):
+        pass
+    return s
+
+
+# ---------- section renderer (depth 1 = top-level section) ----------
+
+def _render_section(node):
+    """Render a top-level section: emoji heading + optional text + article cards."""
+    parts = []
+
+    # Section heading with emoji
+    emoji = _pick_emoji(node["title"])
+    title_html = html_mod.escape(node["title"])
+    url = node.get("url") or (node.get("article") or {}).get("url")
+    if url:
+        title_html = f'<a href="{html_mod.escape(url)}" style="{_A_STYLE}">{title_html}</a>'
+    parts.append(f'<h2 style="{_SECTION_HEADING_STYLE}">{emoji}{title_html}</h2>')
+
+    # Optional section-level connector text (italic)
+    text = node.get("text")
+    if text:
+        for para in text.split("\n\n"):
+            para = para.strip()
+            if para:
+                parts.append(f'<p style="{_SECTION_TEXT_STYLE}">{html_mod.escape(para)}</p>')
+
+    # If this section itself has article metadata, render as a card
+    _render_article_meta(parts, node, text)
+
+    # Children rendered as cards
+    for child in node.get("children", []):
+        parts.append(_render_card(child))
+
+    return "\n".join(parts)
+
+
+# ---------- card renderer (depth 2+ = articles/items) ----------
+
+def _render_card(node):
+    """Render a child node as a styled card with inline metadata."""
+    parts = [f'<div style="{_CARD_STYLE}">']
+
+    # Title line — with source badge and date inline
+    title_html = html_mod.escape(node["title"])
+    url = node.get("url") or (node.get("article") or {}).get("url")
+    if url:
+        title_html = f'<a href="{html_mod.escape(url)}" style="{_A_STYLE}">{title_html}</a>'
+    parts.append(f'<p style="{_CARD_TITLE_STYLE}">{title_html}</p>')
+
+    # Inline metadata: source badge + date on one line
+    article = node.get("article") if isinstance(node.get("article"), dict) else None
+    meta_parts = []
+    source_name = (article or {}).get("source")
+    if source_name:
+        meta_parts.append(_source_badge(source_name))
+    pub_date = (article or {}).get("published_at")
+    if pub_date:
+        meta_parts.append(f'<span style="color:#95a5a6;font-size:11px;">{html_mod.escape(_format_date(pub_date))}</span>')
+    if meta_parts:
+        parts.append(f'<p style="{_CARD_META_STYLE}">{"".join(meta_parts)}</p>')
+
+    # Text / summary (deduplicated)
+    text = node.get("text")
+    if text:
+        clean = " ".join(text.split())
+        parts.append(f'<p style="{_CARD_SUMMARY_STYLE}">{html_mod.escape(clean)}</p>')
+
+    summary = (article or {}).get("summary") if article else None
+    if summary:
+        text_norm = " ".join((text or "").split())
+        summary_norm = " ".join(summary.split())
+        if summary_norm != text_norm:
+            parts.append(f'<p style="{_CARD_SUMMARY_STYLE}">{html_mod.escape(summary)}</p>')
+
+    # Nested children (rare, but supported — renders as sub-cards)
+    for child in node.get("children", []):
+        parts.append(_render_card(child))
+
+    parts.append("</div>")
+    return "\n".join(parts)
+
+
+def _render_article_meta(parts, node, text):
+    """If a node has article metadata at its own level, render it."""
+    article = node.get("article") if isinstance(node.get("article"), dict) else None
+    if not article:
+        return
+    meta_parts = []
+    if article.get("source"):
+        meta_parts.append(_source_badge(article["source"]))
+    if article.get("published_at"):
+        meta_parts.append(f'<span style="color:#95a5a6;font-size:11px;">{html_mod.escape(_format_date(article["published_at"]))}</span>')
+    if meta_parts:
+        parts.append(f'<p style="{_CARD_META_STYLE}">{"".join(meta_parts)}</p>')
+    summary = article.get("summary")
+    if summary:
+        text_norm = " ".join((text or "").split())
+        summary_norm = " ".join(summary.split())
+        if summary_norm != text_norm:
+            parts.append(f'<p style="{_P_STYLE}">{html_mod.escape(summary)}</p>')
+
+
+def _wrap_email_chrome(styled_content, subject):
+    """Wrap rendered content in the standard email chrome (header/footer/container)."""
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 20px;
+    font-family: {_FONT};
+">
+    <div style="
+        max-width: 680px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    ">
+        <div style="
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            padding: 24px 28px;
+            font-size: 22px;
+            font-weight: 700;
+            font-family: {_FONT};
+            letter-spacing: -0.3px;
+        ">
+            {html_mod.escape(subject)}
+        </div>
+        <div style="
+            padding: 24px 28px;
+            color: #2c3e50;
+        ">
+            {styled_content}
+        </div>
+        <div style="
+            background-color: #f0f2f5;
+            padding: 14px 28px;
+            font-size: 11px;
+            color: #95a5a6;
+            text-align: right;
+            font-family: {_FONT};
+        ">
+            Generated {datetime.now().strftime('%Y-%m-%d %H:%M')}
+        </div>
+    </div>
+</body>
+</html>"""
 
 
 # Simple color scheme - no longer needed, kept for backward compatibility
@@ -178,6 +499,37 @@ class Emailer:
 
         # Create simple, clean HTML
         styled_html = self._create_simple_html(content, subject)
+
+        msg = EmailMessage()
+        msg["From"] = self.from_email
+        msg["To"] = to_addr
+        msg["Subject"] = subject
+        msg.set_content(styled_html, subtype="html")
+
+        with smtplib.SMTP("smtp.mail.me.com", 587) as server:
+            server.starttls()
+            server.login(self.from_email, self.password)
+            server.send_message(msg)
+
+    def send_email_json(self, doc: dict, subject: str = None, to_addr: str = None) -> None:
+        """Send an email rendered from a structured briefing JSON document.
+
+        Args:
+            doc: Validated briefing dict (schema_version 1).
+            subject: Email subject (defaults to doc title).
+            to_addr: Recipient (defaults to self.to_email).
+
+        Raises:
+            ValueError: If the document fails schema validation.
+        """
+        validate_briefing_json(doc)
+
+        if to_addr is None:
+            to_addr = self.to_email
+        if subject is None:
+            subject = doc.get("title", f"H3LPeR {datetime.now().strftime('%Y-%m-%d')}")
+
+        styled_html = render_briefing_html(doc, subject=subject)
 
         msg = EmailMessage()
         msg["From"] = self.from_email

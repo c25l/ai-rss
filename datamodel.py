@@ -57,4 +57,13 @@ class Group:
         hashes = "".join(["#" for _ in range(d)])
         return f"{hashes} {self.text}\n{article_list}"
 
+    def json(self):
+        return {
+            'id': self.id,
+            'text': self.text,
+            'created_at': self.created_at,
+            'parent_id': self.parent_id,
+            'articles': [a.json() for a in self.articles]
+        }
+
 

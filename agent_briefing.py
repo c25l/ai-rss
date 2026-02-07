@@ -17,6 +17,7 @@ The agent acts as an intelligent editor/analyst rather than a simple filter.
 import datetime
 import json
 import os
+import re
 import yaml
 from typing import List, Dict, Any, Optional
 from copilot import Copilot
@@ -402,6 +403,75 @@ class AgentTools:
         return all_content
 
 
+def _repair_json(s):
+    """Attempt to repair truncated or slightly malformed JSON.
+
+    Handles: unclosed strings, trailing commas, unbalanced brackets/braces.
+    Uses a stack to close structures in the correct order.
+    """
+    result = s.rstrip()
+
+    # Close any unclosed quoted string
+    in_string = False
+    escaped = False
+    for ch in result:
+        if escaped:
+            escaped = False
+            continue
+        if ch == '\\':
+            escaped = True
+            continue
+        if ch == '"':
+            in_string = not in_string
+    if in_string:
+        result += '"'
+
+    # Remove trailing commas before closing brackets/braces (outside strings)
+    result = re.sub(r',(\s*[}\]])', r'\1', result)
+
+    # Use a stack to track open structures and close in correct order
+    stack = []
+    in_str = False
+    esc = False
+    for ch in result:
+        if esc:
+            esc = False
+            continue
+        if ch == '\\':
+            esc = True
+            continue
+        if ch == '"':
+            in_str = not in_str
+            continue
+        if in_str:
+            continue
+        if ch == '{':
+            stack.append('}')
+        elif ch == '[':
+            stack.append(']')
+        elif ch in ('}', ']'):
+            if stack and stack[-1] == ch:
+                stack.pop()
+
+    # Close remaining open structures in reverse order
+    result += ''.join(reversed(stack))
+    return result
+
+
+def _truncate_at_error(s, error):
+    """Truncate JSON at the error position, backing up to the last complete object/array boundary."""
+    pos = getattr(error, 'pos', None)
+    if pos is None or pos <= 0:
+        return None
+    # Back up from error position to the last '}' or ']' that ends a complete node
+    candidate = s[:pos]
+    # Find the last closing brace/bracket before the error
+    for i in range(len(candidate) - 1, -1, -1):
+        if candidate[i] in ('}', ']'):
+            return candidate[:i + 1]
+    return None
+
+
 class AgentBriefing:
     """
     Agent-centric briefing system.
@@ -572,13 +642,12 @@ class AgentBriefing:
     
     def generate_briefing(self, days: int = 1, include_weather: bool = True, 
                          include_stocks: bool = True, include_astronomy: bool = True,
-                         use_enhanced_prompting: bool = True) -> str:
+                         use_enhanced_prompting: bool = True) -> dict:
         """
         Generate a complete briefing using the agent's autonomous curation.
         
-        The agent acts as a CURATOR: selecting, organizing, and citing content
-        from sources. The agent uses direct quotes/excerpts with inline citations
-        and minimal bridging text, rather than writing summaries or analysis.
+        The agent returns a structured JSON document (schema_version 1) that
+        can be rendered directly to HTML without intermediate Markdown.
         
         Args:
             days: Number of days back to fetch content
@@ -588,7 +657,10 @@ class AgentBriefing:
             use_enhanced_prompting: Use multi-step reasoning with example format
             
         Returns:
-            Complete formatted briefing as markdown string
+            Parsed briefing dict conforming to schema_version 1
+            
+        Raises:
+            ValueError: If the LLM returns invalid JSON or schema validation fails
         """
         # Fetch all content
         print("Fetching content from all sources...")
@@ -645,201 +717,229 @@ class AgentBriefing:
         today = datetime.datetime.now().strftime("%Y-%m-%d")
         
         if use_enhanced_prompting:
-            # Multi-step reasoning with example format
-            
             # Build preferences section if there are preferences set
             prefs_section = ""
             if (self.preferences.get('focus_areas') or self.preferences.get('exclude_topics') or 
                 self.preferences.get('preferred_sources') or self.preferences.get('content_preferences', {}).get('max_articles_per_section') or
                 self.preferences.get('content_preferences', {}).get('geographic_focus')):
-                prefs_section = "\n═══════════════════════════════════════════════════════════════\n\nUSER PREFERENCES:\n"
+                prefs_section = "\nUSER PREFERENCES:\n"
                 
                 if self.preferences.get('focus_areas'):
-                    prefs_section += f"\n**Focus on these topics:**\n" + "\n".join([f"- {area}" for area in self.preferences['focus_areas']])
+                    prefs_section += f"\nFocus on these topics:\n" + "\n".join([f"- {area}" for area in self.preferences['focus_areas']])
                 
                 if self.preferences.get('exclude_topics'):
-                    prefs_section += f"\n\n**De-emphasize these topics:**\n" + "\n".join([f"- {topic}" for topic in self.preferences['exclude_topics']])
+                    prefs_section += f"\n\nDe-emphasize these topics:\n" + "\n".join([f"- {topic}" for topic in self.preferences['exclude_topics']])
                 
                 if self.preferences.get('preferred_sources'):
-                    prefs_section += f"\n\n**Prioritize these sources:**\n" + "\n".join([f"- {source}" for source in self.preferences['preferred_sources']])
+                    prefs_section += f"\n\nPrioritize these sources:\n" + "\n".join([f"- {source}" for source in self.preferences['preferred_sources']])
                 
-                # Add content constraints
                 max_per_section = self.preferences.get('content_preferences', {}).get('max_articles_per_section')
                 if max_per_section:
-                    prefs_section += f"\n\n**Content limits:** Maximum {max_per_section} articles per section"
+                    prefs_section += f"\n\nContent limits: Maximum {max_per_section} articles per section"
                 
                 geo_focus = self.preferences.get('content_preferences', {}).get('geographic_focus')
                 if geo_focus:
-                    prefs_section += f"\n\n**Geographic focus:** {geo_focus}"
+                    prefs_section += f"\n\nGeographic focus: {geo_focus}"
                 
                 prefs_section += "\n"
             
+            # Build the schema example — conditionally include weather section
+            weather_example = ""
+            if tool_data:
+                weather_example = """,
+    {{
+      "title": "Weather & Conditions",
+      "text": "Weather forecast text here",
+      "children": [
+        {{
+          "title": "Space Weather",
+          "text": "Space weather info"
+        }},
+        {{
+          "title": "Tonight's Sky",
+          "text": "Astronomy viewing info"
+        }}
+      ]
+    }}"""
+
+            # Build exclusion note for disabled sections
+            excluded_sections = []
+            if not include_weather:
+                excluded_sections.append("weather")
+                excluded_sections.append("space weather")
+            if not include_astronomy:
+                excluded_sections.append("astronomy / tonight's sky")
+            if not include_stocks:
+                excluded_sections.append("stock market")
+            exclusion_note = ""
+            if excluded_sections:
+                exclusion_note = "\n- DO NOT include sections for: " + ", ".join(excluded_sections) + ". These are disabled."
+
             agent_prompt = f"""You are an intelligent briefing CURATOR for {today}.
 
-YOUR ROLE: Curate and cite content from sources - NOT to write new text.
-- CURATE: Select, organize, and group the most important content
-- CITE: Link directly to original sources with inline citations
-- PRESERVE: Pass through original text from articles, don't rewrite
-- CONNECT: Show relationships between sources with minimal bridging text
+YOUR ROLE: Curate and cite content from sources. Return a structured JSON document.
 
-═══════════════════════════════════════════════════════════════
+AVAILABLE CONTENT (from {len(content)} sources, {total_articles} articles):
 
-AVAILABLE TOOLS & DATA:
-
-You have access to:
-1. **News articles** from {len(content)} sources ({total_articles} articles)
-2. **Weather & Space conditions** (real-time API data)
-3. **Astronomical viewing info** (tonight's sky)
-4. **Stock market data** (today's close)
-5. **Wikipedia summaries** (optional: use get_wikipedia_summary(topic) for context)
-
-CONTENT BY SOURCE:
 {formatted_content}
 
 API-BASED DATA:
 {chr(10).join(tool_data) if tool_data else "No API data available"}
 {prefs_section}
-═══════════════════════════════════════════════════════════════
+APPROACH:
+1. Scan all sources for major stories, patterns, and connections.
+2. Rank stories by importance. Group related stories from different sources.
+3. Create logical sections based on discovered themes.
+4. Select key excerpts from original sources. Use minimal bridging text.
 
-YOUR APPROACH (Multi-Step Reasoning):
+OUTPUT FORMAT — Return ONLY valid JSON (no markdown fences, no commentary).
+All string values must be plain text (no HTML, no markdown).
 
-STEP 1: IDENTIFY KEY THEMES
-- Scan all sources for major stories, patterns, and connections
-- Look for recurring topics across different sources
-- Note any breaking news or significant developments
+The document must conform to this schema:
 
-STEP 2: PRIORITIZE & GROUP
-- Rank stories by importance, impact, and relevance
-- Group related stories from different sources
-- Identify connections between topics
+{{
+  "schema_version": 1,
+  "title": "Daily Briefing - {today}",
+  "date": "{today}",
+  "children": [
+    {{
+      "title": "Section heading (theme name)",
+      "text": "Optional brief connector text (1-2 sentences max)",
+      "children": [
+        {{
+          "title": "Article or item title",
+          "url": "https://...",
+          "text": "Key excerpt or quote from the article",
+          "article": {{
+            "title": "Article title",
+            "url": "https://...",
+            "source": "Source name",
+            "published_at": "date string",
+            "summary": "Article summary text"
+          }}
+        }},
+        {{
+          "title": "Another article",
+          "url": "https://..."
+        }}
+      ]
+    }}{weather_example}
+  ]
+}}
 
-STEP 3: STRUCTURE YOUR BRIEFING
-- Create logical sections based on discovered themes
-- Don't force content into predetermined categories
-- Let the content guide your structure
+RULES:
+- Every node MUST have a "title" (string).
+- "text", "url", "article", "children" are all optional.
+- "article" (when present) should have at least "title" and "url".
+- Nesting can be arbitrary depth.
+- schema_version MUST be 1.
 
-STEP 4: CURATE & CITE
-- Select key excerpts from original sources (use direct quotes)
-- Provide inline citations to every source
-- Use minimal bridging text to show connections
-- Let the sources speak for themselves
+CONTENT RULES:
+- Create 4-8 THEMED SECTIONS as top-level children (e.g. "AI & Technology", "World Affairs", "Science", "Local News").
+- Each section should contain 2-5 article children. DO NOT put single articles as top-level children.
+- Include 15-25 articles total across all sections.
+- Use "text" on section nodes for brief connectors or context (1-2 sentences).
+- Use "text" on article nodes for key excerpts or quotes from the source.
+- Prioritize quality sources over quantity.{exclusion_note}
 
-═══════════════════════════════════════════════════════════════
-
-EXAMPLE OUTPUT PATTERN:
-
-# Daily Briefing - {today}
-
-## [Most Important Theme]
-
-**[Source A: Article Title](url)**
-> "[Direct quote or key excerpt from the article]"
-
-**[Source B: Related Article](url)**  
-> "[Direct quote showing related angle]"
-
-**Connection:** These sources show [brief connection in 1 sentence].
-
-**Related:**
-- [Source C: Article Title](url)
-- [Source D: Article Title](url)
-
-## [Second Theme]
-
-**[Source E: Article Title](url)**
-> "[Key excerpt from source]"
-
-**See also:**
-- [Source F](url)
-- [Source G](url)
-
-## Weather & Space Conditions
-
-- **Weather:** [Direct info from weather API]
-- **Space Weather:** [Direct info from space weather API]
-- **Tonight's Sky:** [Direct info from astronomy API]
-
-═══════════════════════════════════════════════════════════════
-
-CRITICAL RULES:
-✓ Use direct quotes/excerpts from sources (in blockquotes with >)
-✓ Every piece of content must have an inline citation [Title](url)
-✓ Minimize your own writing - let sources provide the text
-✓ Group related sources under themes
-✓ Use brief bridging text ONLY to show connections (1-2 sentences max)
-✓ Create sections based on discovered themes
-✓ Prioritize quality sources over quantity
-✓ USE PROPER MARKDOWN FORMATTING: 
-  - # for main title "# Daily Briefing - {today}"
-  - ## for each theme/section heading (e.g., "## Technology Developments")
-  - **[text](url)** for article links
-  - > for blockquotes
-✓ Start with: # Daily Briefing - {today}
-✓ Use ## for EVERY section/theme heading
-
-OPTIONAL ENHANCEMENTS:
-• You can use get_wikipedia_summary(topic) to add historical context for people, organizations, or events
-• Add context sparingly - only when it genuinely helps understanding
-
-❌ DO NOT write summaries in your own words
-❌ DO NOT add extensive commentary or analysis
-❌ DO NOT rewrite article content
-❌ DO NOT omit the # symbol from headings
-❌ DO NOT use plain text for section headings - always use ##
-
-OUTPUT MUST start with exactly:
-# Daily Briefing - {today}
-
-Then use ## for each theme/section.
-
-Now, curate and cite the available content following this approach.
-Focus on selection and organization, not text generation.
-Use proper markdown formatting with # for headings."""
+Your response must start with {{ and end with }}. No other text before or after.
+All strings must use proper JSON escaping (escape double quotes with backslash).
+Return ONLY the JSON object."""
         else:
-            # Original simple prompt (updated for curation focus)
+            prefs_section = ""
             agent_prompt = f"""You are an intelligent briefing CURATOR for {today}.
 
-YOUR ROLE: Curate and cite content from sources - NOT to write new text.
-- CURATE: Select and organize the most important content
-- CITE: Link directly to original sources with inline citations
-- PRESERVE: Pass through original text from articles
-- MINIMAL WRITING: Use brief text only to show connections
-
-YOU DECIDE:
-- Which stories/articles are most important
-- How to structure the briefing (create your own sections)
-- How to group related content
-- What connections to highlight between sources
-
-CRITICAL RULES:
-✓ Use direct quotes/excerpts from sources (blockquotes with >)
-✓ Every piece of content must have inline citation [Title](url)
-✓ Minimize your own writing - let sources provide the text
-✓ Group related sources under themes
-✓ Brief bridging text ONLY for connections (1-2 sentences max)
-
-❌ DO NOT write summaries in your own words
-❌ DO NOT add extensive commentary
-❌ DO NOT rewrite article content
+Return a structured JSON document curating the most important content.
 
 AVAILABLE CONTENT:
 {formatted_content}
 
 {"API DATA:\n" + chr(10).join(tool_data) if tool_data else ""}
 {prefs_section}
-Now, curate and cite the best content. Structure it with themes/sections.
-Focus on selection and organization, not text generation."""
+OUTPUT: Return ONLY valid JSON with schema_version=1, title, date, and children array.
+Each node has "title" (required), optional "text", "url", "article", "children".
+No markdown, no HTML, no commentary — just the JSON object."""
 
         # Generate briefing using agent
         print("\nGenerating agent-driven briefing...")
         print("(This may take a minute as the agent analyzes all content...)")
         
+        raw = self.agent.generate(agent_prompt)
+
+        # Strip markdown code fences if the model wraps the JSON
+        stripped = raw.strip()
+        if stripped.startswith("```"):
+            # Remove opening fence (```json or ```)
+            stripped = stripped.split("\n", 1)[1] if "\n" in stripped else stripped[3:]
+            if stripped.endswith("```"):
+                stripped = stripped[:-3]
+            stripped = stripped.strip()
+
+        # If model omitted outer braces, try to recover
+        if not stripped.startswith("{"):
+            # Find the first { or wrap the whole thing
+            brace_idx = stripped.find("{")
+            if brace_idx >= 0:
+                stripped = stripped[brace_idx:]
+            else:
+                stripped = "{" + stripped + "}"
+        # Trim any trailing text after the closing brace
+        if stripped.startswith("{"):
+            depth = 0
+            end = -1
+            for i, ch in enumerate(stripped):
+                if ch == "{":
+                    depth += 1
+                elif ch == "}":
+                    depth -= 1
+                    if depth == 0:
+                        end = i
+                        break
+            if end > 0:
+                stripped = stripped[:end + 1]
+
         try:
-            briefing = self.agent.generate(agent_prompt)
-            return briefing
-        except Exception as e:
-            print(f"Error generating briefing: {e}")
-            return f"# Error Generating Briefing\n\nFailed to generate briefing: {str(e)}"
+            doc = json.loads(stripped, strict=False)
+        except json.JSONDecodeError as e:
+            # Try to repair truncated JSON by closing open structures
+            repaired = _repair_json(stripped)
+            try:
+                doc = json.loads(repaired, strict=False)
+                print("Warning: repaired truncated JSON from agent output")
+            except json.JSONDecodeError:
+                # Truncate at error position, back up to last complete node, retry
+                truncated = _truncate_at_error(stripped, e)
+                if truncated:
+                    repaired2 = _repair_json(truncated)
+                    try:
+                        doc = json.loads(repaired2, strict=False)
+                        print("Warning: truncated and repaired JSON from agent output")
+                    except json.JSONDecodeError:
+                        raise ValueError(
+                            f"Agent returned invalid JSON: {e}\n"
+                            f"Raw output (first 500 chars): {raw[:500]}"
+                        )
+                else:
+                    raise ValueError(
+                        f"Agent returned invalid JSON: {e}\n"
+                        f"Raw output (first 500 chars): {raw[:500]}"
+                    )
+
+        # Inject required top-level fields if the model forgot them
+        if "schema_version" not in doc:
+            doc["schema_version"] = 1
+        if "date" not in doc:
+            doc["date"] = today
+        if "title" not in doc:
+            doc["title"] = f"Daily Briefing - {today}"
+        if "children" not in doc:
+            doc["children"] = []
+
+        # Validate against schema
+        from emailer import validate_briefing_json
+        validate_briefing_json(doc)
+
+        return doc
     
     def _rank_research_papers(self, research_articles: List[Article], top_k: int = 10) -> List[Article]:
         """
