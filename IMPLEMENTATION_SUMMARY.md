@@ -4,24 +4,33 @@
 
 This implementation creates a **complete alternative architecture** for the AI RSS briefing system, pivoting from a constrained-LLM approach to an agent-centric approach.
 
+**Version 2 (Enhanced):** Now includes API-based tools, TLDR/HN sources, and multi-step reasoning.
+
 ## Core Concept
 
 **Before (Constrained):** Use LLM as little as possible, don't let it be creative
-**After (Agent-Centric):** Give LLM tools and sources, let it decide everything else
+**After (Agent-Centric v1):** Give LLM tools and sources, let it decide everything else
+**Now (Agent-Centric v2):** Add API tools, curated sources, and multi-step reasoning guidance
 
 ## Files Created
 
 ### 1. Core Implementation
 
-**`agent_briefing.py`** (370 lines)
+**`agent_briefing.py`** (650+ lines)
 - `AgentBriefing` class: Main orchestrator for agent-driven briefings
-- `AgentTools` class: Tools available to the agent (RSS, scraping, fetching)
-- Full autonomy system where agent decides structure, importance, and presentation
+- `AgentTools` class: Tools available to the agent
+  - RSS feed reader, web scraper
+  - **NEW:** API-based weather, space weather, astronomy tools
+  - **NEW:** TLDR Tech and Hacker News Daily fetchers
+- Full autonomy system with optional multi-step reasoning
+- **Enhanced:** 5 new API tool methods
+- **Enhanced:** Multi-step prompting with example format
 
-**`daily_workflow_agent.py`** (80 lines)
+**`daily_workflow_agent.py`** (85 lines)
 - Drop-in replacement for `daily_workflow.py`
-- Uses agent-centric approach instead of constrained approach
+- Uses agent-centric approach with enhanced prompting
 - Sends agent-generated briefing via email
+- **Enhanced:** Defaults to multi-step reasoning
 
 ### 2. Documentation
 
@@ -30,9 +39,11 @@ This implementation creates a **complete alternative architecture** for the AI R
 - Explains philosophy, trade-offs, and use cases
 - Performance considerations and future enhancements
 
-**`README_AGENT.md`** (262 lines)
+**`README_AGENT.md`** (320+ lines)
 - Complete user guide for agent-centric system
 - API reference and usage examples
+- **Enhanced:** Documented new API tools
+- **Enhanced:** Multi-step reasoning explanation
 - Configuration and customization guide
 - Troubleshooting and best practices
 
@@ -42,6 +53,12 @@ This implementation creates a **complete alternative architecture** for the AI R
 - Interactive demos showcasing the agent-centric approach
 - 4 different demo scenarios
 - Can run individual demos or full suite
+
+**`demo_enhanced_features.py`** (250 lines) **NEW**
+- Demonstrates API-based tools
+- Shows TLDR and Hacker News integration
+- Explains multi-step reasoning
+- Compares v1 vs v2 architecture
 
 **`compare_architectures.py`** (400 lines)
 - Side-by-side comparison of both approaches
@@ -57,10 +74,15 @@ This implementation creates a **complete alternative architecture** for the AI R
 
 ### 1. Full Agent Autonomy
 The agent receives:
-- Tools: `fetch_rss_feed()`, `scrape_webpage()`, `fetch_all_sources()`
-- Sources: Configurable list of RSS feeds and web pages
-- Auxiliary data: Weather, stocks, astronomy (optional)
-- Single instruction: "Create the best briefing"
+- **Tools (v2):** 
+  - `fetch_rss_feed()`, `scrape_webpage()`, `fetch_all_sources()`
+  - **NEW:** `get_weather_forecast()` - Real-time NWS data
+  - **NEW:** `get_space_weather()` - NOAA space weather
+  - **NEW:** `get_astronomy_viewing()` - Tonight's sky conditions
+  - **NEW:** `fetch_tldr_tech()` - TLDR newsletters
+  - **NEW:** `fetch_hacker_news_daily()` - HN digest
+- **Sources (v2):** 14 sources including TLDR Tech, Hacker News Daily
+- **Prompting (v2):** Multi-step reasoning with example format
 
 The agent decides:
 - What content is important
@@ -69,7 +91,57 @@ The agent decides:
 - What analysis to add
 - The narrative flow
 
-### 2. Flexible Configuration
+### 2. Multi-Step Reasoning (NEW - v2)
+
+The enhanced prompt guides the agent through:
+
+```
+STEP 1: IDENTIFY KEY THEMES
+  Scan all sources for major stories, patterns, connections
+
+STEP 2: PRIORITIZE & SYNTHESIZE
+  Rank stories, group related content, identify connections
+
+STEP 3: STRUCTURE YOUR BRIEFING
+  Create logical sections based on discovered themes
+
+STEP 4: ADD VALUE
+  Provide context, draw connections, highlight implications
+
+[Example output format provided as template]
+```
+
+This results in:
+- More consistent high-quality output
+- Better synthesis across domains
+- Strategic use of API data
+- More insightful analysis
+
+### 3. API-Based Tools (NEW - v2)
+
+Direct integration with real-time APIs:
+
+```python
+from agent_briefing import AgentTools
+
+# Weather data
+weather = AgentTools.get_weather_forecast(lat=40.165729, lon=-105.101194)
+# Returns: forecast text, alerts, conditions
+
+# Space weather
+space = AgentTools.get_space_weather()
+# Returns: Kp index, solar flux, geomagnetic forecast
+
+# Astronomy
+astro = AgentTools.get_astronomy_viewing(lat=40.1672, lon=-105.1019)
+# Returns: moon phase, planet visibility, best viewing times
+
+# Tech news
+tldr = AgentTools.fetch_tldr_tech()
+hn = AgentTools.fetch_hacker_news_daily()
+```
+
+### 4. Flexible Configuration
 
 ```python
 # Custom sources
@@ -79,7 +151,10 @@ sources = [
 ]
 
 briefing = AgentBriefing(sources=sources)
-result = briefing.generate_briefing(days=1)
+result = briefing.generate_briefing(
+    days=1,
+    use_enhanced_prompting=True  # Multi-step reasoning
+)
 ```
 
 ### 3. Focused Briefings
