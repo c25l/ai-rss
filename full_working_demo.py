@@ -5,9 +5,11 @@ Full Working Demo: Agent-Centric Briefing Generation
 This script demonstrates the complete agent-centric workflow:
 1. Fetches real content from all configured sources
 2. Uses API tools for weather, space weather, and astronomy data
-3. Agent curates and cites content with multi-step reasoning
+3. Agent curates and cites content with multi-step reasoning (via Copilot CLI)
 4. Generates a complete, finished briefing
 5. Saves to file (and optionally emails)
+
+LLM Backend: Uses GitHub Copilot CLI locally with gpt-5.2 (no external API calls)
 
 Run: python full_working_demo.py
 """
@@ -95,6 +97,7 @@ briefing_system = AgentBriefing()
 print(f"✓ Agent briefing system created")
 print(f"  - {len(briefing_system.sources)} sources configured")
 print(f"  - 8 tools available")
+print(f"  - LLM: Copilot CLI with {briefing_system.agent.model}")
 print()
 
 print("Configured sources:")

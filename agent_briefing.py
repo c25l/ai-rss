@@ -382,12 +382,15 @@ class AgentBriefing:
         """
         Initialize the agent-centric briefing system.
         
+        The system uses GitHub Copilot CLI locally with gpt-5.2 by default.
+        No external API calls - all LLM interactions go through Copilot CLI.
+        
         Args:
             sources: List of source dictionaries (uses DEFAULT_SOURCES if None)
-            agent: Copilot instance (creates new one if None)
+            agent: Copilot instance (creates new one if None, defaults to gpt-5.2)
         """
         self.sources = sources or self.DEFAULT_SOURCES
-        self.agent = agent or Copilot()
+        self.agent = agent or Copilot()  # Uses Copilot CLI with gpt-5.2 by default
         self.tools = AgentTools()
         self.raw_content = {}
     

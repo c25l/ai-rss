@@ -4,6 +4,7 @@ Mirrors the `Claude` class interface so callers can swap providers without
 changing call sites.
 
 Primary backend: GitHub Copilot CLI (`copilot -p ...`).
+Default model: gpt-5.2 (can be overridden via COPILOT_MODEL env var or constructor param)
 """
 
 from __future__ import annotations
@@ -18,10 +19,30 @@ import tempfile
 
 
 class Copilot:
-    """Drop-in replacement for `Claude` with the same public methods."""
+    """Drop-in replacement for `Claude` with the same public methods.
+    
+    Uses GitHub Copilot CLI locally with gpt-5.2 by default.
+    
+    The model can be specified in three ways (in order of precedence):
+    1. Constructor parameter: Copilot(model="gpt-5.2")
+    2. Environment variable: COPILOT_MODEL=gpt-5.2
+    3. Default: gpt-5.2
+    
+    Examples:
+        # Use default gpt-5.2
+        agent = Copilot()
+        
+        # Specify model explicitly
+        agent = Copilot(model="gpt-4")
+        
+        # Use environment variable
+        # export COPILOT_MODEL=gpt-5.2
+        agent = Copilot()
+    """
 
     def __init__(self, model: str | None = None, cli_command: str = "copilot"):
-        self.model = model or os.getenv("COPILOT_MODEL")
+        # Default to gpt-5.2 if no model specified
+        self.model = model or os.getenv("COPILOT_MODEL", "gpt-5.2")
         self.cli_command = cli_command
 
     def warmup(self):

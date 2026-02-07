@@ -261,17 +261,29 @@ Here's all content + API data. Create the best briefing.
 ## Requirements
 
 - Python 3.8+
+- **GitHub Copilot CLI** (`copilot` command) - [Install instructions](https://github.com/github/gh-copilot)
 - Dependencies in `requirements.txt`:
   - feedparser (RSS parsing)
   - beautifulsoup4 (web scraping)
   - requests (HTTP requests)
   - ephem (astronomy calculations)
-  - copilot CLI or other LLM backend
+
+**LLM Backend:**
+- Uses **GitHub Copilot CLI locally** with **gpt-5.2** by default
+- No external API calls - all LLM interactions via Copilot CLI
+- Model can be configured via `COPILOT_MODEL` environment variable
 
 ## Installation
 
 ```bash
+# Install Python dependencies
 pip install -r requirements.txt
+
+# Install GitHub Copilot CLI (if not already installed)
+# See: https://github.com/github/gh-copilot
+
+# Configure model (optional - defaults to gpt-5.2)
+export COPILOT_MODEL=gpt-5.2
 ```
 
 ## Testing

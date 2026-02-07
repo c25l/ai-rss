@@ -117,6 +117,16 @@ Previous demos were **partial** - they showed individual components but didn't g
 pip install -r requirements.txt
 ```
 
+**LLM Backend:**
+- Uses **GitHub Copilot CLI locally** with **gpt-5.2**
+- No external API calls - everything runs through Copilot CLI
+- Install Copilot CLI: https://github.com/github/gh-copilot
+
+```bash
+# Optional: configure model (defaults to gpt-5.2)
+export COPILOT_MODEL=gpt-5.2
+```
+
 For email functionality, create `.env`:
 ```
 # Email settings for sending briefings
