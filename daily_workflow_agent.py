@@ -47,14 +47,21 @@ def main():
     # Create agent briefing system
     briefing_system = AgentBriefing()
     
+    # Get email preferences
+    email_prefs = briefing_system.preferences.get('email_preferences', {})
+    include_weather = email_prefs.get('include_weather', True)
+    include_astronomy = email_prefs.get('include_astronomy', True)
+    include_stocks = email_prefs.get('include_stocks', False)
+    subject_format = email_prefs.get('subject_format', "Agent-Driven H3LPeR Briefing - {date}")
+    
     # Generate briefing with full agent autonomy and enhanced multi-step prompting
     try:
         print("Generating agent-driven briefing with multi-step reasoning...")
         briefing_content = briefing_system.generate_briefing(
             days=1,
-            include_weather=True,
-            include_stocks=True,
-            include_astronomy=True,
+            include_weather=include_weather,
+            include_stocks=include_stocks,
+            include_astronomy=include_astronomy,
             use_enhanced_prompting=True  # Use multi-step reasoning with example format
         )
         
@@ -67,7 +74,7 @@ def main():
     # Send email
     try:
         today = datetime.datetime.now().strftime("%Y-%m-%d")
-        subject = f"Agent-Driven H3LPeR Briefing - {today}"
+        subject = subject_format.format(date=today)
         
         # Send briefing directly without preamble
         emailer = Emailer()

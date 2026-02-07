@@ -471,11 +471,20 @@ class AgentBriefing:
             'content_preferences': {
                 'include_wikipedia_context': True,
                 'hybrid_research_ranking': True,
-                'max_articles_per_section': 5
+                'max_articles_per_section': 5,
+                'min_article_age_hours': 0,
+                'geographic_focus': None
             },
             'research_preferences': {
                 'use_original_ranking': True,
-                'max_research_papers': 10
+                'max_research_papers': 10,
+                'research_categories': []
+            },
+            'email_preferences': {
+                'include_weather': True,
+                'include_astronomy': True,
+                'include_stocks': False,
+                'subject_format': "Agent-Driven H3LPeR Briefing - {date}"
             }
         }
         
@@ -484,10 +493,17 @@ class AgentBriefing:
             if os.path.exists(pref_file):
                 with open(pref_file, 'r') as f:
                     loaded_prefs = yaml.safe_load(f) or {}
-                # Merge with defaults
+                
+                # Deep merge with defaults
                 for key in default_prefs:
                     if key not in loaded_prefs:
                         loaded_prefs[key] = default_prefs[key]
+                    elif isinstance(default_prefs[key], dict) and isinstance(loaded_prefs[key], dict):
+                        # Merge nested dictionaries
+                        for nested_key in default_prefs[key]:
+                            if nested_key not in loaded_prefs[key]:
+                                loaded_prefs[key][nested_key] = default_prefs[key][nested_key]
+                
                 return loaded_prefs
         except Exception as e:
             print(f"Warning: Could not load preferences.yaml: {e}")
@@ -505,6 +521,23 @@ class AgentBriefing:
             Dictionary mapping source names to article lists
         """
         self.raw_content = self.tools.fetch_all_sources(self.sources, days=days)
+        
+        # Apply article age filtering if specified in preferences
+        min_age_hours = self.preferences.get('content_preferences', {}).get('min_article_age_hours', 0)
+        if min_age_hours > 0:
+            import datetime as dt
+            cutoff_time = dt.datetime.now() - dt.timedelta(hours=min_age_hours)
+            filtered_content = {}
+            for source_name, articles in self.raw_content.items():
+                filtered_articles = [
+                    article for article in articles 
+                    if article.published_at and article.published_at < cutoff_time
+                ]
+                filtered_content[source_name] = filtered_articles
+                if len(filtered_articles) < len(articles):
+                    print(f"Filtered {len(articles) - len(filtered_articles)} recent articles from {source_name}")
+            self.raw_content = filtered_content
+        
         return self.raw_content
     
     def _format_content_for_agent(self, content: Dict[str, List[Article]]) -> str:
@@ -616,7 +649,9 @@ class AgentBriefing:
             
             # Build preferences section if there are preferences set
             prefs_section = ""
-            if self.preferences.get('focus_areas') or self.preferences.get('exclude_topics') or self.preferences.get('preferred_sources'):
+            if (self.preferences.get('focus_areas') or self.preferences.get('exclude_topics') or 
+                self.preferences.get('preferred_sources') or self.preferences.get('content_preferences', {}).get('max_articles_per_section') or
+                self.preferences.get('content_preferences', {}).get('geographic_focus')):
                 prefs_section = "\n═══════════════════════════════════════════════════════════════\n\nUSER PREFERENCES:\n"
                 
                 if self.preferences.get('focus_areas'):
@@ -627,6 +662,15 @@ class AgentBriefing:
                 
                 if self.preferences.get('preferred_sources'):
                     prefs_section += f"\n\n**Prioritize these sources:**\n" + "\n".join([f"- {source}" for source in self.preferences['preferred_sources']])
+                
+                # Add content constraints
+                max_per_section = self.preferences.get('content_preferences', {}).get('max_articles_per_section')
+                if max_per_section:
+                    prefs_section += f"\n\n**Content limits:** Maximum {max_per_section} articles per section"
+                
+                geo_focus = self.preferences.get('content_preferences', {}).get('geographic_focus')
+                if geo_focus:
+                    prefs_section += f"\n\n**Geographic focus:** {geo_focus}"
                 
                 prefs_section += "\n"
             
@@ -782,7 +826,7 @@ AVAILABLE CONTENT:
 {formatted_content}
 
 {"API DATA:\n" + chr(10).join(tool_data) if tool_data else ""}
-
+{prefs_section}
 Now, curate and cite the best content. Structure it with themes/sections.
 Focus on selection and organization, not text generation."""
 
@@ -811,6 +855,23 @@ Focus on selection and organization, not text generation."""
         Returns:
             Ranked list of top research papers
         """
+        if not research_articles or len(research_articles) <= top_k:
+            return research_articles
+        
+        # Filter by research categories if specified
+        preferred_categories = self.preferences.get('research_preferences', {}).get('research_categories', [])
+        if preferred_categories:
+            filtered_articles = []
+            for article in research_articles:
+                # Check if article title or summary contains any of the preferred categories
+                article_text = f"{article.title} {article.summary}".lower()
+                if any(cat.lower() in article_text for cat in preferred_categories):
+                    filtered_articles.append(article)
+            
+            if filtered_articles:
+                print(f"Filtered to {len(filtered_articles)} papers matching preferred categories")
+                research_articles = filtered_articles
+        
         if not research_articles or len(research_articles) <= top_k:
             return research_articles
         
