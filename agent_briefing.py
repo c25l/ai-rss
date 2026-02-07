@@ -16,6 +16,8 @@ The agent acts as an intelligent editor/analyst rather than a simple filter.
 
 import datetime
 import json
+import os
+import yaml
 from typing import List, Dict, Any, Optional
 from copilot import Copilot
 from feeds import Feeds
@@ -290,6 +292,66 @@ class AgentTools:
             }
     
     @staticmethod
+    def get_wikipedia_summary(topic: str, sentences: int = 3) -> Dict[str, Any]:
+        """
+        Fetch Wikipedia summary for historical/background context.
+        
+        Useful for adding context about people, organizations, events, or concepts
+        mentioned in the news.
+        
+        Args:
+            topic: Topic to look up (e.g., "Donald Trump", "Artificial Intelligence")
+            sentences: Number of sentences to return (default 3)
+            
+        Returns:
+            Dictionary with summary, url, and title
+            
+        Example:
+            context = get_wikipedia_summary("NATO")
+            # Returns summary of NATO with link to full article
+        """
+        try:
+            import requests
+            
+            # Wikipedia API endpoint
+            url = "https://en.wikipedia.org/api/rest_v1/page/summary/" + topic.replace(" ", "_")
+            
+            response = requests.get(url, timeout=5)
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Get extract and limit to requested sentences
+                extract = data.get('extract', '')
+                sentences_list = extract.split('. ')[:sentences]
+                summary = '. '.join(sentences_list)
+                if not summary.endswith('.'):
+                    summary += '.'
+                
+                return {
+                    'topic': topic,
+                    'summary': summary,
+                    'url': data.get('content_urls', {}).get('desktop', {}).get('page', ''),
+                    'title': data.get('title', topic),
+                    'success': True
+                }
+            else:
+                return {
+                    'topic': topic,
+                    'summary': f"No Wikipedia article found for '{topic}'",
+                    'url': '',
+                    'title': topic,
+                    'success': False
+                }
+        except Exception as e:
+            return {
+                'topic': topic,
+                'summary': f"Error fetching Wikipedia: {str(e)}",
+                'url': '',
+                'title': topic,
+                'success': False
+            }
+    
+    @staticmethod
     def fetch_all_sources(sources: List[Dict[str, str]], days: int = 1) -> Dict[str, List[Article]]:
         """
         Fetch content from all configured sources.
@@ -393,6 +455,44 @@ class AgentBriefing:
         self.agent = agent or Copilot()  # Uses Copilot CLI with gpt-5.2 by default
         self.tools = AgentTools()
         self.raw_content = {}
+        self.preferences = self._load_preferences()
+    
+    def _load_preferences(self) -> Dict[str, Any]:
+        """
+        Load user preferences from preferences.yaml if it exists.
+        
+        Returns:
+            Dictionary with preferences, or default preferences if file doesn't exist
+        """
+        default_prefs = {
+            'focus_areas': [],
+            'exclude_topics': [],
+            'preferred_sources': [],
+            'content_preferences': {
+                'include_wikipedia_context': True,
+                'hybrid_research_ranking': True,
+                'max_articles_per_section': 5
+            },
+            'research_preferences': {
+                'use_original_ranking': True,
+                'max_research_papers': 10
+            }
+        }
+        
+        try:
+            pref_file = 'preferences.yaml'
+            if os.path.exists(pref_file):
+                with open(pref_file, 'r') as f:
+                    loaded_prefs = yaml.safe_load(f) or {}
+                # Merge with defaults
+                for key in default_prefs:
+                    if key not in loaded_prefs:
+                        loaded_prefs[key] = default_prefs[key]
+                return loaded_prefs
+        except Exception as e:
+            print(f"Warning: Could not load preferences.yaml: {e}")
+        
+        return default_prefs
     
     def fetch_all_content(self, days: int = 1) -> Dict[str, List[Article]]:
         """
@@ -461,6 +561,15 @@ class AgentBriefing:
         print("Fetching content from all sources...")
         content = self.fetch_all_content(days=days)
         
+        # Apply hybrid research ranking if preferences say so
+        if self.preferences.get('content_preferences', {}).get('hybrid_research_ranking', False):
+            research_sources = ['ArXiv CS', 'arXiv', 'arxiv']  # Common research source names
+            for source_name in content:
+                if any(research_src.lower() in source_name.lower() for research_src in research_sources):
+                    print(f"Applying hybrid ranking to research source: {source_name}")
+                    max_papers = self.preferences.get('research_preferences', {}).get('max_research_papers', 10)
+                    content[source_name] = self._rank_research_papers(content[source_name], top_k=max_papers)
+        
         # Calculate total articles
         total_articles = sum(len(articles) for articles in content.values())
         print(f"Fetched {total_articles} total articles from {len(content)} sources")
@@ -504,6 +613,23 @@ class AgentBriefing:
         
         if use_enhanced_prompting:
             # Multi-step reasoning with example format
+            
+            # Build preferences section if there are preferences set
+            prefs_section = ""
+            if self.preferences.get('focus_areas') or self.preferences.get('exclude_topics') or self.preferences.get('preferred_sources'):
+                prefs_section = "\n═══════════════════════════════════════════════════════════════\n\nUSER PREFERENCES:\n"
+                
+                if self.preferences.get('focus_areas'):
+                    prefs_section += f"\n**Focus on these topics:**\n" + "\n".join([f"- {area}" for area in self.preferences['focus_areas']])
+                
+                if self.preferences.get('exclude_topics'):
+                    prefs_section += f"\n\n**De-emphasize these topics:**\n" + "\n".join([f"- {topic}" for topic in self.preferences['exclude_topics']])
+                
+                if self.preferences.get('preferred_sources'):
+                    prefs_section += f"\n\n**Prioritize these sources:**\n" + "\n".join([f"- {source}" for source in self.preferences['preferred_sources']])
+                
+                prefs_section += "\n"
+            
             agent_prompt = f"""You are an intelligent briefing CURATOR for {today}.
 
 YOUR ROLE: Curate and cite content from sources - NOT to write new text.
@@ -521,13 +647,14 @@ You have access to:
 2. **Weather & Space conditions** (real-time API data)
 3. **Astronomical viewing info** (tonight's sky)
 4. **Stock market data** (today's close)
+5. **Wikipedia summaries** (optional: use get_wikipedia_summary(topic) for context)
 
 CONTENT BY SOURCE:
 {formatted_content}
 
 API-BASED DATA:
 {chr(10).join(tool_data) if tool_data else "No API data available"}
-
+{prefs_section}
 ═══════════════════════════════════════════════════════════════
 
 YOUR APPROACH (Multi-Step Reasoning):
@@ -598,16 +725,28 @@ CRITICAL RULES:
 ✓ Use brief bridging text ONLY to show connections (1-2 sentences max)
 ✓ Create sections based on discovered themes
 ✓ Prioritize quality sources over quantity
-✓ USE PROPER MARKDOWN FORMATTING: headings with # and ##, not plain text
+✓ USE PROPER MARKDOWN FORMATTING: 
+  - # for main title "# Daily Briefing - {today}"
+  - ## for each theme/section heading (e.g., "## Technology Developments")
+  - **[text](url)** for article links
+  - > for blockquotes
 ✓ Start with: # Daily Briefing - {today}
+✓ Use ## for EVERY section/theme heading
+
+OPTIONAL ENHANCEMENTS:
+• You can use get_wikipedia_summary(topic) to add historical context for people, organizations, or events
+• Add context sparingly - only when it genuinely helps understanding
 
 ❌ DO NOT write summaries in your own words
 ❌ DO NOT add extensive commentary or analysis
 ❌ DO NOT rewrite article content
 ❌ DO NOT omit the # symbol from headings
+❌ DO NOT use plain text for section headings - always use ##
 
 OUTPUT MUST start with exactly:
 # Daily Briefing - {today}
+
+Then use ## for each theme/section.
 
 Now, curate and cite the available content following this approach.
 Focus on selection and organization, not text generation.
@@ -657,6 +796,49 @@ Focus on selection and organization, not text generation."""
         except Exception as e:
             print(f"Error generating briefing: {e}")
             return f"# Error Generating Briefing\n\nFailed to generate briefing: {str(e)}"
+    
+    def _rank_research_papers(self, research_articles: List[Article], top_k: int = 10) -> List[Article]:
+        """
+        Rank research papers using the original ranking algorithm.
+        
+        This provides a hybrid approach: agent curates most content, but research
+        papers use the proven ranking algorithm from the constrained approach.
+        
+        Args:
+            research_articles: List of research paper articles
+            top_k: Number of top papers to return
+            
+        Returns:
+            Ranked list of top research papers
+        """
+        if not research_articles or len(research_articles) <= top_k:
+            return research_articles
+        
+        try:
+            # Format articles for ranking
+            formatted_items = []
+            for i, article in enumerate(research_articles):
+                formatted_items.append(f"[{i}] {article.title}")
+            
+            items_str = "\n".join(formatted_items)
+            
+            # Use the rank_items method from the agent (Copilot class)
+            prompt_template = """Given these research papers, return the indices of the {top_k} most interesting and impactful ones.
+
+Papers:
+{items}
+
+Return ONLY a JSON array of indices, like: [0, 3, 7, 12, 18]
+Focus on: novelty, potential impact, clarity, and relevance to current developments."""
+            
+            ranked_indices = self.agent.rank_items(items_str, prompt_template, top_k=top_k)
+            
+            # Return ranked articles
+            return [research_articles[i] for i in ranked_indices if i < len(research_articles)]
+        except Exception as e:
+            print(f"Error ranking research papers: {e}")
+            # Fall back to returning first top_k
+            return research_articles[:top_k]
     
     def generate_focused_briefing(self, focus_areas: List[str], days: int = 1) -> str:
         """
