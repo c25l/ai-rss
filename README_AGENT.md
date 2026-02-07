@@ -1,15 +1,16 @@
 # Agent-Centric Daily Briefing System
 
-A Python system that uses an AI agent with **full editorial autonomy** to create intelligent daily briefings from multiple sources.
+A Python system that uses an AI agent as a **content curator** to create intelligent daily briefings from multiple sources.
 
 ## Philosophy
 
-This implements an **agent-centric architecture** where the AI has complete freedom to:
-- Decide which content is important
-- Structure the briefing dynamically
-- Synthesize and connect information
-- Add analysis and context
-- Create its own narrative flow
+This implements an **agent-centric architecture** where the AI acts as a CURATOR, not a writer:
+- **Curate**: Select and organize the most important content
+- **Cite**: Link directly to original sources with inline citations
+- **Connect**: Show relationships with minimal bridging text
+- **Preserve**: Pass through original text from sources, don't rewrite
+
+The agent's role is **CURATION and CITATION**, not text generation. Content should flow from upstream sources with the agent providing intelligent organization and selection.
 
 This contrasts with traditional **constrained-LLM** approaches that only use AI for scoring/ranking within a rigid, predetermined structure.
 
@@ -21,26 +22,29 @@ from agent_briefing import AgentBriefing
 # Create briefing system with default sources
 briefing = AgentBriefing()
 
-# Generate a briefing with enhanced multi-step reasoning
+# Generate a curated briefing with enhanced multi-step reasoning
 result = briefing.generate_briefing(days=1, use_enhanced_prompting=True)
 print(result)
 ```
 
 ## Features
 
-### Full Agent Autonomy
+### Agent as Curator
 The agent receives:
 - **Tools**: RSS feed reader, web scraper, weather APIs, space weather APIs, astronomy APIs
 - **Sources**: List of sites to monitor (including TLDR Tech, Hacker News Daily)
 - **API data**: Real-time weather, space conditions, astronomical viewing
-- **Multi-step reasoning**: Structured approach with example output format
+- **Multi-step reasoning**: Structured curation approach with example format
 
 The agent then autonomously:
 - Analyzes all available content
 - Identifies important stories
+- Selects key excerpts from sources
 - Structures sections logically
-- Synthesizes connections
-- Writes the final briefing
+- Cites all sources with inline links
+- Uses minimal bridging text to show connections
+
+**Key principle**: The agent curates and cites, using direct quotes/excerpts from sources rather than writing summaries or analysis.
 
 ### API-Based Tools (NEW)
 

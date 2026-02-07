@@ -29,24 +29,24 @@ This repository now supports **two distinct architectural approaches** for gener
 
 **File:** `daily_workflow_agent.py` / `agent_briefing.py`
 
-**Philosophy:** Give the agent tools and sources. Let it decide everything else.
+**Philosophy:** Give the agent tools and sources. Let it curate and cite content.
 
 **Characteristics:**
-- ✓ Agent has **full editorial autonomy**
-- ✓ Tools provided: RSS feed reader, web scraper
+- ✓ Agent has **full curation autonomy**
+- ✓ Tools provided: RSS feed reader, web scraper, API tools
 - ✓ Sources provided: List of sites to monitor
-- ✓ Agent decides: what matters, how to structure, what to synthesize
+- ✓ Agent decides: what matters, how to structure, what to cite
 - ✓ Dynamic section creation based on discovered content
-- ✓ Agent can draw connections, add analysis, create narrative flow
+- ✓ Agent curates and cites original sources with minimal bridging text
 - ✓ No predetermined output structure
 
 **Example Flow:**
 ```
-1. Give agent access to tools (fetch_rss_feed, scrape_webpage)
+1. Give agent access to tools (fetch_rss_feed, scrape_webpage, API tools)
 2. Give agent list of sources to monitor
 3. Give agent auxiliary data (weather, stocks, astronomy)
-4. Single prompt: "You're an intelligent editor. Create the best briefing."
-5. Agent analyzes everything, decides structure, writes briefing
+4. Single prompt: "You're a curator. Select and cite the best content."
+5. Agent analyzes everything, selects key content, cites sources
 6. Send email
 ```
 
@@ -76,11 +76,11 @@ Each approach has trade-offs:
 - Consistent format
 
 **Agent-Centric Advantages:**
-- More intelligent synthesis
-- Better at identifying connections
+- Intelligent content curation
+- Better at identifying connections between sources
 - Adaptive to content variations
-- Can provide deeper analysis
-- More natural narrative flow
+- Preserves original source text (not rewritten)
+- Natural organization with minimal agent-written text
 - Handles novel situations better
 
 ## Usage

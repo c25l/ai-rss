@@ -344,11 +344,15 @@ class AgentBriefing:
     """
     Agent-centric briefing system.
     
-    The agent has full autonomy to:
+    The agent acts as a CURATOR with full autonomy to:
     - Decide what content is important
     - Choose how to structure the briefing
-    - Determine what to summarize and how
-    - Create sections dynamically
+    - Select and organize content from sources
+    - Cite original sources with inline links
+    - Use minimal bridging text to show connections
+    
+    The agent's role is CURATION and CITATION, not text generation.
+    Content should be passed through from upstream sources, not rewritten.
     """
     
     # Default sources - can be customized
@@ -434,7 +438,11 @@ class AgentBriefing:
                          include_stocks: bool = True, include_astronomy: bool = True,
                          use_enhanced_prompting: bool = True) -> str:
         """
-        Generate a complete briefing using the agent's autonomous decision-making.
+        Generate a complete briefing using the agent's autonomous curation.
+        
+        The agent acts as a CURATOR: selecting, organizing, and citing content
+        from sources. The agent uses direct quotes/excerpts with inline citations
+        and minimal bridging text, rather than writing summaries or analysis.
         
         Args:
             days: Number of days back to fetch content
@@ -493,9 +501,13 @@ class AgentBriefing:
         
         if use_enhanced_prompting:
             # Multi-step reasoning with example format
-            agent_prompt = f"""You are an intelligent briefing editor for {today}.
+            agent_prompt = f"""You are an intelligent briefing CURATOR for {today}.
 
-MISSION: Create a comprehensive daily briefing that synthesizes information across multiple domains.
+YOUR ROLE: Curate and cite content from sources - NOT to write new text.
+- CURATE: Select, organize, and group the most important content
+- CITE: Link directly to original sources with inline citations
+- PRESERVE: Pass through original text from articles, don't rewrite
+- CONNECT: Show relationships between sources with minimal bridging text
 
 ═══════════════════════════════════════════════════════════════
 
@@ -522,22 +534,21 @@ STEP 1: IDENTIFY KEY THEMES
 - Look for recurring topics across different sources
 - Note any breaking news or significant developments
 
-STEP 2: PRIORITIZE & SYNTHESIZE
+STEP 2: PRIORITIZE & GROUP
 - Rank stories by importance, impact, and relevance
 - Group related stories from different sources
-- Identify connections between seemingly unrelated topics
-- Consider how weather/space/astronomy relates to news
+- Identify connections between topics
 
 STEP 3: STRUCTURE YOUR BRIEFING
 - Create logical sections based on discovered themes
 - Don't force content into predetermined categories
 - Let the content guide your structure
 
-STEP 4: ADD VALUE
-- Provide context and analysis, not just summaries
-- Draw non-obvious connections
-- Highlight implications and significance
-- Use weather/astronomical data strategically (not just as separate section)
+STEP 4: CURATE & CITE
+- Select key excerpts from original sources (use direct quotes)
+- Provide inline citations to every source
+- Use minimal bridging text to show connections
+- Let the sources speak for themselves
 
 ═══════════════════════════════════════════════════════════════
 
@@ -545,74 +556,86 @@ EXAMPLE OUTPUT PATTERN:
 
 # Daily Briefing - {today}
 
-## [Your Most Important Theme]
-[Synthesized narrative drawing from multiple sources with inline citations]
+## [Most Important Theme]
 
-The [major story] is developing across multiple fronts. [Source A](url) reports 
-[key fact], while [Source B](url) highlights [related aspect]. This connects to 
-[broader trend] we've seen in [recent context].
+**[Source A: Article Title](url)**
+> "[Direct quote or key excerpt from the article]"
 
-**Key Points:**
-- Point with [citation](url)
-- Point with [citation](url)
-- Implication: [your analysis]
+**[Source B: Related Article](url)**  
+> "[Direct quote showing related angle]"
 
-## [Your Second Theme]
-[Continue pattern...]
+**Connection:** These sources show [brief connection in 1 sentence].
 
-## [Additional Sections As Needed]
-[Tech developments, research highlights, local news, etc.]
+**Related:**
+- [Source C: Article Title](url)
+- [Source D: Article Title](url)
 
-## Conditions & Outlook
-[Integrate weather, space weather, astronomy - make it relevant]
-- Weather: [key info] [how it affects activities/events]
-- Space: [aurora possibilities, etc.]
-- Sky: [notable viewing opportunities]
+## [Second Theme]
+
+**[Source E: Article Title](url)**
+> "[Key excerpt from source]"
+
+**See also:**
+- [Source F](url)
+- [Source G](url)
+
+## Weather & Space Conditions
+
+- **Weather:** [Direct info from weather API]
+- **Space Weather:** [Direct info from space weather API]
+- **Tonight's Sky:** [Direct info from astronomy API]
 
 ═══════════════════════════════════════════════════════════════
 
-GUIDELINES:
-✓ Be comprehensive but concise
-✓ Focus on significance and connections
-✓ Include inline markdown links: [Article Title](url)
-✓ Add analysis and synthesis
-✓ Create dynamic sections based on content
-✓ Make weather/astronomy relevant (not just boilerplate)
-✓ Prioritize quality over quantity
+CRITICAL RULES:
+✓ Use direct quotes/excerpts from sources (in blockquotes with >)
+✓ Every piece of content must have an inline citation [Title](url)
+✓ Minimize your own writing - let sources provide the text
+✓ Group related sources under themes
+✓ Use brief bridging text ONLY to show connections (1-2 sentences max)
+✓ Create sections based on discovered themes
+✓ Prioritize quality sources over quantity
 
-Now, analyze the available content and create your briefing following this multi-step approach.
-Structure it however makes most sense for today's content."""
+❌ DO NOT write summaries in your own words
+❌ DO NOT add extensive commentary or analysis
+❌ DO NOT rewrite article content
+
+Now, curate and cite the available content following this approach.
+Focus on selection and organization, not text generation."""
         else:
-            # Original simple prompt
-            agent_prompt = f"""You are an intelligent briefing editor for {today}.
+            # Original simple prompt (updated for curation focus)
+            agent_prompt = f"""You are an intelligent briefing CURATOR for {today}.
 
-You have access to content from multiple sources (news, tech, research, etc.).
-Your job is to CREATE A COMPREHENSIVE DAILY BRIEFING with COMPLETE AUTONOMY.
+YOUR ROLE: Curate and cite content from sources - NOT to write new text.
+- CURATE: Select and organize the most important content
+- CITE: Link directly to original sources with inline citations
+- PRESERVE: Pass through original text from articles
+- MINIMAL WRITING: Use brief text only to show connections
 
 YOU DECIDE:
 - Which stories/articles are most important
 - How to structure the briefing (create your own sections)
-- What context to add or synthesize
-- How to present information (summaries, lists, analysis)
-- What connections to draw between different topics
-- The overall narrative and flow
+- How to group related content
+- What connections to highlight between sources
 
-GUIDELINES:
-1. Be comprehensive but concise
-2. Focus on what matters - significance, impact, relevance
-3. Create logical sections that make sense for today's content
-4. Include inline markdown links to sources: [Article Title](url)
-5. Add your own analysis and synthesis when valuable
-6. Connect related stories across different sources
-7. Prioritize quality over quantity - better to cover fewer items well
+CRITICAL RULES:
+✓ Use direct quotes/excerpts from sources (blockquotes with >)
+✓ Every piece of content must have inline citation [Title](url)
+✓ Minimize your own writing - let sources provide the text
+✓ Group related sources under themes
+✓ Brief bridging text ONLY for connections (1-2 sentences max)
+
+❌ DO NOT write summaries in your own words
+❌ DO NOT add extensive commentary
+❌ DO NOT rewrite article content
 
 AVAILABLE CONTENT:
 {formatted_content}
 
 {"API DATA:\n" + chr(10).join(tool_data) if tool_data else ""}
 
-Now, create the best possible daily briefing. Structure it however you think works best.
-Use markdown formatting. Be creative and insightful."""
+Now, curate and cite the best content. Structure it with themes/sections.
+Focus on selection and organization, not text generation."""
 
         # Generate briefing using agent
         print("\nGenerating agent-driven briefing...")
