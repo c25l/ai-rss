@@ -1,0 +1,302 @@
+# Agent-Centric Daily Briefing System
+
+A Python system that uses an AI agent with **full editorial autonomy** to create intelligent daily briefings from multiple sources.
+
+## Philosophy
+
+This implements an **agent-centric architecture** where the AI has complete freedom to:
+- Decide which content is important
+- Structure the briefing dynamically
+- Synthesize and connect information
+- Add analysis and context
+- Create its own narrative flow
+
+This contrasts with traditional **constrained-LLM** approaches that only use AI for scoring/ranking within a rigid, predetermined structure.
+
+## Quick Start
+
+```python
+from agent_briefing import AgentBriefing
+
+# Create briefing system with default sources
+briefing = AgentBriefing()
+
+# Generate a briefing - agent decides everything
+result = briefing.generate_briefing(days=1)
+print(result)
+```
+
+## Features
+
+### Full Agent Autonomy
+The agent receives:
+- **Tools**: RSS feed reader, web scraper
+- **Sources**: List of sites to monitor
+- **Auxiliary data**: Weather, stocks, astronomy (optional)
+- **Single instruction**: "Create the best briefing"
+
+The agent then autonomously:
+- Analyzes all available content
+- Identifies important stories
+- Structures sections logically
+- Synthesizes connections
+- Writes the final briefing
+
+### Flexible Configuration
+
+```python
+# Custom sources
+custom_sources = [
+    {"name": "My Blog", "url": "https://example.com/feed", "type": "rss"},
+    {"name": "Dashboard", "url": "https://dashboard.com", "type": "scrape"}
+]
+
+briefing = AgentBriefing(sources=custom_sources)
+```
+
+### Focused Briefings
+
+```python
+# Generate briefing focused on specific topics
+result = briefing.generate_focused_briefing(
+    focus_areas=["AI research", "local politics"],
+    days=2
+)
+```
+
+## Architecture
+
+### Components
+
+1. **AgentBriefing**: Main class orchestrating the briefing generation
+2. **AgentTools**: Toolkit for the agent (RSS, scraping, fetching)
+3. **Copilot**: LLM interface for agent reasoning
+
+### Data Flow
+
+```
+Sources Config → AgentTools.fetch_all_sources() → Raw Articles
+                                                      ↓
+Raw Articles → Format for Agent → Structured Content List
+                                        ↓
+Structured Content + Auxiliary Data → Agent Prompt
+                                        ↓
+                              Agent Analysis & Generation
+                                        ↓
+                              Final Briefing (Markdown)
+```
+
+### Agent Prompt Structure
+
+The agent receives a comprehensive prompt that includes:
+1. Role definition ("intelligent briefing editor")
+2. Explicit autonomy grant
+3. Guidelines (not rules)
+4. All available content in structured format
+5. Auxiliary data when applicable
+6. Open-ended task ("create the best briefing")
+
+## Usage Examples
+
+### Example 1: Daily Briefing
+
+```python
+from agent_briefing import AgentBriefing
+
+briefing = AgentBriefing()
+result = briefing.generate_briefing(
+    days=1,
+    include_weather=True,
+    include_stocks=True,
+    include_astronomy=True
+)
+print(result)
+```
+
+### Example 2: Tech-Only Briefing
+
+```python
+tech_sources = [
+    {"name": "ArXiv", "url": "https://export.arxiv.org/rss/cs", "type": "rss"},
+    {"name": "Google AI", "url": "https://blog.google/technology/ai/rss/", "type": "rss"},
+]
+
+briefing = AgentBriefing(sources=tech_sources)
+result = briefing.generate_briefing(days=2, include_weather=False)
+```
+
+### Example 3: Focused Analysis
+
+```python
+briefing = AgentBriefing()
+result = briefing.generate_focused_briefing(
+    focus_areas=["climate policy", "renewable energy"],
+    days=3
+)
+```
+
+### Example 4: Production Workflow
+
+```python
+#!/usr/bin/env python
+import datetime
+from agent_briefing import AgentBriefing
+from emailer import Emailer
+
+# Generate briefing
+briefing_system = AgentBriefing()
+content = briefing_system.generate_briefing(days=1)
+
+# Send via email
+today = datetime.datetime.now().strftime("%Y-%m-%d")
+subject = f"Daily Briefing - {today}"
+
+emailer = Emailer()
+emailer.send_email(content, subject=subject)
+```
+
+## Default Sources
+
+The system comes configured with diverse sources:
+
+**News**: NYT, The Atlantic, Heather Cox Richardson, MetaFilter, ACOUP, local news
+**Tech**: Microsoft Research, Google AI Blog  
+**Research**: ArXiv (distributed systems, performance, architecture)
+
+All sources can be customized.
+
+## Comparison: Agent-Centric vs. Constrained-LLM
+
+### Constrained-LLM Approach
+```python
+# Multiple narrow prompts
+rankings1 = llm.rank("Rank these 50 articles, return top 5 indices")
+rankings2 = llm.rank("Rank these 30 articles, return top 7 indices")
+# ... assemble into fixed structure
+```
+
+**Characteristics:**
+- Fixed section structure
+- AI only scores/ranks
+- Predetermined output format
+- Lower token usage
+- Very consistent output
+
+### Agent-Centric Approach
+```python
+# Single comprehensive prompt
+briefing = llm.generate("You're an intelligent editor. Here's all content. Create the best briefing.")
+```
+
+**Characteristics:**
+- Dynamic section structure
+- AI creates and synthesizes
+- Adaptive output format
+- Higher token usage
+- Variable but intelligent output
+
+## Requirements
+
+- Python 3.8+
+- Dependencies in `requirements.txt`:
+  - feedparser (RSS parsing)
+  - beautifulsoup4 (web scraping)
+  - requests (HTTP requests)
+  - copilot CLI or other LLM backend
+
+## Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+## Testing
+
+```bash
+# Run comparison demo
+python demo_agent_architecture.py compare
+
+# Run full demo suite
+python demo_agent_architecture.py
+
+# Run simple example
+python example_usage.py
+```
+
+## Performance
+
+**Token Usage**: 50-100K tokens per briefing (single large call)
+**Time**: 3-8 minutes depending on content volume and LLM speed
+**Cost**: Higher than constrained approach but more intelligent output
+
+## Customization
+
+### Add Custom Sources
+
+```python
+sources = [
+    {"name": "Custom RSS", "url": "https://example.com/feed", "type": "rss"},
+    {"name": "Custom Page", "url": "https://example.com", "type": "scrape"},
+]
+
+briefing = AgentBriefing(sources=sources)
+```
+
+### Modify Agent Behavior
+
+Edit the agent prompt in `agent_briefing.py` → `generate_briefing()` method.
+
+### Add New Tools
+
+Extend `AgentTools` class with new methods:
+
+```python
+class AgentTools:
+    @staticmethod
+    def fetch_api_data(api_url: str) -> Dict:
+        # Your implementation
+        pass
+```
+
+## Best Practices
+
+1. **Trust the Agent**: Don't over-constrain the prompt
+2. **Provide Context**: More sources = better decisions
+3. **Review Output**: Agent output varies, spot-check important briefings
+4. **Adjust Focus**: Use `generate_focused_briefing()` for specific needs
+5. **Monitor Costs**: Large prompts = higher token usage
+
+## Troubleshooting
+
+**Issue**: Agent output is inconsistent
+- **Solution**: This is expected - agent has creative freedom. Add guidelines to prompt if needed.
+
+**Issue**: Briefing is too long/short
+- **Solution**: Modify agent prompt to specify desired length
+
+**Issue**: Agent misses important content
+- **Solution**: Ensure sources contain that content, or add it to focus_areas
+
+**Issue**: High token costs
+- **Solution**: Consider constrained-LLM approach for routine briefings
+
+## Future Enhancements
+
+Potential improvements:
+- Multi-step reasoning (agent requests additional sources)
+- Tool use during generation (not just upfront)
+- Memory of previous briefings
+- User preference learning
+- Confidence scoring
+- Interactive querying
+
+## License
+
+Same as parent repository.
+
+## See Also
+
+- `ARCHITECTURE.md` - Detailed architectural documentation
+- `daily_workflow_agent.py` - Production workflow implementation  
+- `demo_agent_architecture.py` - Interactive demos
+- `daily_workflow.py` - Original constrained-LLM implementation for comparison
