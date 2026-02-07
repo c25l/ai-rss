@@ -261,7 +261,7 @@ industry developments at Microsoft and implications for market valuations...
 The European Union's proposed AI regulation framework represents the most 
 significant attempt yet to govern artificial intelligence systems. The timing 
 is notable given [recent industry consolidation](url) and [research advances 
-in distributed training](arxiv-url) that have concentrated AI capabilities...
+in distributed training](https://arxiv.org/abs/2026.12345) that have concentrated AI capabilities...
 
 **Industry Response**  
 Tech giants are positioning themselves ahead of these changes. [Microsoft's 
@@ -278,7 +278,7 @@ moats for incumbent players...
 
 The climate summit's [historic carbon reduction agreement](url) marks a shift 
 from voluntary to binding commitments. Notably, [recent research on renewable 
-energy systems](arxiv-url) suggests these targets are technologically feasible...
+energy systems](https://arxiv.org/abs/2026.23456) suggests these targets are technologically feasible...
 
 ## Local & Regional
 
@@ -287,9 +287,9 @@ energy systems](arxiv-url) suggests these targets are technologically feasible..
 ## Research Spotlight
 
 Several papers this week deserve attention:
-1. [Efficient Distributed Training at Exascale](arxiv-url) - Novel approach 
+1. [Efficient Distributed Training at Exascale](https://arxiv.org/abs/2026.11111) - Novel approach 
    enabling training of models 10x larger than current limits
-2. [Real-time Performance Monitoring](arxiv-url) - Could address regulatory 
+2. [Real-time Performance Monitoring](https://arxiv.org/abs/2026.22222) - Could address regulatory 
    compliance needs mentioned above
 
 ## Weather & Sky
