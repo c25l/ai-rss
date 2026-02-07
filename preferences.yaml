@@ -1,0 +1,15 @@
+content_preferences:
+  hybrid_research_ranking: true
+  include_wikipedia_context: true
+  max_articles_per_section: 5
+exclude_topics:
+- Sports
+focus_areas:
+- AI research
+- Climate change
+preferred_sources:
+- The Atlantic
+- ArXiv
+research_preferences:
+  max_research_papers: 10
+  use_original_ranking: true

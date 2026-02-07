@@ -89,6 +89,11 @@ class Emailer:
                 "line-height: 1.7;"
                 "margin: 8px 0;"
             )
+        
+        # Add <br> tags after list items for better spacing
+        for li in soup.find_all('li'):
+            # Append a <br> tag at the end of each list item
+            li.append(soup.new_tag('br'))
 
         # Style strong/bold text
         for strong in soup.find_all('strong'):
