@@ -189,6 +189,61 @@ class AgentTools:
         return articles
     
     @staticmethod
+    def fetch_bluesky_feed(handle: str, limit: int = 20) -> List[Article]:
+        """
+        Fetch posts from a Bluesky user's feed.
+        
+        Args:
+            handle: Bluesky handle (e.g., 'user.bsky.social')
+            limit: Maximum number of posts to fetch (default: 20)
+            
+        Returns:
+            List of Article objects from Bluesky
+        """
+        articles = []
+        
+        try:
+            from atproto import Client
+            
+            # Create client without authentication (for public feeds)
+            client = Client()
+            
+            # Fetch the author's feed
+            profile_feed = client.get_author_feed(actor=handle, limit=limit)
+            
+            print(f"Found {len(profile_feed.feed)} posts from Bluesky user {handle}")
+            
+            for feed_view in profile_feed.feed:
+                post = feed_view.post
+                record = post.record
+                
+                # Get post text
+                text = record.text if hasattr(record, 'text') else ''
+                
+                # Get post URL
+                post_uri = post.uri
+                # Convert AT-URI to web URL
+                # Format: at://did:plc:xxx/app.bsky.feed.post/xxx
+                post_url = f"https://bsky.app/profile/{handle}/post/{post_uri.split('/')[-1]}"
+                
+                # Get creation time
+                created_at = record.created_at if hasattr(record, 'created_at') else datetime.datetime.now().isoformat()
+                
+                articles.append(Article(
+                    title=text[:100] + ('...' if len(text) > 100 else ''),  # Use first 100 chars as title
+                    summary=text,
+                    published_at=created_at,
+                    source=f"bluesky:{handle}",
+                    url=post_url
+                ))
+        except ImportError:
+            print("Error: atproto library not installed. Install with: pip install atproto")
+        except Exception as e:
+            print(f"Error fetching Bluesky feed for {handle}: {e}")
+        
+        return articles
+    
+    @staticmethod
     def get_weather_forecast(lat: float = 40.165729, lon: float = -105.101194) -> Dict[str, Any]:
         """
         Get weather forecast from National Weather Service API.
@@ -394,6 +449,12 @@ class AgentTools:
                 elif source_type == 'hn-daily':
                     articles = AgentTools.fetch_hacker_news_daily()
                     all_content[source_name] = articles
+                elif source_type == 'bluesky':
+                    # For Bluesky, the 'url' field should contain the handle
+                    handle = source_url
+                    limit = source.get('limit', 20)  # Optional limit parameter
+                    articles = AgentTools.fetch_bluesky_feed(handle, limit=limit)
+                    all_content[source_name] = articles
                 else:
                     print(f"Unknown source type: {source_type}")
             except Exception as e:
@@ -505,6 +566,10 @@ class AgentBriefing:
         {"name": "Google AI Blog", "url": "https://blog.google/technology/ai/rss/", "type": "rss"},
         {"name": "TLDR Tech", "url": None, "type": "tldr"},  # Fetched via custom method
         {"name": "Hacker News Daily", "url": None, "type": "hn-daily"},  # Fetched via custom method
+        
+        # Bluesky sources (examples - users can add their own)
+        # {"name": "Bluesky Official", "url": "bsky.app", "type": "bluesky", "limit": 10},
+        # {"name": "Example User", "url": "username.bsky.social", "type": "bluesky", "limit": 20},
         
         # Research sources
         {"name": "ArXiv CS", "url": "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR", "type": "rss"},
