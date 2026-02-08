@@ -1,12 +1,3 @@
-"""Copilot LLM wrapper.
-
-Mirrors the `Claude` class interface so callers can swap providers without
-changing call sites.
-
-Primary backend: GitHub Copilot CLI (`copilot -p ...`).
-Default model: claude-opus-4.6 (can be overridden via COPILOT_MODEL env var or constructor param)
-"""
-
 from __future__ import annotations
 
 import json
@@ -40,7 +31,7 @@ class Copilot:
         agent = Copilot()
     """
 
-    def __init__(self, model: str | None = None, cli_command: str = "copilot"):
+    def __init__(self, model: str | None = None, cli_command: str = "/usr/local/bin/copilot"):
         # Default to claude-opus-4.6 if no model specified
         self.model = model or os.getenv("COPILOT_MODEL", "claude-opus-4.6")
         self.cli_command = cli_command

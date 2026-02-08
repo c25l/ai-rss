@@ -3,7 +3,7 @@
 Static Site Publisher for H3lPeR
 
 Generates a static site from briefing JSON files and publishes to a local
-clone of c25l.github.io. Designed to be called after daily briefing generation.
+clone of tumble-dry-low.github.io. Designed to be called after daily briefing generation.
 
 Usage:
     python publish_site.py                    # generate + git push
@@ -11,7 +11,7 @@ Usage:
     python publish_site.py --site-dir /path   # specify site directory
 
 Environment:
-    GITHUB_PAGES_DIR  — path to local clone of c25l.github.io
+    GITHUB_PAGES_DIR  — path to local clone of tumble-dry-low.github.io
 """
 
 import argparse
@@ -285,7 +285,7 @@ def generate_site(site_dir, incremental=True):
     """Generate the full static site into site_dir.
 
     Args:
-        site_dir: Path to the local clone of c25l.github.io
+        site_dir: Path to the local clone of tumble-dry-low.github.io
         incremental: If True, skip briefing HTML files that already exist
     """
     os.makedirs(site_dir, exist_ok=True)
@@ -429,7 +429,7 @@ def publish_briefing(site_dir=None, push=True):
     """Generate the static site and optionally push to GitHub Pages.
 
     Args:
-        site_dir: Path to local clone of c25l.github.io (default: GITHUB_PAGES_DIR env var)
+        site_dir: Path to local clone of tumble-dry-low.github.io (default: GITHUB_PAGES_DIR env var)
         push: Whether to git commit+push after generation
 
     Returns:
@@ -458,7 +458,7 @@ def main():
     parser.add_argument(
         "--site-dir",
         default=os.environ.get("GITHUB_PAGES_DIR"),
-        help="Path to local clone of c25l.github.io (default: $GITHUB_PAGES_DIR)",
+        help="Path to local clone of tumble-dry-low.github.io (default: $GITHUB_PAGES_DIR)",
     )
     parser.add_argument(
         "--no-push",

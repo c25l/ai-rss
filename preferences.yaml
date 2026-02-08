@@ -54,10 +54,10 @@ email_preferences:
   send_email: false
 
   # Email subject line format (only used when send_email is true)
-  subject_format: "H3LPeR Briefing - {date}"
+  subject_format: "{date}"
 
   # Publish static site to GitHub Pages after each briefing
-  # Requires GITHUB_PAGES_DIR env var pointing to local clone of c25l.github.io
+  # Requires GITHUB_PAGES_DIR env var pointing to local clone of tumble-dry-low.github.io
   publish_site: true
 
 # Dashboard stock symbols (TradingView format)
