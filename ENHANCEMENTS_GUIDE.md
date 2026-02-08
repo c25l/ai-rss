@@ -115,7 +115,43 @@ research_preferences:
 3. Top-K papers are selected based on novelty, impact, and relevance
 4. These ranked papers are then provided to the agent for final curation
 
-### 4. Enhanced Markdown Formatting
+### 4. Bluesky Feed Integration
+
+The agent can now fetch posts from Bluesky (AT Protocol) social network feeds.
+
+**Usage:**
+Add Bluesky feeds to your `preferences.yaml`:
+
+```yaml
+sources:
+  # Bluesky sources
+  - name: "Bluesky Official"
+    url: "bsky.app"
+    type: "bluesky"
+    limit: 10  # Optional: number of posts to fetch (default: 20)
+    
+  - name: "Tech Influencer"
+    url: "username.bsky.social"
+    type: "bluesky"
+    limit: 20
+```
+
+**Finding Bluesky handles:**
+1. Visit a profile on https://bsky.app/
+2. The URL will be: `https://bsky.app/profile/{handle}`
+3. Use the `{handle}` as the `url` field
+
+**Features:**
+- Fetches public posts without authentication
+- Converts posts to Article objects for integration with other sources
+- Posts appear in chronological order
+- Full post text included in summary
+- Links back to original posts on bsky.app
+
+**Requirements:**
+The `atproto>=0.0.55` package is included in `requirements.txt` and handles all Bluesky API communication.
+
+### 5. Enhanced Markdown Formatting
 
 The agent prompt now includes explicit instructions about markdown formatting:
 
