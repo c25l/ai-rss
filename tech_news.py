@@ -5,6 +5,31 @@ import requests
 from datamodel import Article
 from copilot import Copilot
 
+def _load_tech_sources():
+    """Load tech source config from preferences.yaml, falling back to defaults."""
+    default_rss = [
+        "https://www.microsoft.com/en-us/research/feed/",
+        "https://blog.google/technology/ai/rss/",
+    ]
+    default_tldr = True
+    default_hn = True
+    try:
+        import yaml, os
+        pref_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'preferences.yaml')
+        if os.path.exists(pref_file):
+            with open(pref_file, 'r') as f:
+                prefs = yaml.safe_load(f) or {}
+            configured = prefs.get('sources')
+            if configured:
+                rss = [s['url'] for s in configured
+                       if s.get('type') == 'rss' and s.get('url')]
+                tldr = any(s.get('type') == 'tldr' for s in configured)
+                hn = any(s.get('type') == 'hn-daily' for s in configured)
+                return rss, tldr, hn
+    except Exception as e:
+        print(f"Warning: could not load sources from preferences.yaml: {e}")
+    return default_rss, default_tldr, default_hn
+
 class TechNews:
     def __init__(self):
         self.claude = Copilot()
@@ -64,50 +89,43 @@ No explanation, just the JSON array."""
         """
         articles = []
 
-        # Tech-focused RSS feeds
-        tech_sources = [
-            #"https://techcrunch.com/feed/",
-            #"https://www.theverge.com/rss/index.xml",
-            #"https://feeds.arstechnica.com/arstechnica/index",
-            #"https://www.wired.com/feed/rss",
-            #"https://www.reddit.com/r/technology/.rss",
-            #"https://www.daemonology.net/hn-daily/index.rss",
-            "https://www.microsoft.com/en-us/research/feed/",
-            "https://blog.google/technology/ai/rss/",
-        ]
+        # Load sources from preferences
+        tech_rss, use_tldr, use_hn = _load_tech_sources()
 
-        for src in tech_sources:
+        for src in tech_rss:
             articles.extend([xx for xx in feeds.Feeds.get_articles(src, days=days)])
 
         # Add tldr.tech AI newsletter
         now = datetime.datetime.now()
-        try:
-            text = BeautifulSoup(requests.get(f"https://tldr.tech/ai/{now:%Y-%m-%d}").text, "html.parser")
-            text = text.find_all("article")
-            print(len(text), "articles from tldrai")
-            articles.extend([Article(title=str(xx), summary="", published_at=now, source="tldr.tech/ai") for xx in text])
-        except:
-            print("error for tldr.tech/ai")
-            pass  # Skip if tldr.tech is unavailable
+        if use_tldr:
+            try:
+                text = BeautifulSoup(requests.get(f"https://tldr.tech/ai/{now:%Y-%m-%d}").text, "html.parser")
+                text = text.find_all("article")
+                print(len(text), "articles from tldrai")
+                articles.extend([Article(title=str(xx), summary="", published_at=now, source="tldr.tech/ai") for xx in text])
+            except:
+                print("error for tldr.tech/ai")
+                pass  # Skip if tldr.tech is unavailable
 
-        try:
-            text = BeautifulSoup(requests.get(f"https://tldr.tech/tech/{now:%Y-%m-%d}").text, "html.parser")
-            text = text.find_all("article")
-            print(len(text), "articles from tldr")
-            articles.extend([Article(title=str(xx), summary="", published_at=now, source="tldr.tech") for xx in text])
-        except:
-            print("error for tldr.tech")
-            pass  # Skip if tldr.tech is unavailable
+            try:
+                text = BeautifulSoup(requests.get(f"https://tldr.tech/tech/{now:%Y-%m-%d}").text, "html.parser")
+                text = text.find_all("article")
+                print(len(text), "articles from tldr")
+                articles.extend([Article(title=str(xx), summary="", published_at=now, source="tldr.tech") for xx in text])
+            except:
+                print("error for tldr.tech")
+                pass  # Skip if tldr.tech is unavailable
 
 
-        try:
-            text = BeautifulSoup(requests.get(f"https://www.daemonology.net/hn-daily/{now-datetime.timedelta(days=1):%Y-%m-%d}.html").text, "html.parser")
-            text = text.find_all("span", class_="storylink")
-            print(len(text), "articles from hndaily")
-            articles.extend([Article(title=str(xx), published_at=now, source="hacker news daily", summary="") for xx in text])
-        except:
-            print("error for hn-daily")
-            pass
+        if use_hn:
+            try:
+                text = BeautifulSoup(requests.get(f"https://www.daemonology.net/hn-daily/{now-datetime.timedelta(days=1):%Y-%m-%d}.html").text, "html.parser")
+                text = text.find_all("span", class_="storylink")
+                print(len(text), "articles from hndaily")
+                articles.extend([Article(title=str(xx), published_at=now, source="hacker news daily", summary="") for xx in text])
+            except:
+                print("error for hn-daily")
+                pass
 
         self.articles = articles
         print(f"Found {len(articles)} tech articles")

@@ -521,11 +521,11 @@ class AgentBriefing:
             sources: List of source dictionaries (uses DEFAULT_SOURCES if None)
             agent: Copilot instance (creates new one if None, defaults to gpt-5.2)
         """
-        self.sources = sources or self.DEFAULT_SOURCES
         self.agent = agent or Copilot()  # Uses Copilot CLI with claude-opus-4.6 by default
         self.tools = AgentTools()
         self.raw_content = {}
         self.preferences = self._load_preferences()
+        self.sources = sources or self.preferences.get('sources') or self.DEFAULT_SOURCES
     
     def _load_preferences(self) -> Dict[str, Any]:
         """

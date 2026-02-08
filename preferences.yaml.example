@@ -63,3 +63,57 @@ research_preferences:
   
   # Use original ranking algorithm for research
   use_original_ranking: true
+
+# Content sources — feeds, scrapers, and special fetchers
+# Types: rss, tldr, hn-daily, scrape
+sources:
+  # News RSS feeds
+  - name: "NYT US News"
+    url: "https://rss.nytimes.com/services/xml/rss/nyt/US.xml"
+    type: rss
+  - name: "NYT World News"
+    url: "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"
+    type: rss
+  - name: "The Atlantic"
+    url: "https://www.theatlantic.com/feed/all/"
+    type: rss
+  - name: "Heather Cox Richardson"
+    url: "https://heathercoxrichardson.substack.com/feed"
+    type: rss
+  - name: "MetaFilter"
+    url: "https://rss.metafilter.com/metafilter.rss"
+    type: rss
+  - name: "ACOUP"
+    url: "https://acoup.blog/feed/"
+    type: rss
+  - name: "Longmont Leader"
+    url: "https://www.longmontleader.com/rss/"
+    type: rss
+  - name: "Nature"
+    url: "https://www.nature.com/nature.rss"
+    type: rss
+  - name: "r/Longmont"
+    url: "https://www.reddit.com/r/Longmont.rss"
+    type: rss
+
+  # Tech RSS feeds
+  - name: "Microsoft Research"
+    url: "https://www.microsoft.com/en-us/research/feed/"
+    type: rss
+  - name: "Google AI Blog"
+    url: "https://blog.google/technology/ai/rss/"
+    type: rss
+  - name: "SemiAnalysis"
+    url: "https://semianalysis.com/feed/"
+    type: rss
+
+  # Scraped / special sources
+  - name: "TLDR Tech"
+    type: tldr
+  - name: "Hacker News Daily"
+    type: hn-daily
+
+  # Research sources
+  - name: "ArXiv CS"
+    url: "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR"
+    type: rss

@@ -6,6 +6,33 @@ from datamodel import Article
 from cluster import ArticleClusterer
 from copilot import Copilot
 
+def _load_news_sources():
+    """Load RSS news sources from preferences.yaml, falling back to defaults."""
+    defaults = [
+        "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "https://www.theatlantic.com/feed/all/",
+        "https://heathercoxrichardson.substack.com/feed",
+        "https://rss.metafilter.com/metafilter.rss",
+        "https://acoup.blog/feed/",
+        "https://www.longmontleader.com/rss/",
+        "https://www.nature.com/nature.rss",
+        "https://www.reddit.com/r/Longmont.rss",
+    ]
+    try:
+        import yaml, os
+        pref_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'preferences.yaml')
+        if os.path.exists(pref_file):
+            with open(pref_file, 'r') as f:
+                prefs = yaml.safe_load(f) or {}
+            configured = prefs.get('sources')
+            if configured:
+                # Extract RSS URLs that look like news sources (not tech/research)
+                return [s['url'] for s in configured if s.get('type') == 'rss' and s.get('url')]
+    except Exception as e:
+        print(f"Warning: could not load sources from preferences.yaml: {e}")
+    return defaults
+
 class News:
     def __init__(self, use_clustering=True):
         self.use_clustering = use_clustering
@@ -93,15 +120,7 @@ No explanation, just the JSON array."""
 
         articles = []
         content_sections = []
-        sources = ["https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
-                   "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
-                   "https://www.theatlantic.com/feed/all/",
-                   "https://heathercoxrichardson.substack.com/feed",
-                   "https://rss.metafilter.com/metafilter.rss",
-                     "https://acoup.blog/feed/",
-                       "https://www.longmontleader.com/rss/",
-                       "https://www.nature.com/nature.rss",
-                         "https://www.reddit.com/r/Longmont.rss"]
+        sources = _load_news_sources()
         for src in sources:
             articles.extend([xx for xx in feeds.Feeds.get_articles(src, days=corpus_days)])
         
