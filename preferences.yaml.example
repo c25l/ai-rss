@@ -65,7 +65,7 @@ research_preferences:
   use_original_ranking: true
 
 # Content sources — feeds, scrapers, and special fetchers
-# Types: rss, tldr, hn-daily, scrape
+# Types: rss, tldr, hn-daily, scrape, bluesky
 sources:
   # News RSS feeds
   - name: "NYT US News"
@@ -112,6 +112,16 @@ sources:
     type: tldr
   - name: "Hacker News Daily"
     type: hn-daily
+
+  # Bluesky feeds (examples - uncomment and customize)
+  # - name: "Bluesky Official"
+  #   url: "bsky.app"
+  #   type: bluesky
+  #   limit: 10
+  # - name: "Tech Expert"
+  #   url: "username.bsky.social"
+  #   type: bluesky
+  #   limit: 20
 
   # Research sources
   - name: "ArXiv CS"
