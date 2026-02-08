@@ -488,6 +488,8 @@ class AgentBriefing:
     """
     
     # Default sources - can be customized
+    # Sources with kind="research" are separated from the news briefing
+    # and processed independently through research batches.
     DEFAULT_SOURCES = [
         # News sources
         {"name": "NYT US News", "url": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml", "type": "rss"},
@@ -506,8 +508,8 @@ class AgentBriefing:
         {"name": "TLDR Tech", "url": None, "type": "tldr"},  # Fetched via custom method
         {"name": "Hacker News Daily", "url": None, "type": "hn-daily"},  # Fetched via custom method
         
-        # Research sources
-        {"name": "ArXiv CS", "url": "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR", "type": "rss"},
+        # Research sources (kind: research — excluded from news, handled via batches)
+        {"name": "ArXiv CS", "url": "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR", "type": "rss", "kind": "research"},
     ]
     
     def __init__(self, sources: List[Dict[str, str]] = None, agent: Copilot = None):
@@ -540,16 +542,11 @@ class AgentBriefing:
             'preferred_sources': [],
             'content_preferences': {
                 'include_wikipedia_context': True,
-                'hybrid_research_ranking': True,
                 'max_articles_per_section': 5,
                 'min_article_age_hours': 0,
                 'geographic_focus': None
             },
-            'research_preferences': {
-                'use_original_ranking': True,
-                'max_research_papers': 10,
-                'research_categories': []
-            },
+            'research_batches': [],
             'email_preferences': {
                 'include_weather': True,
                 'include_astronomy': True,
@@ -610,6 +607,90 @@ class AgentBriefing:
         
         return self.raw_content
     
+    def _split_sources_by_kind(self) -> tuple:
+        """Split configured sources into news and research lists based on 'kind' field.
+
+        Returns:
+            (news_sources, research_sources) — two lists of source dicts.
+        """
+        news_sources = []
+        research_sources = []
+        for source in self.sources:
+            if source.get('kind', 'news') == 'research':
+                research_sources.append(source)
+            else:
+                news_sources.append(source)
+        return news_sources, research_sources
+
+    def _process_research_batches(self, research_content: Dict[str, List[Article]]) -> List[Dict[str, Any]]:
+        """Process research content through configured batches.
+
+        Each batch in ``research_batches`` produces a separate section with its
+        own ranking and paper limit.  Research sources may be assigned to a
+        specific batch via the ``batch`` field on the source; unassigned sources
+        are included in every batch.
+
+        Args:
+            research_content: mapping of source name → articles (already fetched)
+
+        Returns:
+            List of dicts, one per batch, each with keys:
+              - name: batch display name
+              - articles: ranked list of Article objects for this batch
+        """
+        batches_cfg = self.preferences.get('research_batches', [])
+        if not batches_cfg:
+            # Fallback: single unnamed batch with all research content
+            all_articles = [a for arts in research_content.values() for a in arts]
+            if all_articles:
+                return [{"name": "Research", "articles": all_articles}]
+            return []
+
+        # Build a lookup of source → assigned batch name (if any)
+        source_batch_map = {}
+        for source in self.sources:
+            if source.get('kind', 'news') == 'research' and source.get('batch'):
+                source_batch_map[source['name']] = source['batch']
+
+        results = []
+        for batch in batches_cfg:
+            batch_name = batch.get('name', 'Research')
+            max_papers = batch.get('max_papers', 10)
+            categories = batch.get('categories', [])
+
+            # Collect articles for this batch
+            batch_articles = []
+            for source_name, articles in research_content.items():
+                assigned = source_batch_map.get(source_name)
+                # Include if explicitly assigned to this batch, or if unassigned
+                if assigned is None or assigned == batch_name:
+                    batch_articles.extend(articles)
+
+            if not batch_articles:
+                continue
+
+            # Filter by categories if provided
+            if categories:
+                filtered = []
+                for article in batch_articles:
+                    text = f"{article.title} {article.summary}".lower()
+                    if any(cat.lower() in text for cat in categories):
+                        filtered.append(article)
+                if filtered:
+                    batch_articles = filtered
+                    print(f"Batch '{batch_name}': filtered to {len(batch_articles)} papers matching categories")
+
+            # Rank if needed
+            use_ranking = batch.get('use_original_ranking', True)
+            if use_ranking and len(batch_articles) > max_papers:
+                batch_articles = self._rank_research_papers(batch_articles, top_k=max_papers)
+            else:
+                batch_articles = batch_articles[:max_papers]
+
+            results.append({"name": batch_name, "articles": batch_articles})
+
+        return results
+    
     def _format_content_for_agent(self, content: Dict[str, List[Article]]) -> str:
         """
         Format raw content into a structured prompt for the agent.
@@ -662,25 +743,65 @@ class AgentBriefing:
         Raises:
             ValueError: If the LLM returns invalid JSON or schema validation fails
         """
-        # Fetch all content
-        print("Fetching content from all sources...")
-        content = self.fetch_all_content(days=days)
+        # Split sources into news and research
+        news_sources, research_sources = self._split_sources_by_kind()
+
+        # Fetch news content
+        print("Fetching news content...")
+        news_content = self.tools.fetch_all_sources(news_sources, days=days)
+
+        # Fetch research content separately
+        research_content = {}
+        if research_sources:
+            print("Fetching research content...")
+            research_content = self.tools.fetch_all_sources(research_sources, days=days)
+
+        # Store combined raw_content for backward compat
+        self.raw_content = {**news_content, **research_content}
+
+        # Apply article age filtering if specified in preferences
+        min_age_hours = self.preferences.get('content_preferences', {}).get('min_article_age_hours', 0)
+        if min_age_hours > 0:
+            import datetime as dt
+            cutoff_time = dt.datetime.now() - dt.timedelta(hours=min_age_hours)
+            for store in (news_content, research_content):
+                for source_name in list(store):
+                    orig = store[source_name]
+                    filtered = [a for a in orig if a.published_at and a.published_at < cutoff_time]
+                    if len(filtered) < len(orig):
+                        print(f"Filtered {len(orig) - len(filtered)} recent articles from {source_name}")
+                    store[source_name] = filtered
+
+        # Process research batches
+        research_batches = self._process_research_batches(research_content) if research_content else []
         
-        # Apply hybrid research ranking if preferences say so
-        if self.preferences.get('content_preferences', {}).get('hybrid_research_ranking', False):
-            research_sources = ['ArXiv CS', 'arXiv', 'arxiv']  # Common research source names
-            for source_name in content:
-                if any(research_src.lower() in source_name.lower() for research_src in research_sources):
-                    print(f"Applying hybrid ranking to research source: {source_name}")
-                    max_papers = self.preferences.get('research_preferences', {}).get('max_research_papers', 10)
-                    content[source_name] = self._rank_research_papers(content[source_name], top_k=max_papers)
+        # Calculate totals
+        total_news = sum(len(articles) for articles in news_content.values())
+        total_research = sum(len(b['articles']) for b in research_batches)
+        total_articles = total_news + total_research
+        print(f"Fetched {total_news} news articles from {len(news_content)} sources")
+        if research_batches:
+            for batch in research_batches:
+                print(f"Research batch '{batch['name']}': {len(batch['articles'])} papers")
         
-        # Calculate total articles
-        total_articles = sum(len(articles) for articles in content.values())
-        print(f"Fetched {total_articles} total articles from {len(content)} sources")
-        
-        # Format content for agent
-        formatted_content = self._format_content_for_agent(content)
+        # Format news content for agent
+        formatted_content = self._format_content_for_agent(news_content)
+
+        # Format research batches as separate sections for the prompt
+        research_prompt_parts = []
+        for batch in research_batches:
+            batch_lines = [f"\n### RESEARCH BATCH: {batch['name']}"]
+            batch_lines.append(f"Papers: {len(batch['articles'])}\n")
+            for i, article in enumerate(batch['articles'], 1):
+                batch_lines.append(f"{i}. **{article.title}**")
+                batch_lines.append(f"   URL: {article.url}")
+                batch_lines.append(f"   Published: {article.published_at}")
+                if article.summary:
+                    summary_preview = article.summary[:200].replace('\n', ' ')
+                    batch_lines.append(f"   Summary: {summary_preview}...")
+                batch_lines.append("")
+            research_prompt_parts.append("\n".join(batch_lines))
+        formatted_research = "\n".join(research_prompt_parts)
         
         # Fetch API-based data using tools
         tool_data = []
@@ -775,22 +896,48 @@ class AgentBriefing:
             if excluded_sections:
                 exclusion_note = "\n- DO NOT include sections for: " + ", ".join(excluded_sections) + ". These are disabled."
 
+            # Build research batch instructions
+            research_batch_names = [b['name'] for b in research_batches]
+            research_section_note = ""
+            research_example = ""
+            if research_batches:
+                research_section_note = (
+                    "\n- RESEARCH SECTIONS: The following research batches MUST each appear as their own "
+                    "top-level section, separate from the news sections: "
+                    + ", ".join(f'"{n}"' for n in research_batch_names)
+                    + ". Use the exact batch name as the section title. "
+                    "Only include papers listed in the corresponding RESEARCH BATCH above."
+                )
+                research_example = ",\n    ".join(
+                    f'{{"title": "{name}", "text": "Top papers from this research batch", '
+                    f'"children": [{{"title": "Paper title", "url": "https://arxiv.org/...", '
+                    f'"text": "Key finding or contribution", '
+                    f'"article": {{"title": "Paper title", "url": "https://arxiv.org/...", '
+                    f'"source": "ArXiv", "summary": "Paper abstract excerpt"}}}}]}}'
+                    for name in research_batch_names
+                )
+                research_example = ",\n    " + research_example
+
             agent_prompt = f"""You are an intelligent briefing CURATOR for {today}.
 
 YOUR ROLE: Curate and cite content from sources. Return a structured JSON document.
+The briefing has two distinct parts: NEWS sections and RESEARCH sections.
 
-AVAILABLE CONTENT (from {len(content)} sources, {total_articles} articles):
+=== NEWS CONTENT (from {len(news_content)} sources, {total_news} articles) ===
 
 {formatted_content}
+
+{"=== RESEARCH CONTENT ===" + chr(10) + formatted_research if formatted_research else ""}
 
 API-BASED DATA:
 {chr(10).join(tool_data) if tool_data else "No API data available"}
 {prefs_section}
 APPROACH:
-1. Scan all sources for major stories, patterns, and connections.
+1. Scan news sources for major stories, patterns, and connections.
 2. Rank stories by importance. Group related stories from different sources.
-3. Create logical sections based on discovered themes.
-4. Select key excerpts from original sources. Use minimal bridging text.
+3. Create logical NEWS sections based on discovered themes.
+4. For each RESEARCH BATCH, create a separate section with the top papers.
+5. Select key excerpts from original sources. Use minimal bridging text.
 
 OUTPUT FORMAT — Return ONLY valid JSON (no markdown fences, no commentary).
 All string values must be plain text (no HTML, no markdown).
@@ -823,7 +970,7 @@ The document must conform to this schema:
           "url": "https://..."
         }}
       ]
-    }}{weather_example}
+    }}{weather_example}{research_example}
   ]
 }}
 
@@ -835,12 +982,13 @@ RULES:
 - schema_version MUST be 1.
 
 CONTENT RULES:
-- Create 4-8 THEMED SECTIONS as top-level children (e.g. "AI & Technology", "World Affairs", "Science", "Local News").
+- Create 4-8 THEMED NEWS SECTIONS as top-level children (e.g. "AI & Technology", "World Affairs", "Science", "Local News").
 - Each section should contain 2-5 article children. DO NOT put single articles as top-level children.
-- Include 15-25 articles total across all sections.
+- Include 15-25 news articles total across all news sections.
 - Use "text" on section nodes for brief connectors or context (1-2 sentences).
 - Use "text" on article nodes for key excerpts or quotes from the source.
-- Prioritize quality sources over quantity.{exclusion_note}
+- Prioritize quality sources over quantity.{research_section_note}{exclusion_note}
+- NEWS and RESEARCH sections must be separate — do not mix research papers into news sections.
 
 Your response must start with {{ and end with }}. No other text before or after.
 All strings must use proper JSON escaping (escape double quotes with backslash).
@@ -850,9 +998,12 @@ Return ONLY the JSON object."""
             agent_prompt = f"""You are an intelligent briefing CURATOR for {today}.
 
 Return a structured JSON document curating the most important content.
+NEWS and RESEARCH content are separated — keep them in distinct sections.
 
-AVAILABLE CONTENT:
+NEWS CONTENT:
 {formatted_content}
+
+{"RESEARCH CONTENT:\n" + formatted_research if formatted_research else ""}
 
 {"API DATA:\n" + chr(10).join(tool_data) if tool_data else ""}
 {prefs_section}
@@ -946,10 +1097,10 @@ No markdown, no HTML, no commentary — just the JSON object."""
     
     def _rank_research_papers(self, research_articles: List[Article], top_k: int = 10) -> List[Article]:
         """
-        Rank research papers using the original ranking algorithm.
+        Rank research papers using the LLM to select the most impactful ones.
         
-        This provides a hybrid approach: agent curates most content, but research
-        papers use the proven ranking algorithm from the constrained approach.
+        Category filtering is handled upstream by _process_research_batches;
+        this method focuses purely on ranking.
         
         Args:
             research_articles: List of research paper articles
@@ -958,23 +1109,6 @@ No markdown, no HTML, no commentary — just the JSON object."""
         Returns:
             Ranked list of top research papers
         """
-        if not research_articles or len(research_articles) <= top_k:
-            return research_articles
-        
-        # Filter by research categories if specified
-        preferred_categories = self.preferences.get('research_preferences', {}).get('research_categories', [])
-        if preferred_categories:
-            filtered_articles = []
-            for article in research_articles:
-                # Check if article title or summary contains any of the preferred categories
-                article_text = f"{article.title} {article.summary}".lower()
-                if any(cat.lower() in article_text for cat in preferred_categories):
-                    filtered_articles.append(article)
-            
-            if filtered_articles:
-                print(f"Filtered to {len(filtered_articles)} papers matching preferred categories")
-                research_articles = filtered_articles
-        
         if not research_articles or len(research_articles) <= top_k:
             return research_articles
         

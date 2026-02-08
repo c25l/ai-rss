@@ -30,9 +30,6 @@ content_preferences:
   # Include Wikipedia context for unfamiliar topics
   include_wikipedia_context: true
   
-  # Use hybrid ranking for research papers (combines agent + original ranking)
-  hybrid_research_ranking: true
-  
   # Minimum article age in hours (filter out very recent unverified news)
   min_article_age_hours: 0
   
@@ -67,23 +64,33 @@ stock_symbols:
   - "FOREXCOM:DJI"
   - "FOREXCOM:SPX500"
 
-# Research section settings (when hybrid_research_ranking is true)
-research_preferences:
-  # Number of research papers to include
-  max_research_papers: 10
-  
-  # Research categories to prioritize
-  research_categories:
-    - cs.AI  # Artificial Intelligence
-    - cs.LG  # Machine Learning
-    - cs.CL  # Computation and Language
-    - cs.CV  # Computer Vision
-  
-  # Use original ranking algorithm for research
-  use_original_ranking: true
+# Research batches — separate research output into named batches
+# Each batch has its own sources, categories, and ranking settings
+# Sources with kind: research are assigned to batches by name;
+# any research source not matching a batch is included in all batches.
+research_batches:
+  - name: "AI & ML Research"
+    max_papers: 8
+    use_original_ranking: true
+    categories:
+      - cs.AI
+      - cs.LG
+      - cs.CL
+      - cs.CV
+  - name: "Systems & Architecture Research"
+    max_papers: 5
+    use_original_ranking: true
+    categories:
+      - cs.DC
+      - cs.SY
+      - cs.PF
+      - cs.AR
 
 # Content sources — feeds, scrapers, and special fetchers
 # Types: rss, tldr, hn-daily, scrape
+# kind: "news" (default) or "research" — research sources produce
+#   separate output sections and are excluded from the news briefing.
+#   Optionally set "batch" to assign a research source to a specific batch.
 sources:
   # News RSS feeds
   - name: "NYT US News"
@@ -131,7 +138,8 @@ sources:
   - name: "Hacker News Daily"
     type: hn-daily
 
-  # Research sources
+  # Research sources — kind: research keeps them out of the news briefing
   - name: "ArXiv CS"
     url: "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR"
     type: rss
+    kind: research
