@@ -71,7 +71,7 @@ def _page_wrapper(title, body, active_page=""):
   <title>{html_mod.escape(title)} — H3lPeR</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
   <link rel="stylesheet" href="/css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script src="/js/vendor/chart.js"></script>
 </head>
 <body>
   <nav class="container-fluid">
@@ -97,25 +97,6 @@ def _page_wrapper(title, body, active_page=""):
 
 def _dashboard_page(stock_symbols):
     """Generate dashboard body HTML."""
-    symbols_json = json.dumps([{"s": s} for s in stock_symbols])
-    tv_config = json.dumps({
-        "colorTheme": "light",
-        "dateRange": "1D",
-        "showChart": True,
-        "locale": "en",
-        "largeChartUrl": "",
-        "isTransparent": True,
-        "showSymbolLogo": True,
-        "showFloatingTooltip": False,
-        "width": "100%",
-        "height": "450",
-        "tabs": [{
-            "title": "Watchlist",
-            "symbols": [{"s": s} for s in stock_symbols],
-            "originalTitle": "Watchlist",
-        }],
-    })
-
     body = f"""
 <h1>Dashboard</h1>
 
@@ -139,16 +120,17 @@ def _dashboard_page(stock_symbols):
 
 <article>
   <header>📈 Markets</header>
-  <div class="tradingview-widget-container">
-    <div class="tradingview-widget-container__widget"></div>
-    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
-    {tv_config}
-    </script>
+  <div class="chart-container">
+    <canvas id="stock-chart"></canvas>
   </div>
+  <small class="market-credit">
+    Data: Yahoo Finance · Updates every 60 seconds
+  </small>
 </article>
 
 <script src="/js/weather.js"></script>
 <script src="/js/spaceweather.js"></script>
+<script src="/js/stocks.js"></script>
 """
     return body
 
@@ -270,11 +252,16 @@ def _copy_static_assets(site_dir):
         if not os.path.isdir(src):
             continue
         os.makedirs(dst, exist_ok=True)
+        
+        # Copy files in the directory
         for fname in os.listdir(src):
             src_file = os.path.join(src, fname)
             dst_file = os.path.join(dst, fname)
             if os.path.isfile(src_file):
                 shutil.copy2(src_file, dst_file)
+            elif os.path.isdir(src_file):
+                # Copy subdirectories (like js/vendor/)
+                shutil.copytree(src_file, dst_file, dirs_exist_ok=True)
 
 
 # =============================================================================
