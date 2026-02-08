@@ -1,0 +1,58 @@
+Defaulting to user installation because normal site-packages is not writeable
+Collecting atproto
+  Downloading atproto-0.0.65-py3-none-any.whl.metadata (14 kB)
+Requirement already satisfied: click<9,>=8.1.3 in /usr/lib/python3/dist-packages (from atproto) (8.1.6)
+Requirement already satisfied: cryptography<47,>=41.0.7 in /usr/lib/python3/dist-packages (from atproto) (41.0.7)
+Collecting dnspython<3,>=2.4.0 (from atproto)
+  Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+Collecting httpx<0.29.0,>=0.25.0 (from atproto)
+  Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+Collecting libipld<4,>=3.0.1 (from atproto)
+  Downloading libipld-3.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.3 kB)
+Collecting pydantic<3,>=2.7 (from atproto)
+  Downloading pydantic-2.12.5-py3-none-any.whl.metadata (90 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.6/90.6 kB 3.4 MB/s eta 0:00:00
+Requirement already satisfied: typing-extensions<5,>=4.8.0 in /usr/lib/python3/dist-packages (from atproto) (4.10.0)
+Collecting websockets<16,>=15 (from atproto)
+  Downloading websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+Collecting anyio (from httpx<0.29.0,>=0.25.0->atproto)
+  Downloading anyio-4.12.1-py3-none-any.whl.metadata (4.3 kB)
+Requirement already satisfied: certifi in /usr/lib/python3/dist-packages (from httpx<0.29.0,>=0.25.0->atproto) (2023.11.17)
+Collecting httpcore==1.* (from httpx<0.29.0,>=0.25.0->atproto)
+  Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+Requirement already satisfied: idna in /usr/lib/python3/dist-packages (from httpx<0.29.0,>=0.25.0->atproto) (3.6)
+Collecting h11>=0.16 (from httpcore==1.*->httpx<0.29.0,>=0.25.0->atproto)
+  Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting annotated-types>=0.6.0 (from pydantic<3,>=2.7->atproto)
+  Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+Collecting pydantic-core==2.41.5 (from pydantic<3,>=2.7->atproto)
+  Downloading pydantic_core-2.41.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.3 kB)
+Collecting typing-extensions<5,>=4.8.0 (from atproto)
+  Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting typing-inspection>=0.4.2 (from pydantic<3,>=2.7->atproto)
+  Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+Downloading atproto-0.0.65-py3-none-any.whl (446 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 446.6/446.6 kB 12.0 MB/s eta 0:00:00
+Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 331.1/331.1 kB 65.2 MB/s eta 0:00:00
+Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.5/73.5 kB 23.3 MB/s eta 0:00:00
+Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.8/78.8 kB 28.0 MB/s eta 0:00:00
+Downloading libipld-3.3.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (283 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 283.7/283.7 kB 70.9 MB/s eta 0:00:00
+Downloading pydantic-2.12.5-py3-none-any.whl (463 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 463.6/463.6 kB 61.3 MB/s eta 0:00:00
+Downloading pydantic_core-2.41.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 72.5 MB/s eta 0:00:00
+Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.6/44.6 kB 15.1 MB/s eta 0:00:00
+Downloading websockets-15.0.1-cp312-cp312-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 182.5/182.5 kB 56.6 MB/s eta 0:00:00
+Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+Downloading anyio-4.12.1-py3-none-any.whl (113 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 113.6/113.6 kB 39.9 MB/s eta 0:00:00
+Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+Installing collected packages: websockets, typing-extensions, libipld, h11, dnspython, annotated-types, typing-inspection, pydantic-core, httpcore, anyio, pydantic, httpx, atproto
+Successfully installed annotated-types-0.7.0 anyio-4.12.1 atproto-0.0.65 dnspython-2.8.0 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 libipld-3.3.2 pydantic-2.12.5 pydantic-core-2.41.5 typing-extensions-4.15.0 typing-inspection-0.4.2 websockets-15.0.1
