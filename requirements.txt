@@ -12,6 +12,7 @@ requests>=2.32.0
 beautifulsoup4>=4.0.0
 feedparser>=6.0.0
 icalendar>=6.0.0
+atproto>=0.0.55
 
 # Data processing
 pandas>=2.0.0

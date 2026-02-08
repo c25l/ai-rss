@@ -188,6 +188,80 @@ class AgentTools:
         
         return articles
     
+    # Constants for Bluesky feed processing
+    BLUESKY_TITLE_MAX_LENGTH = 100
+    
+    @staticmethod
+    def fetch_bluesky_feed(handle: str, limit: int = 20) -> List[Article]:
+        """
+        Fetch posts from a Bluesky user's feed.
+        
+        This method fetches public posts without authentication.
+        
+        Args:
+            handle: Bluesky handle (e.g., 'user.bsky.social')
+            limit: Maximum number of posts to fetch (default: 20)
+            
+        Returns:
+            List of Article objects from Bluesky
+        """
+        articles = []
+        
+        try:
+            from atproto import Client
+            
+            # Create client without authentication for public feed access
+            # Public feeds can be accessed without login
+            client = Client()
+            
+            # Fetch the author's feed
+            profile_feed = client.get_author_feed(actor=handle, limit=limit)
+            
+            print(f"Found {len(profile_feed.feed)} posts from Bluesky user {handle}")
+            
+            for feed_view in profile_feed.feed:
+                post = feed_view.post
+                record = post.record
+                
+                # Get post text
+                text = record.text if hasattr(record, 'text') else ''
+                
+                # Get the actual author handle from the post
+                # This ensures correct URLs even if the handle resolves to a DID
+                author_handle = post.author.handle if hasattr(post.author, 'handle') else handle
+                
+                # Get post URL
+                post_uri = post.uri
+                # Convert AT-URI to web URL using the actual author handle
+                # Format: at://did:plc:xxx/app.bsky.feed.post/xxx
+                post_url = f"https://bsky.app/profile/{author_handle}/post/{post_uri.split('/')[-1]}"
+                
+                # Get creation time with timezone awareness
+                if hasattr(record, 'created_at'):
+                    created_at = record.created_at
+                else:
+                    # Use UTC for consistency with Bluesky timestamps
+                    created_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
+                
+                # Create title from first N characters of text
+                title = text[:AgentTools.BLUESKY_TITLE_MAX_LENGTH]
+                if len(text) > AgentTools.BLUESKY_TITLE_MAX_LENGTH:
+                    title += '...'
+                
+                articles.append(Article(
+                    title=title,
+                    summary=text,
+                    published_at=created_at,
+                    source=f"bluesky:{handle}",
+                    url=post_url
+                ))
+        except ImportError:
+            print("Error: atproto library not installed. Install with: pip install atproto>=0.0.55")
+        except Exception as e:
+            print(f"Error fetching Bluesky feed for {handle}: {e}")
+        
+        return articles
+    
     @staticmethod
     def get_weather_forecast(lat: float = 40.165729, lon: float = -105.101194) -> Dict[str, Any]:
         """
@@ -394,6 +468,12 @@ class AgentTools:
                 elif source_type == 'hn-daily':
                     articles = AgentTools.fetch_hacker_news_daily()
                     all_content[source_name] = articles
+                elif source_type == 'bluesky':
+                    # For Bluesky, the 'url' field should contain the handle
+                    handle = source_url
+                    limit = source.get('limit', 20)  # Optional limit parameter
+                    articles = AgentTools.fetch_bluesky_feed(handle, limit=limit)
+                    all_content[source_name] = articles
                 else:
                     print(f"Unknown source type: {source_type}")
             except Exception as e:
@@ -508,8 +588,12 @@ class AgentBriefing:
         {"name": "TLDR Tech", "url": None, "type": "tldr"},  # Fetched via custom method
         {"name": "Hacker News Daily", "url": None, "type": "hn-daily"},  # Fetched via custom method
         
-        # Research sources (kind: research — excluded from news, handled via batches)
-        {"name": "ArXiv CS", "url": "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR", "type": "rss", "kind": "research"},
+        # Bluesky sources (examples - users can add their own)
+        # {"name": "Bluesky Official", "url": "bsky.app", "type": "bluesky", "limit": 10},
+        # {"name": "Example User", "url": "username.bsky.social", "type": "bluesky", "limit": 20},
+        
+        # Research sources
+        {"name": "ArXiv CS", "url": "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR", "type": "rss"},
     ]
     
     def __init__(self, sources: List[Dict[str, str]] = None, agent: Copilot = None):

@@ -120,7 +120,17 @@ sources:
   - name: "Hacker News Daily"
     type: hn-daily
 
-  # Research sources — kind: research keeps them out of the news briefing
+  # Bluesky feeds (examples - uncomment and customize)
+  # - name: "Bluesky Official"
+  #   url: "bsky.app"
+  #   type: bluesky
+  #   limit: 10
+  # - name: "Tech Expert"
+  #   url: "username.bsky.social"
+  #   type: bluesky
+  #   limit: 20
+
+  # Research sources
   - name: "ArXiv CS"
     url: "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR"
     type: rss
