@@ -26,9 +26,6 @@ content_preferences:
   # Include Wikipedia context for unfamiliar topics
   include_wikipedia_context: true
   
-  # Use hybrid ranking for research papers (combines agent + original ranking)
-  hybrid_research_ranking: true
-  
   # Minimum article age in hours (filter out very recent unverified news)
   min_article_age_hours: 0
   

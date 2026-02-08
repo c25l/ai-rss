@@ -542,7 +542,6 @@ class AgentBriefing:
             'preferred_sources': [],
             'content_preferences': {
                 'include_wikipedia_context': True,
-                'hybrid_research_ranking': True,
                 'max_articles_per_section': 5,
                 'min_article_age_hours': 0,
                 'geographic_focus': None
@@ -1098,10 +1097,10 @@ No markdown, no HTML, no commentary — just the JSON object."""
     
     def _rank_research_papers(self, research_articles: List[Article], top_k: int = 10) -> List[Article]:
         """
-        Rank research papers using the original ranking algorithm.
+        Rank research papers using the LLM to select the most impactful ones.
         
-        This provides a hybrid approach: agent curates most content, but research
-        papers use the proven ranking algorithm from the constrained approach.
+        Category filtering is handled upstream by _process_research_batches;
+        this method focuses purely on ranking.
         
         Args:
             research_articles: List of research paper articles
@@ -1110,23 +1109,6 @@ No markdown, no HTML, no commentary — just the JSON object."""
         Returns:
             Ranked list of top research papers
         """
-        if not research_articles or len(research_articles) <= top_k:
-            return research_articles
-        
-        # Filter by research categories if specified
-        preferred_categories = self.preferences.get('research_preferences', {}).get('research_categories', [])
-        if preferred_categories:
-            filtered_articles = []
-            for article in research_articles:
-                # Check if article title or summary contains any of the preferred categories
-                article_text = f"{article.title} {article.summary}".lower()
-                if any(cat.lower() in article_text for cat in preferred_categories):
-                    filtered_articles.append(article)
-            
-            if filtered_articles:
-                print(f"Filtered to {len(filtered_articles)} papers matching preferred categories")
-                research_articles = filtered_articles
-        
         if not research_articles or len(research_articles) <= top_k:
             return research_articles
         
