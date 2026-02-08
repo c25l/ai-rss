@@ -188,10 +188,15 @@ class AgentTools:
         
         return articles
     
+    # Constants for Bluesky feed processing
+    BLUESKY_TITLE_MAX_LENGTH = 100
+    
     @staticmethod
     def fetch_bluesky_feed(handle: str, limit: int = 20) -> List[Article]:
         """
         Fetch posts from a Bluesky user's feed.
+        
+        This method fetches public posts without authentication.
         
         Args:
             handle: Bluesky handle (e.g., 'user.bsky.social')
@@ -205,7 +210,8 @@ class AgentTools:
         try:
             from atproto import Client
             
-            # Create client without authentication (for public feeds)
+            # Create client without authentication for public feed access
+            # Public feeds can be accessed without login
             client = Client()
             
             # Fetch the author's feed
@@ -220,24 +226,37 @@ class AgentTools:
                 # Get post text
                 text = record.text if hasattr(record, 'text') else ''
                 
+                # Get the actual author handle from the post
+                # This ensures correct URLs even if the handle resolves to a DID
+                author_handle = post.author.handle if hasattr(post.author, 'handle') else handle
+                
                 # Get post URL
                 post_uri = post.uri
-                # Convert AT-URI to web URL
+                # Convert AT-URI to web URL using the actual author handle
                 # Format: at://did:plc:xxx/app.bsky.feed.post/xxx
-                post_url = f"https://bsky.app/profile/{handle}/post/{post_uri.split('/')[-1]}"
+                post_url = f"https://bsky.app/profile/{author_handle}/post/{post_uri.split('/')[-1]}"
                 
-                # Get creation time
-                created_at = record.created_at if hasattr(record, 'created_at') else datetime.datetime.now().isoformat()
+                # Get creation time with timezone awareness
+                if hasattr(record, 'created_at'):
+                    created_at = record.created_at
+                else:
+                    # Use UTC for consistency with Bluesky timestamps
+                    created_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
+                
+                # Create title from first N characters of text
+                title = text[:AgentTools.BLUESKY_TITLE_MAX_LENGTH]
+                if len(text) > AgentTools.BLUESKY_TITLE_MAX_LENGTH:
+                    title += '...'
                 
                 articles.append(Article(
-                    title=text[:100] + ('...' if len(text) > 100 else ''),  # Use first 100 chars as title
+                    title=title,
                     summary=text,
                     published_at=created_at,
                     source=f"bluesky:{handle}",
                     url=post_url
                 ))
         except ImportError:
-            print("Error: atproto library not installed. Install with: pip install atproto")
+            print("Error: atproto library not installed. Install with: pip install atproto>=0.0.55")
         except Exception as e:
             print(f"Error fetching Bluesky feed for {handle}: {e}")
         
