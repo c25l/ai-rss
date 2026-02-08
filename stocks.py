@@ -48,7 +48,8 @@ class Stocks:
                 'latest_trading_day': datetime.fromtimestamp(meta.get('regularMarketTime', 0)).strftime('%Y-%m-%d')
             }
         except Exception as e:
-            print(f"Error fetching quote for {symbol}: {e}")
+            import sys
+            print(f"Error fetching quote for {symbol}: {e}", file=sys.stderr)
             return None
 
     def get_multiple_quotes(self, symbols):

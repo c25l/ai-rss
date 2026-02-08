@@ -44,6 +44,7 @@ ${script}
 /**
  * High-level call dispatcher. Supported commands:
  *   - render_briefing  (pass JSON string as arg)
+ *   - get_stock_quotes (pass JSON array of symbols as arg)
  */
 async function pythonCall(command, arg = null) {
   switch (command) {
@@ -61,6 +62,40 @@ from emailer import render_briefing_html, validate_briefing_json
 doc = json.loads(sys.stdin.read())
 validate_briefing_json(doc)
 print(render_briefing_html(doc))
+`;
+        const child = spawn(PYTHON, ['-c', wrappedScript], {
+          cwd: PROJECT_ROOT,
+          env: { ...process.env, PYTHONDONTWRITEBYTECODE: '1' }
+        });
+
+        let stdout = '';
+        let stderr = '';
+        child.stdout.on('data', d => stdout += d);
+        child.stderr.on('data', d => stderr += d);
+        child.on('close', code => {
+          if (code !== 0) reject(new Error(stderr || `Python exited with code ${code}`));
+          else resolve(stdout);
+        });
+
+        child.stdin.write(arg);
+        child.stdin.end();
+      });
+
+    case 'get_stock_quotes':
+      if (!arg) throw new Error('get_stock_quotes requires a JSON array argument');
+      return new Promise((resolve, reject) => {
+        const wrappedScript = `
+import sys, os
+sys.path.insert(0, ${JSON.stringify(PROJECT_ROOT)})
+os.chdir(${JSON.stringify(PROJECT_ROOT)})
+from dotenv import load_dotenv
+load_dotenv(${JSON.stringify(ENV_FILE)})
+import json
+from stocks import Stocks
+symbols = json.loads(sys.stdin.read())
+stocks = Stocks()
+quotes = stocks.get_multiple_quotes(symbols)
+print(json.dumps(quotes))
 `;
         const child = spawn(PYTHON, ['-c', wrappedScript], {
           cwd: PROJECT_ROOT,

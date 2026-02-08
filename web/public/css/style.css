@@ -102,18 +102,11 @@ footer {
    SWPC credit line
    ============================================================================ */
 
-.swpc-credit {
+.swpc-credit,
+.market-credit {
   display: block;
   text-align: center;
   margin-top: 0.25rem;
   opacity: 0.6;
   font-size: 0.7rem;
-}
-
-/* ============================================================================
-   TradingView Widget
-   ============================================================================ */
-
-.tradingview-widget-container {
-  min-height: 450px;
 }

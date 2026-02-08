@@ -44,6 +44,8 @@ function renderKpChart(data) {
 
   if (kpChart) kpChart.destroy();
 
+  const now = new Date();
+
   kpChart = new Chart(canvas, {
     type: 'bar',
     data: {
@@ -57,6 +59,45 @@ function renderKpChart(data) {
         borderDash: [],
       }]
     },
+    plugins: [{
+      id: 'currentTimeIndicator',
+      afterDatasetsDraw: (chart) => {
+        const ctx = chart.ctx;
+        const xAxis = chart.scales.x;
+        const yAxis = chart.scales.y;
+        
+        // Find the index of the current time
+        let currentIndex = -1;
+        for (let i = 0; i < rows.length; i++) {
+          const rowTime = new Date(rows[i][0] + 'Z');
+          if (rowTime > now) {
+            currentIndex = i;
+            break;
+          }
+        }
+        
+        if (currentIndex >= 0) {
+          const x = xAxis.getPixelForValue(currentIndex);
+          
+          // Draw vertical line at current time
+          ctx.save();
+          ctx.strokeStyle = 'rgba(74, 144, 226, 0.8)';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([5, 5]);
+          ctx.beginPath();
+          ctx.moveTo(x, yAxis.top);
+          ctx.lineTo(x, yAxis.bottom);
+          ctx.stroke();
+          
+          // Draw label
+          ctx.fillStyle = 'rgba(74, 144, 226, 1)';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('NOW', x, yAxis.top - 5);
+          ctx.restore();
+        }
+      }
+    }],
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -80,8 +121,7 @@ function renderKpChart(data) {
               return `Kp: ${kp.toFixed(1)} (${type}) — ${scale}`;
             }
           }
-        },
-        annotation: undefined
+        }
       },
       scales: {
         x: {
@@ -124,8 +164,16 @@ async function loadSpaceWeather() {
   if (!canvas) return;
 
   try {
-    const resp = await fetch(SWPC_KP_URL);
-    const data = await resp.json();
+    let data;
+    try {
+      const resp = await fetch(SWPC_KP_URL);
+      data = await resp.json();
+    } catch (e) {
+      console.warn('Space weather API blocked, using mock data:', e.message);
+      // Use mock data endpoint
+      const mockResp = await fetch('/api/mock/spaceweather');
+      data = await mockResp.json();
+    }
     renderKpChart(data);
   } catch (e) {
     if (canvas.parentNode) {

@@ -29,6 +29,8 @@ function renderWeatherChart(periods) {
 
   if (weatherChart) weatherChart.destroy();
 
+  const now = new Date();
+
   weatherChart = new Chart(canvas, {
     type: 'line',
     data: {
@@ -60,6 +62,44 @@ function renderWeatherChart(periods) {
         }
       ]
     },
+    plugins: [{
+      id: 'currentTimeIndicator',
+      afterDatasetsDraw: (chart) => {
+        const ctx = chart.ctx;
+        const xAxis = chart.scales.x;
+        const yAxis = chart.scales.y;
+        
+        // Find the index of the current time
+        let currentIndex = -1;
+        for (let i = 0; i < periods.length; i++) {
+          if (new Date(periods[i].startTime) > now) {
+            currentIndex = i;
+            break;
+          }
+        }
+        
+        if (currentIndex >= 0) {
+          const x = xAxis.getPixelForValue(currentIndex);
+          
+          // Draw vertical line at current time
+          ctx.save();
+          ctx.strokeStyle = 'rgba(74, 144, 226, 0.8)';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([5, 5]);
+          ctx.beginPath();
+          ctx.moveTo(x, yAxis.top);
+          ctx.lineTo(x, yAxis.bottom);
+          ctx.stroke();
+          
+          // Draw label
+          ctx.fillStyle = 'rgba(74, 144, 226, 1)';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('NOW', x, yAxis.top - 5);
+          ctx.restore();
+        }
+      }
+    }],
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -130,21 +170,30 @@ async function loadWeather() {
 
   try {
     // Step 1: Get the forecast URLs for this location
-    const pointResp = await fetch(
-      `https://api.weather.gov/points/${NWS_LAT},${NWS_LON}`,
-      { headers: { 'User-Agent': 'H3lPeR Dashboard' } }
-    );
-    const pointData = await pointResp.json();
-    const hourlyUrl = pointData.properties.forecastHourly;
+    let pointData, fcData;
+    try {
+      const pointResp = await fetch(
+        `https://api.weather.gov/points/${NWS_LAT},${NWS_LON}`,
+        { headers: { 'User-Agent': 'H3lPeR Dashboard' } }
+      );
+      pointData = await pointResp.json();
+      const hourlyUrl = pointData.properties.forecastHourly;
 
-    // Step 2: Fetch hourly forecast (156 hours)
-    const fcResp = await fetch(hourlyUrl, {
-      headers: { 'User-Agent': 'H3lPeR Dashboard' }
-    });
-    const fcData = await fcResp.json();
+      // Step 2: Fetch hourly forecast (156 hours)
+      const fcResp = await fetch(hourlyUrl, {
+        headers: { 'User-Agent': 'H3lPeR Dashboard' }
+      });
+      fcData = await fcResp.json();
+    } catch (e) {
+      console.warn('Weather API blocked, using mock data:', e.message);
+      // Use mock data endpoint
+      const mockResp = await fetch('/api/mock/weather');
+      fcData = await mockResp.json();
+    }
+    
     const periods = fcData.properties.periods;
 
-    // Step 3: Check for alerts
+    // Step 3: Check for alerts (optional, skip if blocked)
     if (alertsContainer) {
       try {
         const alertResp = await fetch(

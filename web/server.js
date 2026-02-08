@@ -128,6 +128,84 @@ app.get('/api/preferences', (req, res) => {
   res.json(prefs);
 });
 
+// Fetch stock quotes via Python stocks.py module
+app.get('/api/stocks', async (req, res) => {
+  try {
+    const prefs = loadPreferences();
+    // Get stock symbols from preferences, filter out FOREX symbols (not supported by Yahoo Finance)
+    const symbols = (prefs.stock_symbols || ['MSFT', 'NVDA', '^DJI', '^GSPC'])
+      .filter(s => !s.startsWith('FOREX'))
+      .map(s => s === '^DJI' ? s : s === '^GSPC' ? s : s);
+    
+    const quotesJson = await pythonCall('get_stock_quotes', JSON.stringify(symbols));
+    const quotes = JSON.parse(quotesJson);
+    
+    // If no data, return mock data for development/testing
+    if (Object.keys(quotes).length === 0) {
+      const mockQuotes = {};
+      symbols.forEach(symbol => {
+        const basePrice = symbol === '^DJI' ? 38000 : symbol === '^GSPC' ? 4900 : symbol === 'MSFT' ? 410 : 780;
+        const change = (Math.random() - 0.5) * 20;
+        const price = basePrice + change;
+        mockQuotes[symbol] = {
+          symbol: symbol,
+          price: price,
+          change: change,
+          change_percent: ((change / basePrice) * 100).toFixed(2),
+          volume: Math.floor(Math.random() * 50000000) + 10000000,
+          latest_trading_day: new Date().toISOString().split('T')[0]
+        };
+      });
+      return res.json(mockQuotes);
+    }
+    
+    res.json(quotes);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// Mock weather endpoint for testing when external APIs are blocked
+app.get('/api/mock/weather', (req, res) => {
+  const now = new Date();
+  const periods = [];
+  for (let i = 0; i < 156; i++) {
+    const time = new Date(now.getTime() + i * 3600000); // Each hour
+    const hour = time.getHours();
+    const isDaytime = hour >= 6 && hour < 20;
+    const temp = 50 + Math.sin(hour / 24 * Math.PI * 2) * 20 + Math.random() * 5;
+    periods.push({
+      startTime: time.toISOString(),
+      temperature: Math.round(temp),
+      probabilityOfPrecipitation: { value: Math.floor(Math.random() * 60) },
+      isDaytime: isDaytime,
+      shortForecast: isDaytime ? 'Partly Cloudy' : 'Clear'
+    });
+  }
+  res.json({ properties: { periods } });
+});
+
+// Mock space weather endpoint for testing
+app.get('/api/mock/spaceweather', (req, res) => {
+  const now = new Date();
+  const data = [['time_tag', 'kp', 'observed', 'noaa_scale']];
+  
+  // Generate 3-day history and 3-day forecast (8 3-hour periods per day)
+  for (let i = -24; i < 24; i++) {
+    const time = new Date(now.getTime() + i * 3 * 3600000); // 3-hour intervals
+    const kp = Math.random() * (i < 0 ? 4 : 6) + 1; // Past is calmer, future may be active
+    const type = i < 0 ? 'observed' : 'predicted';
+    const scale = kp >= 5 ? `G${Math.min(Math.floor(kp) - 4, 5)}` : '';
+    data.push([
+      time.toISOString().slice(0, 19),
+      kp.toFixed(1),
+      type,
+      scale
+    ]);
+  }
+  res.json(data);
+});
+
 // ============================================================================
 // START
 // ============================================================================
