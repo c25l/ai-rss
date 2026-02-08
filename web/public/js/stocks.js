@@ -138,7 +138,18 @@ async function loadStocks() {
 
   try {
     const resp = await fetch('/api/stocks');
-    let quotes = await resp.json();
+    
+    // Check if response is OK before parsing
+    if (!resp.ok) {
+      throw new Error(`API error: ${resp.status} ${resp.statusText}`);
+    }
+    
+    let quotes;
+    try {
+      quotes = await resp.json();
+    } catch (parseError) {
+      throw new Error('Failed to parse stock data from server');
+    }
     
     if (quotes.error) {
       throw new Error(quotes.error);
