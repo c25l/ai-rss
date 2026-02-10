@@ -43,7 +43,7 @@ class Copilot:
         except Exception:
             return False
 
-    def _generate_via_cli(self, prompt: str, timeout_s: int = 120) -> str:
+    def _generate_via_cli(self, prompt: str, timeout_s: int = 300) -> str:
         # Avoid any CLI parsing/quoting issues by passing the prompt via @file.
         with tempfile.NamedTemporaryFile("w", delete=True, encoding="utf-8") as f:
             f.write(prompt)

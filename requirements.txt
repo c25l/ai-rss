@@ -13,6 +13,8 @@ beautifulsoup4>=4.0.0
 feedparser>=6.0.0
 icalendar>=6.0.0
 atproto>=0.0.55
+arxiv>=2.0.0
+semanticscholar>=0.8.0
 
 # Data processing
 pandas>=2.0.0
