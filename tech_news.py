@@ -32,11 +32,11 @@ def _load_tech_sources():
 
 class TechNews:
     def __init__(self):
-        self.claude = Copilot()
+        self.llm = Copilot()
 
     def rank_articles(self, articles, top_k=5):
         """
-        Rank tech articles by importance using Claude.
+        Rank tech articles by importance using the LLM.
 
         Args:
             articles: List of Article objects to rank
@@ -65,11 +65,12 @@ Focus on: AI/ML developments, hardware/chips, datacenter tech, software releases
 Respond with ONLY a JSON array of the top {top_k} indices (e.g., [3, 7, 12, 1, 18]).
 No explanation, just the JSON array."""
 
-        # Rank using Claude
-        selected_indices = self.claude.rank_items(
+        # Rank using LLM
+        selected_indices = self.llm.rank_items(
             items=items_str,
             prompt_template=prompt_template,
-            top_k=top_k
+            top_k=top_k,
+            batch_size=50
         )
 
         # Return ranked articles

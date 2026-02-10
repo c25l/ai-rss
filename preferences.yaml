@@ -138,6 +138,23 @@ sources:
   - name: "Hacker News Daily"
     type: hn-daily
 
+  - name: "Misc Tech"
+    url: "https://bsky.app/profile/eryk.bsky.social/feed/nohype" 
+    type: bluesky
+    limit: 40
+  
+  - name: "Bsky llm feed"
+    url: "https://bsky.app/profile/ota.bsky.social/feed/whats-llm"
+    type: bluesky
+    limit: 40
+ 
+  - name: "Bsky llm feed"
+    url: "https://bsky.app/profile/ota.bsky.social/feed/whats-llm"
+    type: bluesky
+    limit: 40
+
+
+  
   # Research sources — kind: research keeps them out of the news briefing
   - name: "ArXiv CS"
     url: "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR"

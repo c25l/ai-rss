@@ -16,10 +16,10 @@ class ResearchRanker:
     Each ranker implements a different approach to selecting top papers.
     """
     
-    def __init__(self, name, description, claude=None):
+    def __init__(self, name, description, llm=None):
         self.name = name
         self.description = description
-        self.claude = claude or Copilot()
+        self.llm = llm or Copilot()
     
     def rank(self, articles, target=5):
         """Rank and select top articles. Override in subclasses."""
@@ -32,11 +32,11 @@ class RelevanceRanker(ResearchRanker):
     Focuses on: distributed systems, performance, AI infrastructure, hardware.
     """
     
-    def __init__(self, claude=None):
+    def __init__(self, llm=None):
         super().__init__(
             name="🎯 Relevance Ranker",
             description="Prioritizes papers relevant to infrastructure, distributed systems, and AI hardware",
-            claude=claude
+            llm=llm
         )
     
     def _rank_batch(self, articles, top_k=5):
@@ -65,7 +65,7 @@ Articles to review:
 Respond with ONLY a JSON array of the {top_k} indices (e.g., [3, 7, 12, 1, 18]).
 No explanation, just the JSON array."""
         
-        response = self.claude.generate(prompt)
+        response = self.llm.generate(prompt)
         
         try:
             match = re.search(r'\[[\d,\s]+\]', response)
@@ -104,11 +104,11 @@ class NoveltyImpactRanker(ResearchRanker):
     Focuses on: breakthrough ideas, practical applications, industry relevance.
     """
     
-    def __init__(self, claude=None):
+    def __init__(self, llm=None):
         super().__init__(
             name="💡 Novelty & Impact Ranker",
             description="Prioritizes breakthrough ideas with potential real-world impact",
-            claude=claude
+            llm=llm
         )
     
     def _rank_batch(self, articles, top_k=5):
@@ -139,7 +139,7 @@ Articles to review:
 Respond with ONLY a JSON array of the {top_k} indices (e.g., [3, 7, 12, 1, 18]).
 No explanation, just the JSON array."""
         
-        response = self.claude.generate(prompt)
+        response = self.llm.generate(prompt)
         
         try:
             match = re.search(r'\[[\d,\s]+\]', response)
@@ -252,7 +252,7 @@ class Research:
     
     def __init__(self, use_dual_ranker=True, use_citation_ranker=False, semantic_scholar_api_key=None):
         self.articles = []
-        self.claude = Copilot()
+        self.llm = Copilot()
         self.use_dual_ranker = use_dual_ranker
         self.use_citation_ranker = use_citation_ranker
         
@@ -261,8 +261,8 @@ class Research:
             print("Warning: semantic_scholar_api_key provided but use_citation_ranker=False. API key will be ignored.")
         
         # Initialize rankers
-        self.relevance_ranker = RelevanceRanker(claude=self.claude)
-        self.novelty_ranker = NoveltyImpactRanker(claude=self.claude)
+        self.relevance_ranker = RelevanceRanker(llm=self.llm)
+        self.novelty_ranker = NoveltyImpactRanker(llm=self.llm)
         self.citation_ranker = CitationRanker(api_key=semantic_scholar_api_key) if use_citation_ranker else None
 
     def section_title(self):
@@ -298,7 +298,7 @@ class Research:
         
         if not compare_rankers:
             # Single ranker mode (backward compatible)
-            self.articles = self._reduce_articles(self.articles, target=5, batch_size=20)
+            self.articles = self._reduce_articles(self.articles, target=5, batch_size=50)
             formatted = "\n\n".join([xx.out_rich() for xx in self.articles])
             return formatted
         

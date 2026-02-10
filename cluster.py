@@ -107,10 +107,8 @@ class ArticleClusterer:
         self.llm = llm or Copilot()
         self.macro_target = macro_target
 
-    def embed_article(self, article: Article):  # kept for API compatibility
-        return None
-
-    def embed_articles(self, articles: List[Article]) -> List[Article]:  # compatibility
+    def embed_articles(self, articles: List[Article]) -> List[Article]:
+        """No-op kept for API compatibility — clustering is LLM-based."""
         return articles
 
     def _format_article_for_tagging(self, idx: int, article: Article) -> str:
@@ -300,7 +298,7 @@ Clusters:
             return []
 
         # 1) Tag in batches
-        batch_size = 20
+        batch_size = 50
         tag_by_index: Dict[int, List[str]] = {}
         for start in range(0, len(articles), batch_size):
             batch = articles[start : start + batch_size]
@@ -406,8 +404,6 @@ Clusters:
 
 Summary:"""
 
-        # TODO: Replace with Azure OpenAI or another LLM service
-        # For now, just return a simple summary
         return f"Group of {len(group.articles)} articles about {group.text}"
 
     def summarize_clusters(self, groups: List[Group], generate_titles: bool = True) -> List[Group]:
@@ -440,19 +436,5 @@ Summary:"""
 
 
 if __name__ == "__main__":
-    # Example usage
     clusterer = ArticleClusterer()
-
-    # Test embedding
-    test_article = Article(
-        title="Test Article About AI",
-        summary="This is a test article about artificial intelligence and machine learning.",
-        url="https://example.com"
-    )
-
-    embedding = clusterer.embed_article(test_article)
-
-    if embedding is not None:
-        print(f" Successfully generated embedding with {len(embedding)} dimensions")
-    else:
-        print(" Failed to generate embedding")
+    print("ArticleClusterer ready")

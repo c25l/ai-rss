@@ -116,7 +116,7 @@ Please make sure to include inline markdown links `[article title](url)` to the 
 # Begin research articles:
 
 """
-    rsch = research.Research().pull_data()
+    rsch = research.Research(use_dual_ranker=False).pull_data()
     if len(rsch.strip().split("\n"))<3:
         rsch="No new research articles found."
     else:
