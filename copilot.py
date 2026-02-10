@@ -132,11 +132,12 @@ class Copilot:
     def generate(self, prompt, max_retries=10, base_delay=1.0):
         last_err = None
         delay = base_delay
-
+        print(f"generating from {prompt[0:200]}")
         for _ in range(max_retries + 1):
             try:
                 return self._generate_via_cli(str(prompt))
             except Exception as e:
+                print(str(e))
                 last_err = e
                 time.sleep(delay + random.uniform(0, 0.2))
                 delay = delay * 2
