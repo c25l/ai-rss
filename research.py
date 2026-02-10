@@ -176,9 +176,10 @@ class CitationRanker(ResearchRanker):
     """
     Ranks papers based on citation analysis from recent submissions.
     Identifies foundational papers that are frequently cited by today's research.
+    Supports local caching and OpenCitations API for improved performance.
     """
     
-    def __init__(self, api_key=None, categories=None, api_timeout=30):
+    def __init__(self, api_key=None, categories=None, api_timeout=30, use_cache=True, use_opencitations=True):
         super().__init__(
             name="📊 Citation Graph Ranker",
             description="Identifies papers most frequently cited by recent arXiv submissions"
@@ -186,6 +187,8 @@ class CitationRanker(ResearchRanker):
         self.api_key = api_key
         self.categories = categories or ["cs.DC", "cs.SY", "cs.PF", "cs.AR"]
         self.api_timeout = api_timeout
+        self.use_cache = use_cache
+        self.use_opencitations = use_opencitations
         self.analyzer = None
         
         if not CITATION_ANALYZER_AVAILABLE:
@@ -194,7 +197,12 @@ class CitationRanker(ResearchRanker):
     def _ensure_analyzer(self):
         """Lazily initialize the citation analyzer"""
         if self.analyzer is None and CITATION_ANALYZER_AVAILABLE:
-            self.analyzer = ArxivCitationAnalyzer(api_key=self.api_key, api_timeout=self.api_timeout)
+            self.analyzer = ArxivCitationAnalyzer(
+                api_key=self.api_key,
+                api_timeout=self.api_timeout,
+                use_cache=self.use_cache,
+                use_opencitations=self.use_opencitations
+            )
     
     def rank(self, articles, target=5, days=1, min_citations=2):
         """

@@ -57,9 +57,10 @@ def timeout_handler(signum, frame):
 class ArxivCitationAnalyzer:
     """
     Analyzes arXiv papers to find most-cited papers from recent submissions.
+    Supports multiple data sources: Semantic Scholar API, OpenCitations API, and local cache.
     """
     
-    def __init__(self, api_key: Optional[str] = None, use_rss: bool = True, api_timeout: int = 30):
+    def __init__(self, api_key: Optional[str] = None, use_rss: bool = True, api_timeout: int = 30, use_cache: bool = True, use_opencitations: bool = True):
         """
         Initialize the analyzer.
         
@@ -67,9 +68,14 @@ class ArxivCitationAnalyzer:
             api_key: Optional Semantic Scholar API key for higher rate limits
             use_rss: If True, use RSS feeds (more reliable). If False, use arxiv API.
             api_timeout: Timeout in seconds for API calls (default: 30)
+            use_cache: If True, use local SQLite cache for faster lookups
+            use_opencitations: If True, try OpenCitations API when Semantic Scholar fails
         """
         self.use_rss = use_rss
         self.api_timeout = api_timeout
+        self.use_cache = use_cache
+        self.use_opencitations = use_opencitations
+        
         if not use_rss and ARXIV_AVAILABLE:
             self.arxiv_client = arxiv.Client()
         else:
@@ -80,6 +86,30 @@ class ArxivCitationAnalyzer:
         else:
             self.s2_client = None
             print("Warning: semanticscholar package not available. Citation analysis will be limited.")
+        
+        # Initialize cache
+        if use_cache:
+            try:
+                from citation_cache import CitationCache
+                self.cache = CitationCache()
+                print("Citation cache enabled")
+            except Exception as e:
+                print(f"Warning: Could not initialize cache: {e}")
+                self.cache = None
+        else:
+            self.cache = None
+        
+        # Initialize OpenCitations client
+        if use_opencitations:
+            try:
+                from opencitations_client import OpenCitationsClient
+                self.oc_client = OpenCitationsClient()
+                print("OpenCitations API enabled")
+            except Exception as e:
+                print(f"Warning: Could not initialize OpenCitations: {e}")
+                self.oc_client = None
+        else:
+            self.oc_client = None
             
         self.citation_graph = defaultdict(int)  # cited_paper_id -> citation_count
         self.paper_info = {}  # paper_id -> paper metadata
@@ -169,57 +199,66 @@ class ArxivCitationAnalyzer:
     
     def get_paper_references(self, arxiv_id: str) -> List[str]:
         """
-        Get references for a paper using Semantic Scholar API.
+        Get references cited by a paper.
+        Uses cache first, then tries Semantic Scholar, then OpenCitations.
         
         Args:
-            arxiv_id: arXiv ID (e.g., '2101.12345')
+            arxiv_id: Clean arXiv ID (e.g., '2101.12345')
             
         Returns:
-            List of arXiv IDs that this paper references
+            List of arXiv IDs cited by this paper
         """
+        # Try cache first
+        if self.cache:
+            cached_refs = self.cache.get_citations(arxiv_id, max_age_days=30)
+            if cached_refs is not None:
+                print(f"    Using cached references for {arxiv_id}")
+                return cached_refs
+        
+        # Try Semantic Scholar
         if not S2_AVAILABLE or not self.s2_client:
-            return []
-            
-        try:
-            # Set up timeout using signal (Unix only, main thread only)
-            # Falls back gracefully (no timeout) when called from worker threads
-            if hasattr(signal, 'SIGALRM'):
-                if threading.current_thread() is not threading.main_thread():
-                    # Fall back to no timeout protection in non-main threads
-                    # This prevents signal handler interference
-                    print(f"  Warning: Signal-based timeout not available in thread {threading.current_thread().name}")
-                else:
-                    signal.signal(signal.SIGALRM, timeout_handler)
-                    signal.alarm(self.api_timeout)
-            
+            arxiv_refs = self._try_opencitations_references(arxiv_id)
+        else:
             try:
                 # Query Semantic Scholar using arXiv ID
                 paper = self.s2_client.get_paper(f"ARXIV:{arxiv_id}")
                 
                 if not paper or not paper.references:
-                    return []
+                    # Try OpenCitations as fallback
+                    arxiv_refs = self._try_opencitations_references(arxiv_id)
+                else:
+                    # Extract arXiv IDs from references
+                    arxiv_refs = []
+                    for ref in paper.references:
+                        if ref.externalIds and 'ArXiv' in ref.externalIds:
+                            ref_arxiv_id = self._extract_arxiv_id(ref.externalIds['ArXiv'])
+                            if ref_arxiv_id:
+                                arxiv_refs.append(ref_arxiv_id)
                 
-                # Extract arXiv IDs from references
-                arxiv_refs = []
-                for ref in paper.references:
-                    if ref.externalIds and 'ArXiv' in ref.externalIds:
-                        ref_arxiv_id = self._extract_arxiv_id(ref.externalIds['ArXiv'])
-                        if ref_arxiv_id:
-                            arxiv_refs.append(ref_arxiv_id)
-                
-                return arxiv_refs
-            finally:
-                # Disable alarm
-                if hasattr(signal, 'SIGALRM'):
-                    signal.alarm(0)
+            except Exception:
+                # If Semantic Scholar fails, try OpenCitations
+                arxiv_refs = self._try_opencitations_references(arxiv_id)
+        
+        # Cache the results
+        if self.cache and arxiv_refs:
+            self.cache.cache_citations(arxiv_id, arxiv_refs)
+        
+        return arxiv_refs
+    
+    def _try_opencitations_references(self, arxiv_id: str) -> List[str]:
+        """
+        Try to get references from OpenCitations API.
+        
+        Args:
+            arxiv_id: arXiv paper ID
             
-        except ApiTimeoutError:
-            print(f"  Timeout fetching references for {arxiv_id}")
-            return []
-        except Exception:
-            # Silently ignore errors to continue with other papers
-            # Common errors: paper not in Semantic Scholar, rate limits, network issues
-            return []
+        Returns:
+            List of arXiv IDs cited by this paper
+        """
+        if self.oc_client:
+            print(f"    Trying OpenCitations for {arxiv_id}")
+            return self.oc_client.get_references(arxiv_id)
+        return []
     
     def _format_published_date(self, published) -> str:
         """
@@ -344,7 +383,8 @@ class ArxivCitationAnalyzer:
     
     def enrich_paper_info(self, arxiv_id: str) -> Dict:
         """
-        Enrich paper info by fetching full details from Semantic Scholar.
+        Enrich paper info by fetching full details.
+        Uses cache first, then Semantic Scholar API.
         
         Args:
             arxiv_id: arXiv ID
@@ -352,39 +392,35 @@ class ArxivCitationAnalyzer:
         Returns:
             Enriched paper info dictionary
         """
+        # Try cache first
+        if self.cache:
+            cached_paper = self.cache.get_paper(arxiv_id, max_age_days=30)
+            if cached_paper:
+                print(f"  Using cached metadata for {arxiv_id}")
+                return cached_paper
+        
+        # Try Semantic Scholar
         if not S2_AVAILABLE or not self.s2_client:
             return self.paper_info.get(arxiv_id, {})
             
         try:
-            # Set up timeout using signal (Unix only, main thread only)
-            # Falls back gracefully (no timeout) when called from worker threads
-            if hasattr(signal, 'SIGALRM'):
-                if threading.current_thread() is not threading.main_thread():
-                    # Fall back to no timeout protection in non-main threads
-                    print(f"  Warning: Signal-based timeout not available in thread {threading.current_thread().name}")
-                else:
-                    signal.signal(signal.SIGALRM, timeout_handler)
-                    signal.alarm(self.api_timeout)
-            
-            try:
-                paper = self.s2_client.get_paper(f"ARXIV:{arxiv_id}")
-                if paper:
-                    return {
-                        'title': paper.title or 'Unknown',
-                        'authors': [author.name for author in (paper.authors or [])],
-                        'published': paper.publicationDate,
-                        'url': f"https://arxiv.org/abs/{arxiv_id}",
-                        'summary': paper.abstract or '',
-                        'citation_count': paper.citationCount or 0,
-                        'influential_citation_count': paper.influentialCitationCount or 0
-                    }
-            finally:
-                # Disable alarm
-                if hasattr(signal, 'SIGALRM'):
-                    signal.alarm(0)
-                    
-        except ApiTimeoutError:
-            print(f"  Timeout enriching info for {arxiv_id}")
+            paper = self.s2_client.get_paper(f"ARXIV:{arxiv_id}")
+            if paper:
+                enriched = {
+                    'title': paper.title or 'Unknown',
+                    'authors': [author.name for author in (paper.authors or [])],
+                    'published': paper.publicationDate,
+                    'url': f"https://arxiv.org/abs/{arxiv_id}",
+                    'summary': paper.abstract or '',
+                    'citation_count': paper.citationCount or 0,
+                    'influential_citation_count': paper.influentialCitationCount or 0
+                }
+                
+                # Cache the enriched info
+                if self.cache:
+                    self.cache.cache_paper(arxiv_id, enriched)
+                
+                return enriched
         except Exception:
             # Return existing info if enrichment fails (e.g., network issue, paper not found)
             pass
