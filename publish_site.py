@@ -22,7 +22,7 @@ import re
 import shutil
 import subprocess
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 
 # Ensure H3lPeR modules are importable
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -178,8 +178,11 @@ def _citations_page():
     # Format timestamp
     try:
         dt = datetime.fromisoformat(generated_at)
+        # Ensure timezone-aware for UTC display
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
         timestamp_str = dt.strftime('%B %d, %Y at %I:%M %p UTC')
-    except:
+    except (ValueError, AttributeError, TypeError):
         timestamp_str = generated_at
     
     # Build papers HTML

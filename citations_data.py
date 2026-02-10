@@ -72,7 +72,7 @@ def run_citation_analysis(
             "title": article.title,
             "url": article.url,
             "summary": article.summary,
-            "published_at": str(article.published_at) if article.published_at else None,
+            "published_at": article.published_at.isoformat() if hasattr(article.published_at, 'isoformat') else str(article.published_at) if article.published_at else None,
             "citation_count": getattr(article, 'citation_count', 0),
             "total_citations": getattr(article, 'total_citations', 0),
         }
