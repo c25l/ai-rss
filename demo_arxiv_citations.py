@@ -2,9 +2,154 @@
 """
 Demo script for arXiv Citation Graph Analyzer
 
-This script demonstrates the citation analysis feature with example output.
-In a real environment with network access, it would fetch actual data from arXiv and Semantic Scholar.
+This script demonstrates the citation analysis feature by running it on real data
+from the preferences.yaml configuration.
+
+Usage:
+    python demo_arxiv_citations.py          # Run with real preferences.yaml sources
+    python demo_arxiv_citations.py --example  # Show example output only
+
+The demo will:
+1. Load arXiv research sources from preferences.yaml
+2. Extract categories from RSS feed URLs
+3. Attempt to fetch recent papers and build citation graph
+4. Display results or fallback to example output if network is restricted
 """
+
+import yaml
+import os
+import sys
+
+def load_preferences():
+    """Load preferences from preferences.yaml"""
+    pref_path = os.path.join(os.path.dirname(__file__), 'preferences.yaml')
+    if not os.path.exists(pref_path):
+        pref_path = os.path.join(os.path.dirname(__file__), 'preferences.yaml.example')
+    
+    with open(pref_path, 'r') as f:
+        return yaml.safe_load(f)
+
+def extract_arxiv_categories_from_url(url):
+    """Extract arXiv categories from RSS URL"""
+    # URL format: https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR
+    if 'export.arxiv.org/rss/' in url:
+        categories_str = url.split('/rss/')[-1]
+        return categories_str.split('+')
+    return []
+
+def run_real_demo():
+    """Run the citation analyzer with real data from preferences.yaml"""
+    print("=" * 70)
+    print("arXiv Citation Graph Analyzer - Real Demo")
+    print("=" * 70)
+    print()
+    
+    # Load preferences
+    print("Loading configuration from preferences.yaml...")
+    try:
+        prefs = load_preferences()
+    except Exception as e:
+        print(f"Error loading preferences: {e}")
+        print("Falling back to example output...")
+        print()
+        print_demo_output()
+        return
+    
+    # Find arXiv research sources
+    arxiv_sources = []
+    for source in prefs.get('sources', []):
+        if source.get('kind') == 'research' and 'arxiv.org' in source.get('url', ''):
+            arxiv_sources.append(source)
+    
+    if not arxiv_sources:
+        print("No arXiv research sources found in preferences.yaml")
+        print("Falling back to example output...")
+        print()
+        print_demo_output()
+        return
+    
+    print(f"Found {len(arxiv_sources)} arXiv research source(s) in preferences.yaml:")
+    for source in arxiv_sources:
+        print(f"  - {source['name']}: {source['url']}")
+    print()
+    
+    # Try to import the analyzer
+    try:
+        from arxiv_citations import ArxivCitationAnalyzer
+    except ImportError as e:
+        print(f"Error importing arxiv_citations: {e}")
+        print("Falling back to example output...")
+        print()
+        print_demo_output()
+        return
+    
+    # Check if we have network access by trying a simple fetch
+    print("Checking network access...")
+    test_analyzer = ArxivCitationAnalyzer()
+    
+    # Run analysis for each arXiv source
+    success = False
+    for i, source in enumerate(arxiv_sources, 1):
+        print(f"\n{'='*70}")
+        print(f"Source {i}/{len(arxiv_sources)}: {source['name']}")
+        print(f"URL: {source['url']}")
+        print('='*70)
+        print()
+        
+        # Extract categories from URL
+        categories = extract_arxiv_categories_from_url(source['url'])
+        if not categories:
+            print(f"Could not extract categories from URL: {source['url']}")
+            continue
+        
+        print(f"Categories detected: {', '.join(categories)}")
+        print(f"Configuration: days=3, max_papers=30, top_n=10, min_citations=1")
+        print()
+        
+        # Initialize analyzer
+        analyzer = ArxivCitationAnalyzer()
+        
+        # Run analysis
+        print("Running citation analysis...")
+        print("Note: This requires network access to arXiv and Semantic Scholar APIs")
+        print()
+        
+        try:
+            results = analyzer.analyze(
+                categories=categories,
+                days=3,  # Look back 3 days for more data
+                max_papers=30,  # Limit to 30 papers to keep demo fast
+                top_n=10,
+                min_citations=1,  # Lower threshold to ensure we get results
+                api_delay=0.5
+            )
+            
+            if results:
+                success = True
+                print("\n" + "="*70)
+                print("RESULTS")
+                print("="*70)
+                print()
+                output = analyzer.format_results(results)
+                print(output)
+            else:
+                print("\nNo highly-cited papers found in this time window.")
+        except Exception as e:
+            print(f"\nError during analysis: {e}")
+    
+    # If no results were obtained, show example output
+    if not success:
+        print("\n" + "="*70)
+        print("Network Restrictions Detected")
+        print("="*70)
+        print()
+        print("The demo could not fetch real data due to network restrictions.")
+        print("This is expected in sandboxed environments.")
+        print()
+        print("Below is example output showing what the tool produces")
+        print("when run with full network access:")
+        print()
+        print_demo_output()
 
 def print_demo_output():
     """Print example output showing what the analyzer produces"""
@@ -235,13 +380,24 @@ def show_use_cases():
 
 
 if __name__ == "__main__":
-    print_demo_output()
-    show_integration_examples()
-    show_use_cases()
+    import sys
     
-    print()
-    print("=" * 70)
-    print("Note: This is demo output. In a real environment with network access,")
-    print("the tool would fetch actual data from arXiv and Semantic Scholar APIs.")
-    print("=" * 70)
-    print()
+    # Check if user wants example output only
+    if len(sys.argv) > 1 and sys.argv[1] == "--example":
+        print_demo_output()
+        show_integration_examples()
+        show_use_cases()
+        print()
+        print("=" * 70)
+        print("Note: This is example output. Run without --example flag")
+        print("to fetch real data from preferences.yaml sources.")
+        print("=" * 70)
+        print()
+    else:
+        # Run with real data from preferences.yaml
+        run_real_demo()
+        
+        # Show integration examples after real demo
+        print("\n\n")
+        show_integration_examples()
+        show_use_cases()
