@@ -178,13 +178,14 @@ class CitationRanker(ResearchRanker):
     Identifies foundational papers that are frequently cited by today's research.
     """
     
-    def __init__(self, api_key=None, categories=None):
+    def __init__(self, api_key=None, categories=None, api_timeout=30):
         super().__init__(
             name="📊 Citation Graph Ranker",
             description="Identifies papers most frequently cited by recent arXiv submissions"
         )
         self.api_key = api_key
         self.categories = categories or ["cs.DC", "cs.SY", "cs.PF", "cs.AR"]
+        self.api_timeout = api_timeout
         self.analyzer = None
         
         if not CITATION_ANALYZER_AVAILABLE:
@@ -193,7 +194,7 @@ class CitationRanker(ResearchRanker):
     def _ensure_analyzer(self):
         """Lazily initialize the citation analyzer"""
         if self.analyzer is None and CITATION_ANALYZER_AVAILABLE:
-            self.analyzer = ArxivCitationAnalyzer(api_key=self.api_key)
+            self.analyzer = ArxivCitationAnalyzer(api_key=self.api_key, api_timeout=self.api_timeout)
     
     def rank(self, articles, target=5, days=1, min_citations=2):
         """

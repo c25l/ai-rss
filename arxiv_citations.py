@@ -23,6 +23,7 @@ from collections import defaultdict
 from typing import List, Dict, Tuple, Optional
 import time
 import re
+import signal
 
 # Try to import optional dependencies
 try:
@@ -42,20 +43,32 @@ from feeds import Feeds
 from datamodel import Article
 
 
+class TimeoutError(Exception):
+    """Raised when an operation times out"""
+    pass
+
+
+def timeout_handler(signum, frame):
+    """Signal handler for timeout"""
+    raise TimeoutError("Operation timed out")
+
+
 class ArxivCitationAnalyzer:
     """
     Analyzes arXiv papers to find most-cited papers from recent submissions.
     """
     
-    def __init__(self, api_key: Optional[str] = None, use_rss: bool = True):
+    def __init__(self, api_key: Optional[str] = None, use_rss: bool = True, api_timeout: int = 30):
         """
         Initialize the analyzer.
         
         Args:
             api_key: Optional Semantic Scholar API key for higher rate limits
             use_rss: If True, use RSS feeds (more reliable). If False, use arxiv API.
+            api_timeout: Timeout in seconds for API calls (default: 30)
         """
         self.use_rss = use_rss
+        self.api_timeout = api_timeout
         if not use_rss and ARXIV_AVAILABLE:
             self.arxiv_client = arxiv.Client()
         else:
@@ -167,22 +180,36 @@ class ArxivCitationAnalyzer:
             return []
             
         try:
-            # Query Semantic Scholar using arXiv ID
-            paper = self.s2_client.get_paper(f"ARXIV:{arxiv_id}")
+            # Set up timeout using signal (Unix only)
+            # For Windows compatibility, we catch all exceptions including timeout
+            if hasattr(signal, 'SIGALRM'):
+                signal.signal(signal.SIGALRM, timeout_handler)
+                signal.alarm(self.api_timeout)
             
-            if not paper or not paper.references:
-                return []
+            try:
+                # Query Semantic Scholar using arXiv ID
+                paper = self.s2_client.get_paper(f"ARXIV:{arxiv_id}")
+                
+                if not paper or not paper.references:
+                    return []
+                
+                # Extract arXiv IDs from references
+                arxiv_refs = []
+                for ref in paper.references:
+                    if ref.externalIds and 'ArXiv' in ref.externalIds:
+                        ref_arxiv_id = self._extract_arxiv_id(ref.externalIds['ArXiv'])
+                        if ref_arxiv_id:
+                            arxiv_refs.append(ref_arxiv_id)
+                
+                return arxiv_refs
+            finally:
+                # Disable alarm
+                if hasattr(signal, 'SIGALRM'):
+                    signal.alarm(0)
             
-            # Extract arXiv IDs from references
-            arxiv_refs = []
-            for ref in paper.references:
-                if ref.externalIds and 'ArXiv' in ref.externalIds:
-                    ref_arxiv_id = self._extract_arxiv_id(ref.externalIds['ArXiv'])
-                    if ref_arxiv_id:
-                        arxiv_refs.append(ref_arxiv_id)
-            
-            return arxiv_refs
-            
+        except TimeoutError:
+            print(f"  Timeout fetching references for {arxiv_id}")
+            return []
         except Exception:
             # Silently ignore errors to continue with other papers
             # Common errors: paper not in Semantic Scholar, rate limits, network issues
@@ -323,17 +350,31 @@ class ArxivCitationAnalyzer:
             return self.paper_info.get(arxiv_id, {})
             
         try:
-            paper = self.s2_client.get_paper(f"ARXIV:{arxiv_id}")
-            if paper:
-                return {
-                    'title': paper.title or 'Unknown',
-                    'authors': [author.name for author in (paper.authors or [])],
-                    'published': paper.publicationDate,
-                    'url': f"https://arxiv.org/abs/{arxiv_id}",
-                    'summary': paper.abstract or '',
-                    'citation_count': paper.citationCount or 0,
-                    'influential_citation_count': paper.influentialCitationCount or 0
-                }
+            # Set up timeout using signal (Unix only)
+            if hasattr(signal, 'SIGALRM'):
+                signal.signal(signal.SIGALRM, timeout_handler)
+                signal.alarm(self.api_timeout)
+            
+            try:
+                paper = self.s2_client.get_paper(f"ARXIV:{arxiv_id}")
+                if paper:
+                    return {
+                        'title': paper.title or 'Unknown',
+                        'authors': [author.name for author in (paper.authors or [])],
+                        'published': paper.publicationDate,
+                        'url': f"https://arxiv.org/abs/{arxiv_id}",
+                        'summary': paper.abstract or '',
+                        'citation_count': paper.citationCount or 0,
+                        'influential_citation_count': paper.influentialCitationCount or 0
+                    }
+            finally:
+                # Disable alarm
+                if hasattr(signal, 'SIGALRM'):
+                    signal.alarm(0)
+                    
+        except TimeoutError:
+            print(f"  Timeout enriching info for {arxiv_id}")
+            pass
         except Exception:
             # Return existing info if enrichment fails (e.g., network issue, paper not found)
             pass
