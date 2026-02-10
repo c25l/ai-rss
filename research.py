@@ -237,7 +237,8 @@ class CitationRanker(ResearchRanker):
                 source='arxiv_citations',
                 published_at=info.get('published', ''),
             )
-            # Add citation metadata to article
+            # Note: Adding custom attributes for citation metadata
+            # These are used only for display formatting in pull_data_with_citations()
             article.citation_count = cite_count
             article.total_citations = info.get('citation_count', 0)
             ranked_articles.append(article)
@@ -248,16 +249,20 @@ class CitationRanker(ResearchRanker):
 class Research:
     """Research paper aggregator with dual-ranker comparison"""
     
-    def __init__(self, use_dual_ranker=True, use_citation_ranker=False, s2_api_key=None):
+    def __init__(self, use_dual_ranker=True, use_citation_ranker=False, semantic_scholar_api_key=None):
         self.articles = []
         self.claude = Copilot()
         self.use_dual_ranker = use_dual_ranker
         self.use_citation_ranker = use_citation_ranker
         
+        # Warn if API key provided but citation ranker not enabled
+        if semantic_scholar_api_key and not use_citation_ranker:
+            print("Warning: semantic_scholar_api_key provided but use_citation_ranker=False. API key will be ignored.")
+        
         # Initialize rankers
         self.relevance_ranker = RelevanceRanker(claude=self.claude)
         self.novelty_ranker = NoveltyImpactRanker(claude=self.claude)
-        self.citation_ranker = CitationRanker(api_key=s2_api_key) if use_citation_ranker else None
+        self.citation_ranker = CitationRanker(api_key=semantic_scholar_api_key) if use_citation_ranker else None
 
     def section_title(self):
         return "Arxiv Review"

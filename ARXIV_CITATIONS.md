@@ -81,7 +81,7 @@ from research import Research
 # Pass API key for higher rate limits
 research = Research(
     use_citation_ranker=True,
-    s2_api_key="your_api_key_here"
+    semantic_scholar_api_key="your_api_key_here"
 )
 
 result = research.pull_data_with_citations(days=2, top_n=15)

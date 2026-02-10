@@ -9,6 +9,9 @@ In a real environment with network access, it would fetch actual data from arXiv
 def print_demo_output():
     """Print example output showing what the analyzer produces"""
     
+    # Demo configuration
+    NUM_PAPERS = 47
+    
     print("=" * 70)
     print("arXiv Citation Graph Analyzer - Demo Output")
     print("=" * 70)
@@ -25,21 +28,21 @@ def print_demo_output():
     print("STEP 1: Fetching Recent Papers")
     print("-" * 70)
     print("Fetching arXiv papers from RSS: https://export.arxiv.org/rss/cs.AI+cs.LG+cs.CL")
-    print("Fetched 47 papers from arXiv RSS feed")
+    print(f"Fetched {NUM_PAPERS} papers from arXiv RSS feed")
     print()
     
     print("-" * 70)
     print("STEP 2: Building Citation Graph")
     print("-" * 70)
-    print("Building citation graph for 47 papers...")
-    print("  [1/47] Fetching references for 2402.12345...")
+    print(f"Building citation graph for {NUM_PAPERS} papers...")
+    print(f"  [1/{NUM_PAPERS}] Fetching references for 2402.12345...")
     print("    Found 23 arXiv references")
-    print("  [2/47] Fetching references for 2402.12346...")
+    print(f"  [2/{NUM_PAPERS}] Fetching references for 2402.12346...")
     print("    Found 18 arXiv references")
-    print("  [3/47] Fetching references for 2402.12347...")
+    print(f"  [3/{NUM_PAPERS}] Fetching references for 2402.12347...")
     print("    Found 31 arXiv references")
     print("  ...")
-    print("  [47/47] Fetching references for 2402.12391...")
+    print(f"  [{NUM_PAPERS}/{NUM_PAPERS}] Fetching references for 2402.12391...")
     print("    Found 15 arXiv references")
     print()
     print("Citation graph built: 342 unique cited papers")

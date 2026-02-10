@@ -183,9 +183,24 @@ class ArxivCitationAnalyzer:
             
             return arxiv_refs
             
-        except Exception as e:
+        except Exception:
             # Silently ignore errors to continue with other papers
+            # Common errors: paper not in Semantic Scholar, rate limits, network issues
             return []
+    
+    def _format_published_date(self, published) -> str:
+        """
+        Format published date consistently.
+        
+        Args:
+            published: Date as string or datetime object
+            
+        Returns:
+            ISO format date string
+        """
+        if hasattr(published, 'isoformat'):
+            return published.isoformat()
+        return str(published) if published else ''
     
     def build_citation_graph(
         self, 
@@ -214,14 +229,14 @@ class ArxivCitationAnalyzer:
                 arxiv_id = self._extract_arxiv_id(paper.url)
                 title = paper.title
                 summary = paper.summary
-                published = paper.published_at
+                published = self._format_published_date(paper.published_at)
                 url = paper.url
             else:
                 # arxiv.Result object
                 arxiv_id = self._extract_arxiv_id(paper.entry_id)
                 title = paper.title
                 summary = paper.summary
-                published = paper.published.isoformat() if hasattr(paper.published, 'isoformat') else str(paper.published)
+                published = self._format_published_date(paper.published)
                 url = paper.entry_id
                 
             if not arxiv_id:
@@ -319,8 +334,8 @@ class ArxivCitationAnalyzer:
                     'citation_count': paper.citationCount or 0,
                     'influential_citation_count': paper.influentialCitationCount or 0
                 }
-        except Exception as e:
-            # Return existing info if enrichment fails
+        except Exception:
+            # Return existing info if enrichment fails (e.g., network issue, paper not found)
             pass
         
         return self.paper_info.get(arxiv_id, {})
