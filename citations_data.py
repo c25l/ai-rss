@@ -68,11 +68,20 @@ def run_citation_analysis(
     # Convert articles to serializable format
     papers = []
     for article in ranked_articles:
+        # Handle published_at datetime serialization
+        if article.published_at:
+            if hasattr(article.published_at, 'isoformat'):
+                published_at = article.published_at.isoformat()
+            else:
+                published_at = str(article.published_at)
+        else:
+            published_at = None
+        
         paper = {
             "title": article.title,
             "url": article.url,
             "summary": article.summary,
-            "published_at": article.published_at.isoformat() if hasattr(article.published_at, 'isoformat') else str(article.published_at) if article.published_at else None,
+            "published_at": published_at,
             "citation_count": getattr(article, 'citation_count', 0),
             "total_citations": getattr(article, 'total_citations', 0),
         }

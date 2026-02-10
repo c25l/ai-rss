@@ -190,8 +190,11 @@ def _citations_page():
     for i, paper in enumerate(papers, 1):
         title = html_mod.escape(paper.get('title', 'Untitled'))
         url = html_mod.escape(paper.get('url', '#'))
-        summary = html_mod.escape(paper.get('summary', '')[:400])
-        if len(paper.get('summary', '')) > 400:
+        
+        # Handle summary with proper escaping and truncation
+        full_summary = paper.get('summary', '')
+        summary = html_mod.escape(full_summary[:400])
+        if len(full_summary) > 400:
             summary += "..."
         
         cite_count = paper.get('citation_count', 0)
