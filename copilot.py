@@ -68,6 +68,7 @@ class Copilot:
             proc = subprocess.run(
                 cmd,
                 check=True,
+                stdin=subprocess.DEVNULL,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
