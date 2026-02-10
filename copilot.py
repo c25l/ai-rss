@@ -8,6 +8,13 @@ import subprocess
 import time
 import tempfile
 
+# Try to import OpenAI SDK (for Azure OpenAI)
+try:
+    from openai import AzureOpenAI
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OPENAI_AVAILABLE = False
+
 # Try to import Anthropic SDK
 try:
     from anthropic import Anthropic
@@ -19,47 +26,76 @@ except ImportError:
 class Copilot:
     """Drop-in replacement for `Claude` with the same public methods.
     
-    Supports two modes of operation:
-    1. Anthropic API (preferred): Uses ANTHROPIC_API_KEY from .env
-    2. GitHub Copilot CLI (fallback): Uses local CLI with claude-opus-4.6
+    Supports three modes of operation (in priority order):
+    1. Azure OpenAI (preferred): Uses Azure OpenAI configuration from .env
+    2. Anthropic API: Uses ANTHROPIC_API_KEY from .env
+    3. GitHub Copilot CLI (fallback): Uses local CLI
     
-    The mode is determined automatically:
-    - If ANTHROPIC_API_KEY is set in environment, uses API
-    - Otherwise, falls back to CLI
+    The mode is determined automatically based on environment configuration.
     
-    The model can be specified in three ways (in order of precedence):
-    1. Constructor parameter: Copilot(model="claude-opus-4.6")
-    2. Environment variable: COPILOT_MODEL=claude-opus-4.6
-    3. Default: claude-3-5-sonnet-20241022 (for API) or claude-opus-4.6 (for CLI)
+    Azure OpenAI Configuration:
+        AZURE_OPENAI_ENDPOINT - Your Azure OpenAI endpoint
+        AZURE_OPENAI_API_KEY - Your Azure OpenAI API key
+        AZURE_OPENAI_DEPLOYMENT - Your deployment name
+        AZURE_OPENAI_API_VERSION - API version (default: 2024-02-15-preview)
+    
+    The model can be specified via:
+    1. Constructor parameter: Copilot(model="gpt-4")
+    2. Environment variable: COPILOT_MODEL=gpt-4
+    3. Azure deployment name (for Azure mode)
+    4. Default: deployment name (Azure), claude-3-5-sonnet-20241022 (Anthropic), claude-opus-4.6 (CLI)
     
     Examples:
-        # Use default (API if key available, CLI otherwise)
+        # Use Azure OpenAI (if configured)
         agent = Copilot()
         
         # Specify model explicitly
-        agent = Copilot(model="claude-3-5-sonnet-20241022")
+        agent = Copilot(model="gpt-4")
         
-        # Use environment variable
-        # export COPILOT_MODEL=claude-3-5-sonnet-20241022
-        # export ANTHROPIC_API_KEY=sk-ant-...
+        # Use environment variables
+        # export AZURE_OPENAI_ENDPOINT=https://...
+        # export AZURE_OPENAI_API_KEY=...
+        # export AZURE_OPENAI_DEPLOYMENT=gpt-4
         agent = Copilot()
     """
 
     def __init__(self, model: str | None = None, cli_command: str = "/usr/local/bin/copilot"):
-        # Check for Anthropic API key
-        self.api_key = os.getenv("ANTHROPIC_API_KEY")
-        self.use_api = self.api_key and ANTHROPIC_AVAILABLE
+        # Check for Azure OpenAI configuration (highest priority)
+        azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+        azure_key = os.getenv("AZURE_OPENAI_API_KEY")
+        azure_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
+        azure_api_version = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview")
         
-        if self.use_api:
-            # API mode - use Anthropic SDK
-            self.anthropic_client = Anthropic(api_key=self.api_key)
-            # Default to sonnet for API mode
-            self.model = model or os.getenv("COPILOT_MODEL", "claude-3-5-sonnet-20241022")
+        self.use_azure = azure_endpoint and azure_key and azure_deployment and OPENAI_AVAILABLE
+        self.use_anthropic = False
+        self.azure_client = None
+        self.anthropic_client = None
+        
+        if self.use_azure:
+            # Azure OpenAI mode
+            self.azure_client = AzureOpenAI(
+                azure_endpoint=azure_endpoint,
+                api_key=azure_key,
+                api_version=azure_api_version
+            )
+            self.azure_deployment = azure_deployment
+            # Use deployment name as model, or override
+            self.model = model or os.getenv("COPILOT_MODEL", azure_deployment)
+            self.mode = "azure"
         else:
-            # CLI mode - use copilot command
-            self.anthropic_client = None
-            # Default to opus for CLI mode
-            self.model = model or os.getenv("COPILOT_MODEL", "claude-opus-4.6")
+            # Check for Anthropic API key (second priority)
+            anthropic_key = os.getenv("ANTHROPIC_API_KEY")
+            self.use_anthropic = anthropic_key and ANTHROPIC_AVAILABLE
+            
+            if self.use_anthropic:
+                # Anthropic API mode
+                self.anthropic_client = Anthropic(api_key=anthropic_key)
+                self.model = model or os.getenv("COPILOT_MODEL", "claude-3-5-sonnet-20241022")
+                self.mode = "anthropic"
+            else:
+                # CLI mode (fallback)
+                self.model = model or os.getenv("COPILOT_MODEL", "claude-opus-4.6")
+                self.mode = "cli"
             
         self.cli_command = cli_command
 
@@ -70,7 +106,26 @@ class Copilot:
         except Exception:
             return False
 
-    def _generate_via_api(self, prompt: str, max_tokens: int = 4096) -> str:
+    def _generate_via_azure(self, prompt: str, max_tokens: int = 4096) -> str:
+        """Generate using Azure OpenAI."""
+        if not self.azure_client:
+            raise ValueError("Azure OpenAI client not initialized")
+        
+        response = self.azure_client.chat.completions.create(
+            model=self.azure_deployment,
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=max_tokens,
+            temperature=0.7
+        )
+        
+        # Extract text from response
+        if response.choices and len(response.choices) > 0:
+            return response.choices[0].message.content or ""
+        return ""
+
+    def _generate_via_anthropic(self, prompt: str, max_tokens: int = 4096) -> str:
         """Generate using Anthropic API."""
         if not self.anthropic_client:
             raise ValueError("Anthropic client not initialized")
@@ -182,24 +237,50 @@ class Copilot:
         
         for attempt in range(max_retries + 1):
             try:
-                if self.use_api:
-                    # Try API first
-                    return self._generate_via_api(str(prompt))
+                # Try modes in priority order
+                if self.use_azure:
+                    # Try Azure OpenAI first
+                    return self._generate_via_azure(str(prompt))
+                elif self.use_anthropic:
+                    # Try Anthropic API
+                    return self._generate_via_anthropic(str(prompt))
                 else:
                     # Use CLI
                     return self._generate_via_cli(str(prompt))
             except Exception as e:
-                print(f"Attempt {attempt + 1}/{max_retries + 1} failed: {str(e)}")
+                print(f"Attempt {attempt + 1}/{max_retries + 1} failed ({self.mode} mode): {str(e)}")
                 last_err = e
                 
-                # If API fails and we haven't tried CLI yet, try CLI as fallback
-                if self.use_api and attempt == 0:
-                    print("API failed, trying CLI fallback...")
-                    try:
-                        return self._generate_via_cli(str(prompt))
-                    except Exception as cli_err:
-                        print(f"CLI fallback also failed: {str(cli_err)}")
-                        last_err = cli_err
+                # On first failure, try fallback modes
+                if attempt == 0:
+                    # Try fallback chain: Azure → Anthropic → CLI
+                    if self.use_azure:
+                        # Azure failed, try Anthropic
+                        if self.use_anthropic or (os.getenv("ANTHROPIC_API_KEY") and ANTHROPIC_AVAILABLE):
+                            print("Azure OpenAI failed, trying Anthropic API fallback...")
+                            try:
+                                if not self.anthropic_client and ANTHROPIC_AVAILABLE:
+                                    self.anthropic_client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+                                return self._generate_via_anthropic(str(prompt))
+                            except Exception as anthropic_err:
+                                print(f"Anthropic fallback failed: {str(anthropic_err)}")
+                        
+                        # Try CLI as last resort
+                        print("Trying CLI fallback...")
+                        try:
+                            return self._generate_via_cli(str(prompt))
+                        except Exception as cli_err:
+                            print(f"CLI fallback also failed: {str(cli_err)}")
+                            last_err = cli_err
+                    
+                    elif self.use_anthropic:
+                        # Anthropic failed, try CLI
+                        print("Anthropic API failed, trying CLI fallback...")
+                        try:
+                            return self._generate_via_cli(str(prompt))
+                        except Exception as cli_err:
+                            print(f"CLI fallback also failed: {str(cli_err)}")
+                            last_err = cli_err
                 
                 # Exponential backoff before retry
                 if attempt < max_retries:
