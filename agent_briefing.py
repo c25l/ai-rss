@@ -994,9 +994,14 @@ class AgentBriefing:
                 )
                 research_example = ",\n    ".join(
                     f'{{"title": "{name}", "text": "Top papers from this research batch", '
-                    f'"children": [{{"title": "Paper title", "url": "https://arxiv.org/...", '
+                    f'"children": ['
+                    f'{{"title": "First paper title", "url": "https://arxiv.org/...", '
                     f'"text": "Key finding or contribution", '
-                    f'"article": {{"title": "Paper title", "url": "https://arxiv.org/...", '
+                    f'"article": {{"title": "First paper title", "url": "https://arxiv.org/...", '
+                    f'"source": "ArXiv", "summary": "Paper abstract excerpt"}}}}, '
+                    f'{{"title": "Second paper title", "url": "https://arxiv.org/...", '
+                    f'"text": "Key finding or contribution", '
+                    f'"article": {{"title": "Second paper title", "url": "https://arxiv.org/...", '
                     f'"source": "ArXiv", "summary": "Paper abstract excerpt"}}}}]}}'
                     for name in research_batch_names
                 )
@@ -1072,6 +1077,7 @@ CONTENT RULES:
 - Use "text" on section nodes for brief connectors or context (1-2 sentences).
 - Use "text" on article nodes for key excerpts or quotes from the source.
 - Prioritize quality sources over quantity.{research_section_note}{exclusion_note}
+- Each RESEARCH section MUST include 2-5 papers (not just one). Include all noteworthy papers from each batch.
 - NEWS and RESEARCH sections must be separate — do not mix research papers into news sections.
 
 Your response must start with {{ and end with }}. No other text before or after.
