@@ -181,9 +181,8 @@ class ArxivCitationAnalyzer:
             return []
             
         try:
-            # Set up timeout using signal (Unix only)
-            # Note: This is not thread-safe. Use only in single-threaded contexts.
-            # Check if we're in the main thread
+            # Set up timeout using signal (Unix only, main thread only)
+            # Falls back gracefully (no timeout) when called from worker threads
             if hasattr(signal, 'SIGALRM'):
                 if threading.current_thread() is not threading.main_thread():
                     # Fall back to no timeout protection in non-main threads
@@ -357,9 +356,8 @@ class ArxivCitationAnalyzer:
             return self.paper_info.get(arxiv_id, {})
             
         try:
-            # Set up timeout using signal (Unix only)
-            # Note: This is not thread-safe. Use only in single-threaded contexts.
-            # Check if we're in the main thread
+            # Set up timeout using signal (Unix only, main thread only)
+            # Falls back gracefully (no timeout) when called from worker threads
             if hasattr(signal, 'SIGALRM'):
                 if threading.current_thread() is not threading.main_thread():
                     # Fall back to no timeout protection in non-main threads

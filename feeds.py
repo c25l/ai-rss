@@ -14,7 +14,6 @@ class Feeds:
         articles = []
         
         # Fetch the feed with timeout using requests, then parse with feedparser
-        # This approach allows us to control the timeout for the network request
         try:
             # First fetch the feed with timeout using requests
             response = requests.get(
