@@ -51,8 +51,7 @@ class Feeds:
                     print(summ)
                 except requests.exceptions.RequestException as e:
                     print(f"Error fetching tldr for {entry.link}: {e}")
-                    # Continue with original summary if tldr fetch fails
-                    pass
+                    # Keep the summary from BeautifulSoup parsing (assigned above)
             published = datetime.now().isoformat()
             if hasattr(entry, "published"):
                 published = entry.published
