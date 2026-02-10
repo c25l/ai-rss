@@ -13,8 +13,8 @@ class Feeds:
         cutoff_struct = time.gmtime(time.mktime(now_struct) - 86400*days)
         articles = []
         
-        # Configure feedparser with timeout via requests session
-        # feedparser uses urllib internally, but we can control timeout through response_headers parameter
+        # Fetch the feed with timeout using requests, then parse with feedparser
+        # This approach allows us to control the timeout for the network request
         try:
             # First fetch the feed with timeout using requests
             response = requests.get(

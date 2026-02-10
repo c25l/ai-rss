@@ -43,14 +43,14 @@ from feeds import Feeds
 from datamodel import Article
 
 
-class TimeoutError(Exception):
-    """Raised when an operation times out"""
+class ApiTimeoutError(Exception):
+    """Raised when an API operation times out"""
     pass
 
 
 def timeout_handler(signum, frame):
     """Signal handler for timeout"""
-    raise TimeoutError("Operation timed out")
+    raise ApiTimeoutError("Operation timed out")
 
 
 class ArxivCitationAnalyzer:
@@ -181,7 +181,8 @@ class ArxivCitationAnalyzer:
             
         try:
             # Set up timeout using signal (Unix only)
-            # For Windows compatibility, we catch all exceptions including timeout
+            # Note: This is not thread-safe. Use only in single-threaded contexts.
+            # For multi-threaded applications, consider using threading.Timer instead.
             if hasattr(signal, 'SIGALRM'):
                 signal.signal(signal.SIGALRM, timeout_handler)
                 signal.alarm(self.api_timeout)
@@ -207,7 +208,7 @@ class ArxivCitationAnalyzer:
                 if hasattr(signal, 'SIGALRM'):
                     signal.alarm(0)
             
-        except TimeoutError:
+        except ApiTimeoutError:
             print(f"  Timeout fetching references for {arxiv_id}")
             return []
         except Exception:
@@ -351,6 +352,7 @@ class ArxivCitationAnalyzer:
             
         try:
             # Set up timeout using signal (Unix only)
+            # Note: This is not thread-safe. Use only in single-threaded contexts.
             if hasattr(signal, 'SIGALRM'):
                 signal.signal(signal.SIGALRM, timeout_handler)
                 signal.alarm(self.api_timeout)
@@ -372,9 +374,8 @@ class ArxivCitationAnalyzer:
                 if hasattr(signal, 'SIGALRM'):
                     signal.alarm(0)
                     
-        except TimeoutError:
+        except ApiTimeoutError:
             print(f"  Timeout enriching info for {arxiv_id}")
-            pass
         except Exception:
             # Return existing info if enrichment fails (e.g., network issue, paper not found)
             pass
