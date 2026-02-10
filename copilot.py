@@ -8,32 +8,59 @@ import subprocess
 import time
 import tempfile
 
+# Try to import Anthropic SDK
+try:
+    from anthropic import Anthropic
+    ANTHROPIC_AVAILABLE = True
+except ImportError:
+    ANTHROPIC_AVAILABLE = False
+
 
 class Copilot:
     """Drop-in replacement for `Claude` with the same public methods.
     
-    Uses GitHub Copilot CLI locally with claude-opus-4.6 by default.
+    Supports two modes of operation:
+    1. Anthropic API (preferred): Uses ANTHROPIC_API_KEY from .env
+    2. GitHub Copilot CLI (fallback): Uses local CLI with claude-opus-4.6
+    
+    The mode is determined automatically:
+    - If ANTHROPIC_API_KEY is set in environment, uses API
+    - Otherwise, falls back to CLI
     
     The model can be specified in three ways (in order of precedence):
     1. Constructor parameter: Copilot(model="claude-opus-4.6")
     2. Environment variable: COPILOT_MODEL=claude-opus-4.6
-    3. Default: claude-opus-4.6
+    3. Default: claude-3-5-sonnet-20241022 (for API) or claude-opus-4.6 (for CLI)
     
     Examples:
-        # Use default claude-opus-4.6
+        # Use default (API if key available, CLI otherwise)
         agent = Copilot()
         
         # Specify model explicitly
-        agent = Copilot(model="gpt-4")
+        agent = Copilot(model="claude-3-5-sonnet-20241022")
         
         # Use environment variable
-        # export COPILOT_MODEL=claude-opus-4.6
+        # export COPILOT_MODEL=claude-3-5-sonnet-20241022
+        # export ANTHROPIC_API_KEY=sk-ant-...
         agent = Copilot()
     """
 
     def __init__(self, model: str | None = None, cli_command: str = "/usr/local/bin/copilot"):
-        # Default to claude-opus-4.6 if no model specified
-        self.model = model or os.getenv("COPILOT_MODEL", "claude-opus-4.6")
+        # Check for Anthropic API key
+        self.api_key = os.getenv("ANTHROPIC_API_KEY")
+        self.use_api = self.api_key and ANTHROPIC_AVAILABLE
+        
+        if self.use_api:
+            # API mode - use Anthropic SDK
+            self.anthropic_client = Anthropic(api_key=self.api_key)
+            # Default to sonnet for API mode
+            self.model = model or os.getenv("COPILOT_MODEL", "claude-3-5-sonnet-20241022")
+        else:
+            # CLI mode - use copilot command
+            self.anthropic_client = None
+            # Default to opus for CLI mode
+            self.model = model or os.getenv("COPILOT_MODEL", "claude-opus-4.6")
+            
         self.cli_command = cli_command
 
     def warmup(self):
@@ -42,6 +69,24 @@ class Copilot:
             return True
         except Exception:
             return False
+
+    def _generate_via_api(self, prompt: str, max_tokens: int = 4096) -> str:
+        """Generate using Anthropic API."""
+        if not self.anthropic_client:
+            raise ValueError("Anthropic client not initialized")
+        
+        message = self.anthropic_client.messages.create(
+            model=self.model,
+            max_tokens=max_tokens,
+            messages=[
+                {"role": "user", "content": prompt}
+            ]
+        )
+        
+        # Extract text from response
+        if message.content and len(message.content) > 0:
+            return message.content[0].text
+        return ""
 
     def _generate_via_cli(self, prompt: str, timeout_s: int = 300) -> str:
         # Avoid any CLI parsing/quoting issues by passing the prompt via @file.
@@ -134,14 +179,32 @@ class Copilot:
         last_err = None
         delay = base_delay
         print(f"generating from {prompt[0:200]}")
-        for _ in range(max_retries + 1):
+        
+        for attempt in range(max_retries + 1):
             try:
-                return self._generate_via_cli(str(prompt))
+                if self.use_api:
+                    # Try API first
+                    return self._generate_via_api(str(prompt))
+                else:
+                    # Use CLI
+                    return self._generate_via_cli(str(prompt))
             except Exception as e:
-                print(str(e))
+                print(f"Attempt {attempt + 1}/{max_retries + 1} failed: {str(e)}")
                 last_err = e
-                time.sleep(delay + random.uniform(0, 0.2))
-                delay = delay * 2
+                
+                # If API fails and we haven't tried CLI yet, try CLI as fallback
+                if self.use_api and attempt == 0:
+                    print("API failed, trying CLI fallback...")
+                    try:
+                        return self._generate_via_cli(str(prompt))
+                    except Exception as cli_err:
+                        print(f"CLI fallback also failed: {str(cli_err)}")
+                        last_err = cli_err
+                
+                # Exponential backoff before retry
+                if attempt < max_retries:
+                    time.sleep(delay + random.uniform(0, 0.2))
+                    delay = delay * 2
 
         raise last_err
 

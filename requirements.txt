@@ -5,6 +5,9 @@ google-auth>=2.0.0
 google-auth-httplib2>=0.2.0
 google-auth-oauthlib>=1.0.0
 
+# LLM APIs
+anthropic>=0.18.0
+
 
 
 # Web scraping and parsing
