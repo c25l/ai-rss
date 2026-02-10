@@ -177,8 +177,8 @@ def _citations_page():
     
     # Format timestamp
     try:
-        dt = datetime.fromisoformat(generated_at.replace('Z', '+00:00'))
-        timestamp_str = dt.strftime('%B %d, %Y at %I:%M %p')
+        dt = datetime.fromisoformat(generated_at)
+        timestamp_str = dt.strftime('%B %d, %Y at %I:%M %p UTC')
     except:
         timestamp_str = generated_at
     

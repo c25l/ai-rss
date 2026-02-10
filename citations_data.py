@@ -9,7 +9,7 @@ citation rankings that can be displayed on the static site.
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
 
 from research import Research
@@ -80,7 +80,7 @@ def run_citation_analysis(
     
     # Create result document
     result = {
-        "generated_at": datetime.now().isoformat(),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "analysis_params": {
             "days": days,
             "top_n": top_n,
