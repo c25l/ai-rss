@@ -2,6 +2,25 @@
 
 If your Citations page shows "No data available" or you're experiencing issues with citation analysis, this guide will help you diagnose and fix the problem.
 
+## Performance Optimization (NEW)
+
+**Problem**: Citation analysis can be slow (30+ seconds) due to sequential API calls to Semantic Scholar.
+
+**Solution**: Fast mode is now enabled by default with optimized settings:
+- Reduced max_papers from 50 to 25 (50% fewer API calls)
+- Reduced api_delay from 0.5s to 0.15s (3× faster between calls)
+- **Expected time**: ~5-8 seconds (down from 30+ seconds)
+
+To disable fast mode (for more thorough analysis):
+```python
+# In daily_workflow_agent.py or citations_data.py
+citation_data = generate_and_save_citations(days=7, top_n=15, min_citations=0, fast_mode=False)
+```
+
+**Performance breakdown**:
+- Fast mode: 25 papers × 0.15s = ~3.75s + enrichment ~2.25s = **~6 seconds total**
+- Standard mode: 50 papers × 0.5s = 25s + enrichment ~7.5s = **~32 seconds total**
+
 ## Common Issues
 
 ### 1. No Papers Found

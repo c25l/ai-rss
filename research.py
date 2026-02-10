@@ -196,7 +196,7 @@ class CitationRanker(ResearchRanker):
         if self.analyzer is None and CITATION_ANALYZER_AVAILABLE:
             self.analyzer = ArxivCitationAnalyzer(api_key=self.api_key, api_timeout=self.api_timeout)
     
-    def rank(self, articles, target=5, days=1, min_citations=2):
+    def rank(self, articles, target=5, days=1, min_citations=2, max_papers=50, api_delay=0.5):
         """
         Rank papers by analyzing citation graph from recent submissions.
         
@@ -205,6 +205,8 @@ class CitationRanker(ResearchRanker):
             target: Number of top papers to return
             days: Days to look back for papers
             min_citations: Minimum citation threshold
+            max_papers: Maximum papers to fetch and analyze
+            api_delay: Delay between API calls in seconds
             
         Returns:
             List of most-cited papers based on recent submissions
@@ -221,10 +223,10 @@ class CitationRanker(ResearchRanker):
         results = self.analyzer.analyze(
             categories=self.categories,
             days=days,
-            max_papers=50,
+            max_papers=max_papers,
             top_n=target,
             min_citations=min_citations,
-            api_delay=0.5
+            api_delay=api_delay
         )
         
         # Convert results to Article objects
