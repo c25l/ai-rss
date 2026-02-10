@@ -81,6 +81,7 @@ def _page_wrapper(title, body, active_page=""):
     <ul>
       <li><a href="/"{_nav_class("home")}>Latest</a></li>
       <li><a href="/dashboard/"{_nav_class("dashboard")}>Dashboard</a></li>
+      <li><a href="/citations/"{_nav_class("citations")}>Citations</a></li>
       <li><a href="/briefings/"{_nav_class("briefings")}>Archive</a></li>
     </ul>
   </nav>
@@ -149,6 +150,72 @@ def _dashboard_page(stock_symbols):
 
 <script src="/js/weather.js"></script>
 <script src="/js/spaceweather.js"></script>
+"""
+    return body
+
+
+def _citations_page():
+    """Generate citations page body HTML showing top cited papers."""
+    # Load citation data
+    from citations_data import load_citation_data
+    citation_data = load_citation_data()
+    
+    if not citation_data or not citation_data.get('papers'):
+        body = """
+<h1>📊 Most Cited Papers</h1>
+<article>
+  <p><em>No citation data available yet. Citation analysis will run during the next daily briefing.</em></p>
+</article>
+"""
+        return body
+    
+    # Extract metadata
+    generated_at = citation_data.get('generated_at', 'Unknown')
+    params = citation_data.get('analysis_params', {})
+    days = params.get('days', 1)
+    papers = citation_data.get('papers', [])
+    
+    # Format timestamp
+    try:
+        dt = datetime.fromisoformat(generated_at.replace('Z', '+00:00'))
+        timestamp_str = dt.strftime('%B %d, %Y at %I:%M %p')
+    except:
+        timestamp_str = generated_at
+    
+    # Build papers HTML
+    papers_html = []
+    for i, paper in enumerate(papers, 1):
+        title = html_mod.escape(paper.get('title', 'Untitled'))
+        url = html_mod.escape(paper.get('url', '#'))
+        summary = html_mod.escape(paper.get('summary', '')[:400])
+        if len(paper.get('summary', '')) > 400:
+            summary += "..."
+        
+        cite_count = paper.get('citation_count', 0)
+        total_citations = paper.get('total_citations', 0)
+        
+        paper_html = f"""
+<article>
+  <h3>{i}. <a href="{url}" target="_blank">{title}</a></h3>
+  <p>
+    <strong>📊 Cited by recent papers:</strong> {cite_count} times<br>
+    <strong>📚 Total citations:</strong> {total_citations:,}
+  </p>
+  <p><small>{summary}</small></p>
+</article>
+"""
+        papers_html.append(paper_html)
+    
+    papers_section = "\n".join(papers_html)
+    
+    body = f"""
+<h1>📊 Most Cited Papers</h1>
+<p>
+  <em>Papers most frequently cited by recent arXiv submissions.</em><br>
+  <small>Last updated: {timestamp_str} | Analyzing papers from last {days} day(s)</small>
+</p>
+
+{papers_section}
 """
     return body
 
@@ -306,7 +373,15 @@ def generate_site(site_dir, incremental=True):
         f.write(dashboard_html)
     print("✓ Dashboard generated")
 
-    # 3. Discover and render briefings
+    # 3. Citations page (/citations/index.html)
+    os.makedirs(os.path.join(site_dir, "citations"), exist_ok=True)
+    citations_body = _citations_page()
+    citations_html = _page_wrapper("Most Cited Papers", citations_body, active_page="citations")
+    with open(os.path.join(site_dir, "citations", "index.html"), "w") as f:
+        f.write(citations_html)
+    print("✓ Citations page generated")
+
+    # 4. Discover and render briefings
     briefings = _discover_briefings()
     generated = 0
     skipped = 0
@@ -337,14 +412,14 @@ def generate_site(site_dir, incremental=True):
 
     print(f"✓ Briefings: {generated} generated, {skipped} skipped (already exist)")
 
-    # 4. Briefings archive page (always regenerated)
+    # 5. Briefings archive page (always regenerated)
     archive_body = _briefings_archive_page(briefings)
     archive_html = _page_wrapper("Archive", archive_body, active_page="briefings")
     with open(os.path.join(site_dir, "briefings", "index.html"), "w") as f:
         f.write(archive_html)
     print(f"✓ Briefings archive ({len(briefings)} entries)")
 
-    # 5. Landing page = latest briefing (always regenerated)
+    # 6. Landing page = latest briefing (always regenerated)
     if briefings:
         latest = briefings[0]
         try:
@@ -362,7 +437,7 @@ def generate_site(site_dir, incremental=True):
         with open(os.path.join(site_dir, "index.html"), "w") as f:
             f.write(_page_wrapper("H3lPeR", archive_body, active_page="home"))
 
-    # 6. .nojekyll to prevent GitHub Pages from processing with Jekyll
+    # 7. .nojekyll to prevent GitHub Pages from processing with Jekyll
     nojekyll = os.path.join(site_dir, ".nojekyll")
     if not os.path.exists(nojekyll):
         with open(nojekyll, "w") as f:

@@ -133,6 +133,18 @@ def main():
     else:
         print("✓ Email sending disabled")
     
+    # Run citation analysis (always run to keep data fresh)
+    try:
+        from citations_data import generate_and_save_citations
+        print("\nRunning citation analysis on research papers...")
+        citation_data = generate_and_save_citations(days=1, top_n=15, min_citations=1)
+        if citation_data:
+            print(f"✓ Citation analysis complete: {citation_data['paper_count']} papers")
+        else:
+            print("⚠ Citation analysis had no results")
+    except Exception as e:
+        print(f"⚠ Citation analysis error: {e}")
+    
     # Publish to static site (opt-in via preferences or GITHUB_PAGES_DIR env var)
     publish_enabled = email_prefs.get('publish_site', False)
     site_dir = os.environ.get("GITHUB_PAGES_DIR")
