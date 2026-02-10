@@ -160,11 +160,64 @@ def _citations_page():
     from citations_data import load_citation_data
     citation_data = load_citation_data()
     
-    if not citation_data or not citation_data.get('papers'):
+    if not citation_data:
         body = """
 <h1>📊 Most Cited Papers</h1>
 <article>
-  <p><em>No citation data available yet. Citation analysis will run during the next daily briefing.</em></p>
+  <header>No Citation Data Available</header>
+  <p>Citation analysis data has not been generated yet.</p>
+  <p>The citation analysis will run automatically during the next daily briefing generation.</p>
+  <p><strong>Manual run:</strong> <code>python citations_data.py</code></p>
+  <p><strong>Full workflow:</strong> <code>python daily_workflow_agent.py</code></p>
+</article>
+"""
+        return body
+    
+    # Check if there was an error
+    error = citation_data.get('error')
+    if error:
+        body = f"""
+<h1>📊 Most Cited Papers</h1>
+<article>
+  <header>⚠️ Citation Analysis Issue</header>
+  <p>The citation analysis encountered an issue: <strong>{html_mod.escape(error)}</strong></p>
+  <details>
+    <summary>Troubleshooting Tips</summary>
+    <ul>
+      <li><strong>Network Issues:</strong> Ensure arXiv RSS feeds are accessible</li>
+      <li><strong>Empty Feeds:</strong> Try increasing the lookback period (days parameter)</li>
+      <li><strong>Dependencies:</strong> Verify arxiv and semanticscholar packages are installed</li>
+      <li><strong>Rate Limiting:</strong> Semantic Scholar API may have rate limits</li>
+    </ul>
+    <p>Run manually to see detailed error messages: <code>python citations_data.py</code></p>
+  </details>
+</article>
+"""
+        return body
+    
+    papers = citation_data.get('papers', [])
+    if not papers:
+        generated_at = citation_data.get('generated_at', 'Unknown')
+        body = f"""
+<h1>📊 Most Cited Papers</h1>
+<article>
+  <header>No Papers Found</header>
+  <p>Citation analysis ran successfully but found no papers meeting the criteria.</p>
+  <p><small>Last run: {html_mod.escape(generated_at)}</small></p>
+  <details>
+    <summary>Possible Reasons</summary>
+    <ul>
+      <li>arXiv RSS feeds were empty for the selected time period</li>
+      <li>No papers matched the minimum citation threshold</li>
+      <li>Network connectivity prevented fetching papers</li>
+    </ul>
+    <p><strong>Try:</strong> Adjusting parameters in <code>daily_workflow_agent.py</code>:</p>
+    <ul>
+      <li>Increase <code>days</code> (look back more days)</li>
+      <li>Decrease <code>min_citations</code> (lower threshold)</li>
+      <li>Increase <code>top_n</code> (show more papers)</li>
+    </ul>
+  </details>
 </article>
 """
         return body
@@ -173,7 +226,6 @@ def _citations_page():
     generated_at = citation_data.get('generated_at', 'Unknown')
     params = citation_data.get('analysis_params', {})
     days = params.get('days', 1)
-    papers = citation_data.get('papers', [])
     
     # Format timestamp
     try:

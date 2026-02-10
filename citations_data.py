@@ -49,21 +49,48 @@ def run_citation_analysis(
     
     print(f"Running citation analysis on {len(categories)} categories...")
     print(f"  Days: {days}, Top N: {top_n}, Min citations: {min_citations}")
+    print(f"  Categories: {', '.join(categories)}")
     
     # Initialize Research with citation ranker
-    research = Research(use_dual_ranker=False, use_citation_ranker=True)
+    try:
+        research = Research(use_dual_ranker=False, use_citation_ranker=True)
+    except Exception as e:
+        print(f"ERROR: Failed to initialize Research module: {e}")
+        print("This may be due to missing dependencies (arxiv, semanticscholar packages)")
+        print("Install with: pip install arxiv semanticscholar")
+        return _create_empty_result(days, top_n, min_citations, categories, str(e))
     
     # Override categories on the citation ranker
     if research.citation_ranker:
         research.citation_ranker.categories = categories
+    else:
+        print("ERROR: Citation ranker not available")
+        return _create_empty_result(days, top_n, min_citations, categories, "Citation ranker not initialized")
     
     # Run citation analysis
-    ranked_articles = research.citation_ranker.rank(
-        articles=[],  # Not used - citation ranker fetches directly
-        target=top_n,
-        days=days,
-        min_citations=min_citations
-    )
+    try:
+        ranked_articles = research.citation_ranker.rank(
+            articles=[],  # Not used - citation ranker fetches directly
+            target=top_n,
+            days=days,
+            min_citations=min_citations
+        )
+    except Exception as e:
+        print(f"ERROR: Citation analysis failed: {e}")
+        print("This may be due to:")
+        print("  - Network connectivity issues (arXiv RSS feeds unreachable)")
+        print("  - API rate limiting (Semantic Scholar)")
+        print("  - No papers found in the specified time period")
+        return _create_empty_result(days, top_n, min_citations, categories, str(e))
+    
+    if not ranked_articles:
+        print("WARNING: No papers found in citation analysis")
+        print("Possible reasons:")
+        print("  - arXiv RSS feeds may be empty or unreachable")
+        print("  - No papers matched the minimum citation threshold")
+        print("  - Network connectivity issues")
+        print("\nTip: Try running with fewer days or lower min_citations threshold")
+        return _create_empty_result(days, top_n, min_citations, categories, "No papers found")
     
     # Convert articles to serializable format
     papers = []
@@ -102,6 +129,34 @@ def run_citation_analysis(
     
     print(f"✓ Citation analysis complete: {len(papers)} papers found")
     return result
+
+
+def _create_empty_result(days: int, top_n: int, min_citations: int, categories: List[str], error_msg: str) -> Dict[str, Any]:
+    """
+    Create an empty result with error information.
+    
+    Args:
+        days: Days parameter
+        top_n: Top N parameter
+        min_citations: Min citations parameter
+        categories: Categories list
+        error_msg: Error message to include
+        
+    Returns:
+        Empty result dictionary with error info
+    """
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "analysis_params": {
+            "days": days,
+            "top_n": top_n,
+            "min_citations": min_citations,
+            "categories": categories,
+        },
+        "papers": [],
+        "paper_count": 0,
+        "error": error_msg,
+    }
 
 
 def save_citation_data(data: Dict[str, Any], filepath: Optional[str] = None) -> str:
