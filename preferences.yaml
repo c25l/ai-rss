@@ -147,11 +147,6 @@ sources:
     url: "https://bsky.app/profile/ota.bsky.social/feed/whats-llm"
     type: bluesky
     limit: 40
- 
-  - name: "Bsky llm feed"
-    url: "https://bsky.app/profile/ota.bsky.social/feed/whats-llm"
-    type: bluesky
-    limit: 40
 
 
   

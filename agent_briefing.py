@@ -192,14 +192,48 @@ class AgentTools:
     BLUESKY_TITLE_MAX_LENGTH = 100
     
     @staticmethod
-    def fetch_bluesky_feed(handle: str, limit: int = 20) -> List[Article]:
-        """
-        Fetch posts from a Bluesky user's feed.
+    def _get_bluesky_client():
+        """Create and authenticate a Bluesky client using env credentials."""
+        from atproto import Client
+        client = Client()
+        handle = os.environ.get('BLUESKY_HANDLE')
+        password = os.environ.get('BLUESKY_APP_PASSWORD')
+        if handle and password:
+            client.login(handle, password)
+        else:
+            print("Warning: BLUESKY_HANDLE and BLUESKY_APP_PASSWORD not set; Bluesky API requires authentication")
+        return client
+
+    @staticmethod
+    def _resolve_feed_uri(client, feed_url: str) -> str:
+        """Convert a bsky.app feed web URL to an AT-URI for the API.
         
-        This method fetches public posts without authentication.
+        E.g. https://bsky.app/profile/user.bsky.social/feed/myFeed
+          -> at://did:plc:.../app.bsky.feed.generator/myFeed
+        """
+        import re
+        m = re.match(r'https?://bsky\.app/profile/([^/]+)/feed/([^/]+)', feed_url)
+        if not m:
+            raise ValueError(f"Not a valid Bluesky feed URL: {feed_url}")
+        creator_handle, feed_name = m.group(1), m.group(2)
+        # Resolve handle to DID
+        resolved = client.resolve_handle(creator_handle)
+        did = resolved.did
+        return f"at://{did}/app.bsky.feed.generator/{feed_name}"
+
+    @staticmethod
+    def fetch_bluesky_feed(feed_url: str, limit: int = 20) -> List[Article]:
+        """
+        Fetch posts from a Bluesky custom feed or user feed.
+        
+        Supports two URL formats:
+        - Custom feed: https://bsky.app/profile/user.bsky.social/feed/feedName
+        - User handle: user.bsky.social (fetches author's own posts)
+        
+        Requires BLUESKY_HANDLE and BLUESKY_APP_PASSWORD env vars.
         
         Args:
-            handle: Bluesky handle (e.g., 'user.bsky.social')
+            feed_url: Bluesky feed URL or user handle
             limit: Maximum number of posts to fetch (default: 20)
             
         Returns:
@@ -208,18 +242,21 @@ class AgentTools:
         articles = []
         
         try:
-            from atproto import Client
+            client = AgentTools._get_bluesky_client()
             
-            # Create client without authentication for public feed access
-            # Public feeds can be accessed without login
-            client = Client()
+            is_feed_url = '/feed/' in feed_url
             
-            # Fetch the author's feed
-            profile_feed = client.get_author_feed(actor=handle, limit=limit)
+            if is_feed_url:
+                feed_uri = AgentTools._resolve_feed_uri(client, feed_url)
+                response = client.app.bsky.feed.get_feed({'feed': feed_uri, 'limit': limit})
+                source_label = feed_url
+            else:
+                response = client.get_author_feed(actor=feed_url, limit=limit)
+                source_label = feed_url
             
-            print(f"Found {len(profile_feed.feed)} posts from Bluesky user {handle}")
+            print(f"Found {len(response.feed)} posts from Bluesky ({source_label})")
             
-            for feed_view in profile_feed.feed:
+            for feed_view in response.feed:
                 post = feed_view.post
                 record = post.record
                 
@@ -227,20 +264,17 @@ class AgentTools:
                 text = record.text if hasattr(record, 'text') else ''
                 
                 # Get the actual author handle from the post
-                # This ensures correct URLs even if the handle resolves to a DID
-                author_handle = post.author.handle if hasattr(post.author, 'handle') else handle
+                author_handle = post.author.handle if hasattr(post.author, 'handle') else ''
                 
                 # Get post URL
                 post_uri = post.uri
-                # Convert AT-URI to web URL using the actual author handle
-                # Format: at://did:plc:xxx/app.bsky.feed.post/xxx
+                # Convert AT-URI to web URL
                 post_url = f"https://bsky.app/profile/{author_handle}/post/{post_uri.split('/')[-1]}"
                 
                 # Get creation time with timezone awareness
                 if hasattr(record, 'created_at'):
                     created_at = record.created_at
                 else:
-                    # Use UTC for consistency with Bluesky timestamps
                     created_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
                 
                 # Create title from first N characters of text
@@ -252,13 +286,13 @@ class AgentTools:
                     title=title,
                     summary=text,
                     published_at=created_at,
-                    source=f"bluesky:{handle}",
+                    source=f"bluesky:{author_handle}",
                     url=post_url
                 ))
         except ImportError:
             print("Error: atproto library not installed. Install with: pip install atproto>=0.0.55")
         except Exception as e:
-            print(f"Error fetching Bluesky feed for {handle}: {e}")
+            print(f"Error fetching Bluesky feed for {feed_url}: {e}")
         
         return articles
     
@@ -469,10 +503,8 @@ class AgentTools:
                     articles = AgentTools.fetch_hacker_news_daily()
                     all_content[source_name] = articles
                 elif source_type == 'bluesky':
-                    # For Bluesky, the 'url' field should contain the handle
-                    handle = source_url
-                    limit = source.get('limit', 20)  # Optional limit parameter
-                    articles = AgentTools.fetch_bluesky_feed(handle, limit=limit)
+                    limit = source.get('limit', 20)
+                    articles = AgentTools.fetch_bluesky_feed(source_url, limit=limit)
                     all_content[source_name] = articles
                 else:
                     print(f"Unknown source type: {source_type}")
