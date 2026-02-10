@@ -200,7 +200,7 @@ class ArxivCitationAnalyzer:
     def get_paper_references(self, arxiv_id: str) -> List[str]:
         """
         Get references cited by a paper.
-        Uses cache first, then tries Semantic Scholar, then OpenCitations.
+        Uses cache first, then tries OpenCitations, then Semantic Scholar as fallback.
         
         Args:
             arxiv_id: Clean arXiv ID (e.g., '2101.12345')
@@ -215,18 +215,23 @@ class ArxivCitationAnalyzer:
                 print(f"    Using cached references for {arxiv_id}")
                 return cached_refs
         
-        # Try Semantic Scholar
-        if not S2_AVAILABLE or not self.s2_client:
-            arxiv_refs = self._try_opencitations_references(arxiv_id)
-        else:
+        # Try OpenCitations first (no rate limits)
+        if self.oc_client:
+            print(f"    Trying OpenCitations for {arxiv_id}")
+            arxiv_refs = self.oc_client.get_references(arxiv_id)
+            if arxiv_refs:
+                # Cache the results
+                if self.cache:
+                    self.cache.cache_citations(arxiv_id, arxiv_refs)
+                return arxiv_refs
+        
+        # Fallback to Semantic Scholar if OpenCitations didn't return results
+        if S2_AVAILABLE and self.s2_client:
             try:
                 # Query Semantic Scholar using arXiv ID
                 paper = self.s2_client.get_paper(f"ARXIV:{arxiv_id}")
                 
-                if not paper or not paper.references:
-                    # Try OpenCitations as fallback
-                    arxiv_refs = self._try_opencitations_references(arxiv_id)
-                else:
+                if paper and paper.references:
                     # Extract arXiv IDs from references
                     arxiv_refs = []
                     for ref in paper.references:
@@ -234,16 +239,17 @@ class ArxivCitationAnalyzer:
                             ref_arxiv_id = self._extract_arxiv_id(ref.externalIds['ArXiv'])
                             if ref_arxiv_id:
                                 arxiv_refs.append(ref_arxiv_id)
+                    
+                    # Cache the results
+                    if self.cache and arxiv_refs:
+                        self.cache.cache_citations(arxiv_id, arxiv_refs)
+                    
+                    return arxiv_refs
                 
-            except Exception:
-                # If Semantic Scholar fails, try OpenCitations
-                arxiv_refs = self._try_opencitations_references(arxiv_id)
+            except Exception as e:
+                print(f"    Semantic Scholar error for {arxiv_id}: {e}")
         
-        # Cache the results
-        if self.cache and arxiv_refs:
-            self.cache.cache_citations(arxiv_id, arxiv_refs)
-        
-        return arxiv_refs
+        return []
     
     def _try_opencitations_references(self, arxiv_id: str) -> List[str]:
         """
