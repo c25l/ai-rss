@@ -26,8 +26,7 @@ def run_citation_analysis(
     days: int = 1,
     top_n: int = 15,
     min_citations: int = 1,
-    categories: Optional[List[str]] = None,
-    fast_mode: bool = True
+    categories: Optional[List[str]] = None
 ) -> Dict[str, Any]:
     """
     Run citation analysis on research feeds and return structured results.
@@ -37,7 +36,6 @@ def run_citation_analysis(
         top_n: Number of top papers to return
         min_citations: Minimum citation threshold
         categories: arXiv categories to analyze (defaults to all research categories)
-        fast_mode: If True, use optimized settings (fewer papers, faster API calls)
         
     Returns:
         Dictionary with citation analysis results
@@ -52,16 +50,6 @@ def run_citation_analysis(
     print(f"Running citation analysis on {len(categories)} categories...")
     print(f"  Days: {days}, Top N: {top_n}, Min citations: {min_citations}")
     print(f"  Categories: {', '.join(categories)}")
-    print(f"  Fast mode: {'enabled' if fast_mode else 'disabled'}")
-    
-    # Optimize parameters for fast mode
-    if fast_mode:
-        max_papers = 25  # Reduced from 50 - fewer API calls
-        api_delay = 0.15  # Reduced from 0.5s - faster processing
-        print(f"  Optimization: max_papers={max_papers}, api_delay={api_delay}s")
-    else:
-        max_papers = 50
-        api_delay = 0.5
     
     # Initialize Research with citation ranker
     try:
@@ -85,9 +73,7 @@ def run_citation_analysis(
             articles=[],  # Not used - citation ranker fetches directly
             target=top_n,
             days=days,
-            min_citations=min_citations,
-            max_papers=max_papers,
-            api_delay=api_delay
+            min_citations=min_citations
         )
     except Exception as e:
         print(f"ERROR: Citation analysis failed: {e}")
@@ -225,8 +211,7 @@ def load_citation_data(filepath: Optional[str] = None) -> Optional[Dict[str, Any
 def generate_and_save_citations(
     days: int = 1,
     top_n: int = 15,
-    min_citations: int = 1,
-    fast_mode: bool = True
+    min_citations: int = 1
 ) -> Optional[Dict[str, Any]]:
     """
     Run citation analysis and save results.
@@ -236,18 +221,12 @@ def generate_and_save_citations(
         days: Number of days to look back for papers
         top_n: Number of top papers to return
         min_citations: Minimum citation threshold
-        fast_mode: If True, use optimized settings for faster execution
         
     Returns:
         Citation data dict, or None on error
     """
     try:
-        data = run_citation_analysis(
-            days=days, 
-            top_n=top_n, 
-            min_citations=min_citations,
-            fast_mode=fast_mode
-        )
+        data = run_citation_analysis(days=days, top_n=top_n, min_citations=min_citations)
         save_citation_data(data)
         return data
     except Exception as e:
