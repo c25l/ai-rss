@@ -3,6 +3,12 @@ from copilot import Copilot
 import json
 import re
 
+try:
+    from arxiv_citations import ArxivCitationAnalyzer
+    CITATION_ANALYZER_AVAILABLE = True
+except ImportError:
+    CITATION_ANALYZER_AVAILABLE = False
+
 
 class ResearchRanker:
     """
@@ -166,17 +172,92 @@ No explanation, just the JSON array."""
         return current[:target]
 
 
+class CitationRanker(ResearchRanker):
+    """
+    Ranks papers based on citation analysis from recent submissions.
+    Identifies foundational papers that are frequently cited by today's research.
+    """
+    
+    def __init__(self, api_key=None, categories=None):
+        super().__init__(
+            name="📊 Citation Graph Ranker",
+            description="Identifies papers most frequently cited by recent arXiv submissions"
+        )
+        self.api_key = api_key
+        self.categories = categories or ["cs.DC", "cs.SY", "cs.PF", "cs.AR"]
+        self.analyzer = None
+        
+        if not CITATION_ANALYZER_AVAILABLE:
+            print("Warning: Citation analyzer not available. Install arxiv and semanticscholar packages.")
+    
+    def _ensure_analyzer(self):
+        """Lazily initialize the citation analyzer"""
+        if self.analyzer is None and CITATION_ANALYZER_AVAILABLE:
+            self.analyzer = ArxivCitationAnalyzer(api_key=self.api_key)
+    
+    def rank(self, articles, target=5, days=1, min_citations=2):
+        """
+        Rank papers by analyzing citation graph from recent submissions.
+        
+        Args:
+            articles: List of articles (not used - we fetch from arXiv directly)
+            target: Number of top papers to return
+            days: Days to look back for papers
+            min_citations: Minimum citation threshold
+            
+        Returns:
+            List of most-cited papers based on recent submissions
+        """
+        if not CITATION_ANALYZER_AVAILABLE:
+            print("Citation analyzer not available - returning original articles")
+            return articles[:target]
+        
+        self._ensure_analyzer()
+        
+        print(f"Running citation analysis on recent arXiv submissions...")
+        
+        # Run analysis
+        results = self.analyzer.analyze(
+            categories=self.categories,
+            days=days,
+            max_papers=50,
+            top_n=target,
+            min_citations=min_citations,
+            api_delay=0.5
+        )
+        
+        # Convert results to Article objects
+        from datamodel import Article
+        ranked_articles = []
+        for arxiv_id, cite_count, info in results:
+            article = Article(
+                title=info.get('title', 'Unknown'),
+                url=info.get('url', f"https://arxiv.org/abs/{arxiv_id}"),
+                summary=info.get('summary', ''),
+                source='arxiv_citations',
+                published_at=info.get('published', ''),
+            )
+            # Add citation metadata to article
+            article.citation_count = cite_count
+            article.total_citations = info.get('citation_count', 0)
+            ranked_articles.append(article)
+        
+        return ranked_articles
+
+
 class Research:
     """Research paper aggregator with dual-ranker comparison"""
     
-    def __init__(self, use_dual_ranker=True):
+    def __init__(self, use_dual_ranker=True, use_citation_ranker=False, s2_api_key=None):
         self.articles = []
         self.claude = Copilot()
         self.use_dual_ranker = use_dual_ranker
+        self.use_citation_ranker = use_citation_ranker
         
-        # Initialize both rankers
+        # Initialize rankers
         self.relevance_ranker = RelevanceRanker(claude=self.claude)
         self.novelty_ranker = NoveltyImpactRanker(claude=self.claude)
+        self.citation_ranker = CitationRanker(api_key=s2_api_key) if use_citation_ranker else None
 
     def section_title(self):
         return "Arxiv Review"
@@ -278,6 +359,56 @@ class Research:
             days=3,
         )
         return self.articles
+    
+    def pull_data_with_citations(self, days=1, top_n=5, min_citations=2):
+        """
+        Pull and rank research articles using citation analysis.
+        
+        Args:
+            days: Days to look back for papers
+            top_n: Number of top papers to return
+            min_citations: Minimum citation threshold
+            
+        Returns:
+            Formatted string of most-cited papers from recent submissions
+        """
+        if not self.citation_ranker:
+            return "Citation ranker not enabled. Initialize with use_citation_ranker=True"
+        
+        print(f"Analyzing citations from last {days} day(s) of arXiv submissions...")
+        
+        # Get ranked papers from citation analyzer
+        self.articles = self.citation_ranker.rank(
+            articles=[],  # Not used - citation ranker fetches directly
+            target=top_n,
+            days=days,
+            min_citations=min_citations
+        )
+        
+        if not self.articles:
+            return "No highly-cited papers found from recent submissions."
+        
+        # Format output
+        output = []
+        output.append(f"# Most Cited Papers from Recent arXiv Submissions\n")
+        output.append(f"*Analysis of papers submitted in the last {days} day(s)*\n")
+        
+        for i, article in enumerate(self.articles, 1):
+            cite_count = getattr(article, 'citation_count', 0)
+            total_citations = getattr(article, 'total_citations', 0)
+            
+            output.append(f"\n## {i}. [{article.title}]({article.url})")
+            output.append(f"- **Cited by recent papers**: {cite_count} times")
+            if total_citations:
+                output.append(f"- **Total citations**: {total_citations}")
+            
+            if article.summary:
+                summary = article.summary[:300]
+                if len(article.summary) > 300:
+                    summary += "..."
+                output.append(f"\n{summary}")
+        
+        return "\n".join(output)
 
     def get_ranker_comparison_summary(self):
         """Get a summary comparing the two rankers' selections"""
@@ -301,9 +432,18 @@ class Research:
 
 
 if __name__ == "__main__":
-    print("Loading Research module with dual rankers...")
-    xx = Research(use_dual_ranker=True)
-    print("\n=== Pulling and ranking data ===\n")
-    result = xx.pull_data(compare_rankers=True)
-    print(result)
+    import sys
+    
+    if len(sys.argv) > 1 and sys.argv[1] == "--citations":
+        print("Loading Research module with citation ranker...")
+        xx = Research(use_dual_ranker=False, use_citation_ranker=True)
+        print("\n=== Running citation analysis ===\n")
+        result = xx.pull_data_with_citations(days=2, top_n=10, min_citations=1)
+        print(result)
+    else:
+        print("Loading Research module with dual rankers...")
+        xx = Research(use_dual_ranker=True)
+        print("\n=== Pulling and ranking data ===\n")
+        result = xx.pull_data(compare_rankers=True)
+        print(result)
 
