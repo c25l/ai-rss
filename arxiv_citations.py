@@ -7,7 +7,7 @@ and identifies the most-cited papers based on references from today's submission
 
 The approach:
 1. Fetch papers from arXiv posted in the last N days (using existing RSS feeds)
-2. For each paper, extract references using Semantic Scholar API
+2. For each paper, extract references (arXiv HTML > OpenCitations > Semantic Scholar)
 3. Build a directed graph where edges point from citing paper -> cited paper
 4. Calculate in-degree (citation count) for each paper
 5. Return papers with highest citation count from recent submissions
@@ -25,6 +25,9 @@ import time
 import re
 import signal
 import threading
+
+import requests
+from bs4 import BeautifulSoup
 
 # Try to import optional dependencies
 try:
@@ -129,6 +132,53 @@ class ArxivCitationAnalyzer:
         if match:
             return match.group(1)
         return None
+
+    def _get_references_from_html(self, arxiv_id: str) -> Optional[List[str]]:
+        """Extract references from the arXiv HTML5 rendering of a paper.
+
+        Parses the ``<section id="bib">`` bibliography from
+        ``https://arxiv.org/html/{arxiv_id}v1``. Returns arXiv IDs found
+        in bibliography text and links, or ``None`` if the HTML is not
+        available or has no parseable bibliography.
+        """
+        try:
+            url = f"https://arxiv.org/html/{arxiv_id}v1"
+            resp = requests.get(url, timeout=15, headers={"User-Agent": "Mozilla/5.0"})
+            if resp.status_code != 200:
+                return None
+
+            soup = BeautifulSoup(resp.text, "html.parser")
+            bib = soup.find("section", id="bib")
+            if not bib:
+                return None
+
+            # Look for structured bib list
+            biblist = bib.find("ul", class_="ltx_biblist")
+            if not biblist:
+                return None
+
+            items = biblist.find_all("li", recursive=False)
+            if not items:
+                # HTML exists with bib section but entries not yet rendered
+                return []
+
+            # Extract arXiv IDs from text and links in the bibliography.
+            # arXiv IDs are YYMM.NNNNN (years 07-29, months 01-12).
+            arxiv_pattern = r"(?:^|[^0-9])((?:0[7-9]|[12][0-9])(?:0[1-9]|1[0-2])\.\d{4,5})(?:[^0-9]|$)"
+            found_ids: set[str] = set()
+            bib_text = bib.get_text()
+            found_ids.update(re.findall(arxiv_pattern, bib_text))
+            for link in bib.find_all("a", href=True):
+                found_ids.update(re.findall(arxiv_pattern, link["href"]))
+
+            # Don't return the paper's own ID
+            found_ids.discard(arxiv_id)
+
+            return list(found_ids) if found_ids else []
+
+        except Exception as e:
+            print(f"    arXiv HTML error for {arxiv_id}: {e}")
+            return None
     
     def fetch_recent_arxiv_papers_rss(
         self,
@@ -200,7 +250,7 @@ class ArxivCitationAnalyzer:
     def get_paper_references(self, arxiv_id: str) -> List[str]:
         """
         Get references cited by a paper.
-        Uses cache first, then tries OpenCitations, then Semantic Scholar as fallback.
+        Priority: cache → arXiv HTML → OpenCitations → Semantic Scholar.
         
         Args:
             arxiv_id: Clean arXiv ID (e.g., '2101.12345')
@@ -208,31 +258,36 @@ class ArxivCitationAnalyzer:
         Returns:
             List of arXiv IDs cited by this paper
         """
-        # Try cache first
+        # 1. Try cache first
         if self.cache:
             cached_refs = self.cache.get_citations(arxiv_id, max_age_days=30)
             if cached_refs is not None:
                 print(f"    Using cached references for {arxiv_id}")
                 return cached_refs
+
+        # 2. Try arXiv HTML (available same-day for most papers)
+        html_refs = self._get_references_from_html(arxiv_id)
+        if html_refs is not None:
+            print(f"    arXiv HTML: {len(html_refs)} refs for {arxiv_id}")
+            if self.cache and html_refs:
+                self.cache.cache_citations(arxiv_id, html_refs)
+            return html_refs
         
-        # Try OpenCitations first (no rate limits)
+        # 3. Try OpenCitations (no rate limits)
         if self.oc_client:
             print(f"    Trying OpenCitations for {arxiv_id}")
             arxiv_refs = self.oc_client.get_references(arxiv_id)
             if arxiv_refs:
-                # Cache the results
                 if self.cache:
                     self.cache.cache_citations(arxiv_id, arxiv_refs)
                 return arxiv_refs
         
-        # Fallback to Semantic Scholar if OpenCitations didn't return results
+        # 4. Fallback to Semantic Scholar
         if S2_AVAILABLE and self.s2_client:
             try:
-                # Query Semantic Scholar using arXiv ID
                 paper = self.s2_client.get_paper(f"ARXIV:{arxiv_id}")
                 
                 if paper and paper.references:
-                    # Extract arXiv IDs from references
                     arxiv_refs = []
                     for ref in paper.references:
                         if ref.externalIds and 'ArXiv' in ref.externalIds:
@@ -240,7 +295,6 @@ class ArxivCitationAnalyzer:
                             if ref_arxiv_id:
                                 arxiv_refs.append(ref_arxiv_id)
                     
-                    # Cache the results
                     if self.cache and arxiv_refs:
                         self.cache.cache_citations(arxiv_id, arxiv_refs)
                     
