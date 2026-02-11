@@ -26,6 +26,12 @@ from datamodel import Article
 import requests
 from bs4 import BeautifulSoup
 
+try:
+    from research_clustering import ResearchClusterer
+    RESEARCH_CLUSTERER_AVAILABLE = True
+except ImportError:
+    RESEARCH_CLUSTERER_AVAILABLE = False
+
 
 class AgentTools:
     """Tools available to the agent for gathering and processing information.
@@ -799,7 +805,12 @@ class AgentBriefing:
             # Rank if needed
             use_ranking = batch.get('use_original_ranking', True)
             if use_ranking and len(batch_articles) > max_papers:
-                batch_articles = self._rank_research_papers(batch_articles, top_k=max_papers)
+                # Prefer embedding-based clustering when Azure embeddings are available
+                if RESEARCH_CLUSTERER_AVAILABLE and self.agent.has_embeddings():
+                    clusterer = ResearchClusterer(llm=self.agent)
+                    batch_articles = clusterer.process(batch_articles, max_papers=max_papers)
+                else:
+                    batch_articles = self._rank_research_papers(batch_articles, top_k=max_papers)
             else:
                 batch_articles = batch_articles[:max_papers]
 
