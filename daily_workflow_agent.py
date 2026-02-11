@@ -137,7 +137,7 @@ def main():
     try:
         from citations_data import generate_and_save_citations
         print("\nRunning citation analysis on research papers...")
-        citation_data = generate_and_save_citations(days=1, top_n=15, min_citations=1)
+        citation_data = generate_and_save_citations(days=1, top_n=50, min_citations=1)
         if citation_data:
             print(f"✓ Citation analysis complete: {citation_data['paper_count']} papers")
         else:

@@ -9,10 +9,12 @@ citation rankings that can be displayed on the static site.
 
 import json
 import os
+import time
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
 
 from research import Research
+from citation_cache import CitationCache
 
 
 CITATIONS_DATA_FILE = os.path.join(
@@ -24,7 +26,7 @@ CITATIONS_DATA_FILE = os.path.join(
 
 def run_citation_analysis(
     days: int = 1,
-    top_n: int = 15,
+    top_n: int = 50,
     min_citations: int = 1,
     categories: Optional[List[str]] = None
 ) -> Dict[str, Any]:
@@ -210,7 +212,7 @@ def load_citation_data(filepath: Optional[str] = None) -> Optional[Dict[str, Any
 
 def generate_and_save_citations(
     days: int = 1,
-    top_n: int = 15,
+    top_n: int = 50,
     min_citations: int = 1
 ) -> Optional[Dict[str, Any]]:
     """
@@ -236,10 +238,160 @@ def generate_and_save_citations(
         return None
 
 
+def regenerate_from_cache(
+    top_n: int = 50,
+    min_citations: int = 1,
+    categories: Optional[List[str]] = None
+) -> Optional[Dict[str, Any]]:
+    """
+    Regenerate citations_latest.json from the SQLite cache without re-fetching
+    RSS feeds or HTML bibliographies. Only fetches arXiv metadata for papers
+    not already in the cache.
+    
+    Args:
+        top_n: Number of top papers to return
+        min_citations: Minimum citation count threshold
+        categories: Category list for metadata (not used for filtering)
+        
+    Returns:
+        Citation data dict, or None on error
+    """
+    if categories is None:
+        categories = [
+            "cs.AI", "cs.LG", "cs.CL", "cs.CV",
+            "cs.DC", "cs.SY", "cs.PF", "cs.AR"
+        ]
+    
+    cache = CitationCache()
+    
+    import sqlite3
+    conn = sqlite3.connect(cache.db_path)
+    c = conn.cursor()
+    
+    # Get top cited papers from cache
+    c.execute("""
+        SELECT cited_paper, COUNT(*) as cnt
+        FROM citations
+        GROUP BY cited_paper
+        HAVING cnt >= ?
+        ORDER BY cnt DESC
+        LIMIT ?
+    """, (min_citations, top_n))
+    top_papers = c.fetchall()
+    conn.close()
+    
+    if not top_papers:
+        print("No citation data in cache")
+        return None
+    
+    print(f"Found {len(top_papers)} papers in cache (top {top_n}, min {min_citations} citations)")
+    
+    # Enrich each paper with metadata
+    papers = []
+    for arxiv_id, citation_count in top_papers:
+        # Try cache first
+        cached = cache.get_paper(arxiv_id, max_age_days=30)
+        if cached:
+            papers.append({
+                "title": cached.get('title', arxiv_id),
+                "url": cached.get('url', f"https://arxiv.org/abs/{arxiv_id}"),
+                "summary": cached.get('summary', ''),
+                "published_at": cached.get('published', None),
+                "citation_count": citation_count,
+                "total_citations": cached.get('citation_count', 0),
+            })
+            continue
+        
+        # Fetch from arXiv API (lightweight metadata only)
+        paper_info = _fetch_arxiv_metadata(arxiv_id)
+        if paper_info:
+            cache.cache_paper(arxiv_id, paper_info)
+            papers.append({
+                "title": paper_info.get('title', arxiv_id),
+                "url": paper_info.get('url', f"https://arxiv.org/abs/{arxiv_id}"),
+                "summary": paper_info.get('summary', ''),
+                "published_at": paper_info.get('published', None),
+                "citation_count": citation_count,
+                "total_citations": paper_info.get('citation_count', 0),
+            })
+        else:
+            # Minimal entry with just the ID
+            papers.append({
+                "title": arxiv_id,
+                "url": f"https://arxiv.org/abs/{arxiv_id}",
+                "summary": "",
+                "published_at": None,
+                "citation_count": citation_count,
+                "total_citations": 0,
+            })
+    
+    result = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "analysis_params": {
+            "days": 1,
+            "top_n": top_n,
+            "min_citations": min_citations,
+            "categories": categories,
+        },
+        "papers": papers,
+        "paper_count": len(papers),
+    }
+    
+    save_citation_data(result)
+    print(f"✓ Regenerated {len(papers)} papers from cache")
+    return result
+
+
+def _fetch_arxiv_metadata(arxiv_id: str) -> Optional[Dict]:
+    """Fetch paper metadata from the arXiv API (Atom feed for a single paper)."""
+    import requests
+    try:
+        resp = requests.get(
+            f"http://export.arxiv.org/api/query?id_list={arxiv_id}&max_results=1",
+            timeout=15
+        )
+        if resp.status_code != 200:
+            return None
+        
+        from xml.etree import ElementTree as ET
+        ns = {'atom': 'http://www.w3.org/2005/Atom'}
+        root = ET.fromstring(resp.text)
+        entry = root.find('atom:entry', ns)
+        if entry is None:
+            return None
+        
+        title = entry.findtext('atom:title', '', ns).strip().replace('\n', ' ')
+        summary = entry.findtext('atom:summary', '', ns).strip().replace('\n', ' ')
+        published = entry.findtext('atom:published', '', ns)[:10] if entry.findtext('atom:published', '', ns) else ''
+        authors = [a.findtext('atom:name', '', ns) for a in entry.findall('atom:author', ns)]
+        
+        # Brief delay to be polite to arXiv API
+        time.sleep(0.2)
+        
+        return {
+            'title': title,
+            'authors': authors,
+            'published': published,
+            'summary': summary,
+            'url': f"https://arxiv.org/abs/{arxiv_id}",
+            'citation_count': 0,
+        }
+    except Exception as e:
+        print(f"  Warning: Could not fetch metadata for {arxiv_id}: {e}")
+        return None
+
+
 if __name__ == "__main__":
-    # Test citation analysis
-    print("Running citation analysis test...")
-    data = generate_and_save_citations(days=1, top_n=15, min_citations=1)
+    import sys
+    
+    if "--from-cache" in sys.argv:
+        # Regenerate from cached data (no new fetches)
+        print("Regenerating from cache...")
+        data = regenerate_from_cache(top_n=50, min_citations=1)
+    else:
+        # Full analysis
+        print("Running citation analysis test...")
+        data = generate_and_save_citations(days=1, top_n=50, min_citations=1)
     if data:
         print(f"\nFound {data['paper_count']} papers")
         print("\nTop 5 papers:")
