@@ -2,6 +2,7 @@ import feeds
 from copilot import Copilot
 import json
 import re
+import time
 
 try:
     from arxiv_citations import ArxivCitationAnalyzer
@@ -251,6 +252,52 @@ class CitationRanker(ResearchRanker):
             article.citation_count = cite_count
             article.total_citations = info.get('citation_count', 0)
             ranked_articles.append(article)
+        
+        return ranked_articles
+    
+    def rank_from_articles(self, articles, target=50, min_citations=1):
+        """
+        Build citation graph from pre-fetched Article objects (no RSS re-fetch).
+        
+        Args:
+            articles: List of Article objects already fetched by the briefing pipeline
+            target: Number of top papers to return
+            min_citations: Minimum citation threshold
+        """
+        if not CITATION_ANALYZER_AVAILABLE:
+            print("Citation analyzer not available")
+            return []
+        
+        self._ensure_analyzer()
+        
+        print(f"Building citation graph from {len(articles)} pre-fetched articles...")
+        
+        # Build citation graph directly from provided articles
+        self.analyzer.build_citation_graph(articles, delay=0.5)
+        
+        # Get most cited papers
+        top_papers = self.analyzer.get_most_cited_papers(
+            top_n=target,
+            min_citations=min_citations
+        )
+        
+        # Enrich info for top papers
+        print(f"\nEnriching info for top {len(top_papers)} papers...")
+        from datamodel import Article
+        ranked_articles = []
+        for arxiv_id, count, info in top_papers:
+            enriched_info = self.analyzer.enrich_paper_info(arxiv_id)
+            article = Article(
+                title=enriched_info.get('title', 'Unknown'),
+                url=enriched_info.get('url', f"https://arxiv.org/abs/{arxiv_id}"),
+                summary=enriched_info.get('summary', ''),
+                source='arxiv_citations',
+                published_at=enriched_info.get('published', ''),
+            )
+            article.citation_count = count
+            article.total_citations = enriched_info.get('citation_count', 0)
+            ranked_articles.append(article)
+            time.sleep(0.5)
         
         return ranked_articles
 

@@ -137,7 +137,11 @@ def main():
     try:
         from citations_data import generate_and_save_citations
         print("\nRunning citation analysis on research papers...")
-        citation_data = generate_and_save_citations(days=1, top_n=50, min_citations=1)
+        # Reuse articles already fetched during briefing generation
+        research_articles = getattr(briefing_system, 'all_research_articles', None)
+        if research_articles:
+            print(f"  Reusing {len(research_articles)} pre-fetched research articles")
+        citation_data = generate_and_save_citations(days=1, top_n=50, min_citations=1, articles=research_articles)
         if citation_data:
             print(f"✓ Citation analysis complete: {citation_data['paper_count']} papers")
         else:

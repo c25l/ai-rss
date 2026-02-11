@@ -28,7 +28,8 @@ def run_citation_analysis(
     days: int = 1,
     top_n: int = 50,
     min_citations: int = 1,
-    categories: Optional[List[str]] = None
+    categories: Optional[List[str]] = None,
+    articles: Optional[List] = None
 ) -> Dict[str, Any]:
     """
     Run citation analysis on research feeds and return structured results.
@@ -38,6 +39,7 @@ def run_citation_analysis(
         top_n: Number of top papers to return
         min_citations: Minimum citation threshold
         categories: arXiv categories to analyze (defaults to all research categories)
+        articles: Pre-fetched Article objects to analyze (skips RSS re-fetch if provided)
         
     Returns:
         Dictionary with citation analysis results
@@ -52,6 +54,9 @@ def run_citation_analysis(
     print(f"Running citation analysis on {len(categories)} categories...")
     print(f"  Days: {days}, Top N: {top_n}, Min citations: {min_citations}")
     print(f"  Categories: {', '.join(categories)}")
+    
+    if articles:
+        print(f"  Using {len(articles)} pre-fetched articles (no RSS re-fetch)")
     
     # Initialize Research with citation ranker
     try:
@@ -71,12 +76,20 @@ def run_citation_analysis(
     
     # Run citation analysis
     try:
-        ranked_articles = research.citation_ranker.rank(
-            articles=[],  # Not used - citation ranker fetches directly
-            target=top_n,
-            days=days,
-            min_citations=min_citations
-        )
+        if articles:
+            # Use pre-fetched articles — bypass RSS re-fetch
+            ranked_articles = research.citation_ranker.rank_from_articles(
+                articles=articles,
+                target=top_n,
+                min_citations=min_citations
+            )
+        else:
+            ranked_articles = research.citation_ranker.rank(
+                articles=[],  # Not used - citation ranker fetches directly
+                target=top_n,
+                days=days,
+                min_citations=min_citations
+            )
     except Exception as e:
         print(f"ERROR: Citation analysis failed: {e}")
         print("This may be due to:")
@@ -213,7 +226,8 @@ def load_citation_data(filepath: Optional[str] = None) -> Optional[Dict[str, Any
 def generate_and_save_citations(
     days: int = 1,
     top_n: int = 50,
-    min_citations: int = 1
+    min_citations: int = 1,
+    articles: Optional[List] = None
 ) -> Optional[Dict[str, Any]]:
     """
     Run citation analysis and save results.
@@ -223,12 +237,13 @@ def generate_and_save_citations(
         days: Number of days to look back for papers
         top_n: Number of top papers to return
         min_citations: Minimum citation threshold
+        articles: Pre-fetched Article objects (skips RSS re-fetch if provided)
         
     Returns:
         Citation data dict, or None on error
     """
     try:
-        data = run_citation_analysis(days=days, top_n=top_n, min_citations=min_citations)
+        data = run_citation_analysis(days=days, top_n=top_n, min_citations=min_citations, articles=articles)
         save_citation_data(data)
         return data
     except Exception as e:

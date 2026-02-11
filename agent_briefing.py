@@ -886,6 +886,11 @@ class AgentBriefing:
         # Store combined raw_content for backward compat
         self.raw_content = {**news_content, **research_content}
 
+        # Stash all research articles for reuse by citation analysis
+        self.all_research_articles = [
+            a for arts in research_content.values() for a in arts
+        ]
+
         # Apply article age filtering if specified in preferences
         min_age_hours = self.preferences.get('content_preferences', {}).get('min_article_age_hours', 0)
         if min_age_hours > 0:
