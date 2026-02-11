@@ -250,14 +250,12 @@ def _citations_page():
             summary += "..."
         
         cite_count = paper.get('citation_count', 0)
-        total_citations = paper.get('total_citations', 0)
         
         paper_html = f"""
 <article>
   <h3>{i}. <a href="{url}" target="_blank">{title}</a></h3>
   <p>
-    <strong>📊 Cited by recent papers:</strong> {cite_count} times<br>
-    <strong>📚 Total citations:</strong> {total_citations:,}
+    <strong>📊 Cited by recent papers:</strong> {cite_count} times
   </p>
   <p><small>{summary}</small></p>
 </article>
