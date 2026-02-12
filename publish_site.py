@@ -163,18 +163,18 @@ def _hazards_page():
 <h1>🗺️ Natural Hazards Map</h1>
 <p><em>Live data from USGS, NASA, and NWS — refreshes every 15 minutes.</em></p>
 
-<article>
+<div class="hazard-map-wrapper">
   <div id="hazard-map" class="hazard-map"></div>
-  <div class="hazard-legend">
-    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#e74c3c"></span> Wildfire</span>
-    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#ffc107"></span> Earthquake</span>
-    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#8e44ad"></span> Severe Storm</span>
-    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#d35400"></span> Volcano</span>
-    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#2980b9"></span> Flood</span>
-    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#1565c0"></span> Weather Alert</span>
-    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#2196f3"></span> Home</span>
-  </div>
-</article>
+</div>
+<div class="hazard-legend">
+  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#e74c3c"></span> Wildfire</span>
+  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#ffc107"></span> Earthquake</span>
+  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#8e44ad"></span> Severe Storm</span>
+  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#d35400"></span> Volcano</span>
+  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#2980b9"></span> Flood</span>
+  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#1565c0"></span> Weather Alert</span>
+  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#2196f3"></span> Home</span>
+</div>
 
 <div class="hazard-status-grid">
   <article>

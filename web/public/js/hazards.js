@@ -55,7 +55,7 @@ function initMap() {
   const container = document.getElementById('hazard-map');
   if (!container || hazardMap) return;
 
-  hazardMap = L.map('hazard-map').setView([HAZARDS_NWS_LAT, HAZARDS_NWS_LON], 4);
+  hazardMap = L.map('hazard-map', { tap: true }).setView([HAZARDS_NWS_LAT, HAZARDS_NWS_LON], 4);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -71,6 +71,10 @@ function initMap() {
   quakeLayer = L.layerGroup().addTo(hazardMap);
   eonetLayer = L.layerGroup().addTo(hazardMap);
   alertLayer = L.layerGroup().addTo(hazardMap);
+
+  // Force Leaflet to recalculate container size (fixes blank map on mobile)
+  setTimeout(function() { hazardMap.invalidateSize(); }, 100);
+  window.addEventListener('resize', function() { hazardMap.invalidateSize(); });
 }
 
 // ── Earthquake layer ─────────────────────────────────────────────────────────
