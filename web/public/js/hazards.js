@@ -17,6 +17,9 @@ const EONET_URL = 'https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=1
 const NWS_ALERTS_URL = `https://api.weather.gov/alerts/active?point=${HAZARDS_NWS_LAT},${HAZARDS_NWS_LON}`;
 
 let hazardMap = null;
+let quakeLayer = null;
+let eonetLayer = null;
+let alertLayer = null;
 
 // EONET category → display config
 const EONET_CATEGORIES = {
@@ -59,10 +62,15 @@ function initMap() {
     maxZoom: 18,
   }).addTo(hazardMap);
 
-  // Home marker
+  // Home marker (persistent, not in a clearable layer group)
   L.circleMarker([HAZARDS_NWS_LAT, HAZARDS_NWS_LON], {
     radius: 6, color: '#2196f3', fillColor: '#2196f3', fillOpacity: 0.8, weight: 2,
   }).addTo(hazardMap).bindPopup('<strong>📍 Home Location</strong>');
+
+  // Layer groups for each data source (cleared on refresh)
+  quakeLayer = L.layerGroup().addTo(hazardMap);
+  eonetLayer = L.layerGroup().addTo(hazardMap);
+  alertLayer = L.layerGroup().addTo(hazardMap);
 }
 
 // ── Earthquake layer ─────────────────────────────────────────────────────────
@@ -86,7 +94,7 @@ async function loadEarthquakes() {
         fillColor: quakeColor(mag),
         fillOpacity: 0.6,
         weight: 1,
-      }).addTo(hazardMap).bindPopup(
+      }).addTo(quakeLayer).bindPopup(
         `<strong>🔴 M${mag.toFixed(1)} Earthquake</strong><br>` +
         `${place}<br>` +
         `Depth: ${depth.toFixed(1)} km<br>` +
@@ -128,7 +136,7 @@ async function loadEONET() {
         fillColor: cfg.color,
         fillOpacity: 0.7,
         weight: 1,
-      }).addTo(hazardMap).bindPopup(
+      }).addTo(eonetLayer).bindPopup(
         `<strong>${cfg.emoji} ${cfg.label}</strong><br>` +
         `${ev.title}<br>` +
         (date ? `<small>${date}</small>` : '')
@@ -163,18 +171,26 @@ async function loadNWSAlerts() {
                     severity === 'Moderate' ? '#f57f17' : '#1565c0';
       const emoji = severity === 'Extreme' ? '🚨' :
                     severity === 'Severe'  ? '⚠️' :
-                    severity === 'Moderate' ? '⚡' : 'ℹ️';
+                    severity === 'Moderate' ? '⚡' :
+                    severity === 'Minor'   ? 'ℹ️' : 'ℹ️';
 
-      // If alert has polygon geometry, draw it
+      // Draw alert geometry (handles both Polygon and MultiPolygon)
       if (a.geometry && a.geometry.coordinates) {
-        const coords = a.geometry.coordinates[0].map(c => [c[1], c[0]]);
-        L.polygon(coords, {
-          color: color, fillColor: color, fillOpacity: 0.15, weight: 2,
-        }).addTo(hazardMap).bindPopup(
+        const popupContent =
           `<strong>${emoji} ${p.event}</strong><br>` +
           `${p.headline || ''}<br>` +
-          `<small>Severity: ${severity}</small>`
-        );
+          `<small>Severity: ${severity}</small>`;
+        const style = { color: color, fillColor: color, fillOpacity: 0.15, weight: 2 };
+
+        if (a.geometry.type === 'MultiPolygon') {
+          a.geometry.coordinates.forEach(poly => {
+            const coords = poly[0].map(c => [c[1], c[0]]);
+            L.polygon(coords, style).addTo(alertLayer).bindPopup(popupContent);
+          });
+        } else {
+          const coords = a.geometry.coordinates[0].map(c => [c[1], c[0]]);
+          L.polygon(coords, style).addTo(alertLayer).bindPopup(popupContent);
+        }
       }
     });
 
@@ -191,22 +207,24 @@ async function loadNWSAlerts() {
 // ── Bootstrap ────────────────────────────────────────────────────────────────
 
 async function loadHazards() {
-  initMap();
+  const container = document.getElementById('hazard-map');
+  if (!container) return;
+
+  try {
+    initMap();
+  } catch (e) {
+    container.innerHTML = `<p class="error">Map failed to initialize: ${e.message}</p>`;
+    return;
+  }
+
+  // Clear previous data layers before refreshing
+  if (quakeLayer) quakeLayer.clearLayers();
+  if (eonetLayer) eonetLayer.clearLayers();
+  if (alertLayer) alertLayer.clearLayers();
+
   await Promise.all([loadEarthquakes(), loadEONET(), loadNWSAlerts()]);
 }
 
 document.addEventListener('DOMContentLoaded', loadHazards);
 // Refresh every 15 minutes
-setInterval(() => {
-  if (hazardMap) {
-    hazardMap.eachLayer(layer => {
-      if (layer instanceof L.CircleMarker || layer instanceof L.Polygon) {
-        // Don't remove the tile layer or home marker on first init
-        if (layer.options && layer.options.fillColor !== '#2196f3') {
-          hazardMap.removeLayer(layer);
-        }
-      }
-    });
-  }
-  loadHazards();
-}, 15 * 60 * 1000);
+setInterval(loadHazards, 15 * 60 * 1000);
