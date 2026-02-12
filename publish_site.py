@@ -448,10 +448,7 @@ def _copy_static_assets(site_dir):
         dst = os.path.join(site_dir, subdir)
         if not os.path.isdir(src):
             continue
-        # Use copytree for vendor (has subdirectories like leaflet/images)
-        if os.path.isdir(dst):
-            shutil.rmtree(dst)
-        shutil.copytree(src, dst)
+        shutil.copytree(src, dst, dirs_exist_ok=True)
 
 
 # =============================================================================
