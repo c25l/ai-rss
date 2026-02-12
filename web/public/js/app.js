@@ -7,6 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (saved) {
     document.documentElement.setAttribute('data-theme', saved);
   }
+  updateThemeToggle();
+
+  // Attach theme toggle click handler
+  const btn = document.getElementById('theme-toggle');
+  if (btn) {
+    btn.addEventListener('click', toggleTheme);
+  }
 });
 
 function toggleTheme() {
@@ -14,4 +21,13 @@ function toggleTheme() {
   const next = current === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('h3lper-theme', next);
+  updateThemeToggle();
+}
+
+function updateThemeToggle() {
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  btn.textContent = isDark ? '☀️' : '🌙';
+  btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
 }

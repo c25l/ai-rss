@@ -83,6 +83,7 @@ def _page_wrapper(title, body, active_page=""):
       <li><a href="/dashboard/"{_nav_class("dashboard")}>Dashboard</a></li>
       <li><a href="/citations/"{_nav_class("citations")}>Citations</a></li>
       <li><a href="/briefings/"{_nav_class("briefings")}>Archive</a></li>
+      <li><button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button></li>
     </ul>
   </nav>
   <main class="container">
