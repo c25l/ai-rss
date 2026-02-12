@@ -58,7 +58,7 @@ def _load_preferences():
 # Templates
 # =============================================================================
 
-def _page_wrapper(title, body, active_page=""):
+def _page_wrapper(title, body, active_page="", extra_head=""):
     """Wrap body HTML in the full page chrome (Pico CSS, nav, footer)."""
     def _nav_class(page):
         return ' class="active"' if page == active_page else ""
@@ -72,6 +72,7 @@ def _page_wrapper(title, body, active_page=""):
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
   <link rel="stylesheet" href="/css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+{extra_head}
 </head>
 <body>
   <nav class="container-fluid">
@@ -81,6 +82,7 @@ def _page_wrapper(title, body, active_page=""):
     <ul>
       <li><a href="/"{_nav_class("home")}>Latest</a></li>
       <li><a href="/dashboard/"{_nav_class("dashboard")}>Dashboard</a></li>
+      <li><a href="/hazards/"{_nav_class("hazards")}>Hazards</a></li>
       <li><a href="/citations/"{_nav_class("citations")}>Citations</a></li>
       <li><a href="/briefings/"{_nav_class("briefings")}>Archive</a></li>
       <li><button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button></li>
@@ -151,6 +153,48 @@ def _dashboard_page(stock_symbols):
 
 <script src="/js/weather.js"></script>
 <script src="/js/spaceweather.js"></script>
+"""
+    return body
+
+
+def _hazards_page():
+    """Generate natural hazards map page body HTML."""
+    body = """
+<h1>🗺️ Natural Hazards Map</h1>
+<p><em>Live data from USGS, NASA, and NWS — refreshes every 15 minutes.</em></p>
+
+<article>
+  <div id="hazard-map" class="hazard-map"></div>
+  <div class="hazard-legend">
+    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#e74c3c"></span> Wildfire</span>
+    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#ffc107"></span> Earthquake</span>
+    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#8e44ad"></span> Severe Storm</span>
+    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#d35400"></span> Volcano</span>
+    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#2980b9"></span> Flood</span>
+    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#1565c0"></span> Weather Alert</span>
+    <span class="hazard-legend-item"><span class="hazard-dot" style="background:#2196f3"></span> Home</span>
+  </div>
+</article>
+
+<div class="hazard-status-grid">
+  <article>
+    <header>🔴 Earthquakes</header>
+    <p id="quake-status">Loading…</p>
+    <small>Source: <a href="https://earthquake.usgs.gov" target="_blank">USGS</a></small>
+  </article>
+  <article>
+    <header>🌍 Natural Events</header>
+    <p id="eonet-status">Loading…</p>
+    <small>Source: <a href="https://eonet.gsfc.nasa.gov" target="_blank">NASA EONET</a></small>
+  </article>
+  <article>
+    <header>⚠️ Weather Alerts</header>
+    <p id="alert-status">Loading…</p>
+    <small>Source: <a href="https://www.weather.gov" target="_blank">NWS</a></small>
+  </article>
+</div>
+
+<script src="/js/hazards.js"></script>
 """
     return body
 
@@ -441,7 +485,22 @@ def generate_site(site_dir, incremental=True):
         f.write(dashboard_html)
     print("✓ Dashboard generated")
 
-    # 3. Citations page (/citations/index.html)
+    # 3. Hazards map (/hazards/index.html)
+    os.makedirs(os.path.join(site_dir, "hazards"), exist_ok=True)
+    hazards_body = _hazards_page()
+    leaflet_head = (
+        '  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" '
+        'integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">\n'
+        '  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" '
+        'integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>'
+    )
+    hazards_html = _page_wrapper("Natural Hazards Map", hazards_body,
+                                  active_page="hazards", extra_head=leaflet_head)
+    with open(os.path.join(site_dir, "hazards", "index.html"), "w") as f:
+        f.write(hazards_html)
+    print("✓ Hazards map generated")
+
+    # 4. Citations page (/citations/index.html)
     os.makedirs(os.path.join(site_dir, "citations"), exist_ok=True)
     citations_body = _citations_page()
     citations_html = _page_wrapper("Most Cited Papers", citations_body, active_page="citations")
@@ -449,7 +508,7 @@ def generate_site(site_dir, incremental=True):
         f.write(citations_html)
     print("✓ Citations page generated")
 
-    # 4. Discover and render briefings
+    # 5. Discover and render briefings
     briefings = _discover_briefings()
     generated = 0
     skipped = 0
@@ -480,14 +539,14 @@ def generate_site(site_dir, incremental=True):
 
     print(f"✓ Briefings: {generated} generated, {skipped} skipped (already exist)")
 
-    # 5. Briefings archive page (always regenerated)
+    # 6. Briefings archive page (always regenerated)
     archive_body = _briefings_archive_page(briefings)
     archive_html = _page_wrapper("Archive", archive_body, active_page="briefings")
     with open(os.path.join(site_dir, "briefings", "index.html"), "w") as f:
         f.write(archive_html)
     print(f"✓ Briefings archive ({len(briefings)} entries)")
 
-    # 6. Landing page = latest briefing (always regenerated)
+    # 7. Landing page = latest briefing (always regenerated)
     if briefings:
         latest = briefings[0]
         try:
@@ -505,7 +564,7 @@ def generate_site(site_dir, incremental=True):
         with open(os.path.join(site_dir, "index.html"), "w") as f:
             f.write(_page_wrapper("H3lPeR", archive_body, active_page="home"))
 
-    # 7. .nojekyll to prevent GitHub Pages from processing with Jekyll
+    # 8. .nojekyll to prevent GitHub Pages from processing with Jekyll
     nojekyll = os.path.join(site_dir, ".nojekyll")
     if not os.path.exists(nojekyll):
         with open(nojekyll, "w") as f:
