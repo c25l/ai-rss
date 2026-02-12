@@ -168,11 +168,11 @@ def _hazards_page():
 </div>
 <div class="hazard-legend">
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#e74c3c"></span> Wildfire</span>
-  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#ffc107"></span> Earthquake</span>
+  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#8bc34a"></span><span class="hazard-dot" style="background:#ffc107"></span><span class="hazard-dot" style="background:#ff9800"></span><span class="hazard-dot" style="background:#e53935"></span><span class="hazard-dot" style="background:#7f0000"></span> Earthquake (M2.5→7+)</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#8e44ad"></span> Severe Storm</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#d35400"></span> Volcano</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#2980b9"></span> Flood</span>
-  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#1565c0"></span> Weather Alert</span>
+  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#1565c0"></span><span class="hazard-dot" style="background:#f57f17"></span><span class="hazard-dot" style="background:#e65100"></span><span class="hazard-dot" style="background:#b71c1c"></span> Alert (Minor→Extreme)</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#2196f3"></span> Home</span>
 </div>
 
