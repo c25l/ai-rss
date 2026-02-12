@@ -215,6 +215,21 @@ footer {
   flex-shrink: 0;
 }
 
+.hazard-dot-sm {
+  width: 6px;
+  height: 6px;
+}
+
+.hazard-dot-md {
+  width: 10px;
+  height: 10px;
+}
+
+.hazard-dot-lg {
+  width: 14px;
+  height: 14px;
+}
+
 .hazard-status-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

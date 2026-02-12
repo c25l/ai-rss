@@ -5,8 +5,10 @@
  *   - USGS Earthquake Feed: M2.5+ earthquakes from the last 7 days
  *   - NASA EONET v3: Active natural events (wildfires, storms, volcanoes, etc.)
  *   - NWS Active Alerts: Weather warnings/watches near configured location
+ *   - NWS Tsunami Alerts: Active tsunami warnings/watches/advisories
+ *   - USGS Flood Gauges: Sites at or above flood stage
  *
- * Renders markers color-coded by hazard type with popups showing details.
+ * Markers use SIZE to indicate intensity (not color).
  */
 
 const HAZARDS_NWS_LAT = 40.1657;
@@ -15,11 +17,15 @@ const HAZARDS_NWS_LON = -105.1012;
 const USGS_QUAKE_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson';
 const EONET_URL = 'https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=100';
 const NWS_ALERTS_URL = `https://api.weather.gov/alerts/active?point=${HAZARDS_NWS_LAT},${HAZARDS_NWS_LON}`;
+const NWS_TSUNAMI_URL = 'https://api.weather.gov/alerts/active?event=Tsunami%20Warning,Tsunami%20Watch,Tsunami%20Advisory';
+const USGS_FLOOD_GAUGE_URL = 'https://waterwatch.usgs.gov/webservices/floodstage?format=json';
 
 let hazardMap = null;
 let quakeLayer = null;
 let eonetLayer = null;
 let alertLayer = null;
+let tsunamiLayer = null;
+let floodGaugeLayer = null;
 
 // EONET category → display config
 const EONET_CATEGORIES = {
@@ -38,13 +44,8 @@ function getEonetConfig(categoryId) {
   return EONET_CATEGORIES[categoryId] || { emoji: '⚠️', color: '#f39c12', label: categoryId };
 }
 
-function quakeColor(mag) {
-  if (mag >= 7) return '#7f0000';
-  if (mag >= 6) return '#b71c1c';
-  if (mag >= 5) return '#e53935';
-  if (mag >= 4) return '#ff9800';
-  if (mag >= 3) return '#ffc107';
-  return '#8bc34a';
+function quakeColor() {
+  return '#e53935';
 }
 
 function quakeRadius(mag) {
@@ -71,6 +72,8 @@ function initMap() {
   quakeLayer = L.layerGroup().addTo(hazardMap);
   eonetLayer = L.layerGroup().addTo(hazardMap);
   alertLayer = L.layerGroup().addTo(hazardMap);
+  tsunamiLayer = L.layerGroup().addTo(hazardMap);
+  floodGaugeLayer = L.layerGroup().addTo(hazardMap);
 
   // Force Leaflet to recalculate container size (fixes blank map on mobile)
   setTimeout(function() { hazardMap.invalidateSize(); }, 100);
@@ -94,8 +97,8 @@ async function loadEarthquakes() {
 
       L.circleMarker([lat, lon], {
         radius: quakeRadius(mag),
-        color: quakeColor(mag),
-        fillColor: quakeColor(mag),
+        color: quakeColor(),
+        fillColor: quakeColor(),
         fillOpacity: 0.6,
         weight: 1,
       }).addTo(quakeLayer).bindPopup(
@@ -166,13 +169,11 @@ async function loadNWSAlerts() {
     });
     const data = await resp.json();
     const alerts = data.features || [];
+    const alertColor = '#e65100';
 
     alerts.forEach(a => {
       const p = a.properties;
       const severity = p.severity || 'Unknown';
-      const color = severity === 'Extreme' ? '#b71c1c' :
-                    severity === 'Severe'  ? '#e65100' :
-                    severity === 'Moderate' ? '#f57f17' : '#1565c0';
       const emoji = severity === 'Extreme' ? '🚨' :
                     severity === 'Severe'  ? '⚠️' :
                     severity === 'Moderate' ? '⚡' :
@@ -184,7 +185,8 @@ async function loadNWSAlerts() {
           `<strong>${emoji} ${p.event}</strong><br>` +
           `${p.headline || ''}<br>` +
           `<small>Severity: ${severity}</small>`;
-        const style = { color: color, fillColor: color, fillOpacity: 0.15, weight: 2 };
+        const weight = severity === 'Extreme' ? 3 : 2;
+        const style = { color: alertColor, fillColor: alertColor, fillOpacity: 0.15, weight: weight };
 
         if (a.geometry.type === 'MultiPolygon') {
           a.geometry.coordinates.forEach(poly => {
@@ -208,6 +210,99 @@ async function loadNWSAlerts() {
   }
 }
 
+// ── NOAA Tsunami Warnings layer ──────────────────────────────────────────────
+
+async function loadTsunamiAlerts() {
+  const status = document.getElementById('tsunami-status');
+  try {
+    const resp = await fetch(NWS_TSUNAMI_URL, {
+      headers: { 'User-Agent': 'H3lPeR Hazards Map' }
+    });
+    const data = await resp.json();
+    const alerts = data.features || [];
+    const tsunamiColor = '#00bcd4';
+
+    alerts.forEach(a => {
+      const p = a.properties;
+      const popupContent =
+        `<strong>🌊 ${p.event}</strong><br>` +
+        `${p.headline || ''}<br>` +
+        `<small>Severity: ${p.severity || 'Unknown'}</small>`;
+      const style = { color: tsunamiColor, fillColor: tsunamiColor, fillOpacity: 0.2, weight: 2 };
+
+      if (a.geometry && a.geometry.coordinates) {
+        if (a.geometry.type === 'MultiPolygon') {
+          a.geometry.coordinates.forEach(poly => {
+            const coords = poly[0].map(c => [c[1], c[0]]);
+            L.polygon(coords, style).addTo(tsunamiLayer).bindPopup(popupContent);
+          });
+        } else if (a.geometry.type === 'Polygon') {
+          const coords = a.geometry.coordinates[0].map(c => [c[1], c[0]]);
+          L.polygon(coords, style).addTo(tsunamiLayer).bindPopup(popupContent);
+        }
+      }
+    });
+
+    if (status) {
+      status.textContent = alerts.length
+        ? `${alerts.length} tsunami alert${alerts.length > 1 ? 's' : ''}`
+        : 'No active tsunami alerts';
+    }
+  } catch (e) {
+    if (status) status.textContent = 'Tsunami data unavailable';
+  }
+}
+
+// ── USGS Flood Gauges layer ──────────────────────────────────────────────────
+
+function floodGaugeStyle(floodClass) {
+  const styles = {
+    action:   { color: '#ffc107', radius: 5 },
+    flood:    { color: '#ff9800', radius: 7 },
+    moderate: { color: '#e65100', radius: 9 },
+    major:    { color: '#b71c1c', radius: 12 },
+  };
+  return styles[floodClass] || styles.action;
+}
+
+async function loadFloodGauges() {
+  const status = document.getElementById('flood-gauge-status');
+  try {
+    const resp = await fetch(USGS_FLOOD_GAUGE_URL);
+    const data = await resp.json();
+    const sites = data.sites || [];
+
+    sites.forEach(site => {
+      const lat = parseFloat(site.dec_lat_va);
+      const lon = parseFloat(site.dec_long_va);
+      if (isNaN(lat) || isNaN(lon)) return;
+
+      const cls = (site.flood_stage_class || 'action').toLowerCase();
+      const style = floodGaugeStyle(cls);
+
+      L.circleMarker([lat, lon], {
+        radius: style.radius,
+        color: style.color,
+        fillColor: style.color,
+        fillOpacity: 0.6,
+        weight: 1,
+      }).addTo(floodGaugeLayer).bindPopup(
+        `<strong>🌊 Flood Gauge</strong><br>` +
+        `${site.station_nm || 'Unknown station'}<br>` +
+        `<small>Stage: ${cls}</small>`
+      );
+    });
+
+    if (status) {
+      status.textContent = sites.length
+        ? `${sites.length} site${sites.length > 1 ? 's' : ''} above flood stage`
+        : 'No sites above flood stage';
+    }
+  } catch (e) {
+    if (status) status.textContent = 'Flood gauge data unavailable';
+  }
+}
+
 // ── Bootstrap ────────────────────────────────────────────────────────────────
 
 async function loadHazards() {
@@ -225,8 +320,16 @@ async function loadHazards() {
   if (quakeLayer) quakeLayer.clearLayers();
   if (eonetLayer) eonetLayer.clearLayers();
   if (alertLayer) alertLayer.clearLayers();
+  if (tsunamiLayer) tsunamiLayer.clearLayers();
+  if (floodGaugeLayer) floodGaugeLayer.clearLayers();
 
-  await Promise.all([loadEarthquakes(), loadEONET(), loadNWSAlerts()]);
+  await Promise.all([
+    loadEarthquakes(),
+    loadEONET(),
+    loadNWSAlerts(),
+    loadTsunamiAlerts(),
+    loadFloodGauges(),
+  ]);
 }
 
 document.addEventListener('DOMContentLoaded', loadHazards);

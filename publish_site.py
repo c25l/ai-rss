@@ -167,12 +167,14 @@ def _hazards_page():
   <div id="hazard-map" class="hazard-map"></div>
 </div>
 <div class="hazard-legend">
+  <span class="hazard-legend-item"><span class="hazard-dot hazard-dot-sm" style="background:#e53935" aria-label="M2.5"></span><span class="hazard-dot hazard-dot-md" style="background:#e53935" aria-label="M5"></span><span class="hazard-dot hazard-dot-lg" style="background:#e53935" aria-label="M7+"></span> Earthquake (M2.5 / M5 / M7+)</span>
+  <span class="hazard-legend-item"><span class="hazard-dot hazard-dot-sm" style="background:#e65100" aria-label="Minor"></span><span class="hazard-dot hazard-dot-md" style="background:#e65100" aria-label="Moderate"></span><span class="hazard-dot hazard-dot-lg" style="background:#e65100" aria-label="Extreme"></span> Alert (Minor / Moderate / Extreme)</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#e74c3c"></span> Wildfire</span>
-  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#8bc34a"></span><span class="hazard-dot" style="background:#ffc107"></span><span class="hazard-dot" style="background:#ff9800"></span><span class="hazard-dot" style="background:#e53935"></span><span class="hazard-dot" style="background:#7f0000"></span> Earthquake (M2.5→7+)</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#8e44ad"></span> Severe Storm</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#d35400"></span> Volcano</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#2980b9"></span> Flood</span>
-  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#1565c0"></span><span class="hazard-dot" style="background:#f57f17"></span><span class="hazard-dot" style="background:#e65100"></span><span class="hazard-dot" style="background:#b71c1c"></span> Alert (Minor→Extreme)</span>
+  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#00bcd4"></span> Tsunami</span>
+  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#ff9800"></span> Flood Gauge</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#2196f3"></span> Home</span>
 </div>
 
@@ -191,6 +193,16 @@ def _hazards_page():
     <header>⚠️ Weather Alerts</header>
     <p id="alert-status">Loading…</p>
     <small>Source: <a href="https://www.weather.gov" target="_blank">NWS</a></small>
+  </article>
+  <article>
+    <header>🌊 Tsunami Warnings</header>
+    <p id="tsunami-status">Loading…</p>
+    <small>Source: <a href="https://www.weather.gov" target="_blank">NWS</a></small>
+  </article>
+  <article>
+    <header>🌊 Flood Gauges</header>
+    <p id="flood-gauge-status">Loading…</p>
+    <small>Source: <a href="https://waterwatch.usgs.gov" target="_blank">USGS</a></small>
   </article>
 </div>
 
