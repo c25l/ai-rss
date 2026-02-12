@@ -131,3 +131,28 @@ footer {
   background: none;
   text-decoration: none;
 }
+
+/* ============================================================================
+   Dark mode overrides for briefing cards (inline styles from emailer.py)
+   ============================================================================ */
+
+[data-theme="dark"] #briefing-content div[style] {
+  background-color: var(--pico-card-background-color, #1a1a2e) !important;
+  border-color: var(--pico-muted-border-color, #374151) !important;
+}
+
+[data-theme="dark"] #briefing-content h2[style] {
+  color: var(--pico-color, #e2e8f0) !important;
+}
+
+[data-theme="dark"] #briefing-content p[style] {
+  color: var(--pico-color, #e2e8f0) !important;
+}
+
+[data-theme="dark"] #briefing-content a[style] {
+  color: var(--pico-primary, #6ea8fe) !important;
+}
+
+[data-theme="dark"] #briefing-content span[style] {
+  color: var(--pico-muted-color, #9ca3af) !important;
+}
