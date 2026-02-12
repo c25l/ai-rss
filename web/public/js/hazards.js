@@ -45,11 +45,26 @@ function getEonetConfig(categoryId) {
 }
 
 function quakeColor() {
-  return '#e53935';
+  return '#757575';
 }
 
 function quakeRadius(mag) {
   return Math.max(4, Math.min(mag * 3, 24));
+}
+
+// Distance in km between two lat/lon points (Haversine)
+const LOCAL_RADIUS_KM = 500;
+function distanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+function isLocal(lat, lon) {
+  return distanceKm(HAZARDS_NWS_LAT, HAZARDS_NWS_LON, lat, lon) <= LOCAL_RADIUS_KM;
 }
 
 function initMap() {
@@ -109,7 +124,13 @@ async function loadEarthquakes() {
       );
     });
 
-    if (status) status.textContent = `${features.length} earthquakes (M2.5+ past 7 days)`;
+    const localCount = features.filter(f => {
+      const [lon, lat] = f.geometry.coordinates;
+      return isLocal(lat, lon);
+    }).length;
+    if (status) status.textContent = localCount
+      ? `${localCount} nearby (${features.length} total worldwide)`
+      : `None nearby (${features.length} worldwide)`;
   } catch (e) {
     if (status) status.textContent = 'Earthquake data unavailable';
   }
@@ -125,6 +146,7 @@ async function loadEONET() {
     const events = data.events || [];
 
     let counts = {};
+    let localCounts = {};
     events.forEach(ev => {
       const catId = (ev.categories && ev.categories[0]) ? ev.categories[0].id : 'unknown';
       const cfg = getEonetConfig(catId);
@@ -136,6 +158,10 @@ async function loadEONET() {
 
       const [lon, lat] = geom.coordinates;
       const date = geom.date ? new Date(geom.date).toLocaleDateString() : '';
+
+      if (isLocal(lat, lon)) {
+        localCounts[cfg.label] = (localCounts[cfg.label] || 0) + 1;
+      }
 
       L.circleMarker([lat, lon], {
         radius: 7,
@@ -151,8 +177,11 @@ async function loadEONET() {
     });
 
     if (status) {
-      const parts = Object.entries(counts).map(([k, v]) => `${v} ${k.toLowerCase()}`);
-      status.textContent = parts.length ? parts.join(', ') : 'No active events';
+      const localParts = Object.entries(localCounts).map(([k, v]) => `${v} ${k.toLowerCase()}`);
+      const total = Object.values(counts).reduce((a, b) => a + b, 0);
+      status.textContent = localParts.length
+        ? `${localParts.join(', ')} nearby (${total} worldwide)`
+        : `None nearby (${total} worldwide)`;
     }
   } catch (e) {
     if (status) status.textContent = 'EONET data unavailable';
@@ -272,6 +301,7 @@ async function loadFloodGauges() {
     const data = await resp.json();
     const sites = data.sites || [];
 
+    let localCount = 0;
     sites.forEach(site => {
       const lat = parseFloat(site.dec_lat_va);
       const lon = parseFloat(site.dec_long_va);
@@ -279,6 +309,8 @@ async function loadFloodGauges() {
 
       const cls = (site.flood_stage_class || 'action').toLowerCase();
       const style = floodGaugeStyle(cls);
+
+      if (isLocal(lat, lon)) localCount++;
 
       L.circleMarker([lat, lon], {
         radius: style.radius,
@@ -294,9 +326,9 @@ async function loadFloodGauges() {
     });
 
     if (status) {
-      status.textContent = sites.length
-        ? `${sites.length} site${sites.length > 1 ? 's' : ''} above flood stage`
-        : 'No sites above flood stage';
+      status.textContent = localCount
+        ? `${localCount} nearby (${sites.length} total nationwide)`
+        : `None nearby (${sites.length} nationwide)`;
     }
   } catch (e) {
     if (status) status.textContent = 'Flood gauge data unavailable';

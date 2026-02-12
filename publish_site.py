@@ -167,7 +167,7 @@ def _hazards_page():
   <div id="hazard-map" class="hazard-map"></div>
 </div>
 <div class="hazard-legend">
-  <span class="hazard-legend-item"><span class="hazard-dot hazard-dot-sm" style="background:#e53935" aria-label="M2.5"></span><span class="hazard-dot hazard-dot-md" style="background:#e53935" aria-label="M5"></span><span class="hazard-dot hazard-dot-lg" style="background:#e53935" aria-label="M7+"></span> Earthquake (M2.5 / M5 / M7+)</span>
+  <span class="hazard-legend-item"><span class="hazard-dot hazard-dot-sm" style="background:#757575" aria-label="M2.5"></span><span class="hazard-dot hazard-dot-md" style="background:#757575" aria-label="M5"></span><span class="hazard-dot hazard-dot-lg" style="background:#757575" aria-label="M7+"></span> Earthquake (M2.5 / M5 / M7+)</span>
   <span class="hazard-legend-item"><span class="hazard-dot hazard-dot-sm" style="background:#e65100" aria-label="Minor"></span><span class="hazard-dot hazard-dot-md" style="background:#e65100" aria-label="Moderate"></span><span class="hazard-dot hazard-dot-lg" style="background:#e65100" aria-label="Extreme"></span> Alert (Minor / Moderate / Extreme)</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#e74c3c"></span> Wildfire</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#8e44ad"></span> Severe Storm</span>
@@ -180,17 +180,17 @@ def _hazards_page():
 
 <div class="hazard-status-grid">
   <article>
-    <header>🔴 Earthquakes</header>
+    <header>🔴 Earthquakes (nearby)</header>
     <p id="quake-status">Loading…</p>
     <small>Source: <a href="https://earthquake.usgs.gov" target="_blank">USGS</a></small>
   </article>
   <article>
-    <header>🌍 Natural Events</header>
+    <header>🌍 Natural Events (nearby)</header>
     <p id="eonet-status">Loading…</p>
     <small>Source: <a href="https://eonet.gsfc.nasa.gov" target="_blank">NASA EONET</a></small>
   </article>
   <article>
-    <header>⚠️ Weather Alerts</header>
+    <header>⚠️ Local Weather Alerts</header>
     <p id="alert-status">Loading…</p>
     <small>Source: <a href="https://www.weather.gov" target="_blank">NWS</a></small>
   </article>
@@ -200,7 +200,7 @@ def _hazards_page():
     <small>Source: <a href="https://www.weather.gov" target="_blank">NWS</a></small>
   </article>
   <article>
-    <header>🌊 Flood Gauges</header>
+    <header>🌊 Flood Gauges (nearby)</header>
     <p id="flood-gauge-status">Loading…</p>
     <small>Source: <a href="https://waterwatch.usgs.gov" target="_blank">USGS</a></small>
   </article>
