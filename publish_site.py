@@ -318,14 +318,25 @@ def _briefings_archive_page(briefings):
     return body
 
 
+def _strip_inline_styles(html_str):
+    """Strip inline style attributes from briefing HTML for static site rendering.
+
+    Email rendering needs inline styles, but the static site uses CSS classes
+    so that Pico CSS dark/light theming works correctly.
+    """
+    return re.sub(r'\s*style="[^"]*"', '', html_str)
+
+
 def _briefing_page(briefing_content_html, title, date_str, model=None):
     """Generate individual briefing page body HTML."""
     model_html = _model_pill(model) if model else ""
+    # Strip inline styles so CSS dark mode theming works
+    clean_html = _strip_inline_styles(briefing_content_html)
     body = f"""
 <h1>{html_mod.escape(title)} {model_html}</h1>
 <p><a href="/briefings/">← Back to all briefings</a></p>
 <div id="briefing-content">
-  {briefing_content_html}
+  {clean_html}
 </div>
 """
     return body
