@@ -442,18 +442,16 @@ def _discover_briefings():
 # =============================================================================
 
 def _copy_static_assets(site_dir):
-    """Copy CSS and JS files from web/public/ to the site directory."""
-    for subdir in ("css", "js"):
+    """Copy CSS, JS, and vendor files from web/public/ to the site directory."""
+    for subdir in ("css", "js", "vendor"):
         src = os.path.join(WEB_PUBLIC_DIR, subdir)
         dst = os.path.join(site_dir, subdir)
         if not os.path.isdir(src):
             continue
-        os.makedirs(dst, exist_ok=True)
-        for fname in os.listdir(src):
-            src_file = os.path.join(src, fname)
-            dst_file = os.path.join(dst, fname)
-            if os.path.isfile(src_file):
-                shutil.copy2(src_file, dst_file)
+        # Use copytree for vendor (has subdirectories like leaflet/images)
+        if os.path.isdir(dst):
+            shutil.rmtree(dst)
+        shutil.copytree(src, dst)
 
 
 # =============================================================================
@@ -489,10 +487,8 @@ def generate_site(site_dir, incremental=True):
     os.makedirs(os.path.join(site_dir, "hazards"), exist_ok=True)
     hazards_body = _hazards_page()
     leaflet_head = (
-        '  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" '
-        'integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">\n'
-        '  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" '
-        'integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>'
+        '  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css">\n'
+        '  <script src="/vendor/leaflet/leaflet.js"></script>'
     )
     hazards_html = _page_wrapper("Natural Hazards Map", hazards_body,
                                   active_page="hazards", extra_head=leaflet_head)
