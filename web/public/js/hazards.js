@@ -345,7 +345,7 @@ function aqiFromPM25(pm25) {
 function aqiColor(aqi) {
   if (aqi <= 50)  return '#4caf50'; // Good — green
   if (aqi <= 100) return '#ffeb3b'; // Moderate — yellow
-  if (aqi <= 150) return '#ff9800'; // USG — orange
+  if (aqi <= 150) return '#ff9800'; // Unhealthy for Sensitive Groups — orange
   if (aqi <= 200) return '#f44336'; // Unhealthy — red
   if (aqi <= 300) return '#9c27b0'; // Very Unhealthy — purple
   return '#7e0023';                 // Hazardous — maroon
@@ -371,7 +371,7 @@ async function loadAQI() {
     results.forEach(loc => {
       const lat = loc.coordinates && loc.coordinates.latitude;
       const lon = loc.coordinates && loc.coordinates.longitude;
-      if (lat == null || lon == null) return;
+      if (lat === null || lat === undefined || lon === null || lon === undefined) return;
 
       const pm25Meas = (loc.measurements || []).find(m => m.parameter === 'pm25');
       if (!pm25Meas) return;
