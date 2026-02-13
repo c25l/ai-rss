@@ -7,6 +7,8 @@
  *   - NWS Active Alerts: Weather warnings/watches near configured location
  *   - NWS Tsunami Alerts: Active tsunami warnings/watches/advisories
  *   - USGS Flood Gauges: Sites at or above flood stage
+ *   - OpenAQ: Air quality (PM2.5) station readings
+ *   - RainViewer: Precipitation radar composite
  *
  * Markers use SIZE to indicate intensity (not color).
  */
@@ -19,6 +21,8 @@ const EONET_URL = 'https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=1
 const NWS_ALERTS_URL = `https://api.weather.gov/alerts/active?point=${HAZARDS_NWS_LAT},${HAZARDS_NWS_LON}`;
 const NWS_TSUNAMI_URL = 'https://api.weather.gov/alerts/active?event=Tsunami%20Warning,Tsunami%20Watch,Tsunami%20Advisory';
 const USGS_FLOOD_GAUGE_URL = 'https://waterwatch.usgs.gov/webservices/floodstage?format=json';
+const OPENAQ_URL = `https://api.openaq.org/v2/latest?limit=500&parameter=pm25&radius=500000&coordinates=${HAZARDS_NWS_LAT},${HAZARDS_NWS_LON}`;
+const RAINVIEWER_API_URL = 'https://api.rainviewer.com/public/weather-maps.json';
 
 let hazardMap = null;
 let quakeLayer = null;
@@ -26,6 +30,8 @@ let eonetLayer = null;
 let alertLayer = null;
 let tsunamiLayer = null;
 let floodGaugeLayer = null;
+let aqiLayer = null;
+let radarLayer = null;
 
 // EONET category → display config
 const EONET_CATEGORIES = {
@@ -74,6 +80,19 @@ function initMap() {
   alertLayer = L.layerGroup().addTo(hazardMap);
   tsunamiLayer = L.layerGroup().addTo(hazardMap);
   floodGaugeLayer = L.layerGroup().addTo(hazardMap);
+  aqiLayer = L.layerGroup().addTo(hazardMap);
+  radarLayer = L.layerGroup().addTo(hazardMap);
+
+  // Layer control for toggling overlays
+  L.control.layers(null, {
+    '🔴 Earthquakes': quakeLayer,
+    '🌍 Natural Events': eonetLayer,
+    '⚠️ Weather Alerts': alertLayer,
+    '🌊 Tsunami Warnings': tsunamiLayer,
+    '🌊 Flood Gauges': floodGaugeLayer,
+    '🫁 Air Quality (PM2.5)': aqiLayer,
+    '🌧️ Precipitation Radar': radarLayer,
+  }, { collapsed: true }).addTo(hazardMap);
 
   // Force Leaflet to recalculate container size (fixes blank map on mobile)
   setTimeout(function() { hazardMap.invalidateSize(); }, 100);
@@ -303,6 +322,119 @@ async function loadFloodGauges() {
   }
 }
 
+// ── OpenAQ Air Quality (PM2.5) layer ─────────────────────────────────────────
+
+function aqiFromPM25(pm25) {
+  // EPA AQI breakpoints for PM2.5 (µg/m³)
+  const bp = [
+    [0,    12.0,  0,   50],
+    [12.1, 35.4,  51,  100],
+    [35.5, 55.4,  101, 150],
+    [55.5, 150.4, 151, 200],
+    [150.5,250.4, 201, 300],
+    [250.5,500.4, 301, 500],
+  ];
+  for (const [cLo, cHi, iLo, iHi] of bp) {
+    if (pm25 >= cLo && pm25 <= cHi) {
+      return Math.round(((iHi - iLo) / (cHi - cLo)) * (pm25 - cLo) + iLo);
+    }
+  }
+  return pm25 > 500.4 ? 500 : 0;
+}
+
+function aqiColor(aqi) {
+  if (aqi <= 50)  return '#4caf50'; // Good — green
+  if (aqi <= 100) return '#ffeb3b'; // Moderate — yellow
+  if (aqi <= 150) return '#ff9800'; // USG — orange
+  if (aqi <= 200) return '#f44336'; // Unhealthy — red
+  if (aqi <= 300) return '#9c27b0'; // Very Unhealthy — purple
+  return '#7e0023';                 // Hazardous — maroon
+}
+
+function aqiLabel(aqi) {
+  if (aqi <= 50)  return 'Good';
+  if (aqi <= 100) return 'Moderate';
+  if (aqi <= 150) return 'Unhealthy for Sensitive Groups';
+  if (aqi <= 200) return 'Unhealthy';
+  if (aqi <= 300) return 'Very Unhealthy';
+  return 'Hazardous';
+}
+
+async function loadAQI() {
+  const status = document.getElementById('aqi-status');
+  try {
+    const resp = await fetch(OPENAQ_URL);
+    const data = await resp.json();
+    const results = data.results || [];
+
+    let stationCount = 0;
+    results.forEach(loc => {
+      const lat = loc.coordinates && loc.coordinates.latitude;
+      const lon = loc.coordinates && loc.coordinates.longitude;
+      if (lat == null || lon == null) return;
+
+      const pm25Meas = (loc.measurements || []).find(m => m.parameter === 'pm25');
+      if (!pm25Meas) return;
+
+      const pm25 = pm25Meas.value;
+      const aqi = aqiFromPM25(pm25);
+      const color = aqiColor(aqi);
+      stationCount++;
+
+      L.circleMarker([lat, lon], {
+        radius: 6,
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.8,
+        weight: 1,
+      }).addTo(aqiLayer).bindPopup(
+        `<strong>🫁 Air Quality</strong><br>` +
+        `${loc.location || 'Unknown station'}<br>` +
+        `PM2.5: ${pm25.toFixed(1)} µg/m³<br>` +
+        `AQI: ${aqi} — ${aqiLabel(aqi)}<br>` +
+        `<small>${loc.city || ''}</small>`
+      );
+    });
+
+    if (status) {
+      status.textContent = stationCount
+        ? `${stationCount} station${stationCount > 1 ? 's' : ''} reporting`
+        : 'No AQI data available';
+    }
+  } catch (e) {
+    if (status) status.textContent = 'AQI data unavailable';
+  }
+}
+
+// ── RainViewer Precipitation Radar layer ─────────────────────────────────────
+
+async function loadRadar() {
+  const status = document.getElementById('radar-status');
+  try {
+    const resp = await fetch(RAINVIEWER_API_URL);
+    const data = await resp.json();
+    const radar = data.radar;
+    if (!radar || !radar.past || !radar.past.length) {
+      if (status) status.textContent = 'No radar data available';
+      return;
+    }
+
+    // Use the most recent radar frame
+    const latest = radar.past[radar.past.length - 1];
+    const ts = latest.path; // e.g. "/v2/radar/1234567890"
+
+    L.tileLayer(`https://tilecache.rainviewer.com${ts}/256/{z}/{x}/{y}/6/1_1.png`, {
+      opacity: 0.5,
+      attribution: '<a href="https://www.rainviewer.com" target="_blank">RainViewer</a>',
+    }).addTo(radarLayer);
+
+    const time = new Date(latest.time * 1000).toLocaleTimeString();
+    if (status) status.textContent = `Radar composite as of ${time}`;
+  } catch (e) {
+    if (status) status.textContent = 'Radar data unavailable';
+  }
+}
+
 // ── Bootstrap ────────────────────────────────────────────────────────────────
 
 async function loadHazards() {
@@ -322,6 +454,8 @@ async function loadHazards() {
   if (alertLayer) alertLayer.clearLayers();
   if (tsunamiLayer) tsunamiLayer.clearLayers();
   if (floodGaugeLayer) floodGaugeLayer.clearLayers();
+  if (aqiLayer) aqiLayer.clearLayers();
+  if (radarLayer) radarLayer.clearLayers();
 
   await Promise.all([
     loadEarthquakes(),
@@ -329,6 +463,8 @@ async function loadHazards() {
     loadNWSAlerts(),
     loadTsunamiAlerts(),
     loadFloodGauges(),
+    loadAQI(),
+    loadRadar(),
   ]);
 }
 

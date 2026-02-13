@@ -244,3 +244,18 @@ footer {
 .hazard-status-grid article p {
   margin-bottom: 0.25rem;
 }
+
+.hazard-dot-radar {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00ff00, #ffff00, #ff0000);
+  opacity: 0.7;
+}
+
+/* Leaflet layer control — dark mode compat */
+[data-theme="dark"] .leaflet-control-layers {
+  background: var(--pico-card-background-color, #1a1a2e);
+  color: var(--pico-color, #e2e8f0);
+  border-color: var(--pico-muted-border-color, #374151);
+}
