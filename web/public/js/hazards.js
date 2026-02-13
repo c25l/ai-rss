@@ -94,6 +94,30 @@ function initMap() {
     '🌧️ Precipitation Radar': radarLayer,
   }, { collapsed: true }).addTo(hazardMap);
 
+  // Map layer ↔ status card so toggling dims the card
+  var layerCardMap = [
+    [quakeLayer, 'quake-status'],
+    [eonetLayer, 'eonet-status'],
+    [alertLayer, 'alert-status'],
+    [tsunamiLayer, 'tsunami-status'],
+    [floodGaugeLayer, 'flood-gauge-status'],
+    [aqiLayer, 'aqi-status'],
+    [radarLayer, 'radar-status'],
+  ];
+
+  function toggleCard(layer, on) {
+    var pair = layerCardMap.find(function(p) { return p[0] === layer; });
+    if (!pair) return;
+    var card = document.getElementById(pair[1]);
+    if (card) {
+      var article = card.closest('article');
+      if (article) article.classList.toggle('layer-off', !on);
+    }
+  }
+
+  hazardMap.on('overlayadd', function(e) { toggleCard(e.layer, true); });
+  hazardMap.on('overlayremove', function(e) { toggleCard(e.layer, false); });
+
   // Force Leaflet to recalculate container size (fixes blank map on mobile)
   setTimeout(function() { hazardMap.invalidateSize(); }, 100);
   window.addEventListener('resize', function() { hazardMap.invalidateSize(); });
