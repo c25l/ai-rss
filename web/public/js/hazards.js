@@ -18,11 +18,19 @@ const HAZARDS_NWS_LON = -105.1012;
 
 const USGS_QUAKE_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson';
 const EONET_URL = 'https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=100';
-const NWS_ALERTS_URL = `https://api.weather.gov/alerts/active?point=${HAZARDS_NWS_LAT},${HAZARDS_NWS_LON}`;
 const NWS_TSUNAMI_URL = 'https://api.weather.gov/alerts/active?event=Tsunami%20Warning,Tsunami%20Watch,Tsunami%20Advisory';
 const USGS_FLOOD_GAUGE_URL = 'https://waterwatch.usgs.gov/webservices/floodstage?format=json';
-const OPENAQ_URL = `https://api.openaq.org/v2/latest?limit=500&parameter=pm25&radius=500000&coordinates=${HAZARDS_NWS_LAT},${HAZARDS_NWS_LON}`;
 const RAINVIEWER_API_URL = 'https://api.rainviewer.com/public/weather-maps.json';
+
+// View-dependent URLs — rebuilt from current map center
+function nwsAlertsUrl(lat, lon) {
+  return `https://api.weather.gov/alerts/active?point=${lat.toFixed(4)},${lon.toFixed(4)}`;
+}
+function openaqUrl(lat, lon) {
+  return `https://api.openaq.org/v2/latest?limit=500&parameter=pm25&radius=500000&coordinates=${lat.toFixed(4)},${lon.toFixed(4)}`;
+}
+
+let _moveTimer = null;
 
 let hazardMap = null;
 let quakeLayer = null;
@@ -118,6 +126,12 @@ function initMap() {
   hazardMap.on('overlayadd', function(e) { toggleCard(e.layer, true); });
   hazardMap.on('overlayremove', function(e) { toggleCard(e.layer, false); });
 
+  // Re-fetch view-dependent layers (AQI + alerts) when the user pans or zooms
+  hazardMap.on('moveend', function() {
+    clearTimeout(_moveTimer);
+    _moveTimer = setTimeout(function() { loadViewLayers(); }, 600);
+  });
+
   // Force Leaflet to recalculate container size (fixes blank map on mobile)
   setTimeout(function() { hazardMap.invalidateSize(); }, 100);
   window.addEventListener('resize', function() { hazardMap.invalidateSize(); });
@@ -204,10 +218,10 @@ async function loadEONET() {
 
 // ── NWS Alerts layer ─────────────────────────────────────────────────────────
 
-async function loadNWSAlerts() {
+async function loadNWSAlerts(lat, lon) {
   const status = document.getElementById('alert-status');
   try {
-    const resp = await fetch(NWS_ALERTS_URL, {
+    const resp = await fetch(nwsAlertsUrl(lat, lon), {
       headers: { 'User-Agent': 'H3lPeR Hazards Map' }
     });
     const data = await resp.json();
@@ -384,10 +398,10 @@ function aqiLabel(aqi) {
   return 'Hazardous';
 }
 
-async function loadAQI() {
+async function loadAQI(lat, lon) {
   const status = document.getElementById('aqi-status');
   try {
-    const resp = await fetch(OPENAQ_URL);
+    const resp = await fetch(openaqUrl(lat, lon));
     const data = await resp.json();
     const results = data.results || [];
 
@@ -461,6 +475,18 @@ async function loadRadar() {
 
 // ── Bootstrap ────────────────────────────────────────────────────────────────
 
+// Reload only the view-dependent layers (AQI + NWS alerts) for the current map center
+async function loadViewLayers() {
+  if (!hazardMap) return;
+  const c = hazardMap.getCenter();
+  if (alertLayer) alertLayer.clearLayers();
+  if (aqiLayer) aqiLayer.clearLayers();
+  await Promise.all([
+    loadNWSAlerts(c.lat, c.lng),
+    loadAQI(c.lat, c.lng),
+  ]);
+}
+
 async function loadHazards() {
   const container = document.getElementById('hazard-map');
   if (!container) return;
@@ -471,6 +497,8 @@ async function loadHazards() {
     container.innerHTML = `<p class="error">Map failed to initialize: ${e.message}</p>`;
     return;
   }
+
+  const c = hazardMap.getCenter();
 
   // Clear previous data layers before refreshing
   if (quakeLayer) quakeLayer.clearLayers();
@@ -484,10 +512,10 @@ async function loadHazards() {
   await Promise.all([
     loadEarthquakes(),
     loadEONET(),
-    loadNWSAlerts(),
+    loadNWSAlerts(c.lat, c.lng),
     loadTsunamiAlerts(),
     loadFloodGauges(),
-    loadAQI(),
+    loadAQI(c.lat, c.lng),
     loadRadar(),
   ]);
 }
