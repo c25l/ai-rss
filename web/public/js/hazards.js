@@ -35,7 +35,7 @@ let radarLayer = null;
 
 // EONET category → display config
 const EONET_CATEGORIES = {
-  wildfires:    { emoji: '🔥', color: '#e74c3c', label: 'Wildfire' },
+  wildfires:    { emoji: '🔥', color: '#ff8c00', label: 'Wildfire' },
   severeStorms: { emoji: '🌀', color: '#8e44ad', label: 'Severe Storm' },
   volcanoes:    { emoji: '🌋', color: '#d35400', label: 'Volcano' },
   seaLakeIce:   { emoji: '🧊', color: '#3498db', label: 'Sea/Lake Ice' },
@@ -43,7 +43,7 @@ const EONET_CATEGORIES = {
   landslides:   { emoji: '⛰️', color: '#795548', label: 'Landslide' },
   snow:         { emoji: '❄️', color: '#90caf9', label: 'Snow' },
   dustHaze:     { emoji: '🌫️', color: '#bcaaa4', label: 'Dust/Haze' },
-  earthquakes:  { emoji: '🔴', color: '#c0392b', label: 'Earthquake' },
+  earthquakes:  { emoji: '〰️', color: '#a9a9a9', label: 'Earthquake' },
 };
 
 function getEonetConfig(categoryId) {
@@ -51,7 +51,7 @@ function getEonetConfig(categoryId) {
 }
 
 function quakeColor() {
-  return '#e53935';
+  return '#a9a9a9';
 }
 
 function quakeRadius(mag) {
@@ -121,7 +121,7 @@ async function loadEarthquakes() {
         fillOpacity: 0.6,
         weight: 1,
       }).addTo(quakeLayer).bindPopup(
-        `<strong>🔴 M${mag.toFixed(1)} Earthquake</strong><br>` +
+        `<strong>〰️ M${mag.toFixed(1)} Earthquake</strong><br>` +
         `${place}<br>` +
         `Depth: ${depth.toFixed(1)} km<br>` +
         `<small>${time}</small>`
