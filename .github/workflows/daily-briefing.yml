@@ -24,7 +24,7 @@ jobs:
         with:
           repository: tumble-dry-low/tumble-dry-low.github.io
           path: github-pages
-          token: ${{ secrets.GITHUB_PAGES_TOKEN }}
+          token: ${{ secrets.PAGES_TOKEN }}
       
       - name: Set up Python
         uses: actions/setup-python@v5

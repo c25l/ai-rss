@@ -40,7 +40,7 @@ Navigate to: `https://github.com/<your-username>/h3lper/settings/secrets/actions
   - Name of your embedding model deployment (e.g., `text-embedding-3-large`)
   - Find in Azure Portal → Your OpenAI Resource → Deployments
   
-- [ ] Add `GITHUB_PAGES_TOKEN`
+- [ ] Add `PAGES_TOKEN`
   - The personal access token you created in Step 1
 
 ### Optional Secrets (based on preferences.yaml)
@@ -199,7 +199,7 @@ To get notified of failures:
 → Verify Azure OpenAI credentials and deployment names
 
 ### Git push fails
-→ Verify `GITHUB_PAGES_TOKEN` has `repo` scope and hasn't expired
+→ Verify `PAGES_TOKEN` has `repo` scope and hasn't expired
 
 ### Pages don't update
 → Check GitHub Pages repository exists and Pages is enabled

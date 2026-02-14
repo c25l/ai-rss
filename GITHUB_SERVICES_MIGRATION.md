@@ -82,7 +82,7 @@ Navigate to your repository's **Settings > Secrets and variables > Actions** and
 | `AZURE_OPENAI_API_KEY` | Azure OpenAI API key | `abc123...` |
 | `AZURE_OPENAI_DEPLOYMENT` | Completion model deployment name | `gpt-52` |
 | `AZURE_OPENAI_EMBEDDING_DEPLOYMENT` | Embedding model deployment name | `text-embedding-3-large` |
-| `GITHUB_PAGES_TOKEN` | Personal Access Token with repo permissions | `ghp_...` |
+| `PAGES_TOKEN` | Personal Access Token with repo permissions | `ghp_...` |
 
 #### Optional Secrets (based on your preferences.yaml)
 
@@ -107,7 +107,7 @@ The workflow needs a PAT to push to your GitHub Pages repository:
 3. Select scopes:
    - ✅ `repo` (Full control of private repositories)
 4. Generate and copy the token
-5. Add it as `GITHUB_PAGES_TOKEN` secret
+5. Add it as `PAGES_TOKEN` secret
 
 ### 3. Enable GitHub Actions
 
@@ -216,7 +216,7 @@ gh run watch
 ### Common Issues
 
 #### Issue: Workflow fails with authentication error
-**Solution:** Verify `GITHUB_PAGES_TOKEN` has `repo` scope and hasn't expired
+**Solution:** Verify `PAGES_TOKEN` has `repo` scope and hasn't expired
 
 #### Issue: Missing dependencies
 **Solution:** Check `requirements.txt` is up to date. The workflow caches pip packages.

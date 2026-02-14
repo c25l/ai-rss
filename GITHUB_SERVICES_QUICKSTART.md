@@ -24,7 +24,7 @@ AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
 AZURE_OPENAI_API_KEY=your_key_here
 AZURE_OPENAI_DEPLOYMENT=gpt-52
 AZURE_OPENAI_EMBEDDING_DEPLOYMENT=text-embedding-3-large
-GITHUB_PAGES_TOKEN=ghp_your_token_here
+PAGES_TOKEN=ghp_your_token_here
 ```
 
 ### 3. Push Workflow File
@@ -56,7 +56,7 @@ Based on your `preferences.yaml`, you may want to add:
 
 ### Workflow fails immediately
 - Check that all required secrets are set
-- Verify `GITHUB_PAGES_TOKEN` has `repo` scope
+- Verify `PAGES_TOKEN` has `repo` scope
 
 ### Workflow runs but pages don't update
 - Check the GitHub Pages repository exists
