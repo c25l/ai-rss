@@ -54,7 +54,7 @@ email_preferences:
   subject_format: "{date}"
 
   # Publish static site to GitHub Pages after each briefing
-  # Requires GITHUB_PAGES_DIR env var pointing to local clone of tumble-dry-low.github.io
+  # Requires PAGES_DIR env var pointing to local clone of tumble-dry-low.github.io
   publish_site: true
 
 # Dashboard stock symbols (TradingView format)

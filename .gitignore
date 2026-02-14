@@ -18,3 +18,4 @@ node_modules/*
 token.*
 credentials.*
 briefings/
+node_modules/

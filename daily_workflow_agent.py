@@ -149,9 +149,9 @@ def main():
     except Exception as e:
         print(f"⚠ Citation analysis error: {e}")
     
-    # Publish to static site (opt-in via preferences or GITHUB_PAGES_DIR env var)
+    # Publish to static site (opt-in via preferences or PAGES_DIR env var)
     publish_enabled = email_prefs.get('publish_site', False)
-    site_dir = os.environ.get("GITHUB_PAGES_DIR")
+    site_dir = os.environ.get("PAGES_DIR") or os.environ.get("GITHUB_PAGES_DIR")
     if publish_enabled or site_dir:
         try:
             from publish_site import publish_briefing

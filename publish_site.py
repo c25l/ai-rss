@@ -11,7 +11,7 @@ Usage:
     python publish_site.py --site-dir /path   # specify site directory
 
 Environment:
-    GITHUB_PAGES_DIR  — path to local clone of tumble-dry-low.github.io
+    PAGES_DIR (or GITHUB_PAGES_DIR)  — path to local clone of tumble-dry-low.github.io
 """
 
 import argparse
@@ -636,16 +636,16 @@ def publish_briefing(site_dir=None, push=True):
     """Generate the static site and optionally push to GitHub Pages.
 
     Args:
-        site_dir: Path to local clone of tumble-dry-low.github.io (default: GITHUB_PAGES_DIR env var)
+        site_dir: Path to local clone of tumble-dry-low.github.io (default: PAGES_DIR env var)
         push: Whether to git commit+push after generation
 
     Returns:
         True if successful
     """
     if site_dir is None:
-        site_dir = os.environ.get("GITHUB_PAGES_DIR")
+        site_dir = os.environ.get("PAGES_DIR") or os.environ.get("GITHUB_PAGES_DIR")
     if not site_dir:
-        print("⚠ No site directory configured (set GITHUB_PAGES_DIR or pass --site-dir)")
+        print("⚠ No site directory configured (set PAGES_DIR or pass --site-dir)")
         return False
 
     print(f"Publishing to {site_dir}")
@@ -664,8 +664,8 @@ def main():
     parser = argparse.ArgumentParser(description="Generate and publish H3lPeR static site")
     parser.add_argument(
         "--site-dir",
-        default=os.environ.get("GITHUB_PAGES_DIR"),
-        help="Path to local clone of tumble-dry-low.github.io (default: $GITHUB_PAGES_DIR)",
+        default=os.environ.get("PAGES_DIR") or os.environ.get("GITHUB_PAGES_DIR"),
+        help="Path to local clone of tumble-dry-low.github.io (default: $PAGES_DIR)",
     )
     parser.add_argument(
         "--no-push",
@@ -680,7 +680,7 @@ def main():
     args = parser.parse_args()
 
     if not args.site_dir:
-        print("Error: specify --site-dir or set GITHUB_PAGES_DIR")
+        print("Error: specify --site-dir or set PAGES_DIR")
         sys.exit(1)
 
     print(f"Publishing to {args.site_dir}")

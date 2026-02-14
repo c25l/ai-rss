@@ -69,7 +69,7 @@ jobs:
           GOOGLE_APP_PW=${{ secrets.GOOGLE_APP_PW }}
           
           # GitHub Pages Directory
-          GITHUB_PAGES_DIR=${{ github.workspace }}/github-pages
+          PAGES_DIR=${{ github.workspace }}/github-pages
           EOF
       
       - name: Generate daily briefing
