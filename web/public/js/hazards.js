@@ -7,8 +7,9 @@
  *   - NWS Active Alerts: Weather warnings/watches near configured location
  *   - NWS Tsunami Alerts: Active tsunami warnings/watches/advisories
  *   - USGS Flood Gauges: Sites at or above flood stage
- *   - OpenAQ: Air quality (PM2.5) station readings
+ *   - Open-Meteo: Air quality (US AQI / PM2.5) model data
  *   - RainViewer: Precipitation radar composite
+ *   - Boulder County ArcGIS: Emergency alert all-hazard polygons
  *
  * Markers use SIZE to indicate intensity (not color).
  */
@@ -21,13 +22,14 @@ const EONET_URL = 'https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=1
 const NWS_TSUNAMI_URL = 'https://api.weather.gov/alerts/active?event=Tsunami%20Warning,Tsunami%20Watch,Tsunami%20Advisory';
 const USGS_FLOOD_GAUGE_URL = 'https://waterwatch.usgs.gov/webservices/floodstage?format=json';
 const RAINVIEWER_API_URL = 'https://api.rainviewer.com/public/weather-maps.json';
+const BOULDER_COUNTY_HAZARDS_URL = 'https://services1.arcgis.com/CDFhs6r7hA8qKCRZ/arcgis/rest/services/Emergency_Alert_All_Hazard_Polygons/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson';
 
 // View-dependent URLs — rebuilt from current map center
 function nwsAlertsUrl(lat, lon) {
   return `https://api.weather.gov/alerts/active?point=${lat.toFixed(4)},${lon.toFixed(4)}`;
 }
-function openaqUrl(lat, lon) {
-  return `https://api.openaq.org/v2/latest?limit=500&parameter=pm25&radius=500000&coordinates=${lat.toFixed(4)},${lon.toFixed(4)}`;
+function openMeteoAqiUrl(lat, lon) {
+  return `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat.toFixed(4)}&longitude=${lon.toFixed(4)}&current=us_aqi,pm2_5,pm10`;
 }
 
 let _moveTimer = null;
@@ -40,6 +42,7 @@ let tsunamiLayer = null;
 let floodGaugeLayer = null;
 let aqiLayer = null;
 let radarLayer = null;
+let boulderLayer = null;
 
 // EONET category → display config
 const EONET_CATEGORIES = {
@@ -90,6 +93,7 @@ function initMap() {
   floodGaugeLayer = L.layerGroup().addTo(hazardMap);
   aqiLayer = L.layerGroup().addTo(hazardMap);
   radarLayer = L.layerGroup().addTo(hazardMap);
+  boulderLayer = L.layerGroup().addTo(hazardMap);
 
   // Layer control for toggling overlays
   L.control.layers(null, {
@@ -100,6 +104,7 @@ function initMap() {
     '🌊 Flood Gauges': floodGaugeLayer,
     '🫁 Air Quality (PM2.5)': aqiLayer,
     '🌧️ Precipitation Radar': radarLayer,
+    '🏔️ Boulder County Hazards': boulderLayer,
   }, { collapsed: true }).addTo(hazardMap);
 
   // Map layer ↔ status card so toggling dims the card
@@ -111,6 +116,7 @@ function initMap() {
     [floodGaugeLayer, 'flood-gauge-status'],
     [aqiLayer, 'aqi-status'],
     [radarLayer, 'radar-status'],
+    [boulderLayer, 'boulder-status'],
   ];
 
   function toggleCard(layer, on) {
@@ -360,25 +366,7 @@ async function loadFloodGauges() {
   }
 }
 
-// ── OpenAQ Air Quality (PM2.5) layer ─────────────────────────────────────────
-
-function aqiFromPM25(pm25) {
-  // EPA AQI breakpoints for PM2.5 (µg/m³)
-  const bp = [
-    [0,    12.0,  0,   50],
-    [12.1, 35.4,  51,  100],
-    [35.5, 55.4,  101, 150],
-    [55.5, 150.4, 151, 200],
-    [150.5,250.4, 201, 300],
-    [250.5,500.4, 301, 500],
-  ];
-  for (const [cLo, cHi, iLo, iHi] of bp) {
-    if (pm25 >= cLo && pm25 <= cHi) {
-      return Math.round(((iHi - iLo) / (cHi - cLo)) * (pm25 - cLo) + iLo);
-    }
-  }
-  return pm25 > 500.4 ? 500 : 0;
-}
+// ── Open-Meteo Air Quality (US AQI / PM2.5) layer ────────────────────────────
 
 function aqiColor(aqi) {
   if (aqi <= 50)  return '#4caf50'; // Good — green
@@ -398,46 +386,81 @@ function aqiLabel(aqi) {
   return 'Hazardous';
 }
 
-async function loadAQI(lat, lon) {
-  const status = document.getElementById('aqi-status');
+// Build a grid of sample points covering the visible map bounds
+function aqiGrid(bounds, cols, rows) {
+  var sw = bounds.getSouthWest();
+  var ne = bounds.getNorthEast();
+  var latStep = (ne.lat - sw.lat) / (rows + 1);
+  var lngStep = (ne.lng - sw.lng) / (cols + 1);
+  var pts = [];
+  for (var r = 1; r <= rows; r++) {
+    for (var c = 1; c <= cols; c++) {
+      pts.push({ lat: sw.lat + latStep * r, lon: sw.lng + lngStep * c });
+    }
+  }
+  return pts;
+}
+
+async function fetchSingleAQI(lat, lon) {
   try {
-    const resp = await fetch(openaqUrl(lat, lon));
-    const data = await resp.json();
-    const results = data.results || [];
+    var resp = await fetch(openMeteoAqiUrl(lat, lon));
+    if (!resp.ok) return null;
+    return await resp.json();
+  } catch (e) {
+    return null;
+  }
+}
 
-    let stationCount = 0;
-    results.forEach(loc => {
-      const lat = loc.coordinates && loc.coordinates.latitude;
-      const lon = loc.coordinates && loc.coordinates.longitude;
-      if (lat === null || lat === undefined || lon === null || lon === undefined) return;
+async function loadAQI() {
+  var status = document.getElementById('aqi-status');
+  try {
+    if (!hazardMap) return;
+    var bounds = hazardMap.getBounds();
+    // 4×4 grid of sample points plus the home location
+    var grid = aqiGrid(bounds, 4, 4);
+    grid.push({ lat: HAZARDS_NWS_LAT, lon: HAZARDS_NWS_LON });
 
-      const pm25Meas = (loc.measurements || []).find(m => m.parameter === 'pm25');
-      if (!pm25Meas) return;
+    var results = await Promise.all(grid.map(function(p) { return fetchSingleAQI(p.lat, p.lon); }));
 
-      const pm25 = pm25Meas.value;
-      const aqi = aqiFromPM25(pm25);
-      const color = aqiColor(aqi);
-      stationCount++;
+    var pointCount = 0;
+    var homeAqi = null;
 
-      L.circleMarker([lat, lon], {
-        radius: 6,
+    results.forEach(function(data, i) {
+      if (!data || !data.current) return;
+      var aqi = data.current.us_aqi;
+      var pm25 = data.current.pm2_5;
+      var pm10 = data.current.pm10;
+      if (aqi === null || aqi === undefined) return;
+
+      var color = aqiColor(aqi);
+      pointCount++;
+
+      // Last point is always home location
+      if (i === results.length - 1) homeAqi = aqi;
+
+      L.circleMarker([grid[i].lat, grid[i].lon], {
+        radius: 7,
         color: color,
         fillColor: color,
-        fillOpacity: 0.8,
+        fillOpacity: 0.7,
         weight: 1,
       }).addTo(aqiLayer).bindPopup(
-        `<strong>🫁 Air Quality</strong><br>` +
-        `${loc.location || 'Unknown station'}<br>` +
-        `PM2.5: ${pm25.toFixed(1)} µg/m³<br>` +
-        `AQI: ${aqi} — ${aqiLabel(aqi)}<br>` +
-        `<small>${loc.city || ''}</small>`
+        '<strong>\uD83E\uDEC1 Air Quality</strong><br>' +
+        'AQI: ' + aqi + ' — ' + aqiLabel(aqi) + '<br>' +
+        (pm25 !== null && pm25 !== undefined ? 'PM2.5: ' + pm25.toFixed(1) + ' µg/m³<br>' : '') +
+        (pm10 !== null && pm10 !== undefined ? 'PM10: ' + pm10.toFixed(1) + ' µg/m³<br>' : '') +
+        '<small>Source: Open-Meteo</small>'
       );
     });
 
     if (status) {
-      status.textContent = stationCount
-        ? `${stationCount} station${stationCount > 1 ? 's' : ''} reporting`
-        : 'No AQI data available';
+      if (homeAqi !== null) {
+        status.textContent = 'Home AQI: ' + homeAqi + ' (' + aqiLabel(homeAqi) + ') — ' + pointCount + ' points';
+      } else if (pointCount > 0) {
+        status.textContent = pointCount + ' point' + (pointCount > 1 ? 's' : '') + ' reporting';
+      } else {
+        status.textContent = 'No AQI data available';
+      }
     }
   } catch (e) {
     if (status) status.textContent = 'AQI data unavailable';
@@ -473,17 +496,62 @@ async function loadRadar() {
   }
 }
 
+// ── Boulder County ArcGIS Emergency Alert Hazard Polygons ────────────────────
+
+async function loadBoulderCounty() {
+  var status = document.getElementById('boulder-status');
+  try {
+    var resp = await fetch(BOULDER_COUNTY_HAZARDS_URL);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    var data = await resp.json();
+    var features = data.features || [];
+
+    var boulderColor = '#1b5e20';
+
+    features.forEach(function(f) {
+      if (!f.geometry) return;
+
+      var name = (f.properties && f.properties.NAME) || 'Unnamed zone';
+      var desc = (f.properties && f.properties.DESCRIPT) || '';
+
+      var style = {
+        color: boulderColor,
+        fillColor: boulderColor,
+        fillOpacity: 0.12,
+        weight: 1.5,
+      };
+
+      try {
+        var layer = L.geoJSON(f, { style: style });
+        layer.bindPopup(
+          '<strong>\uD83C\uDFD4️ Boulder County Zone</strong><br>' +
+          name +
+          (desc ? '<br><small>' + desc + '</small>' : '')
+        );
+        layer.addTo(boulderLayer);
+      } catch (err) { /* skip malformed features */ }
+    });
+
+    if (status) {
+      status.textContent = features.length
+        ? features.length + ' emergency alert zone' + (features.length > 1 ? 's' : '')
+        : 'No hazard zones loaded';
+    }
+  } catch (e) {
+    if (status) status.textContent = 'Boulder County data unavailable';
+  }
+}
+
 // ── Bootstrap ────────────────────────────────────────────────────────────────
 
 // Reload only the view-dependent layers (AQI + NWS alerts) for the current map center
 async function loadViewLayers() {
   if (!hazardMap) return;
-  const c = hazardMap.getCenter();
   if (alertLayer) alertLayer.clearLayers();
   if (aqiLayer) aqiLayer.clearLayers();
   await Promise.all([
-    loadNWSAlerts(c.lat, c.lng),
-    loadAQI(c.lat, c.lng),
+    loadNWSAlerts(hazardMap.getCenter().lat, hazardMap.getCenter().lng),
+    loadAQI(),
   ]);
 }
 
@@ -498,8 +566,6 @@ async function loadHazards() {
     return;
   }
 
-  const c = hazardMap.getCenter();
-
   // Clear previous data layers before refreshing
   if (quakeLayer) quakeLayer.clearLayers();
   if (eonetLayer) eonetLayer.clearLayers();
@@ -508,15 +574,17 @@ async function loadHazards() {
   if (floodGaugeLayer) floodGaugeLayer.clearLayers();
   if (aqiLayer) aqiLayer.clearLayers();
   if (radarLayer) radarLayer.clearLayers();
+  if (boulderLayer) boulderLayer.clearLayers();
 
   await Promise.all([
     loadEarthquakes(),
     loadEONET(),
-    loadNWSAlerts(c.lat, c.lng),
+    loadNWSAlerts(hazardMap.getCenter().lat, hazardMap.getCenter().lng),
     loadTsunamiAlerts(),
     loadFloodGauges(),
-    loadAQI(c.lat, c.lng),
+    loadAQI(),
     loadRadar(),
+    loadBoulderCounty(),
   ]);
 }
 
