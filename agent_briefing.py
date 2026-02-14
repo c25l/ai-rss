@@ -1141,9 +1141,9 @@ NEWS and RESEARCH content are separated — keep them in distinct sections.
 NEWS CONTENT:
 {formatted_content}
 
-{"RESEARCH CONTENT:\n" + formatted_research if formatted_research else ""}
+{"RESEARCH CONTENT:" + chr(10) + formatted_research if formatted_research else ""}
 
-{"API DATA:\n" + chr(10).join(tool_data) if tool_data else ""}
+{"API DATA:" + chr(10) + chr(10).join(tool_data) if tool_data else ""}
 {prefs_section}
 OUTPUT: Return ONLY valid JSON with schema_version=1, title, date, and children array.
 Each node has "title" (required), optional "text", "url", "article", "children".
