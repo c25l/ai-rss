@@ -42,7 +42,7 @@ In your repository settings, add these secrets:
 2. `AZURE_OPENAI_API_KEY`
 3. `AZURE_OPENAI_DEPLOYMENT`
 4. `AZURE_OPENAI_EMBEDDING_DEPLOYMENT`
-5. `GITHUB_PAGES_TOKEN` (the token from step 1)
+5. `PAGES_TOKEN` (the token from step 1)
 
 ### 3. Push the Workflow File (~2 minutes)
 ```bash
