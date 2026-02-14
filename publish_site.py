@@ -161,7 +161,7 @@ def _hazards_page():
     """Generate natural hazards map page body HTML."""
     body = """
 <h1>🗺️ Natural Hazards Map</h1>
-<p><em>Live data from USGS, NASA, NWS, OpenAQ &amp; RainViewer — refreshes every 15 minutes. Use the layer control (top-right ☰) to toggle overlays.</em></p>
+<p><em>Live data from USGS, NASA, NWS, Open-Meteo, Boulder County ArcGIS &amp; RainViewer — refreshes every 15 minutes. Use the layer control (top-right ☰) to toggle overlays.</em></p>
 
 <div class="hazard-map-wrapper">
   <div id="hazard-map" class="hazard-map"></div>
@@ -177,6 +177,7 @@ def _hazards_page():
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#ff9800"></span> Flood Gauge</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#4caf50"></span><span class="hazard-dot" style="background:#ffeb3b"></span><span class="hazard-dot" style="background:#ff9800"></span><span class="hazard-dot" style="background:#f44336"></span><span class="hazard-dot" style="background:#9c27b0"></span> AQI (Good → Hazardous)</span>
   <span class="hazard-legend-item"><span class="hazard-dot hazard-dot-radar"></span> Precipitation Radar</span>
+  <span class="hazard-legend-item"><span class="hazard-dot" style="background:#1b5e20"></span> Boulder County Hazard Zone</span>
   <span class="hazard-legend-item"><span class="hazard-dot" style="background:#2196f3"></span> Home</span>
 </div>
 
@@ -209,12 +210,17 @@ def _hazards_page():
   <article>
     <header>🫁 Air Quality</header>
     <p id="aqi-status">Loading…</p>
-    <small>Source: <a href="https://openaq.org" target="_blank">OpenAQ</a></small>
+    <small>Source: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank">Open-Meteo</a></small>
   </article>
   <article>
     <header>🌧️ Precipitation Radar</header>
     <p id="radar-status">Loading…</p>
     <small>Source: <a href="https://www.rainviewer.com" target="_blank">RainViewer</a></small>
+  </article>
+  <article>
+    <header>🏔️ Boulder County</header>
+    <p id="boulder-status">Loading…</p>
+    <small>Source: <a href="https://opendata-bouldercounty.hub.arcgis.com" target="_blank">Boulder County ArcGIS</a></small>
   </article>
 </div>
 
