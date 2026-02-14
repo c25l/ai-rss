@@ -388,13 +388,13 @@ function aqiLabel(aqi) {
 
 // Build a grid of sample points covering the visible map bounds
 function aqiGrid(bounds, cols, rows) {
-  var sw = bounds.getSouthWest();
-  var ne = bounds.getNorthEast();
-  var latStep = (ne.lat - sw.lat) / (rows + 1);
-  var lngStep = (ne.lng - sw.lng) / (cols + 1);
-  var pts = [];
-  for (var r = 1; r <= rows; r++) {
-    for (var c = 1; c <= cols; c++) {
+  const sw = bounds.getSouthWest();
+  const ne = bounds.getNorthEast();
+  const latStep = (ne.lat - sw.lat) / (rows + 1);
+  const lngStep = (ne.lng - sw.lng) / (cols + 1);
+  const pts = [];
+  for (let r = 1; r <= rows; r++) {
+    for (let c = 1; c <= cols; c++) {
       pts.push({ lat: sw.lat + latStep * r, lon: sw.lng + lngStep * c });
     }
   }
@@ -403,7 +403,7 @@ function aqiGrid(bounds, cols, rows) {
 
 async function fetchSingleAQI(lat, lon) {
   try {
-    var resp = await fetch(openMeteoAqiUrl(lat, lon));
+    const resp = await fetch(openMeteoAqiUrl(lat, lon));
     if (!resp.ok) return null;
     return await resp.json();
   } catch (e) {
@@ -412,27 +412,27 @@ async function fetchSingleAQI(lat, lon) {
 }
 
 async function loadAQI() {
-  var status = document.getElementById('aqi-status');
+  const status = document.getElementById('aqi-status');
   try {
     if (!hazardMap) return;
-    var bounds = hazardMap.getBounds();
+    const bounds = hazardMap.getBounds();
     // 4×4 grid of sample points plus the home location
-    var grid = aqiGrid(bounds, 4, 4);
+    const grid = aqiGrid(bounds, 4, 4);
     grid.push({ lat: HAZARDS_NWS_LAT, lon: HAZARDS_NWS_LON });
 
-    var results = await Promise.all(grid.map(function(p) { return fetchSingleAQI(p.lat, p.lon); }));
+    const results = await Promise.all(grid.map(p => fetchSingleAQI(p.lat, p.lon)));
 
-    var pointCount = 0;
-    var homeAqi = null;
+    let pointCount = 0;
+    let homeAqi = null;
 
-    results.forEach(function(data, i) {
+    results.forEach((data, i) => {
       if (!data || !data.current) return;
-      var aqi = data.current.us_aqi;
-      var pm25 = data.current.pm2_5;
-      var pm10 = data.current.pm10;
+      const aqi = data.current.us_aqi;
+      const pm25 = data.current.pm2_5;
+      const pm10 = data.current.pm10;
       if (aqi === null || aqi === undefined) return;
 
-      var color = aqiColor(aqi);
+      const color = aqiColor(aqi);
       pointCount++;
 
       // Last point is always home location
@@ -499,22 +499,22 @@ async function loadRadar() {
 // ── Boulder County ArcGIS Emergency Alert Hazard Polygons ────────────────────
 
 async function loadBoulderCounty() {
-  var status = document.getElementById('boulder-status');
+  const status = document.getElementById('boulder-status');
   try {
-    var resp = await fetch(BOULDER_COUNTY_HAZARDS_URL);
+    const resp = await fetch(BOULDER_COUNTY_HAZARDS_URL);
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    var data = await resp.json();
-    var features = data.features || [];
+    const data = await resp.json();
+    const features = data.features || [];
 
-    var boulderColor = '#1b5e20';
+    const boulderColor = '#1b5e20';
 
-    features.forEach(function(f) {
+    features.forEach(f => {
       if (!f.geometry) return;
 
-      var name = (f.properties && f.properties.NAME) || 'Unnamed zone';
-      var desc = (f.properties && f.properties.DESCRIPT) || '';
+      const name = (f.properties && f.properties.NAME) || 'Unnamed zone';
+      const desc = (f.properties && f.properties.DESCRIPT) || '';
 
-      var style = {
+      const style = {
         color: boulderColor,
         fillColor: boulderColor,
         fillOpacity: 0.12,
@@ -522,7 +522,7 @@ async function loadBoulderCounty() {
       };
 
       try {
-        var layer = L.geoJSON(f, { style: style });
+        const layer = L.geoJSON(f, { style: style });
         layer.bindPopup(
           '<strong>\uD83C\uDFD4️ Boulder County Zone</strong><br>' +
           name +
