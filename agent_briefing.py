@@ -230,16 +230,17 @@ class AgentTools:
     @staticmethod
     def fetch_bluesky_feed(feed_url: str, limit: int = 20) -> List[Article]:
         """
-        Fetch posts from a Bluesky custom feed or user feed.
+        Fetch posts from a Bluesky custom feed, user feed, or home timeline.
         
-        Supports two URL formats:
+        Supports three URL formats:
+        - Home timeline: "home" or "timeline" (fetches authenticated user's Following feed)
         - Custom feed: https://bsky.app/profile/user.bsky.social/feed/feedName
         - User handle: user.bsky.social (fetches author's own posts)
         
         Requires BLUESKY_HANDLE and BLUESKY_APP_PASSWORD env vars.
         
         Args:
-            feed_url: Bluesky feed URL or user handle
+            feed_url: Bluesky feed URL, user handle, or "home"/"timeline"
             limit: Maximum number of posts to fetch (default: 20)
             
         Returns:
@@ -250,9 +251,13 @@ class AgentTools:
         try:
             client = AgentTools._get_bluesky_client()
             
+            is_home = feed_url.lower().strip() in ('home', 'timeline')
             is_feed_url = '/feed/' in feed_url
             
-            if is_feed_url:
+            if is_home:
+                response = client.app.bsky.feed.get_timeline({'limit': limit})
+                source_label = 'home timeline'
+            elif is_feed_url:
                 feed_uri = AgentTools._resolve_feed_uri(client, feed_url)
                 response = client.app.bsky.feed.get_feed({'feed': feed_uri, 'limit': limit})
                 source_label = feed_url
@@ -627,7 +632,7 @@ class AgentBriefing:
         {"name": "Hacker News Daily", "url": None, "type": "hn-daily"},  # Fetched via custom method
         
         # Bluesky sources (examples - users can add their own)
-        # {"name": "Bluesky Official", "url": "bsky.app", "type": "bluesky", "limit": 10},
+        # {"name": "Bluesky Home", "url": "home", "type": "bluesky", "limit": 30},
         # {"name": "Example User", "url": "username.bsky.social", "type": "bluesky", "limit": 20},
         
         # Research sources
