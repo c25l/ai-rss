@@ -2,6 +2,15 @@
 
 Take whatever out of here. It's mostly llm stuff, but the ideas that made the vector embeddings clustering for news and the recursive ranker for articles were actual ideas and do help a lot.
 
+## Daily Workflows
+
+H3lPeR has two daily workflow implementations:
+
+- **`daily_workflow.py`** - Stable, constrained-LLM approach (RECOMMENDED)
+- **`daily_workflow_agent.py`** - Experimental, agent-centric approach
+
+See [WORKFLOW_COMPARISON.md](WORKFLOW_COMPARISON.md) for a detailed comparison and migration guide.
+
 ## LLMs for ranking
 
 You can have llms rank things. In test cases that ranking will be quite good, but thrown headlong into production, not so much. 
