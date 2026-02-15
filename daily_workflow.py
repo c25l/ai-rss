@@ -114,6 +114,56 @@ def main():
     except Exception as e:
         print(f"Warning: Could not fetch stock data: {e}")
 
+# Bluesky Feed
+    try:
+        print("Fetching Bluesky timeline...")
+        from atproto import Client
+        
+        bluesky_handle = os.environ.get('BLUESKY_HANDLE')
+        bluesky_password = os.environ.get('BLUESKY_APP_PASSWORD')
+        
+        if bluesky_handle and bluesky_password:
+            client = Client()
+            client.login(bluesky_handle, bluesky_password)
+            
+            # Fetch home timeline
+            response = client.app.bsky.feed.get_timeline({'limit': 15})
+            
+            bluesky_output = []
+            if hasattr(response, 'feed') and response.feed:
+                for item in response.feed:
+                    if hasattr(item, 'post') and item.post:
+                        post = item.post
+                        author = post.author if hasattr(post, 'author') else None
+                        author_handle = author.handle if author and hasattr(author, 'handle') else 'unknown'
+                        author_name = author.display_name if author and hasattr(author, 'display_name') else author_handle
+                        
+                        record = post.record if hasattr(post, 'record') else None
+                        text = record.text if record and hasattr(record, 'text') else ''
+                        
+                        # Extract post URI for linking
+                        post_uri = post.uri if hasattr(post, 'uri') else ''
+                        post_id = post_uri.split('/')[-1] if post_uri else ''
+                        post_url = f"https://bsky.app/profile/{author_handle}/post/{post_id}" if post_id else ''
+                        
+                        # Format as markdown link
+                        if text and post_url:
+                            # Truncate long posts
+                            display_text = text[:200] + "..." if len(text) > 200 else text
+                            bluesky_output.append(f"- **{author_name}** (@{author_handle}): [{display_text}]({post_url})")
+            
+            if bluesky_output:
+                content_sections.append(f"# Bluesky Timeline\n\n" + "\n".join(bluesky_output))
+                print("✓ Bluesky timeline fetched")
+            else:
+                print("⚠ No Bluesky posts found")
+        else:
+            print("⚠ Bluesky credentials not configured")
+    except ImportError:
+        print("⚠ atproto library not installed (pip install atproto)")
+    except Exception as e:
+        print(f"Warning: Could not fetch Bluesky timeline: {e}")
+
 # Research Preprints
     research_prompt = """
 I want at most 5 preprints about:
@@ -132,6 +182,34 @@ Please make sure to include inline markdown links `[article title](url)` to the 
         from copilot import Copilot
         out4 = Copilot().generate(preprompt+research_prompt+rsch)
         content_sections.append(f"# Research Preprints\n\n{out4}")
+
+# Quick Citation Analysis
+    try:
+        print("Running quick citation analysis on research papers...")
+        from citations_data import run_citation_analysis
+        
+        # Run a quick analysis with lower thresholds for email display
+        citation_data = run_citation_analysis(days=1, top_n=10, min_citations=1)
+        
+        if citation_data and citation_data.get('papers'):
+            citation_output = []
+            for paper in citation_data['papers'][:10]:  # Show top 10
+                title = paper.get('title', 'Untitled')
+                url = paper.get('url', '')
+                citations = paper.get('citation_count', 0)
+                
+                if url:
+                    citation_output.append(f"- [{title}]({url}) ({citations} citations)")
+                else:
+                    citation_output.append(f"- {title} ({citations} citations)")
+            
+            if citation_output:
+                content_sections.append(f"# Top Cited Research Papers\n\n" + "\n".join(citation_output))
+                print(f"✓ Citation analysis complete: {len(citation_output)} papers")
+        else:
+            print("⚠ No citation data available")
+    except Exception as e:
+        print(f"Warning: Could not run citation analysis: {e}")
 
     # Combine all sections
     final_content = "\n\n---\n\n".join(content_sections)
