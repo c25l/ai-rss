@@ -75,7 +75,7 @@ jobs:
       - name: Generate daily briefing
         working-directory: h3lper
         run: |
-          python daily_workflow_agent.py
+          python daily_workflow.py
       
       - name: Commit and push to GitHub Pages
         working-directory: github-pages
