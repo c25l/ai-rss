@@ -54,11 +54,71 @@ def main():
 
 
 
-# News Intelligence Brief
+# News Intelligence Brief (includes Bluesky articles)
     try:
         print("Fetching and clustering news articles...")
         news_obj = news.News()
         categorized = news_obj.pull_data(return_structured=True)
+        
+        # Fetch Bluesky posts and extract article links to add to news
+        try:
+            print("Fetching Bluesky timeline for article links...")
+            from atproto import Client
+            import re
+            
+            bluesky_handle = os.environ.get('BLUESKY_HANDLE')
+            bluesky_password = os.environ.get('BLUESKY_APP_PASSWORD')
+            
+            if bluesky_handle and bluesky_password:
+                client = Client()
+                client.login(bluesky_handle, bluesky_password)
+                
+                # Fetch home timeline
+                response = client.app.bsky.feed.get_timeline({'limit': 30})
+                
+                # Extract article URLs from Bluesky posts
+                bluesky_articles = []
+                url_pattern = re.compile(r'https?://[^\s]+')
+                
+                if hasattr(response, 'feed') and response.feed:
+                    for item in response.feed:
+                        if hasattr(item, 'post') and item.post:
+                            post = item.post
+                            author = post.author if hasattr(post, 'author') else None
+                            author_handle = author.handle if author and hasattr(author, 'handle') else 'unknown'
+                            
+                            record = post.record if hasattr(post, 'record') else None
+                            text = record.text if record and hasattr(record, 'text') else ''
+                            
+                            # Find URLs in post text
+                            urls = url_pattern.findall(text)
+                            for url in urls:
+                                # Skip Bluesky app links themselves
+                                if 'bsky.app' not in url:
+                                    # Create an Article from the URL
+                                    article = Article(
+                                        title=text[:100] + "..." if len(text) > 100 else text,
+                                        url=url,
+                                        summary=text,
+                                        source=f"bluesky:{author_handle}",
+                                        published_at=datetime.datetime.now()
+                                    )
+                                    bluesky_articles.append(article)
+                
+                # Add Bluesky articles to the 'new' category for clustering
+                if bluesky_articles:
+                    print(f"✓ Extracted {len(bluesky_articles)} article links from Bluesky")
+                    # Add to new articles
+                    for article in bluesky_articles:
+                        categorized['new'].append(article)
+                else:
+                    print("⚠ No article links found in Bluesky posts")
+            else:
+                print("⚠ Bluesky credentials not configured")
+        except ImportError:
+            print("⚠ atproto library not installed (pip install atproto)")
+        except Exception as e:
+            print(f"Warning: Could not fetch Bluesky articles: {e}")
 
         # Rank each category
         print("Ranking news clusters...")
@@ -113,56 +173,6 @@ def main():
         content_sections.append(f"# Market Close Summary\n\n{stock_summary}")
     except Exception as e:
         print(f"Warning: Could not fetch stock data: {e}")
-
-# Bluesky Feed
-    try:
-        print("Fetching Bluesky timeline...")
-        from atproto import Client
-        
-        bluesky_handle = os.environ.get('BLUESKY_HANDLE')
-        bluesky_password = os.environ.get('BLUESKY_APP_PASSWORD')
-        
-        if bluesky_handle and bluesky_password:
-            client = Client()
-            client.login(bluesky_handle, bluesky_password)
-            
-            # Fetch home timeline
-            response = client.app.bsky.feed.get_timeline({'limit': 15})
-            
-            bluesky_output = []
-            if hasattr(response, 'feed') and response.feed:
-                for item in response.feed:
-                    if hasattr(item, 'post') and item.post:
-                        post = item.post
-                        author = post.author if hasattr(post, 'author') else None
-                        author_handle = author.handle if author and hasattr(author, 'handle') else 'unknown'
-                        author_name = author.display_name if author and hasattr(author, 'display_name') else author_handle
-                        
-                        record = post.record if hasattr(post, 'record') else None
-                        text = record.text if record and hasattr(record, 'text') else ''
-                        
-                        # Extract post URI for linking
-                        post_uri = post.uri if hasattr(post, 'uri') else ''
-                        post_id = post_uri.split('/')[-1] if post_uri else ''
-                        post_url = f"https://bsky.app/profile/{author_handle}/post/{post_id}" if post_id else ''
-                        
-                        # Format as markdown link
-                        if text and post_url:
-                            # Truncate long posts
-                            display_text = text[:200] + "..." if len(text) > 200 else text
-                            bluesky_output.append(f"- **{author_name}** (@{author_handle}): [{display_text}]({post_url})")
-            
-            if bluesky_output:
-                content_sections.append(f"# Bluesky Timeline\n\n" + "\n".join(bluesky_output))
-                print("✓ Bluesky timeline fetched")
-            else:
-                print("⚠ No Bluesky posts found")
-        else:
-            print("⚠ Bluesky credentials not configured")
-    except ImportError:
-        print("⚠ atproto library not installed (pip install atproto)")
-    except Exception as e:
-        print(f"Warning: Could not fetch Bluesky timeline: {e}")
 
 # Research Preprints
     research_prompt = """
