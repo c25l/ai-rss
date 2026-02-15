@@ -139,6 +139,30 @@ Please make sure to include inline markdown links `[article title](url)` to the 
     except Exception as e:
         print(f"ERROR: Failed to send H3LPeR email: {e}")
         sys.exit(1)
+    
+    # Run citation analysis (always run to keep data fresh)
+    try:
+        from citations_data import generate_and_save_citations
+        print("\nRunning citation analysis on research papers...")
+        citation_data = generate_and_save_citations(days=1, top_n=50, min_citations=1)
+        if citation_data:
+            print(f"✓ Citation analysis complete: {citation_data['paper_count']} papers")
+        else:
+            print("⚠ Citation analysis had no results")
+    except Exception as e:
+        print(f"⚠ Citation analysis error: {e}")
+    
+    # Publish to static site (opt-in via PAGES_DIR env var)
+    site_dir = os.environ.get("PAGES_DIR") or os.environ.get("GITHUB_PAGES_DIR")
+    if site_dir:
+        try:
+            from publish_site import publish_briefing
+            if publish_briefing(site_dir=site_dir):
+                print("✓ Static site published")
+            else:
+                print("⚠ Static site publish skipped or failed")
+        except Exception as e:
+            print(f"⚠ Static site publish error: {e}")
 
 if __name__ == "__main__":
     main()
