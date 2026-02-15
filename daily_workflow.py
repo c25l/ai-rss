@@ -16,8 +16,16 @@ import sys
 from emailer import Emailer
 
 def main():
-    dotenv.load_dotenv("/home/chris/source/H3lPeR/.env")
-    os.chdir("/home/chris/source/H3lPeR/")
+    # Load environment - use .env from current directory or specify via ENV_FILE
+    env_file = os.getenv("ENV_FILE", ".env")
+    if os.path.exists(env_file):
+        dotenv.load_dotenv(env_file)
+    
+    # Change to working directory if specified
+    work_dir = os.getenv("WORK_DIR")
+    if work_dir and os.path.exists(work_dir):
+        os.chdir(work_dir)
+    
     articles = []
     content_sections = []
 
