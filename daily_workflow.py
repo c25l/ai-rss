@@ -10,7 +10,7 @@ import news
 import tech_news
 import stocks
 import astronomy
-from datamodel import Article
+from datamodel import Article, Group
 import os
 import sys
 from emailer import Emailer
@@ -108,9 +108,16 @@ def main():
                 # Add Bluesky articles to the 'new' category for clustering
                 if bluesky_articles:
                     print(f"✓ Extracted {len(bluesky_articles)} article links from Bluesky")
-                    # Add to new articles
+                    # Wrap each Bluesky article in a Group object for compatibility
                     for article in bluesky_articles:
-                        categorized['new'].append(article)
+                        group = Group(
+                            id=f"bluesky_{article.url}",
+                            text=article.title,
+                            articles=[article]
+                        )
+                        group.total_count = 1
+                        group.today_count = 1
+                        categorized['new'].append(group)
                 else:
                     print("⚠ No article links found in Bluesky posts")
             else:
