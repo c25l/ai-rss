@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 import datetime
-import hashlib
-import json
 import requests
 import dotenv
 from bs4 import BeautifulSoup
@@ -16,35 +14,6 @@ from datamodel import Article
 import os
 import sys
 from emailer import Emailer
-
-BRIEFING_ARCHIVE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "briefings")
-
-
-def _markdown_to_json_briefing(content_sections, date_str):
-    """Convert markdown content sections to JSON briefing format."""
-    children = []
-    
-    for section in content_sections:
-        # Split into title and content
-        lines = section.strip().split('\n', 1)
-        if not lines:
-            continue
-            
-        title = lines[0].strip('#').strip()
-        text = lines[1].strip() if len(lines) > 1 else ""
-        
-        children.append({
-            "title": title,
-            "text": text
-        })
-    
-    return {
-        "schema_version": 1,
-        "title": f"H3LPeR Daily Briefing - {date_str}",
-        "date": date_str,
-        "model": "stable-workflow",
-        "children": children
-    }
 
 
 def main():
@@ -166,60 +135,19 @@ Please make sure to include inline markdown links `[article title](url)` to the 
 
     # Combine all sections
     final_content = "\n\n---\n\n".join(content_sections)
-    
-    # Create JSON briefing document
-    today = datetime.datetime.now().strftime("%Y-%m-%d")
-    today_short = datetime.datetime.now().strftime("%y%m%d")
-    briefing_doc = _markdown_to_json_briefing(content_sections, today)
-    
-    # Archive the JSON briefing
-    try:
-        os.makedirs(BRIEFING_ARCHIVE_DIR, exist_ok=True)
-        # Use a simple hash for the filename (like agent workflow)
-        doc_hash = hashlib.sha256(json.dumps(briefing_doc, sort_keys=True).encode()).hexdigest()[:12]
-        archive_name = f"{today_short}-{doc_hash}.json"
-        archive_path = os.path.join(BRIEFING_ARCHIVE_DIR, archive_name)
-        with open(archive_path, "w") as f:
-            json.dump(briefing_doc, f, indent=2, default=str)
-        print(f"✓ Briefing archived to {archive_path}")
-    except Exception as e:
-        print(f"Warning: Could not archive briefing: {e}")
 
-    # Send email using JSON format
+    # Send email (simple markdown format)
     try:
+        today = datetime.datetime.now().strftime("%Y-%m-%d")
         subject = f"H3LPeR Daily Briefing - {today}"
         
         emailer = Emailer()
-        emailer.send_email_json(briefing_doc, subject=subject)
+        emailer.send_email(final_content, subject=subject)
         
         print(f"✓ H3LPeR report emailed successfully")
     except Exception as e:
         print(f"ERROR: Failed to send H3LPeR email: {e}")
         sys.exit(1)
-    
-    # Run citation analysis (always run to keep data fresh)
-    try:
-        from citations_data import generate_and_save_citations
-        print("\nRunning citation analysis on research papers...")
-        citation_data = generate_and_save_citations(days=1, top_n=50, min_citations=1)
-        if citation_data:
-            print(f"✓ Citation analysis complete: {citation_data['paper_count']} papers")
-        else:
-            print("⚠ Citation analysis had no results")
-    except Exception as e:
-        print(f"⚠ Citation analysis error: {e}")
-    
-    # Publish to static site (opt-in via PAGES_DIR env var)
-    site_dir = os.environ.get("PAGES_DIR") or os.environ.get("GITHUB_PAGES_DIR")
-    if site_dir:
-        try:
-            from publish_site import publish_briefing
-            if publish_briefing(site_dir=site_dir):
-                print("✓ Static site published")
-            else:
-                print("⚠ Static site publish skipped or failed")
-        except Exception as e:
-            print(f"⚠ Static site publish error: {e}")
 
 if __name__ == "__main__":
     main()

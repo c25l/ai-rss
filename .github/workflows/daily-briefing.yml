@@ -6,25 +6,13 @@ on:
     - cron: '0 7 * * *'
   workflow_dispatch:  # Allow manual triggering
 
-permissions:
-  contents: write  # Needed to commit and push to GitHub Pages
-
 jobs:
-  generate-and-publish:
+  generate-briefing:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout h3lper repository
         uses: actions/checkout@v4
-        with:
-          path: h3lper
-      
-      - name: Checkout GitHub Pages repository
-        uses: actions/checkout@v4
-        with:
-          repository: tumble-dry-low/tumble-dry-low.github.io
-          path: github-pages
-          token: ${{ secrets.PAGES_TOKEN }}
       
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -33,13 +21,11 @@ jobs:
           cache: 'pip'
       
       - name: Install dependencies
-        working-directory: h3lper
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
       - name: Create .env file
-        working-directory: h3lper
         run: |
           cat > .env << EOF
           # Azure OpenAI Configuration
@@ -63,36 +49,12 @@ jobs:
           SONARR_URL=${{ secrets.SONARR_URL }}
           SONARR_API_KEY=${{ secrets.SONARR_API_KEY }}
           
-          # Email Configuration (optional)
+          # Email Configuration
           FROM_EMAIL=${{ secrets.FROM_EMAIL }}
           TO_EMAIL=${{ secrets.TO_EMAIL }}
           GOOGLE_APP_PW=${{ secrets.GOOGLE_APP_PW }}
-          
-          # GitHub Pages Directory
-          PAGES_DIR=${{ github.workspace }}/github-pages
           EOF
       
-      - name: Generate daily briefing
-        working-directory: h3lper
+      - name: Generate and email daily briefing
         run: |
           python daily_workflow.py
-      
-      - name: Commit and push to GitHub Pages
-        working-directory: github-pages
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Update briefing $(date +%Y-%m-%d)"
-            git push
-          fi
-      
-      - name: Archive briefing JSON
-        uses: actions/upload-artifact@v4
-        with:
-          name: briefing-${{ github.run_id }}
-          path: h3lper/briefings/*.json
-          retention-days: 90
