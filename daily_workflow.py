@@ -185,7 +185,7 @@ def main():
     try:
         print("Fetching and ranking research preprints...")
         rsch = research.Research(use_dual_ranker=False).pull_data()
-        if len(rsch.strip().split("\n")) < 3:
+        if not rsch or not rsch.strip():
             rsch = "No new research articles found."
         else:
             from copilot import Copilot

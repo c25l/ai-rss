@@ -30,7 +30,7 @@ def _load_research_config():
       - name: str
       - max_papers: int
       - categories: list[str]  (arXiv categories, e.g. ["cs.AI", "cs.LG"])
-      - url: str               (constructed arXiv RSS URL)
+      - url: str | None        (constructed arXiv RSS URL, None when categories is empty)
 
     Falls back to ``DEFAULT_BATCHES`` when the preferences file is missing or
     contains no ``research_batches`` section.
@@ -405,6 +405,7 @@ class Research:
         """Fetch articles for a single research batch."""
         url = batch.get('url')
         if not url:
+            print(f"  Warning: batch '{batch.get('name', '?')}' has no URL, skipping")
             return []
         print(f"  Fetching research articles from {url} ...")
         return feeds.Feeds.get_articles(url, days=days)
