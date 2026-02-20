@@ -3,12 +3,81 @@ from copilot import Copilot
 import json
 import re
 import time
+import os
 
 try:
     from arxiv_citations import ArxivCitationAnalyzer
     CITATION_ANALYZER_AVAILABLE = True
 except ImportError:
     CITATION_ANALYZER_AVAILABLE = False
+
+
+ARXIV_RSS_BASE = "https://export.arxiv.org/rss/"
+
+DEFAULT_BATCHES = [
+    {
+        "name": "Research",
+        "max_papers": 5,
+        "categories": ["cs.DC", "cs.SY", "cs.PF", "cs.AR"],
+    }
+]
+
+
+def _load_research_config():
+    """Load research batches from preferences.yaml.
+
+    Returns a list of batch dicts, each with keys:
+      - name: str
+      - max_papers: int
+      - categories: list[str]  (arXiv categories, e.g. ["cs.AI", "cs.LG"])
+      - url: str               (constructed arXiv RSS URL)
+
+    Falls back to ``DEFAULT_BATCHES`` when the preferences file is missing or
+    contains no ``research_batches`` section.
+    """
+    try:
+        import yaml
+        pref_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'preferences.yaml')
+        if os.path.exists(pref_file):
+            with open(pref_file, 'r') as f:
+                prefs = yaml.safe_load(f) or {}
+            batches_cfg = prefs.get('research_batches')
+            if batches_cfg:
+                batches = []
+                for b in batches_cfg:
+                    cats = b.get('categories', [])
+                    url = ARXIV_RSS_BASE + "+".join(cats) if cats else None
+                    # Also allow an explicit url override from sources with kind:research
+                    batches.append({
+                        "name": b.get('name', 'Research'),
+                        "max_papers": b.get('max_papers', 5),
+                        "categories": cats,
+                        "url": url,
+                    })
+                if batches:
+                    return batches
+
+            # Fallback: derive batches from sources with kind: research
+            sources = prefs.get('sources', [])
+            research_sources = [s for s in sources if s.get('kind') == 'research' and s.get('url')]
+            if research_sources:
+                return [
+                    {
+                        "name": s.get('name', 'Research'),
+                        "max_papers": 5,
+                        "categories": [],
+                        "url": s['url'],
+                    }
+                    for s in research_sources
+                ]
+    except Exception as e:
+        print(f"Warning: could not load research config from preferences.yaml: {e}")
+
+    # Final fallback – hard-coded default
+    return [
+        {**b, "url": ARXIV_RSS_BASE + "+".join(b["categories"])}
+        for b in DEFAULT_BATCHES
+    ]
 
 
 class ResearchRanker:
@@ -310,6 +379,7 @@ class Research:
         self.llm = Copilot()
         self.use_dual_ranker = use_dual_ranker
         self.use_citation_ranker = use_citation_ranker
+        self.batches = _load_research_config()
         
         # Warn if API key provided but citation ranker not enabled
         if semantic_scholar_api_key and not use_citation_ranker:
@@ -331,9 +401,17 @@ class Research:
         """Legacy method - use RelevanceRanker for backward compatibility"""
         return self.relevance_ranker.rank(articles, target=target, batch_size=batch_size)
 
+    def _fetch_batch_articles(self, batch, days=3):
+        """Fetch articles for a single research batch."""
+        url = batch.get('url')
+        if not url:
+            return []
+        print(f"  Fetching research articles from {url} ...")
+        return feeds.Feeds.get_articles(url, days=days)
+
     def pull_data(self, compare_rankers=None):
         """
-        Pull and rank research articles.
+        Pull and rank research articles from all configured batches.
         
         Args:
             compare_rankers: If True, use dual ranking comparison. 
@@ -344,47 +422,63 @@ class Research:
         """
         if compare_rankers is None:
             compare_rankers = self.use_dual_ranker
-            
-        # Use a wider window than 24h so we still get content on quieter days.
-        self.articles = feeds.Feeds.get_articles(
-            "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR",
-            days=3,
-        )
-        
-        if not compare_rankers:
-            # Single ranker mode (backward compatible)
-            self.articles = self._reduce_articles(self.articles, target=5, batch_size=50)
-            formatted = "\n\n".join([xx.out_rich() for xx in self.articles])
-            return formatted
-        
-        # Dual ranker comparison mode
-        print(f"Running dual ranker comparison on {len(self.articles)} articles...")
-        
-        # Run both rankers
-        print(f"  Running {self.relevance_ranker.name}...")
-        relevance_picks = self.relevance_ranker.rank(self.articles[:], target=5)
-        
-        print(f"  Running {self.novelty_ranker.name}...")
-        novelty_picks = self.novelty_ranker.rank(self.articles[:], target=5)
-        
-        # Find common picks (agreement between rankers)
+
+        all_output = []
+        all_articles = []
+
+        for batch in self.batches:
+            batch_name = batch['name']
+            max_papers = batch.get('max_papers', 5)
+
+            # Use a wider window than 24h so we still get content on quieter days.
+            articles = self._fetch_batch_articles(batch, days=3)
+            if not articles:
+                print(f"  No articles found for batch '{batch_name}'")
+                continue
+
+            print(f"  Batch '{batch_name}': {len(articles)} articles fetched")
+
+            if not compare_rankers:
+                # Single ranker mode
+                ranked = self._reduce_articles(articles, target=max_papers, batch_size=50)
+                batch_output = "\n\n".join([xx.out_rich() for xx in ranked])
+                all_articles.extend(ranked)
+            else:
+                # Dual ranker comparison mode
+                print(f"  Running dual ranker comparison on {len(articles)} articles...")
+                ranked, batch_output = self._dual_rank_format(articles, max_papers)
+                all_articles.extend(ranked)
+
+            if len(self.batches) > 1:
+                all_output.append(f"## {batch_name}\n\n{batch_output}")
+            else:
+                all_output.append(batch_output)
+
+        self.articles = all_articles
+        return "\n\n".join(all_output)
+
+    def _dual_rank_format(self, articles, target=5):
+        """Run dual ranker comparison and return (articles, formatted_output)."""
+        print(f"    Running {self.relevance_ranker.name}...")
+        relevance_picks = self.relevance_ranker.rank(articles[:], target=target)
+
+        print(f"    Running {self.novelty_ranker.name}...")
+        novelty_picks = self.novelty_ranker.rank(articles[:], target=target)
+
+        # Find common picks
         relevance_urls = {a.url for a in relevance_picks}
         novelty_urls = {a.url for a in novelty_picks}
         common_urls = relevance_urls & novelty_urls
-        
-        # Format output with comparison
+
         output = []
-        
-        # Agreement section - papers both rankers selected
+
         if common_urls:
             output.append("### 🤝 Both Rankers Agree On:\n")
-            common_articles = [a for a in relevance_picks if a.url in common_urls]
-            for article in common_articles:
+            for article in [a for a in relevance_picks if a.url in common_urls]:
                 output.append(f"- **[{article.title}]({article.url})**<br>")
                 output.append(f"  - {article.summary[:150]}...<br>\n")
             output.append("")
-        
-        # Relevance-only picks
+
         relevance_only = [a for a in relevance_picks if a.url not in common_urls]
         if relevance_only:
             output.append(f"### {self.relevance_ranker.name} Also Picks:\n")
@@ -392,8 +486,7 @@ class Research:
             for article in relevance_only:
                 output.append(f"- **[{article.title}]({article.url})**<br>\n")
             output.append("")
-        
-        # Novelty-only picks
+
         novelty_only = [a for a in novelty_picks if a.url not in common_urls]
         if novelty_only:
             output.append(f"### {self.novelty_ranker.name} Also Picks:\n")
@@ -401,24 +494,22 @@ class Research:
             for article in novelty_only:
                 output.append(f"- **[{article.title}]({article.url})**<br>\n")
             output.append("")
-        
-        # Store combined unique articles (deduplicate while preserving order)
+
+        # Deduplicate
         seen = set()
-        unique_articles = []
+        unique = []
         for a in relevance_picks + novelty_picks:
             if a.url not in seen:
                 seen.add(a.url)
-                unique_articles.append(a)
-        self.articles = unique_articles
-        
-        return "\n".join(output)
-    
+                unique.append(a)
+
+        return unique, "\n".join(output)
+
     def pull_data_raw(self):
-        """Pull raw article data for external processing"""
-        self.articles = feeds.Feeds.get_articles(
-            "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR",
-            days=3,
-        )
+        """Pull raw article data from all configured batches for external processing"""
+        self.articles = []
+        for batch in self.batches:
+            self.articles.extend(self._fetch_batch_articles(batch, days=3))
         return self.articles
     
     def pull_data_with_citations(self, days=1, top_n=5, min_citations=2):
