@@ -181,24 +181,27 @@ def main():
     except Exception as e:
         print(f"Warning: Could not fetch stock data: {e}")
 
-# Research Preprints
-    research_prompt = """
-I want at most 5 preprints about:
-    - training or inference of ai models at scale.
-    - especially including design of infrastructure and new hardware
-please return the document
+# Research Preprints (all batches from preferences)
+    try:
+        print("Fetching and ranking research preprints...")
+        rsch = research.Research(use_dual_ranker=False).pull_data()
+        if not rsch or not rsch.strip():
+            rsch = "No new research articles found."
+        else:
+            from copilot import Copilot
+            research_prompt = """
+I want a concise summary of these research preprints.
 Please make sure to include inline markdown links `[article title](url)` to the original sources for these articles.
 
 # Begin research articles:
 
 """
-    rsch = research.Research(use_dual_ranker=False).pull_data()
-    if len(rsch.strip().split("\n"))<3:
-        rsch="No new research articles found."
-    else:
-        from copilot import Copilot
-        out4 = Copilot().generate(preprompt+research_prompt+rsch)
-        content_sections.append(f"# Research Preprints\n\n{out4}")
+            out4 = Copilot().generate(preprompt + research_prompt + rsch)
+            content_sections.append(f"# Research Preprints\n\n{out4}")
+        print("✓ Research Preprints generated")
+    except Exception as e:
+        print(f"Warning: Could not generate Research Preprints: {e}")
+        content_sections.append(f"# Research Preprints\n\nError generating research preprints: {e}")
 
 # Quick Citation Analysis
     try:
