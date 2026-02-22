@@ -186,7 +186,7 @@ class CitationRanker(ResearchRanker):
             description="Identifies papers most frequently cited by recent arXiv submissions"
         )
         self.api_key = api_key
-        self.categories = categories or ["cs.DC", "cs.SY", "cs.PF", "cs.AR","cs.LG"]
+        self.categories = categories or ["cs.DC", "cs.SY", "cs.PF", "cs.AR"]
         self.api_timeout = api_timeout
         self.use_cache = use_cache
         self.use_opencitations = use_opencitations
@@ -347,7 +347,7 @@ class Research:
             
         # Use a wider window than 24h so we still get content on quieter days.
         self.articles = feeds.Feeds.get_articles(
-            "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR+cs.LG",
+            "https://export.arxiv.org/rss/cs.DC+cs.SY+cs.PF+cs.AR",
             days=3,
         )
         
